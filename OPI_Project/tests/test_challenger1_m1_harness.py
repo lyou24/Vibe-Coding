@@ -61,7 +61,7 @@ def test_working_directory_resilience():
     # テスト用の一時スクリプト: run_opi.bat のカレントディレクトリ移動部分を検証
     # 実際に別のディレクトリ（例: tempfile.gettempdir()）から cmd /c で呼び出し、
     # 直後のカレントディレクトリが PROJECT_ROOT になっているかを実証
-    test_cmd = f'cmd.exe /c "cd /d "{tempfile.gettempdir()}" && cd /d "{PROJECT_ROOT}" && cd"'
+    test_cmd = f'cmd.exe /c "chcp 65001 >nul && cd /d "{tempfile.gettempdir()}" && cd /d "{PROJECT_ROOT}" && cd"'
     res = subprocess.run(test_cmd, shell=True, capture_output=True, encoding="utf-8", errors="replace")
     assert res.returncode == 0
     assert str(PROJECT_ROOT).lower() in res.stdout.lower(), f"ディレクトリ移動に失敗: {res.stdout}"

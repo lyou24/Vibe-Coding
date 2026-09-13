@@ -200,7 +200,13 @@ class TestTier4RealWorldAcceptance:
         OPI要件定義書.md に更新がある場合、テキスト削除が行われておらず、
         追記または取り消し線（~~）のみで編集されていることの検証。
         """
-        doc_path = r"G:\マイドライブ\lyou_Obsidian\00_Inbox\OPI要件定義書.md"
+        # ワークスペースルートからの相対パス探索
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        workspace_root = os.path.abspath(os.path.join(current_dir, "..", "..", ".."))
+        doc_path = os.path.join(workspace_root, "00_Inbox", "OPI要件定義書.md")
+        if not os.path.exists(doc_path):
+            # カレントディレクトリがワークスペース直下の場合のフォールバック
+            doc_path = os.path.abspath("00_Inbox/OPI要件定義書.md")
         assert os.path.exists(doc_path), f"要件定義書が見つかりません: {doc_path}"
 
         with open(doc_path, "r", encoding="utf-8") as f:

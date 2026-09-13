@@ -198,8 +198,27 @@ if user_input.isdigit():
                 st.info("データが不足しているか、適正範囲の楽曲が見つかりませんでした。フィルター条件を調整してみてください。")
                 
         with tab2:
-            st.subheader("レーティング別 総合OPI分布 (±0.25)")
+            st.subheader("レーティング別 総合OPI目標値および分布統計表")
+            st.caption("※ 要件定義書 3.2 基準値（各レーティング基準値 ±0.25 帯域における総合OPIの分布統計）")
+            df_target_stats = OPIVisualizer.get_target_distribution_table()
+            st.dataframe(df_target_stats, use_container_width=True)
+
+            with st.expander("💡 レーティング別OPI分析の示唆（目標水準ガイド）", expanded=True):
+                st.markdown("""
+                - **レート18.0到達の目安**: 総合OPI 約 **1480**（定数14.0のSSS〜SSS+安定ライン）
+                - **レート19.0到達の目安**: 総合OPI 約 **1790超**（定数14後半のSSS+、定数15のSSSライン）
+                - **レート20.0以上（トップ層）**: 総合OPI 約 **2070超**（定数15+のSSS〜SSS+、14+帯のAP・ABFB安定）
+                - **バラつき（IQR）**: 同じレート帯でもプレイヤーの傾向（単曲詰め型 vs 広く触る型）により上下に約60〜110程度の差が存在します。
+                """)
+
             vis = OPIVisualizer(DB_FILE)
+            df_current_stats = vis.calculate_current_distribution_table()
+            if not df_current_stats.empty and len(df_current_stats) > 0:
+                with st.expander("📊 現在のDB登録プレイヤー実測統計表", expanded=False):
+                    st.dataframe(df_current_stats, use_container_width=True)
+
+            st.divider()
+            st.subheader("レーティング別 総合OPI分布図")
             img_path = os.path.join(os.path.dirname(__file__), "data", "opi_distribution.png")
             
             if st.button("分布図を最新データで更新"):
@@ -209,7 +228,7 @@ if user_input.isdigit():
             if os.path.exists(img_path):
                 st.image(img_path, use_container_width=True)
             else:
-                st.info("分布図がまだ生成されていません。更新ボタンを押してください。")
+                st.info("分布図がまだ生成されていません。「分布図を最新データで更新」ボタンを押してください。")
                 
         with tab3:
             st.subheader("OPI 難易度表")
