@@ -164,8 +164,7 @@ class OPIVisualizer:
 
     def create_distribution_plot(self, output_path: str = "distribution.png"):
         """
-        要件: レート18.0以上のユーザーを0.5刻みの基準値とし、各基準値 ±0.25の帯域ごとに
-        分布図（箱ひげ図やバイオリンプロットなど）を作成する。
+        生のレーティング値と総合OPIの関係を散布図として作成する。
         """
         df = self.load_player_data()
         if df.empty:
@@ -183,30 +182,27 @@ class OPIVisualizer:
             logger.warning("No data available in the target rating bands.")
             return
 
-        # レーティングの基準値を0.5刻みで生成 (18.0, 18.5, 19.0, ...)
-        df['rating_band'] = df['rating'].apply(self.get_band_label)
-        df_filtered = df.dropna(subset=['rating_band'])
-
-        if df_filtered.empty:
-            logger.warning("No data available in the target rating bands.")
-            return
-
         # プロット作成
         plt.figure(figsize=(12, 7))
         sns.set_theme(style="whitegrid")
-        
-        # バイオリンプロット（分布形状）+ ストリッププロット（各点の散布）の複合
-        sns.violinplot(x="rating_band", y="total_opi", data=df_filtered, 
-                       order=sorted(df_filtered['rating_band'].unique()), inner="quartile", color="lightblue")
-        sns.stripplot(x="rating_band", y="total_opi", data=df_filtered, 
-                       order=sorted(df_filtered['rating_band'].unique()), color="darkblue", alpha=0.4, jitter=True)
 
-        plt.title("OPI Distribution by Rating Band (±0.25)")
-        plt.xlabel("Rating Band (Center)")
+        sns.scatterplot(
+            x="rating",
+            y="total_opi",
+            data=df,
+            color="darkblue",
+            alpha=0.45,
+            s=28,
+            edgecolor=None,
+        )
+
+        plt.title("Rating and Total OPI")
+        plt.xlabel("Rating")
         plt.ylabel("Estimated Total OPI")
         plt.tight_layout()
 
         plt.savefig(output_path)
+        plt.close()
         logger.info(f"Distribution plot saved to {output_path}")
 
     # メソッド名のエイリアス

@@ -232,7 +232,7 @@ class OngekiCrawler:
         
         return scores
 
-    async def fetch_music_master(self, min_constant: float = 13.7) -> List[Dict]:
+    async def fetch_music_master(self, min_constant: float = 14.0) -> List[Dict]:
         """
         https://ongeki-score.net/music より譜面定数 min_constant 以上の全譜面を取得
         返却キー: chart_id, title, difficulty, level, chart_constant

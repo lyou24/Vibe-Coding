@@ -3,7 +3,11 @@ import asyncio
 import os
 import pandas as pd
 from src.crawler.ongeki_crawler import OngekiCrawler
-from src.analyzer.opi_calculator import OPICalculator
+from src.analyzer.opi_calculator import (
+    MIN_ELIGIBLE_SCORE,
+    MIN_TARGET_CONSTANT,
+    OPICalculator,
+)
 from src.database.models import init_db, get_session_maker, Player, ScoreLog, Chart
 from src.recommender.recommender import OPIRecommender
 from src.visualizer.visualizer import OPIVisualizer
@@ -87,7 +91,12 @@ async def fetch_and_analyze_user(user_id: int, force: bool = False):
             if player_db:
                 charts = session.query(Chart).all()
                 scores = session.query(ScoreLog).filter_by(user_id=user_id).all()
-                achievements = calc.build_user_achievements(charts, scores)
+                achievements = calc.build_user_achievements(
+                    charts,
+                    scores,
+                    min_score=None,
+                    min_chart_constant=MIN_TARGET_CONSTANT,
+                )
                 if achievements:
                     est_opi = calc.estimate_user_opi(achievements, initial_theta=player_db.total_opi or 1500.0)
                     player_db.total_opi = est_opi
@@ -102,6 +111,12 @@ st.title("オンゲキ OPI (Ongeki Power Indicator) システム")
 st.sidebar.header("プレイヤー検索")
 user_input = st.sidebar.text_input("OngekiScoreLog ユーザーID", "10605")
 force_update = st.sidebar.checkbox("強制更新（キャッシュバイパス）", value=False)
+opi_policy = st.sidebar.radio(
+    "リコメンドに使うOPI",
+    options=["全プレイ（標準）", "AAA以上（試験補正）"],
+    index=0,
+    help="AAA以上は『一度触っただけ』の低スコアを除外する試験値です。対象曲の選択バイアスを含みます。",
+)
 search_button = st.sidebar.button("検索 / 更新")
 
 if search_button:
@@ -119,12 +134,59 @@ if user_input.isdigit():
     player = session.query(Player).filter_by(user_id=uid).first()
     
     if player:
+        calc = OPICalculator()
+        eligible_charts = session.query(Chart).filter(
+            Chart.chart_constant >= MIN_TARGET_CONSTANT
+        ).all()
+        player_scores = session.query(ScoreLog).filter_by(user_id=uid).all()
+        all_achievements = calc.build_user_achievements(
+            eligible_charts,
+            player_scores,
+            min_score=None,
+        )
+        qualified_achievements = calc.build_user_achievements(
+            eligible_charts,
+            player_scores,
+            min_score=MIN_ELIGIBLE_SCORE,
+        )
+        standard_opi = (
+            calc.estimate_user_opi(all_achievements, initial_theta=player.total_opi or 1500.0)
+            if all_achievements
+            else player.total_opi
+        )
+        qualified_opi = (
+            calc.estimate_user_opi(qualified_achievements, initial_theta=standard_opi or 1500.0)
+            if qualified_achievements
+            else None
+        )
+        scored_chart_count = len({item["chart_id"] for item in all_achievements})
+        qualified_chart_count = len({item["chart_id"] for item in qualified_achievements})
+        coverage = (
+            qualified_chart_count / scored_chart_count * 100
+            if scored_chart_count
+            else 0.0
+        )
+        recommendation_opi = (
+            qualified_opi
+            if opi_policy == "AAA以上（試験補正）" and qualified_opi is not None
+            else standard_opi
+        )
+
         # プロフィールセクション
         st.header(f"👤 {player.player_name} さんのデータ")
-        col1, col2, col3 = st.columns(3)
+        col1, col2, col3, col4 = st.columns(4)
         col1.metric("レーティング", f"{player.rating:.2f}" if player.rating else "N/A")
-        col2.metric("総合OPI (推定地力)", f"{player.total_opi:.1f}" if player.total_opi else "N/A")
-        col3.metric("最終データ更新", player.log_updated_at.strftime("%Y-%m-%d") if player.log_updated_at else "N/A")
+        col2.metric("総合OPI（標準）", f"{standard_opi:.1f}" if standard_opi else "N/A")
+        col3.metric("総合OPI（AAA以上・試験）", f"{qualified_opi:.1f}" if qualified_opi else "N/A")
+        col4.metric("試験値の対象率", f"{coverage:.1f}%")
+        st.caption(
+            f"対象は譜面定数{MIN_TARGET_CONSTANT:.1f}以上。試験値はAAA以上の "
+            f"{qualified_chart_count}/{scored_chart_count}譜面を使用し、標準値はDBへ保存します。"
+        )
+        st.caption(
+            "最終データ更新: "
+            + (player.log_updated_at.strftime("%Y-%m-%d") if player.log_updated_at else "N/A")
+        )
         
         st.divider()
 
@@ -132,15 +194,15 @@ if user_input.isdigit():
         tab1, tab2, tab3 = st.tabs(["🎯 リコメンド楽曲", "📊 統計・分布図", "📜 OPI難易度表"])
 
         with tab1:
-            st.subheader("おすすめの目標楽曲 (勝率 30%〜70% 帯)")
+            st.subheader("おすすめの目標楽曲")
             
             # 多次元フィルターUI
             col_f1, col_f2 = st.columns(2)
             with col_f1:
-                target_rank = st.selectbox(
-                    "目標ランク",
+                target_ranks = st.multiselect(
+                    "目標ランク（複数選択可）",
                     options=["SSS", "SS", "SSS+", "SSS+ABFB", "AP"],
-                    index=0,
+                    default=["SSS"],
                     key="filter_target_rank"
                 )
                 level_filter = st.selectbox(
@@ -152,33 +214,71 @@ if user_input.isdigit():
             with col_f2:
                 constant_range = st.slider(
                     "譜面定数範囲",
-                    min_value=13.7,
-                    max_value=16.0,
-                    value=(13.7, 16.0),
+                    min_value=MIN_TARGET_CONSTANT,
+                    max_value=15.7,
+                    value=(MIN_TARGET_CONSTANT, 15.7),
                     step=0.1,
                     key="filter_constant_range"
                 )
-                current_rank_filter = st.selectbox(
-                    "現在の達成ランクで絞り込み",
-                    options=["なし", "SS", "SSS", "SSS+", "SSS+ABFB", "AP"],
-                    index=0,
+                current_rank_filters = st.multiselect(
+                    "現在の達成ランク（複数選択可）",
+                    options=["未SS", "SS", "SSS", "SSS+", "SSS+ABFB", "AP"],
+                    default=[],
                     key="filter_current_rank"
                 )
 
+            col_w1, col_w2, col_sort = st.columns(3)
+            with col_w1:
+                win_rate_min_percent = st.number_input(
+                    "勝率 Min（%）", min_value=0.0, max_value=100.0, value=30.0, step=1.0
+                )
+            with col_w2:
+                win_rate_max_percent = st.number_input(
+                    "勝率 Max（%）", min_value=0.0, max_value=100.0, value=70.0, step=1.0
+                )
+            with col_sort:
+                sort_key = st.selectbox(
+                    "並び順",
+                    options=["適正順", "勝率が高い順", "現在ランク順", "目標ランク順"],
+                )
+
             param_level = None if level_filter == "すべて" else level_filter
-            param_current_rank = None if current_rank_filter == "なし" else current_rank_filter
+            param_current_rank = current_rank_filters or None
             const_min, const_max = constant_range
 
             recommender = OPIRecommender(DB_FILE)
-            recs = recommender.get_recommendations(
-                user_id=uid,
-                target_rank=target_rank,
-                level=param_level,
-                chart_constant_min=const_min,
-                chart_constant_max=const_max,
-                current_rank=param_current_rank,
-                limit=15
-            )
+            recs = []
+            for target_rank in target_ranks:
+                recs.extend(recommender.get_recommendations(
+                    user_id=uid,
+                    player_opi=recommendation_opi,
+                    target_rank=target_rank,
+                    level=param_level,
+                    chart_constant_min=const_min,
+                    chart_constant_max=const_max,
+                    current_rank=param_current_rank,
+                    win_rate_min=win_rate_min_percent / 100,
+                    win_rate_max=win_rate_max_percent / 100,
+                    limit=200,
+                ))
+
+            current_rank_order = {
+                "未SS": 0,
+                "SS止まり": 1,
+                "SSS止まり": 2,
+                "SSS+止まり": 3,
+                "ABFB止まり": 4,
+                "AP": 5,
+            }
+            target_rank_order = {rank: index for index, rank in enumerate(["SS", "SSS", "SSS+", "SSS+ABFB", "AP"])}
+            if sort_key == "勝率が高い順":
+                recs.sort(key=lambda item: item["probability"], reverse=True)
+            elif sort_key == "現在ランク順":
+                recs.sort(key=lambda item: current_rank_order.get(item["current_rank"], 99))
+            elif sort_key == "目標ランク順":
+                recs.sort(key=lambda item: target_rank_order.get(item["target_rank"], 99))
+            else:
+                recs.sort(key=lambda item: item["opi_diff"])
             
             if recs:
                 df_recs = pd.DataFrame(recs)
@@ -189,9 +289,10 @@ if user_input.isdigit():
                     "difficulty": "難易度",
                     "level": "レベル", 
                     "constant": "定数", 
-                    "current_status": "現在の達成状況"
+                    "current_status": "現在の達成状況",
+                    "target_rank": "目標ランク",
                 })
-                display_cols = ["楽曲名", "難易度", "レベル", "定数", "目標OPI", "勝率", "現在の達成状況"]
+                display_cols = ["楽曲名", "難易度", "レベル", "定数", "現在の達成状況", "目標ランク", "目標OPI", "勝率"]
                 valid_cols = [c for c in display_cols if c in df_recs.columns]
                 st.dataframe(df_recs[valid_cols], use_container_width=True)
             else:
@@ -240,7 +341,9 @@ if user_input.isdigit():
             )
             
             calc = OPICalculator()
-            charts = session.query(Chart).order_by(Chart.chart_constant.asc(), Chart.title.asc()).all()
+            charts = session.query(Chart).filter(
+                Chart.chart_constant >= MIN_TARGET_CONSTANT
+            ).order_by(Chart.chart_constant.asc(), Chart.title.asc()).all()
             if charts:
                 chart_data = []
                 for c in charts:
@@ -259,7 +362,22 @@ if user_input.isdigit():
                 if chart_data:
                     df_charts = pd.DataFrame(chart_data)
                     df_charts = df_charts.sort_values(by=f"{diff_target_rank} 適正OPI", ascending=True)
-                    st.dataframe(df_charts, use_container_width=True)
+                    opi_column = f"{diff_target_rank} 適正OPI"
+                    df_charts["OPI帯"] = (df_charts[opi_column] // 100 * 100).astype(int)
+
+                    for opi_band, band_rows in df_charts.groupby("OPI帯", sort=True):
+                        st.markdown(f"### OPI {opi_band}〜{opi_band + 99}")
+                        columns = st.columns(4)
+                        for index, (_, row) in enumerate(band_rows.iterrows()):
+                            with columns[index % 4]:
+                                st.write(f"**{row['楽曲名']}**")
+                                st.caption(
+                                    f"{row['難易度']} / Lv.{row['レベル']} / "
+                                    f"定数 {row['定数']:.1f} / OPI {row[opi_column]:.1f}"
+                                )
+
+                    with st.expander("表形式で表示"):
+                        st.dataframe(df_charts.drop(columns=["OPI帯"]), use_container_width=True)
                 else:
                     st.info(f"{diff_target_rank} の難易度データがありません。")
             else:

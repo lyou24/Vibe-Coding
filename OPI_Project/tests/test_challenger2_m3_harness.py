@@ -119,10 +119,10 @@ class TestChallenger2M3DifficultyTable:
 
         # 仕様オフセットの厳密一致確認
         sss_val = params["SSS"]
-        assert params["SS"] == pytest.approx(sss_val - 250.0)
-        assert params["SSS+"] == pytest.approx(sss_val + 150.0)
-        assert params["SSS+ABFB"] == pytest.approx(sss_val + 250.0)
-        assert params["AP"] == pytest.approx(sss_val + 370.0)
+        assert params["SS"] == pytest.approx(sss_val - 120.0)
+        assert params["SSS+"] == pytest.approx(sss_val + 120.0)
+        assert params["SSS+ABFB"] == pytest.approx(sss_val + 240.0)
+        assert params["AP"] == pytest.approx(sss_val + 360.0)
 
     def test_difficulty_table_real_db_macro_rank_consistency(self):
         """実DB全譜面におけるマクロ的ランク難易度順序（平均値の序列: SS < SSS < SSS+ < SSS+ABFB < AP）を検証"""

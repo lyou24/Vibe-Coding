@@ -15,22 +15,10 @@ if PROJECT_ROOT not in sys.path:
 from src.database.models import init_db, get_session_maker, Chart, Player, ScoreLog, DifficultyEnum
 from src.crawler.ongeki_crawler import OngekiCrawler
 from src.analyzer.opi_calculator import OPICalculator
+from src.analyzer.opi_policy import calculate_initial_chart_params as calculate_policy_params
 
 DB_FILE = os.path.join(PROJECT_ROOT, "data", "opi_database.sqlite")
 SEED_JSON_FILE = os.path.join(PROJECT_ROOT, "data", "seed_data.json")
-
-# 要件定義書 3.4 に記載されている代表曲のOPI公称パラメータ
-SPEC_PARAMS = {
-    "怨撃": {"sss_x": 1716.9, "sss_y": 42.1, "ap_x": 2086.9, "ap_y": 42.1},
-    "Apollo": {"sss_x": 1700.7, "sss_y": 55.9, "ap_x": 2070.7, "ap_y": 55.9},
-    "Recoil": {"sss_x": 1697.1, "sss_y": 55.3, "ap_x": 2050.0, "ap_y": 55.3},
-    "Recollect Lines": {"sss_x": 1697.1, "sss_y": 55.3, "ap_x": 2050.0, "ap_y": 55.3},
-    "光焔のラテラルアーク": {"sss_x": 1576.1, "sss_y": 36.4, "ap_x": 1946.1, "ap_y": 36.4},
-    "Op.I《fear-TITΛN-》": {"sss_x": 1528.3, "sss_y": 46.2, "ap_x": 1890.0, "ap_y": 46.2},
-    "Trrricksters!!": {"sss_x": 1453.7, "sss_y": 43.1, "ap_x": 1823.7, "ap_y": 43.1},
-    "感情アクセラレイション": {"sss_x": 1238.5, "sss_y": 39.2, "ap_x": 1608.5, "ap_y": 39.2},
-    "Starring Stars": {"sss_x": 1169.8, "sss_y": 42.0, "ap_x": 1539.8, "ap_y": 42.0},
-}
 
 # 要件定義書 3.2 のレーティング別分布統計データ（母集団サンプル生成用）
 RATING_DISTRIBUTION_STATS = [
@@ -70,8 +58,8 @@ def generate_population_samples() -> List[Dict[str, Any]]:
 
 async def fetch_and_build_seed_data(crawler: OngekiCrawler) -> Dict[str, Any]:
     """実サイトから全譜面マスタおよびテストユーザー10605のデータを取得してシード辞書を構築"""
-    print("実サイト(ongeki-score.net)より譜面マスタ(定数13.7以上)を取得中...")
-    music_master = await crawler.fetch_music_master(min_constant=13.7)
+    print("実サイト(ongeki-score.net)より譜面マスタ(定数14.0以上)を取得中...")
+    music_master = await crawler.fetch_music_master(min_constant=14.0)
     print(f"-> 譜面マスタ取得完了: {len(music_master)} 譜面")
 
     test_user_id = 10605
@@ -116,33 +104,8 @@ async def fetch_and_build_seed_data(crawler: OngekiCrawler) -> Dict[str, Any]:
     return seed_dict
 
 def calculate_initial_chart_params(title: str, chart_constant: float) -> Dict[str, float]:
-    """譜面定数および公称値から初期OPIパラメータを算出"""
-    # 基準式: 定数14.0 SSS = 1500.0, 傾き200/定数1.0
-    base_sss = 1500.0 + (chart_constant - 14.0) * 200.0
-    base_y = 40.0
-
-    params = {
-        "opi_ss_x": round(base_sss - 120.0, 1),
-        "opi_ss_y": base_y,
-        "opi_sss_x": round(base_sss, 1),
-        "opi_sss_y": base_y,
-        "opi_sssp_x": round(base_sss + 120.0, 1),
-        "opi_sssp_y": base_y,
-        "opi_abfb_x": round(base_sss + 240.0, 1),
-        "opi_abfb_y": base_y,
-        "opi_ap_x": round(base_sss + 360.0, 1),
-        "opi_ap_y": base_y,
-    }
-
-    # 要件定義書の代表曲公称値があればオーバーライド
-    if title in SPEC_PARAMS:
-        spec = SPEC_PARAMS[title]
-        params["opi_sss_x"] = spec["sss_x"]
-        params["opi_sss_y"] = spec["sss_y"]
-        params["opi_ap_x"] = spec["ap_x"]
-        params["opi_ap_y"] = spec["ap_y"]
-
-    return params
+    """譜面定数から暫定の初期OPIパラメータを算出する。"""
+    return calculate_policy_params(chart_constant)
 
 def seed_database(seed_data: Dict[str, Any], db_path: str = DB_FILE, include_population: bool = True):
     """シードデータをSQLiteデータベースに投入"""

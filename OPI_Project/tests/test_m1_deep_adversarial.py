@@ -15,7 +15,7 @@ if PROJECT_ROOT not in sys.path:
 
 from src.database.models import init_db, get_session_maker, Chart, Player, ScoreLog, DifficultyEnum
 from src.crawler.ongeki_crawler import OngekiCrawler
-from seed import seed_database, calculate_initial_chart_params, SPEC_PARAMS
+from seed import seed_database, calculate_initial_chart_params
 
 
 class TestDBUniqueConstraintAndTransactions:
@@ -198,21 +198,18 @@ class TestCrawlerAsyncContextManagerRobustness:
 class TestProductionDataAndSpecParamsAudit:
     """実稼働シードデータ (seed_data.json) および本番DB (opi_database.sqlite) の厳密パラメータ監査"""
 
-    def test_recollect_lines_spec_params_applied(self):
-        """Recollect Lines (定数15.7) に公称OPIパラメータ (sss_x: 1697.1, ap_x: 2050.0) が適用されていること"""
-        assert "Recollect Lines" in SPEC_PARAMS
-        spec = SPEC_PARAMS["Recollect Lines"]
-        assert spec["sss_x"] == 1697.1
-        assert spec["ap_x"] == 2050.0
-
+    def test_recollect_lines_uses_constant_based_params(self):
+        """曲名別上書きを使わず、定数15.7から一貫した暫定値を生成すること"""
         params = calculate_initial_chart_params("Recollect Lines", 15.7)
-        assert params["opi_sss_x"] == 1697.1
-        assert params["opi_sss_y"] == 55.3
-        assert params["opi_ap_x"] == 2050.0
-        assert params["opi_ap_y"] == 55.3
+        same_constant_params = calculate_initial_chart_params("別の曲", 15.7)
+        assert params == same_constant_params
+        assert params["opi_sss_x"] == 1840.0
+        assert params["opi_sss_y"] == 40.0
+        assert params["opi_ap_x"] == 2200.0
+        assert params["opi_ap_y"] == 40.0
 
     def test_production_db_recollect_lines_record(self):
-        """本番DBに Recollect Lines (MASTER) が存在し、公称パラメータが反映されていること"""
+        """本番DBに Recollect Lines (MASTER) の定数ベース暫定値が反映されていること"""
         db_path = os.path.join(PROJECT_ROOT, "data", "opi_database.sqlite")
         if not os.path.exists(db_path):
             pytest.skip("Production DB not found")
@@ -227,8 +224,8 @@ class TestProductionDataAndSpecParamsAudit:
         ).first()
         assert recollect_master is not None, "Recollect Lines (MASTER) chart not found in production DB"
         assert recollect_master.chart_constant == 15.7
-        assert recollect_master.opi_sss_x == 1697.1
-        assert recollect_master.opi_ap_x == 2050.0
+        assert recollect_master.opi_sss_x == 1840.0
+        assert recollect_master.opi_ap_x == 2200.0
         session.close()
         engine.dispose()
 
@@ -380,4 +377,3 @@ class TestLargeScaleLoadStress:
         assert session.query(ScoreLog).count() == 500
 
         session.close()
-

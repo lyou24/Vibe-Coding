@@ -3,9 +3,13 @@ import numpy as np
 from scipy.optimize import minimize, minimize_scalar
 import logging
 
+from src.analyzer.opi_policy import calculate_fallback_rank_params
+
 logger = logging.getLogger(__name__)
 
 TARGET_RANKS = ["SS", "SSS", "SSS+", "SSS+ABFB", "AP"]
+MIN_TARGET_CONSTANT = 14.0
+MIN_ELIGIBLE_SCORE = 970000
 
 def normalize_rank(rank: str) -> str:
     """目標ランク文字列を正規化する"""
@@ -37,11 +41,7 @@ class OPICalculator:
         Chartモデルから指定目標ランクの適正OPI(x)および個人差度(y)を取得する。
         DBのカラムが未設定(None)の場合は、譜面定数および基準アンカーに基づいて補完する。
         - 基準アンカー: 定数14.0 SSS = 1500.0
-        - SSS: 1500.0 + (定数 - 14.0) * 200.0
-        - SS: SSS - 250.0
-        - SSS+: SSS + 150.0
-        - SSS+ABFB: SSS + 250.0
-        - AP: SSS + 370.0
+        初期パラメータと同じ共通ポリシーから補完する。
         """
         norm_rank = normalize_rank(target_rank)
         
@@ -77,25 +77,12 @@ class OPICalculator:
                 # 譜面定数もない場合は補完不可
                 return None, float(y)
             
-            # SSSの基準値を算出
-            sss_x = getattr(chart, "opi_sss_x", None)
-            if sss_x is None:
-                sss_x = 1500.0 + (float(constant) - 14.0) * 200.0
+            if norm_rank in TARGET_RANKS:
+                x, fallback_y = calculate_fallback_rank_params(constant, norm_rank)
+                if y is None or y <= 0:
+                    y = fallback_y
             else:
-                sss_x = float(sss_x)
-
-            if norm_rank == "SS":
-                x = sss_x - 250.0
-            elif norm_rank == "SSS":
-                x = sss_x
-            elif norm_rank == "SSS+":
-                x = sss_x + 150.0
-            elif norm_rank == "SSS+ABFB":
-                x = sss_x + 250.0
-            elif norm_rank == "AP":
-                x = sss_x + 370.0
-            else:
-                x = sss_x
+                x, _ = calculate_fallback_rank_params(constant, "SSS")
 
         return float(x), float(y)
 
@@ -199,11 +186,17 @@ class OPICalculator:
     def build_user_achievements(
         self,
         charts: List[Any],
-        scores: List[Any]
+        scores: List[Any],
+        min_score: Optional[int] = None,
+        min_chart_constant: Optional[float] = MIN_TARGET_CONSTANT,
     ) -> List[Dict[str, Any]]:
         """
         譜面マスタとユーザーのスコアログから、5段階全目標ランク（SS, SSS, SSS+, SSS+ABFB, AP）の
         達成成否ベクトルを構築する。
+
+        ``min_score`` を指定すると、その点数未満の譜面を「十分に詰めていない可能性が
+        ある譜面」として除外できる。選択バイアスを避けるため、既定値は全プレイを使う
+        ``None`` とする。譜面定数は既定で14.0以上のみを対象とする。
         """
         chart_map = {c.chart_id: c for c in charts}
         achievements = []
@@ -214,6 +207,14 @@ class OPICalculator:
                 continue
 
             score_val = getattr(s, "score", 0) or 0
+            chart_constant = getattr(chart, "chart_constant", None)
+            if min_score is not None and score_val < min_score:
+                continue
+            if (
+                min_chart_constant is not None
+                and (chart_constant is None or float(chart_constant) < min_chart_constant)
+            ):
+                continue
             is_ab = getattr(s, "is_all_break", False)
             is_fb = getattr(s, "is_full_bell", False)
 
@@ -253,4 +254,3 @@ if __name__ == "__main__":
     ]
     est_opi = calc.estimate_user_opi(sample_data, 1500.0)
     print(f"Estimated OPI: {est_opi:.1f}")
-

@@ -63,10 +63,20 @@ class OPIRecommender:
 
         return False
 
-    def _matches_current_rank_filter(self, current_cat: str, filter_rank: Optional[str]) -> bool:
+    def _matches_current_rank_filter(
+        self,
+        current_cat: str,
+        filter_rank: Optional[Union[str, List[str]]],
+    ) -> bool:
         """current_rank フィルターにマッチするか判定する"""
         if not filter_rank:
             return True
+
+        if isinstance(filter_rank, (list, tuple, set)):
+            return any(
+                self._matches_current_rank_filter(current_cat, candidate)
+                for candidate in filter_rank
+            )
 
         f = filter_rank.strip()
         # 表記ゆれの吸収
@@ -92,14 +102,14 @@ class OPIRecommender:
         level: Optional[Union[str, List[str]]] = None,
         chart_constant_min: Optional[float] = None,
         chart_constant_max: Optional[float] = None,
-        current_rank: Optional[str] = None,
+        current_rank: Optional[Union[str, List[str]]] = None,
         win_rate_min: float = 0.30,
         win_rate_max: float = 0.70,
         limit: int = 10,
         player_opi: Optional[float] = None,
         constant_min: Optional[float] = None,
         constant_max: Optional[float] = None,
-        current_rank_filter: Optional[str] = None,
+        current_rank_filter: Optional[Union[str, List[str]]] = None,
         user_scores: Optional[Dict[str, Any]] = None,
         **kwargs
     ) -> List[Dict[str, Any]]:
@@ -219,4 +229,3 @@ if __name__ == "__main__":
     recs = recommender.get_recommendations(user_id=1)
     for i, r in enumerate(recs, 1):
         print(f"{i}. {r['title']} (Lv.{r['level']} / {r['constant']}) - Target OPI: {r['target_opi']:.1f} (Win Rate: {r['probability']*100:.1f}%)")
-

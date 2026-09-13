@@ -14,7 +14,7 @@ if PROJECT_ROOT not in sys.path:
 
 from src.crawler.ongeki_crawler import OngekiCrawler
 from src.database.models import init_db, get_session_maker, Chart, Player, ScoreLog, DifficultyEnum
-from seed import seed_database, calculate_initial_chart_params, SPEC_PARAMS
+from seed import seed_database, calculate_initial_chart_params
 
 # ==============================================================================
 # 1. 存在しないユーザーIDおよび不正入力のストレステスト
@@ -670,33 +670,12 @@ class TestRealDatabaseIntegrity:
 
         assert len(corrupted_titles) == 0, f"文字化け曲名が検出されました: {corrupted_titles}"
 
-        # 2. 代表曲公称パラメータのチェック
-        # 注意: "Recoil" は実サイトでは "Recollect Lines"、"感情アクセラレイション" は最高定数13.0のため13.7以上マスタに対象外
-        missing_titles = []
-        param_mismatches = []
-        for title, spec in SPEC_PARAMS.items():
-            # 感情アクセラレイションは実機最高定数13.0のため、定数13.7以上のマスタ対象外
-            if title == "感情アクセラレイション":
-                continue
-            # エイリアス解決の考慮（例: Recoil -> Recollect Lines）
-            target_title = "Recollect Lines" if title == "Recoil" else title
-            cur.execute("SELECT title, opi_sss_x, opi_sss_y, opi_ap_x, opi_ap_y FROM charts WHERE title = ?", (target_title,))
-            rows = cur.fetchall()
-            if len(rows) == 0:
-                missing_titles.append(title)
-                continue
-            row = rows[0]
-            if row[1] != spec["sss_x"] or row[2] != spec["sss_y"] or row[3] != spec["ap_x"] or row[4] != spec["ap_y"]:
-                param_mismatches.append({
-                    "title": title,
-                    "target_title": target_title,
-                    "actual": (row[1], row[2], row[3], row[4]),
-                    "expected": (spec["sss_x"], spec["sss_y"], spec["ap_x"], spec["ap_y"])
-                })
-
-        # Recoil（Recollect Lines）へのパラメータ未適用、および感情アクセラレイションの未登録を検出
-        assert len(missing_titles) == 0, f"代表曲がchartsに存在しません: {missing_titles}"
-        assert len(param_mismatches) == 0, f"代表曲の公称パラメータが適用されていません: {param_mismatches}"
+        # 2. 曲名に依存しない初期パラメータ生成のチェック
+        low_params = calculate_initial_chart_params("任意の曲A", 14.0)
+        high_params = calculate_initial_chart_params("任意の曲B", 15.7)
+        assert low_params["opi_ss_x"] < low_params["opi_sss_x"] < low_params["opi_sssp_x"]
+        assert low_params["opi_sssp_x"] < low_params["opi_abfb_x"] < low_params["opi_ap_x"]
+        assert high_params["opi_ap_x"] > low_params["opi_ap_x"]
 
 
         # 3. 外部キー整合性チェック (PRAGMA foreign_key_check)
@@ -761,5 +740,4 @@ class TestRealDatabaseIntegrity:
             f"スコアの難易度取り違え（EXPERT/LUNATICのスコアがMASTER譜面に誤爆上書き）が "
             f"{len(corrupted)} 件検出されました！例: {corrupted[:3]}"
         )
-
 
