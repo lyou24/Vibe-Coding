@@ -194,7 +194,7 @@ def seed_database(seed_data: Dict[str, Any], db_path: str = DB_FILE, include_pop
         chart_by_id = {c.chart_id: c for c in all_charts}
         chart_by_title_diff = {(c.title, c.difficulty.name): c for c in all_charts}
 
-        score_count = 0
+        matched_chart_ids = set()
         for s in scores:
             target_chart = None
             # 優先度1: chart_id 一致
@@ -207,6 +207,7 @@ def seed_database(seed_data: Dict[str, Any], db_path: str = DB_FILE, include_pop
             if not target_chart:
                 continue
 
+            matched_chart_ids.add(target_chart.chart_id)
             score_val = s["score"]
             is_ab = bool(s.get("is_all_break", False))
             is_fb = bool(s.get("is_full_bell", False))
@@ -224,10 +225,19 @@ def seed_database(seed_data: Dict[str, Any], db_path: str = DB_FILE, include_pop
             log_obj.achieve_sssp = score_val >= 1007500
             log_obj.achieve_abfb = (score_val >= 1007500 and is_ab and is_fb)
             log_obj.achieve_ap = score_val == 1010000
-            score_count += 1
+
+        if matched_chart_ids:
+            session.query(ScoreLog).filter(
+                ScoreLog.user_id == uid,
+                ~ScoreLog.chart_id.in_(matched_chart_ids),
+            ).delete(synchronize_session=False)
+        else:
+            session.query(ScoreLog).filter_by(user_id=uid).delete(
+                synchronize_session=False
+            )
 
         session.commit()
-        print(f"-> score_logs 登録完了 (譜面マスタ紐付け完了数: {score_count} 件)")
+        print(f"-> score_logs 登録完了 (譜面マスタ紐付け完了数: {len(matched_chart_ids)} 件)")
 
         # ユーザー10605の初期OPI算出・DB保存
         calc = OPICalculator()

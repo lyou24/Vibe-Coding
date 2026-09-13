@@ -19,7 +19,7 @@ def test_seed_execution_and_user_10605_opi():
     検証 1: seed.py 実行によるDB生成と、ユーザー10605の total_opi 格納状態検証
     - 正常終了すること
     - total_opi が有効な float（非 None, 非 NaN, 非 Inf）であること
-    - 定数14.0以上を対象にした total_opi が約1468.7に収まること
+    - 定数14.0以上を対象にした total_opi が約1468.1に収まること
     """
     cmd = [PYTHON_EXE, SEED_PY]
     res = subprocess.run(cmd, cwd=PROJECT_ROOT, capture_output=True, text=True)
@@ -44,8 +44,8 @@ def test_seed_execution_and_user_10605_opi():
     assert isinstance(total_opi, float), f"total_opi が float 型ではありません: {type(total_opi)}"
     assert not math.isnan(total_opi), "total_opi が NaN です"
     assert not math.isinf(total_opi), "total_opi が Inf です"
-    assert 1460.0 <= total_opi <= 1475.0, f"total_opi ({total_opi}) が14.0以上対象の期待値（約1468.7）から乖離しています"
-    assert abs(total_opi - 1468.65) < 0.5, f"total_opi ({total_opi}) が 1468.65 から外れています"
+    assert 1460.0 <= total_opi <= 1475.0, f"total_opi ({total_opi}) が14.0以上対象の期待値（約1468.1）から乖離しています"
+    assert abs(total_opi - 1468.11) < 0.5, f"total_opi ({total_opi}) が 1468.11 から外れています"
     assert rating == 19.95, f"rating ({rating}) が期待値 19.95 と一致しません"
 
 

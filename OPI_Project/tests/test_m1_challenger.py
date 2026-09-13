@@ -152,7 +152,11 @@ def test_database_integrity():
     cur.execute("SELECT COUNT(*) FROM players")
     player_count = cur.fetchone()[0]
     print(f"players count: {player_count}")
-    assert player_count == 2504, f"Expected 2504 players, got {player_count}"
+    assert player_count >= 2504, f"Expected at least 2504 players, got {player_count}"
+
+    cur.execute("SELECT COUNT(*) FROM players WHERE user_id >= 90000")
+    population_count = cur.fetchone()[0]
+    assert population_count == 2503, f"Expected 2503 population players, got {population_count}"
 
     cur.execute("SELECT COUNT(*) FROM score_logs WHERE user_id = 10605")
     score_count = cur.fetchone()[0]

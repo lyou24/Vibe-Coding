@@ -49,6 +49,7 @@ async def fetch_and_analyze_user(user_id: int, force: bool = False):
                         (c.title, c.difficulty.name if hasattr(c.difficulty, 'name') else str(c.difficulty)): c 
                         for c in charts
                     }
+                    matched_chart_ids = set()
 
                     for s in scores:
                         chart = None
@@ -62,6 +63,7 @@ async def fetch_and_analyze_user(user_id: int, force: bool = False):
                         if not chart:
                             continue
 
+                        matched_chart_ids.add(chart.chart_id)
                         score_log = session.query(ScoreLog).filter_by(user_id=user_id, chart_id=chart.chart_id).first()
                         if not score_log:
                             score_log = ScoreLog(user_id=user_id, chart_id=chart.chart_id)
@@ -77,8 +79,21 @@ async def fetch_and_analyze_user(user_id: int, force: bool = False):
                         score_log.achieve_abfb = (score_val >= 1007500 and score_log.is_all_break and score_log.is_full_bell)
                         score_log.achieve_ap = score_val == 1010000
 
-                    session.commit()
-                    st.sidebar.success(f"ユーザー {user_id} のデータを更新しました（スコア {len(scores)} 件）。")
+                    if matched_chart_ids:
+                        session.query(ScoreLog).filter(
+                            ScoreLog.user_id == user_id,
+                            ~ScoreLog.chart_id.in_(matched_chart_ids),
+                        ).delete(synchronize_session=False)
+                        session.commit()
+                        st.sidebar.success(
+                            f"ユーザー {user_id} のデータを更新しました"
+                            f"（対象譜面 {len(matched_chart_ids)} 件）。"
+                        )
+                    else:
+                        session.rollback()
+                        st.sidebar.warning(
+                            "取得スコアを譜面マスタへ1件も照合できなかったため、更新を中断しました。"
+                        )
                 else:
                     session.rollback()
                     st.sidebar.warning(f"ユーザー {user_id} のスコア取得に失敗したか、スコアデータが存在しませんでした。差分閉塞防止のため更新を中断しました。")
