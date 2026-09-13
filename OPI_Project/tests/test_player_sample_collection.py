@@ -1,7 +1,11 @@
 import sqlite3
 from datetime import datetime
 
-from collect_player_sample import select_collection_candidates, select_stratified_sample
+from collect_player_sample import (
+    MAX_COLLECTION_USERS,
+    select_collection_candidates,
+    select_stratified_sample,
+)
 from src.crawler.ongeki_crawler import OngekiCrawler
 from src.database.calibration_store import CalibrationStore, make_subject_key
 
@@ -76,6 +80,10 @@ def test_collection_candidates_respect_total_population_limit():
     selected_new = [item for item in selected if make_subject_key(item["user_id"]) not in existing_keys]
     assert len(selected_existing) == 2
     assert len(selected_new) == 1
+
+
+def test_collection_hard_limit_matches_validated_next_phase():
+    assert MAX_COLLECTION_USERS == 50
 
 
 def test_calibration_store_is_private_atomic_and_idempotent(tmp_path):

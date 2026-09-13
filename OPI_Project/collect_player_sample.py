@@ -11,6 +11,7 @@ from src.database.calibration_store import CalibrationStore, make_subject_key
 
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 DEFAULT_DB_FILE = os.path.join(PROJECT_ROOT, "data", "opi_calibration.sqlite")
+MAX_COLLECTION_USERS = 50
 
 
 def select_stratified_sample(candidates: list[dict], max_users: int) -> list[dict]:
@@ -138,8 +139,8 @@ def main() -> None:
     parser.add_argument("--interval", type=float, default=3.0, help="個別ページ間の待機秒数")
     args = parser.parse_args()
 
-    if not 1 <= args.max_users <= 30:
-        parser.error("--max-users は1〜30で指定してください")
+    if not 1 <= args.max_users <= MAX_COLLECTION_USERS:
+        parser.error(f"--max-users は1〜{MAX_COLLECTION_USERS}で指定してください")
     if args.interval < 3.0:
         parser.error("--interval は3秒以上で指定してください")
 
