@@ -6,7 +6,7 @@ from pathlib import Path
 from typing import Iterator, Optional
 
 
-SCHEMA_VERSION = 2
+SCHEMA_VERSION = 3
 
 
 def make_subject_key(user_id: int) -> str:
@@ -120,6 +120,10 @@ class CalibrationStore:
                 player_count INTEGER NOT NULL DEFAULT 0,
                 estimated_player_count INTEGER NOT NULL DEFAULT 0,
                 unestimated_player_count INTEGER NOT NULL DEFAULT 0,
+                parent_run_id INTEGER,
+                result_count INTEGER NOT NULL DEFAULT 0,
+                unestimable_result_count INTEGER NOT NULL DEFAULT 0,
+                FOREIGN KEY(parent_run_id) REFERENCES estimation_runs(run_id),
                 FOREIGN KEY(master_version_id) REFERENCES chart_master_versions(version_id)
             );
 
@@ -159,11 +163,26 @@ class CalibrationStore:
             );
             """
         )
+        self._ensure_column("estimation_runs", "parent_run_id", "INTEGER REFERENCES estimation_runs(run_id)")
+        self._ensure_column("estimation_runs", "result_count", "INTEGER NOT NULL DEFAULT 0")
+        self._ensure_column(
+            "estimation_runs",
+            "unestimable_result_count",
+            "INTEGER NOT NULL DEFAULT 0",
+        )
         self.connection.execute(
             "INSERT OR REPLACE INTO metadata(key, value) VALUES('schema_version', ?)",
             (str(SCHEMA_VERSION),),
         )
         self.connection.commit()
+
+    def _ensure_column(self, table: str, column: str, definition: str) -> None:
+        columns = {
+            row["name"]
+            for row in self.connection.execute(f"PRAGMA table_info({table})")
+        }
+        if column not in columns:
+            self.connection.execute(f"ALTER TABLE {table} ADD COLUMN {column} {definition}")
 
     @contextmanager
     def transaction(self) -> Iterator[sqlite3.Connection]:
@@ -370,6 +389,7 @@ class CalibrationStore:
         data_hash: str,
         config_json: str,
         player_count: int,
+        parent_run_id: Optional[int] = None,
     ) -> tuple[int, bool]:
         """同一入力の完了runは再利用し、未完了runだけ安全に再実行する。"""
         existing = self.connection.execute(
@@ -387,14 +407,24 @@ class CalibrationStore:
                     (run_id,),
                 )
                 connection.execute(
+                    "DELETE FROM item_parameter_estimates WHERE run_id = ?",
+                    (run_id,),
+                )
+                connection.execute(
                     """
                     UPDATE estimation_runs
                        SET status = 'running', started_at = ?, completed_at = NULL,
                            player_count = ?, estimated_player_count = 0,
-                           unestimated_player_count = 0
+                           unestimated_player_count = 0, parent_run_id = ?,
+                           result_count = 0, unestimable_result_count = 0
                      WHERE run_id = ?
                     """,
-                    (datetime.now().isoformat(timespec="seconds"), player_count, run_id),
+                    (
+                        datetime.now().isoformat(timespec="seconds"),
+                        player_count,
+                        parent_run_id,
+                        run_id,
+                    ),
                 )
                 return run_id, True
 
@@ -402,8 +432,8 @@ class CalibrationStore:
                 """
                 INSERT INTO estimation_runs(
                     run_key, model_version, master_version_id, data_hash, config_json,
-                    started_at, status, player_count
-                ) VALUES(?, ?, ?, ?, ?, ?, 'running', ?)
+                    started_at, status, player_count, parent_run_id
+                ) VALUES(?, ?, ?, ?, ?, ?, 'running', ?, ?)
                 """,
                 (
                     run_key,
@@ -413,6 +443,7 @@ class CalibrationStore:
                     config_json,
                     datetime.now().isoformat(timespec="seconds"),
                     player_count,
+                    parent_run_id,
                 ),
             )
             return int(cursor.lastrowid), True
@@ -517,4 +548,111 @@ class CalibrationStore:
             "theta_min": theta_values[0] if theta_values else None,
             "theta_median": median_theta,
             "theta_max": theta_values[-1] if theta_values else None,
+        }
+
+    def save_item_parameter_estimate(
+        self,
+        *,
+        run_id: int,
+        chart_id: str,
+        target_rank: str,
+        estimate,
+        boundary_reached: bool,
+    ) -> None:
+        self.connection.execute(
+            """
+            INSERT OR REPLACE INTO item_parameter_estimates(
+                run_id, chart_id, target_rank, sample_count, achieved_count,
+                unachieved_count, is_estimable, reason, x, y,
+                negative_log_likelihood, boundary_reached
+            ) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                run_id,
+                chart_id,
+                target_rank,
+                estimate.sample_count,
+                estimate.achieved_count,
+                estimate.unachieved_count,
+                estimate.is_estimable,
+                estimate.reason,
+                estimate.x,
+                estimate.y,
+                estimate.negative_log_likelihood,
+                boundary_reached,
+            ),
+        )
+
+    def finish_item_estimation_run(
+        self,
+        run_id: int,
+        *,
+        status: str,
+        result_count: int,
+        unestimable_result_count: int,
+    ) -> None:
+        self.connection.execute(
+            """
+            UPDATE estimation_runs
+               SET status = ?, completed_at = ?, result_count = ?,
+                   unestimable_result_count = ?
+             WHERE run_id = ?
+            """,
+            (
+                status,
+                datetime.now().isoformat(timespec="seconds"),
+                result_count,
+                unestimable_result_count,
+                run_id,
+            ),
+        )
+        self.connection.commit()
+
+    def item_run_report(self, run_id: int) -> dict:
+        run = self.connection.execute(
+            "SELECT * FROM estimation_runs WHERE run_id = ?",
+            (run_id,),
+        ).fetchone()
+        if not run:
+            raise ValueError("指定した項目推定runが存在しません")
+
+        rows = self.connection.execute(
+            "SELECT * FROM item_parameter_estimates WHERE run_id = ?",
+            (run_id,),
+        ).fetchall()
+        reasons = {}
+        ranks = {}
+        estimated_by_chart = {}
+        for row in rows:
+            if row["reason"]:
+                reasons[row["reason"]] = reasons.get(row["reason"], 0) + 1
+            rank = row["target_rank"]
+            rank_summary = ranks.setdefault(rank, {"items": 0, "estimable": 0})
+            rank_summary["items"] += 1
+            rank_summary["estimable"] += int(row["is_estimable"])
+            if row["is_estimable"] and row["x"] is not None:
+                estimated_by_chart.setdefault(row["chart_id"], {})[rank] = float(row["x"])
+
+        rank_order = ["SS", "SSS", "SSS+", "SSS+ABFB", "AP"]
+        rank_order_violation_count = 0
+        for estimates in estimated_by_chart.values():
+            ordered_values = [estimates[rank] for rank in rank_order if rank in estimates]
+            if any(left >= right for left, right in zip(ordered_values, ordered_values[1:])):
+                rank_order_violation_count += 1
+
+        return {
+            "run_id": int(run["run_id"]),
+            "parent_ability_run_id": run["parent_run_id"],
+            "status": run["status"],
+            "model_version": run["model_version"],
+            "master_version_id": run["master_version_id"],
+            "data_hash": run["data_hash"],
+            "player_count": int(run["player_count"]),
+            "item_count": len(rows),
+            "estimable_count": sum(int(row["is_estimable"]) for row in rows),
+            "unestimable_count": sum(not bool(row["is_estimable"]) for row in rows),
+            "unestimable_reasons": reasons,
+            "by_rank": ranks,
+            "boundary_count": sum(int(row["boundary_reached"]) for row in rows),
+            "rank_order_violation_count": rank_order_violation_count,
         }

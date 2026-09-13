@@ -2,6 +2,7 @@ import sqlite3
 from datetime import datetime
 
 from calibrate_player_abilities import build_ability_report, file_sha256
+from estimate_calibration_items import build_item_report
 from src.database.calibration_store import CalibrationStore, SCHEMA_VERSION, make_subject_key
 from validate_calibration_db import build_validation_report
 
@@ -59,12 +60,12 @@ def test_schema_v2_is_additive_and_preserves_existing_rows(tmp_path):
         add_player(store, 1, [1_000_000, 999_000])
 
     with CalibrationStore(str(db_path)) as store:
-        assert SCHEMA_VERSION == 2
+        assert SCHEMA_VERSION == 3
         assert store.counts()["players"] == 1
         schema_version = store.connection.execute(
             "SELECT value FROM metadata WHERE key = 'schema_version'"
         ).fetchone()[0]
-        assert schema_version == "2"
+        assert schema_version == "3"
         assert store.connection.execute(
             "SELECT COUNT(*) FROM sqlite_master WHERE type='table' AND name='estimation_runs'"
         ).fetchone()[0] == 1
@@ -109,11 +110,22 @@ def test_ability_pipeline_is_reproducible_and_main_db_read_only(tmp_path):
     finally:
         connection.close()
 
+    item_report = build_item_report(calibration_db)
+    repeated_item_report = build_item_report(calibration_db)
+    assert item_report["parent_ability_run_id"] == first["run_id"]
+    assert item_report["item_count"] == 30
+    assert item_report["estimable_count"] == 0
+    assert item_report["unestimable_reasons"] == {"insufficient_samples": 30}
+    assert item_report["rank_order_violation_count"] == 0
+    assert repeated_item_report["run_id"] == item_report["run_id"]
+    assert repeated_item_report["reused_completed_run"] is True
+
     validation = build_validation_report(str(calibration_db))
-    assert validation["schema_version"] == "2"
+    assert validation["schema_version"] == "3"
     assert validation["chart_master_versions"] == 1
     assert validation["player_ability_estimates"] == 2
     assert validation["estimable_player_abilities"] == 2
+    assert validation["item_parameter_estimates"] == 30
 
 
 def test_ability_pipeline_records_unestimable_players(tmp_path):
