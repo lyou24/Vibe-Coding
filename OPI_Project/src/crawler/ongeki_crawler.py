@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 from datetime import datetime
 import logging
 import re
+import random
 from typing import List, Dict, Optional
 
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
@@ -34,6 +35,245 @@ class OngekiCrawler:
 
     async def __aexit__(self, exc_type, exc_val, exc_tb):
         await self.close()
+
+    async def _fetch_text_with_retry(
+        self,
+        path: str,
+        *,
+        timeout_seconds: int = 30,
+        max_attempts: int = 3,
+    ) -> Optional[str]:
+        """公開ページを限定回数だけ取得し、過負荷時は待機して再試行する。"""
+        await self._init_session()
+        url = f"{self.BASE_URL}{path}"
+        last_status = None
+
+        for attempt in range(max_attempts):
+            try:
+                async with self.session.get(
+                    url,
+                    timeout=aiohttp.ClientTimeout(total=timeout_seconds),
+                ) as resp:
+                    last_status = resp.status
+                    if resp.status == 200:
+                        return await resp.text()
+                    if resp.status == 404:
+                        return None
+                    if resp.status == 403:
+                        raise PermissionError("公開ページへのアクセスが拒否されました")
+
+                    retryable = resp.status == 429 or 500 <= resp.status < 600
+                    if not retryable or attempt == max_attempts - 1:
+                        break
+
+                    retry_after = resp.headers.get("Retry-After")
+                    if retry_after and retry_after.isdigit():
+                        delay = min(float(retry_after), 300.0)
+                    else:
+                        delay = min(5.0 * (2 ** attempt) + random.uniform(0.0, 1.0), 300.0)
+                    logger.warning("HTTP %s のため %.1f 秒後に再試行します", resp.status, delay)
+                    await asyncio.sleep(delay)
+            except (aiohttp.ClientError, asyncio.TimeoutError) as exc:
+                if attempt == max_attempts - 1:
+                    raise RuntimeError("公開ページの取得に失敗しました") from exc
+                delay = min(5.0 * (2 ** attempt) + random.uniform(0.0, 1.0), 300.0)
+                logger.warning("通信エラーのため %.1f 秒後に再試行します", delay)
+                await asyncio.sleep(delay)
+
+        raise RuntimeError(f"公開ページの取得に失敗しました (HTTP {last_status})")
+
+    @staticmethod
+    def parse_public_users(html: str) -> List[Dict]:
+        """公開ユーザー一覧から収集候補だけを抽出する。名前は取得しない。"""
+        soup = BeautifulSoup(html, "html.parser")
+        users = []
+        seen_user_ids = set()
+
+        for row in soup.find_all("tr"):
+            user_link = row.find("a", href=re.compile(r"^/user/\d+/?$"))
+            if not user_link:
+                continue
+            match = re.search(r"/user/(\d+)", user_link.get("href", ""))
+            if not match:
+                continue
+            user_id = int(match.group(1))
+            if user_id in seen_user_ids:
+                continue
+
+            rating_td = row.find("td", class_="sort_rating")
+            update_td = row.find("td", class_="sort_update")
+            rating_match = re.search(r"\d+(?:\.\d+)?", rating_td.get_text(" ", strip=True)) if rating_td else None
+            date_match = re.search(r"\d{4}-\d{2}-\d{2}", update_td.get_text(" ", strip=True)) if update_td else None
+            if not rating_match or not date_match:
+                continue
+
+            try:
+                updated_at = datetime.strptime(date_match.group(0), "%Y-%m-%d")
+            except ValueError:
+                continue
+
+            users.append({
+                "user_id": user_id,
+                "rating": float(rating_match.group(0)),
+                "updated_at": updated_at,
+            })
+            seen_user_ids.add(user_id)
+
+        return users
+
+    @staticmethod
+    def parse_user_snapshot(
+        html: str,
+        user_id: int,
+        *,
+        last_crawled_at: datetime = None,
+        force: bool = False,
+    ) -> Optional[Dict]:
+        """1回取得したユーザーページからプロフィールと全スコアを解析する。"""
+        soup = BeautifulSoup(html, "html.parser")
+        tables = soup.find_all("table")
+        if not tables:
+            raise ValueError("ユーザーページにテーブルがありません")
+
+        player_name = None
+        rating = None
+        updated_at = None
+        profile_table = soup.find("table", class_="is-striped") or tables[0]
+        for row in profile_table.find_all("tr"):
+            th = row.find("th")
+            td = row.find("td")
+            if not th or not td:
+                continue
+            label = th.get_text(" ", strip=True)
+            value = td.get_text(" ", strip=True)
+            if "プレイヤーネーム" in label or "ネーム" in label:
+                player_name = value
+            elif "レーティング" in label:
+                rating_match = re.search(r"\d+(?:\.\d+)?", value)
+                if rating_match:
+                    rating = float(rating_match.group(0))
+            elif "最終更新" in label:
+                date_match = re.search(r"\d{4}-\d{2}-\d{2}", value)
+                if date_match:
+                    updated_at = datetime.strptime(date_match.group(0), "%Y-%m-%d")
+
+        if updated_at is None:
+            date_values = []
+            for cell in soup.find_all("td", class_="sort_update"):
+                date_match = re.search(r"\d{4}-\d{2}-\d{2}", cell.get_text(" ", strip=True))
+                if date_match:
+                    date_values.append(datetime.strptime(date_match.group(0), "%Y-%m-%d"))
+            if date_values:
+                updated_at = max(date_values)
+
+        if player_name is None or updated_at is None:
+            raise ValueError("プロフィールまたは最終更新日を解析できません")
+        if not force and updated_at < OngekiCrawler.TARGET_MIN_DATE:
+            return None
+        if not force and last_crawled_at and updated_at <= last_crawled_at:
+            return None
+
+        target_table = None
+        for table in tables:
+            if table.find(class_="sort_title") and table.find(class_="sort_ts"):
+                target_table = table
+                break
+        if target_table is None:
+            raise ValueError("スコア一覧を解析できません")
+
+        scores = []
+        for row in target_table.find_all("tr"):
+            title_td = row.find("td", class_="sort_title")
+            score_td = row.find("td", class_="sort_ts")
+            if not title_td or not score_td:
+                continue
+
+            link = title_td.find("a")
+            href = link.get("href", "") if link else ""
+            music_match = re.search(r"/music/(\d+)/?", href)
+            if not music_match:
+                continue
+
+            key_span = title_td.find("span", class_="sort-key")
+            title = (key_span or link or title_td).get_text(" ", strip=True)
+            difficulty_td = row.find("td", class_="sort_raw_difficulty") or row.find("td", class_="sort_difficulty")
+            raw_difficulty = difficulty_td.get_text(" ", strip=True).upper() if difficulty_td else "MASTER"
+            if "LUN" in raw_difficulty:
+                difficulty = "LUNATIC"
+            elif "MAS" in raw_difficulty:
+                difficulty = "MASTER"
+            elif "EXP" in raw_difficulty:
+                difficulty = "EXPERT"
+            elif "ADV" in raw_difficulty:
+                difficulty = "ADVANCED"
+            elif "BAS" in raw_difficulty:
+                difficulty = "BASIC"
+            else:
+                difficulty = raw_difficulty
+
+            key = score_td.find("span", class_="sort-key")
+            score_digits = re.sub(r"\D", "", (key or score_td).get_text(" ", strip=True))
+            if not score_digits:
+                continue
+            score = int(score_digits)
+            if score < 0 or score > 1_010_000:
+                continue
+
+            lamp_cells = row.find_all("td", class_=re.compile(r"lamp|bell", re.IGNORECASE))
+            lamp_badges = row.find_all(class_=re.compile(r"lamp|bell", re.IGNORECASE))
+            lamp_text = " ".join(item.get_text(" ", strip=True) for item in [*lamp_cells, *lamp_badges]).upper()
+            level_td = row.find("td", class_="sort_level")
+            music_id = music_match.group(1)
+            scores.append({
+                "chart_id": f"{music_id}_{difficulty.lower()}",
+                "music_id": music_id,
+                "title": title,
+                "difficulty": difficulty,
+                "level": level_td.get_text(" ", strip=True) if level_td else "",
+                "score": score,
+                "is_all_break": bool(re.search(r"\bAB\b", lamp_text)),
+                "is_full_bell": bool(re.search(r"\bFB\b", lamp_text)),
+            })
+
+        if not scores:
+            raise ValueError("有効なスコアがありません")
+
+        return {
+            "profile": {
+                "user_id": user_id,
+                "player_name": player_name,
+                "rating": rating,
+                "updated_at": updated_at,
+            },
+            "scores": scores,
+        }
+
+    async def fetch_public_users(self) -> List[Dict]:
+        """公開一覧を1回取得し、総当たりせずに収集候補を返す。"""
+        html = await self._fetch_text_with_retry("/user", timeout_seconds=60)
+        if html is None:
+            return []
+        return self.parse_public_users(html)
+
+    async def fetch_user_snapshot(
+        self,
+        user_id: int,
+        *,
+        last_crawled_at: datetime = None,
+        force: bool = False,
+    ) -> Optional[Dict]:
+        """ユーザーページを1回だけ取得し、プロフィールとスコアを返す。"""
+        if user_id <= 0:
+            return None
+        html = await self._fetch_text_with_retry(f"/user/{user_id}")
+        if html is None:
+            return None
+        return self.parse_user_snapshot(
+            html,
+            user_id,
+            last_crawled_at=last_crawled_at,
+            force=force,
+        )
 
     async def fetch_user_profile(self, user_id: int, last_crawled_at: datetime = None, force: bool = False) -> Optional[Dict]:
         """

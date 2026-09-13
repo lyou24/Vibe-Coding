@@ -18,3 +18,7 @@ htmlcov/
 *.tmp
 .DS_Store
 Thumbs.db
+
+# Local calibration data collected from public profiles
+data/opi_calibration.sqlite
+data/opi_calibration.sqlite-*
