@@ -6,7 +6,7 @@ from pathlib import Path
 from typing import Iterator, Optional
 
 
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 2
 
 
 def make_subject_key(user_id: int) -> str:
@@ -86,6 +86,77 @@ class CalibrationStore:
             );
 
             CREATE INDEX IF NOT EXISTS ix_scores_chart_id ON scores(chart_id);
+
+            CREATE TABLE IF NOT EXISTS chart_master_versions (
+                version_id TEXT PRIMARY KEY,
+                content_hash TEXT NOT NULL UNIQUE,
+                source_name TEXT NOT NULL,
+                created_at TEXT NOT NULL,
+                chart_count INTEGER NOT NULL CHECK(chart_count >= 0)
+            );
+
+            CREATE TABLE IF NOT EXISTS chart_master_items (
+                version_id TEXT NOT NULL,
+                chart_id TEXT NOT NULL,
+                title TEXT NOT NULL,
+                difficulty TEXT NOT NULL,
+                level TEXT NOT NULL,
+                chart_constant REAL NOT NULL,
+                is_active INTEGER NOT NULL CHECK(is_active IN (0, 1)),
+                PRIMARY KEY(version_id, chart_id),
+                FOREIGN KEY(version_id) REFERENCES chart_master_versions(version_id) ON DELETE CASCADE
+            );
+
+            CREATE TABLE IF NOT EXISTS estimation_runs (
+                run_id INTEGER PRIMARY KEY AUTOINCREMENT,
+                run_key TEXT NOT NULL UNIQUE,
+                model_version TEXT NOT NULL,
+                master_version_id TEXT NOT NULL,
+                data_hash TEXT NOT NULL,
+                config_json TEXT NOT NULL,
+                started_at TEXT NOT NULL,
+                completed_at TEXT,
+                status TEXT NOT NULL,
+                player_count INTEGER NOT NULL DEFAULT 0,
+                estimated_player_count INTEGER NOT NULL DEFAULT 0,
+                unestimated_player_count INTEGER NOT NULL DEFAULT 0,
+                FOREIGN KEY(master_version_id) REFERENCES chart_master_versions(version_id)
+            );
+
+            CREATE TABLE IF NOT EXISTS player_ability_estimates (
+                run_id INTEGER NOT NULL,
+                subject_key TEXT NOT NULL,
+                theta REAL,
+                item_count INTEGER NOT NULL,
+                achieved_count INTEGER NOT NULL,
+                unachieved_count INTEGER NOT NULL,
+                coverage REAL NOT NULL,
+                negative_log_likelihood REAL,
+                negative_log_posterior REAL,
+                is_estimable INTEGER NOT NULL CHECK(is_estimable IN (0, 1)),
+                reason TEXT,
+                boundary_reached INTEGER NOT NULL CHECK(boundary_reached IN (0, 1)),
+                PRIMARY KEY(run_id, subject_key),
+                FOREIGN KEY(run_id) REFERENCES estimation_runs(run_id) ON DELETE CASCADE,
+                FOREIGN KEY(subject_key) REFERENCES players(subject_key) ON DELETE CASCADE
+            );
+
+            CREATE TABLE IF NOT EXISTS item_parameter_estimates (
+                run_id INTEGER NOT NULL,
+                chart_id TEXT NOT NULL,
+                target_rank TEXT NOT NULL,
+                sample_count INTEGER NOT NULL,
+                achieved_count INTEGER NOT NULL,
+                unachieved_count INTEGER NOT NULL,
+                is_estimable INTEGER NOT NULL CHECK(is_estimable IN (0, 1)),
+                reason TEXT,
+                x REAL,
+                y REAL,
+                negative_log_likelihood REAL,
+                boundary_reached INTEGER NOT NULL CHECK(boundary_reached IN (0, 1)),
+                PRIMARY KEY(run_id, chart_id, target_rank),
+                FOREIGN KEY(run_id) REFERENCES estimation_runs(run_id) ON DELETE CASCADE
+            );
             """
         )
         self.connection.execute(
@@ -236,3 +307,214 @@ class CalibrationStore:
         scores = self.connection.execute("SELECT COUNT(*) FROM scores").fetchone()[0]
         charts = self.connection.execute("SELECT COUNT(DISTINCT chart_id) FROM scores").fetchone()[0]
         return {"players": players, "scores": scores, "charts": charts}
+
+    def save_chart_master_snapshot(
+        self,
+        *,
+        version_id: str,
+        content_hash: str,
+        source_name: str,
+        charts: list[dict],
+    ) -> None:
+        """譜面マスタを内容ハッシュ単位で冪等保存する。"""
+        with self.transaction() as connection:
+            existing = connection.execute(
+                "SELECT content_hash, chart_count FROM chart_master_versions WHERE version_id = ?",
+                (version_id,),
+            ).fetchone()
+            if existing:
+                if existing["content_hash"] != content_hash or existing["chart_count"] != len(charts):
+                    raise ValueError("同じversion_idに異なる譜面マスタが存在します")
+                return
+
+            connection.execute(
+                """
+                INSERT INTO chart_master_versions(
+                    version_id, content_hash, source_name, created_at, chart_count
+                ) VALUES(?, ?, ?, ?, ?)
+                """,
+                (
+                    version_id,
+                    content_hash,
+                    source_name,
+                    datetime.now().isoformat(timespec="seconds"),
+                    len(charts),
+                ),
+            )
+            connection.executemany(
+                """
+                INSERT INTO chart_master_items(
+                    version_id, chart_id, title, difficulty, level, chart_constant, is_active
+                ) VALUES(?, ?, ?, ?, ?, ?, ?)
+                """,
+                [
+                    (
+                        version_id,
+                        chart["chart_id"],
+                        chart["title"],
+                        chart["difficulty"],
+                        chart["level"],
+                        float(chart["chart_constant"]),
+                        bool(chart["is_active"]),
+                    )
+                    for chart in charts
+                ],
+            )
+
+    def start_or_resume_estimation_run(
+        self,
+        *,
+        run_key: str,
+        model_version: str,
+        master_version_id: str,
+        data_hash: str,
+        config_json: str,
+        player_count: int,
+    ) -> tuple[int, bool]:
+        """同一入力の完了runは再利用し、未完了runだけ安全に再実行する。"""
+        existing = self.connection.execute(
+            "SELECT run_id, status FROM estimation_runs WHERE run_key = ?",
+            (run_key,),
+        ).fetchone()
+        if existing and existing["status"] == "completed":
+            return int(existing["run_id"]), False
+
+        with self.transaction() as connection:
+            if existing:
+                run_id = int(existing["run_id"])
+                connection.execute(
+                    "DELETE FROM player_ability_estimates WHERE run_id = ?",
+                    (run_id,),
+                )
+                connection.execute(
+                    """
+                    UPDATE estimation_runs
+                       SET status = 'running', started_at = ?, completed_at = NULL,
+                           player_count = ?, estimated_player_count = 0,
+                           unestimated_player_count = 0
+                     WHERE run_id = ?
+                    """,
+                    (datetime.now().isoformat(timespec="seconds"), player_count, run_id),
+                )
+                return run_id, True
+
+            cursor = connection.execute(
+                """
+                INSERT INTO estimation_runs(
+                    run_key, model_version, master_version_id, data_hash, config_json,
+                    started_at, status, player_count
+                ) VALUES(?, ?, ?, ?, ?, ?, 'running', ?)
+                """,
+                (
+                    run_key,
+                    model_version,
+                    master_version_id,
+                    data_hash,
+                    config_json,
+                    datetime.now().isoformat(timespec="seconds"),
+                    player_count,
+                ),
+            )
+            return int(cursor.lastrowid), True
+
+    def save_player_ability_estimate(
+        self,
+        *,
+        run_id: int,
+        subject_key: str,
+        estimate,
+        coverage: float,
+    ) -> None:
+        self.connection.execute(
+            """
+            INSERT OR REPLACE INTO player_ability_estimates(
+                run_id, subject_key, theta, item_count, achieved_count, unachieved_count,
+                coverage, negative_log_likelihood, negative_log_posterior,
+                is_estimable, reason, boundary_reached
+            ) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """,
+            (
+                run_id,
+                subject_key,
+                estimate.theta,
+                estimate.item_count,
+                estimate.achieved_count,
+                estimate.unachieved_count,
+                float(coverage),
+                estimate.negative_log_likelihood,
+                estimate.negative_log_posterior,
+                estimate.is_estimable,
+                estimate.reason,
+                estimate.boundary_reached,
+            ),
+        )
+
+    def finish_estimation_run(
+        self,
+        run_id: int,
+        *,
+        status: str,
+        estimated_player_count: int,
+        unestimated_player_count: int,
+    ) -> None:
+        self.connection.execute(
+            """
+            UPDATE estimation_runs
+               SET status = ?, completed_at = ?, estimated_player_count = ?,
+                   unestimated_player_count = ?
+             WHERE run_id = ?
+            """,
+            (
+                status,
+                datetime.now().isoformat(timespec="seconds"),
+                estimated_player_count,
+                unestimated_player_count,
+                run_id,
+            ),
+        )
+        self.connection.commit()
+
+    def ability_run_report(self, run_id: int) -> dict:
+        run = self.connection.execute(
+            "SELECT * FROM estimation_runs WHERE run_id = ?",
+            (run_id,),
+        ).fetchone()
+        if not run:
+            raise ValueError("指定した推定runが存在しません")
+
+        estimates = self.connection.execute(
+            "SELECT * FROM player_ability_estimates WHERE run_id = ? ORDER BY subject_key",
+            (run_id,),
+        ).fetchall()
+        theta_values = sorted(
+            float(row["theta"])
+            for row in estimates
+            if row["is_estimable"] and row["theta"] is not None
+        )
+        reason_counts = {}
+        for row in estimates:
+            if row["reason"]:
+                reason_counts[row["reason"]] = reason_counts.get(row["reason"], 0) + 1
+
+        median_theta = None
+        if theta_values:
+            middle = len(theta_values) // 2
+            median_theta = (
+                theta_values[middle]
+                if len(theta_values) % 2
+                else (theta_values[middle - 1] + theta_values[middle]) / 2.0
+            )
+        return {
+            "run_id": int(run["run_id"]),
+            "status": run["status"],
+            "model_version": run["model_version"],
+            "master_version_id": run["master_version_id"],
+            "data_hash": run["data_hash"],
+            "player_count": int(run["player_count"]),
+            "estimated_player_count": int(run["estimated_player_count"]),
+            "unestimated_player_count": int(run["unestimated_player_count"]),
+            "unestimated_reasons": reason_counts,
+            "theta_min": theta_values[0] if theta_values else None,
+            "theta_median": median_theta,
+            "theta_max": theta_values[-1] if theta_values else None,
+        }

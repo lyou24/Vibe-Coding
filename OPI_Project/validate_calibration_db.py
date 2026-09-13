@@ -23,6 +23,9 @@ def build_validation_report(db_path: str) -> dict:
         return {
             "integrity": integrity,
             "foreign_key_errors": len(foreign_key_errors),
+            "schema_version": connection.execute(
+                "SELECT value FROM metadata WHERE key = 'schema_version'"
+            ).fetchone()[0],
             "players": connection.execute("SELECT COUNT(*) FROM players").fetchone()[0],
             "scores": connection.execute("SELECT COUNT(*) FROM scores").fetchone()[0],
             "charts": connection.execute("SELECT COUNT(DISTINCT chart_id) FROM scores").fetchone()[0],
@@ -43,6 +46,24 @@ def build_validation_report(db_path: str) -> dict:
             "rating_min": connection.execute("SELECT MIN(rating) FROM players").fetchone()[0],
             "rating_max": connection.execute("SELECT MAX(rating) FROM players").fetchone()[0],
             "crawl_runs": connection.execute("SELECT COUNT(*) FROM crawl_runs").fetchone()[0],
+            "chart_master_versions": connection.execute(
+                "SELECT COUNT(*) FROM chart_master_versions"
+            ).fetchone()[0],
+            "chart_master_items": connection.execute(
+                "SELECT COUNT(*) FROM chart_master_items"
+            ).fetchone()[0],
+            "estimation_runs": connection.execute(
+                "SELECT COUNT(*) FROM estimation_runs"
+            ).fetchone()[0],
+            "player_ability_estimates": connection.execute(
+                "SELECT COUNT(*) FROM player_ability_estimates"
+            ).fetchone()[0],
+            "estimable_player_abilities": connection.execute(
+                "SELECT COUNT(*) FROM player_ability_estimates WHERE is_estimable = 1"
+            ).fetchone()[0],
+            "item_parameter_estimates": connection.execute(
+                "SELECT COUNT(*) FROM item_parameter_estimates"
+            ).fetchone()[0],
         }
     finally:
         connection.close()
