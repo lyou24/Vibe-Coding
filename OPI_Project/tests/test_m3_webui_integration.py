@@ -48,6 +48,11 @@ class TestM3WebUIIntegration:
         assert "diff_target_rank" in code, "難易度表タブに目標ランク切替が実装されていること"
         assert "get_chart_rank_params" in code, "各目標ランクのパラメータ取得関数が呼び出されていること"
 
+        # 7. UI選択順・複数レベル・難易度表の降順表示
+        assert 'TARGET_RANK_OPTIONS = ["SS", "SSS", "SSS+", "SSS+ABFB", "AP"]' in code
+        assert "level_filters = st.multiselect" in code, "レベル絞り込みが複数選択であること"
+        assert 'sort_values(by=f"{diff_target_rank} 適正OPI", ascending=False)' in code
+
     def test_strict_title_and_difficulty_matching(self, test_session):
         """(title, difficulty) による同名曲（MASTER / LUNATIC）の混同防止の振る舞い検証"""
         # 同名曲の MASTER と LUNATIC を登録

@@ -17,6 +17,8 @@ st.set_page_config(page_title="OPI System", layout="wide")
 DB_FILE = os.path.join(os.path.dirname(__file__), "data", "opi_database.sqlite")
 engine = init_db(DB_FILE)
 Session = get_session_maker(engine)
+TARGET_RANK_OPTIONS = ["SS", "SSS", "SSS+", "SSS+ABFB", "AP"]
+LEVEL_OPTIONS = ["14", "14+", "15", "15+"]
 
 # --- バックエンド処理ラッパー ---
 async def fetch_and_analyze_user(user_id: int, force: bool = False):
@@ -216,14 +218,14 @@ if user_input.isdigit():
             with col_f1:
                 target_ranks = st.multiselect(
                     "目標ランク（複数選択可）",
-                    options=["SSS", "SS", "SSS+", "SSS+ABFB", "AP"],
+                    options=TARGET_RANK_OPTIONS,
                     default=["SSS"],
                     key="filter_target_rank"
                 )
-                level_filter = st.selectbox(
-                    "レベル絞り込み",
-                    options=["すべて", "13+", "14", "14+", "15", "15+"],
-                    index=0,
+                level_filters = st.multiselect(
+                    "レベル絞り込み（複数選択可）",
+                    options=LEVEL_OPTIONS,
+                    default=[],
                     key="filter_level"
                 )
             with col_f2:
@@ -257,7 +259,7 @@ if user_input.isdigit():
                     options=["適正順", "勝率が高い順", "現在ランク順", "目標ランク順"],
                 )
 
-            param_level = None if level_filter == "すべて" else level_filter
+            param_level = level_filters or None
             param_current_rank = current_rank_filters or None
             const_min, const_max = constant_range
 
@@ -285,7 +287,7 @@ if user_input.isdigit():
                 "ABFB止まり": 4,
                 "AP": 5,
             }
-            target_rank_order = {rank: index for index, rank in enumerate(["SS", "SSS", "SSS+", "SSS+ABFB", "AP"])}
+            target_rank_order = {rank: index for index, rank in enumerate(TARGET_RANK_OPTIONS)}
             if sort_key == "勝率が高い順":
                 recs.sort(key=lambda item: item["probability"], reverse=True)
             elif sort_key == "現在ランク順":
@@ -350,7 +352,7 @@ if user_input.isdigit():
             st.subheader("OPI 難易度表")
             diff_target_rank = st.selectbox(
                 "目標ランク選択",
-                options=["SSS", "SS", "SSS+", "SSS+ABFB", "AP"],
+                options=TARGET_RANK_OPTIONS,
                 index=0,
                 key="diff_target_rank_select"
             )
@@ -376,11 +378,11 @@ if user_input.isdigit():
                 
                 if chart_data:
                     df_charts = pd.DataFrame(chart_data)
-                    df_charts = df_charts.sort_values(by=f"{diff_target_rank} 適正OPI", ascending=True)
+                    df_charts = df_charts.sort_values(by=f"{diff_target_rank} 適正OPI", ascending=False)
                     opi_column = f"{diff_target_rank} 適正OPI"
                     df_charts["OPI帯"] = (df_charts[opi_column] // 100 * 100).astype(int)
 
-                    for opi_band, band_rows in df_charts.groupby("OPI帯", sort=True):
+                    for opi_band, band_rows in df_charts.groupby("OPI帯", sort=False):
                         st.markdown(f"### OPI {opi_band}〜{opi_band + 99}")
                         columns = st.columns(4)
                         for index, (_, row) in enumerate(band_rows.iterrows()):

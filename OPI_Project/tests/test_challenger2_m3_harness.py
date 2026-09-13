@@ -80,12 +80,11 @@ class TestChallenger2M3DifficultyTable:
             assert not np.isinf(df_charts[col_name]).any(), f"{col_name} に inf が存在しないこと"
             assert not df_charts["個人差度"].isna().any(), f"個人差度に NaN が存在しないこと"
 
-            # ソート検証
-            df_sorted = df_charts.sort_values(by=col_name, ascending=True)
+            # 難しい曲ほど上になる降順ソート検証
+            df_sorted = df_charts.sort_values(by=col_name, ascending=False)
             opi_values = df_sorted[col_name].tolist()
-            # 昇順にソートされていること
-            assert all(opi_values[i] <= opi_values[i+1] for i in range(len(opi_values)-1)), \
-                f"目標ランク {rank} の適正OPIで昇順ソートが成立していること"
+            assert all(opi_values[i] >= opi_values[i+1] for i in range(len(opi_values)-1)), \
+                f"目標ランク {rank} の適正OPIで降順ソートが成立していること"
 
     def test_difficulty_table_fallback_monotonicity(self):
         """パラメータ未定義譜面に対する基準アンカー補完ロジックの厳格な単調性を検証"""
