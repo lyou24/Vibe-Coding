@@ -32,8 +32,8 @@ def test_dry_run_report_estimates_each_rank_without_writing(
             achieve_ss=achieved,
             achieve_sss=achieved,
             achieve_sssp=achieved,
-            achieve_abfb=achieved,
-            achieve_ap=achieved,
+            achieve_s=achieved,
+            achieve_abp=achieved,
         ))
     test_session.commit()
     before_score_count = test_session.query(ScoreLog).count()
@@ -54,8 +54,8 @@ def test_dry_run_report_estimates_each_rank_without_writing(
         "SS",
         "SSS",
         "SSS+",
-        "SSS+ABFB",
-        "AP",
+        "S",
+        "AB+",
     ]
     assert test_session.query(ScoreLog).count() == before_score_count
 

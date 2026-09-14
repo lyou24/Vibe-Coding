@@ -7,11 +7,11 @@ OPI_PER_CHART_CONSTANT = 200.0
 DEFAULT_INDIVIDUAL_DIFFERENCE = 40.0
 
 RANK_OFFSETS = {
+    "S": -240.0,
     "SS": -120.0,
     "SSS": 0.0,
     "SSS+": 120.0,
-    "SSS+ABFB": 240.0,
-    "AP": 360.0,
+    "AB+": 240.0,
 }
 
 
@@ -33,11 +33,11 @@ def calculate_initial_chart_params(chart_constant: float) -> Dict[str, float]:
     """DB登録用の全ランク暫定パラメータを生成する。"""
     params: Dict[str, float] = {}
     column_names = {
+        "S": "s",
         "SS": "ss",
         "SSS": "sss",
         "SSS+": "sssp",
-        "SSS+ABFB": "abfb",
-        "AP": "ap",
+        "AB+": "abp",
     }
 
     for rank, column_name in column_names.items():

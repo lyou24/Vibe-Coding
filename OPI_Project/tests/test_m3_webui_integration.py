@@ -49,7 +49,7 @@ class TestM3WebUIIntegration:
         assert "get_chart_rank_params" in code, "各目標ランクのパラメータ取得関数が呼び出されていること"
 
         # 7. UI選択順・複数レベル・難易度表の降順表示
-        assert 'TARGET_RANK_OPTIONS = ["SS", "SSS", "SSS+", "SSS+ABFB", "AP"]' in code
+        assert 'TARGET_RANK_OPTIONS = ["SS", "SSS", "SSS+", "S", "AB+"]' in code
         assert "level_filters = st.multiselect" in code, "レベル絞り込みが複数選択であること"
         assert 'sort_values(by=f"{diff_target_rank} 適正OPI", ascending=False)' in code
 
@@ -117,8 +117,8 @@ class TestM3WebUIIntegration:
                 achieve_ss=score_val >= 990000,
                 achieve_sss=score_val >= 1000000,
                 achieve_sssp=score_val >= 1007500,
-                achieve_abfb=(score_val >= 1007500),
-                achieve_ap=score_val == 1010000
+                achieve_s=(score_val >= 1007500),
+                achieve_abp=score_val == 1010000
             )
             test_session.add(s_log)
         test_session.commit()
@@ -129,7 +129,7 @@ class TestM3WebUIIntegration:
         # 5目標ランク * 5譜面 = 25エントリ（パラメータが存在するもの）
         assert len(achievements) >= 20, "5目標ランクの成否ベクトルが生成されていること"
         ranks_in_ach = set(a['rank'] for a in achievements)
-        assert ranks_in_ach == {"SS", "SSS", "SSS+", "SSS+ABFB", "AP"}, "全5ランクがベクトルに含まれていること"
+        assert ranks_in_ach == {"SS", "SSS", "SSS+", "S", "AB+"}, "全5ランクがベクトルに含まれていること"
 
         total_opi = calc.estimate_user_opi(achievements, initial_theta=1500.0)
         assert 1400.0 <= total_opi <= 2200.0, f"推定OPIが妥当な値であること: {total_opi}"
@@ -171,9 +171,9 @@ class TestM3WebUIIntegration:
             assert r["level"] == "15", f"指定レベル以外の楽曲が含まれています: {r['level']}"
 
     def test_difficulty_table_generation_all_ranks(self, test_session, seed_charts):
-        """難易度表生成が5つの全目標ランク（SS, SSS, SSS+, SSS+ABFB, AP）で正常動作することを検証"""
+        """難易度表生成が5つの全目標ランク（SS, SSS, SSS+, S, AP）で正常動作することを検証"""
         calc = OPICalculator()
-        target_ranks = ["SS", "SSS", "SSS+", "SSS+ABFB", "AP"]
+        target_ranks = ["SS", "SSS", "SSS+", "S", "AB+"]
 
         for rank in target_ranks:
             rank_rows = []

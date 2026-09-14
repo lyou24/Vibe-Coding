@@ -205,8 +205,8 @@ class TestProductionDataAndSpecParamsAudit:
         assert params == same_constant_params
         assert params["opi_sss_x"] == 1840.0
         assert params["opi_sss_y"] == 40.0
-        assert params["opi_ap_x"] == 2200.0
-        assert params["opi_ap_y"] == 40.0
+        assert params["opi_abp_x"] == 2200.0
+        assert params["opi_abp_y"] == 40.0
 
     def test_production_db_recollect_lines_record(self):
         """本番DBに Recollect Lines (MASTER) の定数ベース暫定値が反映されていること"""
@@ -225,7 +225,7 @@ class TestProductionDataAndSpecParamsAudit:
         assert recollect_master is not None, "Recollect Lines (MASTER) chart not found in production DB"
         assert recollect_master.chart_constant == 15.7
         assert recollect_master.opi_sss_x == 1840.0
-        assert recollect_master.opi_ap_x == 2200.0
+        assert recollect_master.opi_abp_x == 2200.0
         session.close()
         engine.dispose()
 
@@ -319,8 +319,8 @@ class TestScoreAchievementFlagsBoundaries:
             assert log.achieve_ss == tc[3], f"Case {i} SS mismatch"
             assert log.achieve_sss == tc[4], f"Case {i} SSS mismatch"
             assert log.achieve_sssp == tc[5], f"Case {i} SSSP mismatch"
-            assert log.achieve_abfb == tc[6], f"Case {i} ABFB mismatch"
-            assert log.achieve_ap == tc[7], f"Case {i} AP mismatch"
+            assert log.achieve_s == tc[6], f"Case {i} ABFB mismatch"
+            assert log.achieve_abp == tc[7], f"Case {i} AP mismatch"
 
         session.close()
 

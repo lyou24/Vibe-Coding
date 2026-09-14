@@ -13,8 +13,8 @@ RANK_TO_COLUMN_PREFIX = {
     "SS": "opi_ss",
     "SSS": "opi_sss",
     "SSS+": "opi_sssp",
-    "SSS+ABFB": "opi_abfb",
-    "AP": "opi_ap",
+    "S": "opi_s",
+    "AB+": "opi_abp",
 }
 
 
@@ -102,7 +102,9 @@ def main():
             "constant": meta["chart_constant"],
             "ss": params.get("SS", None),
             "sss": params.get("SSS", None),
-            "ap": params.get("AP", None),
+            "s": params.get("S", None),
+            "sssp": params.get("SSS+", None),
+            "abp": params.get("AB+", None),
         })
         
     # SSSのOPI（適正値）の降順でソート
@@ -111,7 +113,7 @@ def main():
     with open(args.markdown_out, "w", encoding="utf-8") as f:
         f.write("# OPI 難易度表（データ推計値）\n\n")
         f.write("実データから推定された楽曲ごとのOPI基準値です。SSSランク達成のOPIで降順にソートしています。\n\n")
-        f.write("| 楽曲名 | 難易度 | 定数 | SS適正OPI | SSS適正OPI | AP適正OPI |\n")
+        f.write("| 楽曲名 | 難易度 | 定数 | S適正OPI | SS適正OPI | SSS適正OPI | SSS+適正OPI | AB+適正OPI |\n")
         f.write("|---|---|---|---|---|---|\n")
         
         for row in table_data:
@@ -121,9 +123,11 @@ def main():
             
             ss_str = f"{row['ss']:.1f}" if row["ss"] is not None else "-"
             sss_str = f"{row['sss']:.1f}" if row["sss"] is not None else "-"
-            ap_str = f"{row['ap']:.1f}" if row["ap"] is not None else "-"
+            s_str = f"{row['s']:.1f}" if row["s"] is not None else "-"
+            sssp_str = f"{row['sssp']:.1f}" if row["sssp"] is not None else "-"
+            abp_str = f"{row['abp']:.1f}" if row["abp"] is not None else "-"
             
-            f.write(f"| {title} | {diff} | {const} | {ss_str} | {sss_str} | {ap_str} |\n")
+            f.write(f"| {title} | {diff} | {const} | {s_str} | {ss_str} | {sss_str} | {sssp_str} | {abp_str} |\n")
             
     print(f"Update applied to {update_counts} rank parameters in production DB.")
     print(f"Markdown table exported to {args.markdown_out}.")

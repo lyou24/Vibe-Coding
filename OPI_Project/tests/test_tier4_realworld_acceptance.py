@@ -77,18 +77,18 @@ class TestTier4RealWorldAcceptance:
                 achieve_ss=score_val >= 990000,
                 achieve_sss=score_val >= 1000000,
                 achieve_sssp=score_val >= 1007500,
-                achieve_abfb=(score_val >= 1007500 and is_ab and is_fb),
-                achieve_ap=score_val == 1010000
+                achieve_s=(score_val >= 1007500 and is_ab and is_fb),
+                achieve_abp=score_val == 1010000
             )
             test_session.add(s_log)
 
-            # 総合OPI算出用: 5目標ランク（SS, SSS, SSS+, SSS+ABFB, AP）の達成状況を投入
+            # 総合OPI算出用: 5目標ランク（SS, SSS, SSS+, S, AP）の達成状況を投入
             rank_checks = [
                 (chart.opi_ss_x, chart.opi_ss_y, s_log.achieve_ss),
                 (chart.opi_sss_x, chart.opi_sss_y, s_log.achieve_sss),
                 (chart.opi_sssp_x, chart.opi_sssp_y, s_log.achieve_sssp),
-                (chart.opi_abfb_x, chart.opi_abfb_y, s_log.achieve_abfb),
-                (chart.opi_ap_x, chart.opi_ap_y, s_log.achieve_ap),
+                (chart.opi_s_x, chart.opi_s_y, s_log.achieve_s),
+                (chart.opi_abp_x, chart.opi_abp_y, s_log.achieve_abp),
             ]
             for x_val, y_val, ach in rank_checks:
                 if x_val is not None:

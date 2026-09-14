@@ -26,8 +26,8 @@ RANK_FIELDS = {
     "SS": "achieve_ss",
     "SSS": "achieve_sss",
     "SSS+": "achieve_sssp",
-    "SSS+ABFB": "achieve_abfb",
-    "AP": "achieve_ap",
+    "S": "achieve_s",
+    "AB+": "achieve_abp",
 }
 
 
@@ -83,7 +83,7 @@ def evaluate_predictive_performance(
         scores = store.connection.execute(
             """
             SELECT s.subject_key, s.chart_id, s.achieve_ss, s.achieve_sss, s.achieve_sssp,
-                   s.achieve_abfb, s.achieve_ap, m.chart_constant
+                   s.achieve_s, s.achieve_abp, m.chart_constant
               FROM scores AS s
               JOIN chart_master_items AS m
                 ON m.version_id = ? AND m.chart_id = s.chart_id

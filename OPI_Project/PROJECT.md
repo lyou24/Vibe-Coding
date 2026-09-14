@@ -37,8 +37,8 @@
 | M1 | 配布ブートストラップ & パス動的化 | `run_opi.bat` の自動venv作成・pipインストール実装、ハードコードパス解消 | none | DONE |
 | M2 | データ層・クローラー・初期化修復 | `seed.py` での初期OPI算出、`ongeki_crawler.py` の差分閉塞解消、`(title, diff)` 厳密照合 | M1 | DONE |
 | M3 | WebUI・OPI/リコメンド完全統合 | `app.py` の5ランク統合OPI算出、多次元フィルターUI、境界値分類修正、NaN/infガード | M2 | DONE |
-| M4 | 総合E2E検証 & ドキュメント非破壊更新 | 全テスト100%パス、ID 10605 実動作検証、`OPI要件定義書.md` 履歴更新、Gitプッシュ | M3 | IN_PROGRESS |
-| M5 | フォレンジック監査 & 最終判定 | `teamwork_preview_auditor` による完全性検証、Sentinel報告 | M4 | PLANNED |
+| M4 | 総合E2E検証 & ドキュメント非破壊更新 | 全テスト100%パス、ID 10605 実動作検証、`OPI要件定義書.md` 履歴更新、Gitプッシュ | M3 | DONE |
+| M5 | フォレンジック監査 & 最終判定 | `teamwork_preview_auditor` による完全性検証、Sentinel完了報告 | M4 | DONE |
 
 ---
 
@@ -72,4 +72,5 @@
     - `visualizer/plotter.py`: グラフ描画
     - `crawler/ongeki_crawler.py`: クローラー
   - `tests/`: pytest テストスイート（Tiers 1〜4）
+
 

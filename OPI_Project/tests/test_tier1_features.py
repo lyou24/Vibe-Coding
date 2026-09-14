@@ -153,16 +153,16 @@ class TestTier1OPICalculation:
         assert calc.irt_probability(-10000.0, x, y) == 0.0
 
     def test_five_target_ranks_parameters_coverage(self, seed_charts):
-        """5つの目標ランク（SS, SSS, SSS+, SSS+ABFB, AP）すべてに対して適正OPIが定義されていること"""
+        """5つの目標ランク（SS, SSS, SSS+, S, AP）すべてに対して適正OPIが定義されていること"""
         ongeki = next(c for c in seed_charts if c.chart_id == "mas_ongeki")
         assert ongeki.opi_ss_x is not None
         assert ongeki.opi_sss_x is not None
         assert ongeki.opi_sssp_x is not None
-        assert ongeki.opi_abfb_x is not None
-        assert ongeki.opi_ap_x is not None
+        assert ongeki.opi_s_x is not None
+        assert ongeki.opi_abp_x is not None
 
-        # 難易度の序列関係: SS < SSS < SSS+ < SSS+ABFB <= AP
-        assert ongeki.opi_ss_x < ongeki.opi_sss_x < ongeki.opi_sssp_x < ongeki.opi_abfb_x <= ongeki.opi_ap_x
+        # 難易度の序列関係: SS < SSS < SSS+ < S <= AP
+        assert ongeki.opi_ss_x < ongeki.opi_sss_x < ongeki.opi_sssp_x < ongeki.opi_s_x <= ongeki.opi_abp_x
 
     def test_mle_total_opi_estimation(self):
         """最尤推定（MLE）による総合OPI算出が実力分布に応じて適切に推定されること"""

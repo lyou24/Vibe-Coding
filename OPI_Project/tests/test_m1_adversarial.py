@@ -360,7 +360,7 @@ class TestSeedIdempotencyAndStress:
             s3 = cur.fetchone()[0]
 
             # 達成フラグが正しく計算されているか確認
-            cur.execute("SELECT chart_id, achieve_ss, achieve_sss, achieve_sssp, achieve_abfb, achieve_ap FROM score_logs WHERE user_id = 10605")
+            cur.execute("SELECT chart_id, achieve_ss, achieve_sss, achieve_sssp, achieve_s, achieve_abp FROM score_logs WHERE user_id = 10605")
             logs = {row[0]: row[1:] for row in cur.fetchall()}
             conn.close()
 
@@ -674,8 +674,8 @@ class TestRealDatabaseIntegrity:
         low_params = calculate_initial_chart_params("任意の曲A", 14.0)
         high_params = calculate_initial_chart_params("任意の曲B", 15.7)
         assert low_params["opi_ss_x"] < low_params["opi_sss_x"] < low_params["opi_sssp_x"]
-        assert low_params["opi_sssp_x"] < low_params["opi_abfb_x"] < low_params["opi_ap_x"]
-        assert high_params["opi_ap_x"] > low_params["opi_ap_x"]
+        assert low_params["opi_sssp_x"] < low_params["opi_s_x"] < low_params["opi_abp_x"]
+        assert high_params["opi_abp_x"] > low_params["opi_abp_x"]
 
 
         # 3. 外部キー整合性チェック (PRAGMA foreign_key_check)

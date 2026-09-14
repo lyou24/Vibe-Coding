@@ -195,27 +195,27 @@ class TestM2ChallengerAdversarial:
             session = Session()
 
             charts = [
-                Chart(chart_id='target_1', title='Target 1', difficulty=DifficultyEnum.MASTER, level='15+', chart_constant=15.7, opi_sss_x=1640.0, opi_ap_x=2010.0, opi_sss_y=40.0),
-                Chart(chart_id='target_2', title='Target 2', difficulty=DifficultyEnum.MASTER, level='15+', chart_constant=15.8, opi_sss_x=1650.0, opi_ap_x=2020.0, opi_sss_y=40.0),
-                Chart(chart_id='diff_level', title='Diff Level', difficulty=DifficultyEnum.MASTER, level='15', chart_constant=15.7, opi_sss_x=1640.0, opi_ap_x=2010.0, opi_sss_y=40.0),
-                Chart(chart_id='diff_const_low', title='Diff Const Low', difficulty=DifficultyEnum.MASTER, level='15+', chart_constant=15.6, opi_sss_x=1640.0, opi_ap_x=2010.0, opi_sss_y=40.0),
-                Chart(chart_id='diff_const_high', title='Diff Const High', difficulty=DifficultyEnum.MASTER, level='15+', chart_constant=15.9, opi_sss_x=1640.0, opi_ap_x=2010.0, opi_sss_y=40.0),
-                Chart(chart_id='already_ap', title='Already AP', difficulty=DifficultyEnum.MASTER, level='15+', chart_constant=15.7, opi_sss_x=1640.0, opi_ap_x=2010.0, opi_sss_y=40.0),
+                Chart(chart_id='target_1', title='Target 1', difficulty=DifficultyEnum.MASTER, level='15+', chart_constant=15.7, opi_sss_x=1640.0, opi_abp_x=2010.0, opi_sss_y=40.0),
+                Chart(chart_id='target_2', title='Target 2', difficulty=DifficultyEnum.MASTER, level='15+', chart_constant=15.8, opi_sss_x=1650.0, opi_abp_x=2020.0, opi_sss_y=40.0),
+                Chart(chart_id='diff_level', title='Diff Level', difficulty=DifficultyEnum.MASTER, level='15', chart_constant=15.7, opi_sss_x=1640.0, opi_abp_x=2010.0, opi_sss_y=40.0),
+                Chart(chart_id='diff_const_low', title='Diff Const Low', difficulty=DifficultyEnum.MASTER, level='15+', chart_constant=15.6, opi_sss_x=1640.0, opi_abp_x=2010.0, opi_sss_y=40.0),
+                Chart(chart_id='diff_const_high', title='Diff Const High', difficulty=DifficultyEnum.MASTER, level='15+', chart_constant=15.9, opi_sss_x=1640.0, opi_abp_x=2010.0, opi_sss_y=40.0),
+                Chart(chart_id='already_ap', title='Already AP', difficulty=DifficultyEnum.MASTER, level='15+', chart_constant=15.7, opi_sss_x=1640.0, opi_abp_x=2010.0, opi_sss_y=40.0),
             ]
             session.add_all(charts)
 
             player = Player(user_id=222, player_name='FilterUser', rating=19.5, total_opi=2000.0)
             session.add(player)
 
-            session.add(ScoreLog(user_id=222, chart_id='target_2', score=1008000, is_all_break=True, is_full_bell=True, achieve_ss=True, achieve_sss=True, achieve_sssp=True, achieve_abfb=True, achieve_ap=False))
-            session.add(ScoreLog(user_id=222, chart_id='already_ap', score=1010000, is_all_break=True, is_full_bell=True, achieve_ss=True, achieve_sss=True, achieve_sssp=True, achieve_abfb=True, achieve_ap=True))
+            session.add(ScoreLog(user_id=222, chart_id='target_2', score=1008000, is_all_break=True, is_full_bell=True, achieve_ss=True, achieve_sss=True, achieve_sssp=True, achieve_s=True, achieve_abp=False))
+            session.add(ScoreLog(user_id=222, chart_id='already_ap', score=1010000, is_all_break=True, is_full_bell=True, achieve_ss=True, achieve_sss=True, achieve_sssp=True, achieve_s=True, achieve_abp=True))
             session.commit()
 
             recommender = OPIRecommender(db_path)
 
             recs = recommender.get_recommendations(
                 user_id=222,
-                target_rank='AP',
+                target_rank='AB+',
                 level='15+',
                 chart_constant_min=15.7,
                 chart_constant_max=15.8,
@@ -227,7 +227,7 @@ class TestM2ChallengerAdversarial:
 
             recs_unplay = recommender.get_recommendations(
                 user_id=222,
-                target_rank='AP',
+                target_rank='AB+',
                 level='15+',
                 chart_constant_min=15.7,
                 chart_constant_max=15.8,
@@ -237,7 +237,7 @@ class TestM2ChallengerAdversarial:
 
             recs_empty = recommender.get_recommendations(
                 user_id=222,
-                target_rank='AP',
+                target_rank='AB+',
                 chart_constant_min=15.9,
                 chart_constant_max=15.7
             )
@@ -257,8 +257,8 @@ class TestM2ChallengerAdversarial:
 
             charts = [
                 Chart(chart_id=f'chart_r_{r}', title=f'Rank_{r}', difficulty=DifficultyEnum.MASTER, level='15', chart_constant=15.0,
-                      opi_ss_x=1400.0, opi_sss_x=1650.0, opi_sssp_x=1800.0, opi_abfb_x=1900.0, opi_ap_x=2020.0, opi_sss_y=40.0)
-                for r in ['ss', 'sss', 'sssp', 'abfb', 'ap']
+                      opi_ss_x=1400.0, opi_sss_x=1650.0, opi_sssp_x=1800.0, opi_s_x=1900.0, opi_abp_x=2020.0, opi_sss_y=40.0)
+                for r in ['ss', 'sss', 'sssp', 's', 'abp']
             ]
             session.add_all(charts)
 
@@ -268,8 +268,8 @@ class TestM2ChallengerAdversarial:
             session.add(ScoreLog(user_id=333, chart_id='chart_r_ss', score=995000, achieve_ss=True))
             session.add(ScoreLog(user_id=333, chart_id='chart_r_sss', score=1002000, achieve_ss=True, achieve_sss=True))
             session.add(ScoreLog(user_id=333, chart_id='chart_r_sssp', score=1008000, is_all_break=False, achieve_ss=True, achieve_sss=True, achieve_sssp=True))
-            session.add(ScoreLog(user_id=333, chart_id='chart_r_abfb', score=1008500, is_all_break=True, is_full_bell=True, achieve_ss=True, achieve_sss=True, achieve_sssp=True, achieve_abfb=True))
-            session.add(ScoreLog(user_id=333, chart_id='chart_r_ap', score=1010000, is_all_break=True, is_full_bell=True, achieve_ss=True, achieve_sss=True, achieve_sssp=True, achieve_abfb=True, achieve_ap=True))
+            session.add(ScoreLog(user_id=333, chart_id='chart_r_abfb', score=1008500, is_all_break=True, is_full_bell=True, achieve_ss=True, achieve_sss=True, achieve_sssp=True, achieve_s=True))
+            session.add(ScoreLog(user_id=333, chart_id='chart_r_ap', score=1010000, is_all_break=True, is_full_bell=True, achieve_ss=True, achieve_sss=True, achieve_sssp=True, achieve_s=True, achieve_abp=True))
             session.commit()
 
             recommender = OPIRecommender(db_path)
@@ -282,10 +282,10 @@ class TestM2ChallengerAdversarial:
             recs_sssp = recommender.get_recommendations(user_id=333, target_rank='SSS+', win_rate_min=0.0, win_rate_max=1.0)
             assert set(r['chart_id'] for r in recs_sssp) == {'chart_r_ss', 'chart_r_sss'}
 
-            recs_abfb = recommender.get_recommendations(user_id=333, target_rank='SSS+ABFB', win_rate_min=0.0, win_rate_max=1.0)
+            recs_abfb = recommender.get_recommendations(user_id=333, target_rank='S', win_rate_min=0.0, win_rate_max=1.0)
             assert set(r['chart_id'] for r in recs_abfb) == {'chart_r_ss', 'chart_r_sss', 'chart_r_sssp'}
 
-            recs_ap = recommender.get_recommendations(user_id=333, target_rank='AP', win_rate_min=0.0, win_rate_max=1.0)
+            recs_ap = recommender.get_recommendations(user_id=333, target_rank='AB+', win_rate_min=0.0, win_rate_max=1.0)
             assert set(r['chart_id'] for r in recs_ap) == {'chart_r_ss', 'chart_r_sss', 'chart_r_sssp', 'chart_r_abfb'}
 
             session.close()

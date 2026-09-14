@@ -166,7 +166,7 @@ def test_database_integrity():
     # 2.2 score_logs のスコア値・フラグ整合性
     cur.execute("""
         SELECT score, is_all_break, is_full_bell, 
-               achieve_ss, achieve_sss, achieve_sssp, achieve_abfb, achieve_ap 
+               achieve_ss, achieve_sss, achieve_sssp, achieve_s, achieve_abp 
         FROM score_logs WHERE user_id = 10605
     """)
     rows = cur.fetchall()
@@ -232,7 +232,7 @@ def test_database_integrity():
         print(f"  {u.get('title')} ({u.get('difficulty')}) - score: {u.get('score')}")
 
     # 2.4 要件定義書3.4の公称パラメータ値チェック
-    cur.execute("SELECT title, opi_sss_x, opi_sss_y, opi_ap_x, opi_ap_y FROM charts WHERE title IN ('怨撃', 'Apollo', 'Recoil', '光焔のラテラルアーク', 'Op.I《fear-TITΛN-》', 'Trrricksters!!', '感情アクセラレイション', 'Starring Stars')")
+    cur.execute("SELECT title, opi_sss_x, opi_sss_y, opi_abp_x, opi_abp_y FROM charts WHERE title IN ('怨撃', 'Apollo', 'Recoil', '光焔のラテラルアーク', 'Op.I《fear-TITΛN-》', 'Trrricksters!!', '感情アクセラレイション', 'Starring Stars')")
     spec_rows = cur.fetchall()
     print("\nSpec parameter checks:")
     for r in spec_rows:

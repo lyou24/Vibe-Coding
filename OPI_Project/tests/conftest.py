@@ -45,8 +45,8 @@ def seed_charts(test_session):
             opi_ss_x=1350.0, opi_ss_y=42.1,
             opi_sss_x=1716.9, opi_sss_y=42.1,
             opi_sssp_x=1850.0, opi_sssp_y=42.1,
-            opi_abfb_x=1950.0, opi_abfb_y=42.1,
-            opi_ap_x=2086.9, opi_ap_y=42.1
+            opi_s_x=1950.0, opi_s_y=42.1,
+            opi_abp_x=2086.9, opi_abp_y=42.1
         ),
         Chart(
             chart_id="mas_apollo",
@@ -57,8 +57,8 @@ def seed_charts(test_session):
             opi_ss_x=1340.0, opi_ss_y=55.9,
             opi_sss_x=1700.7, opi_sss_y=55.9,
             opi_sssp_x=1830.0, opi_sssp_y=55.9,
-            opi_abfb_x=1930.0, opi_abfb_y=55.9,
-            opi_ap_x=2070.7, opi_ap_y=55.9
+            opi_s_x=1930.0, opi_s_y=55.9,
+            opi_abp_x=2070.7, opi_abp_y=55.9
         ),
         Chart(
             chart_id="mas_recoil",
@@ -69,8 +69,8 @@ def seed_charts(test_session):
             opi_ss_x=1330.0, opi_ss_y=55.3,
             opi_sss_x=1697.1, opi_sss_y=55.3,
             opi_sssp_x=1820.0, opi_sssp_y=55.3,
-            opi_abfb_x=1920.0, opi_abfb_y=55.3,
-            opi_ap_x=2060.0, opi_ap_y=55.3
+            opi_s_x=1920.0, opi_s_y=55.3,
+            opi_abp_x=2060.0, opi_abp_y=55.3
         ),
         Chart(
             chart_id="mas_lateral_arc",
@@ -81,8 +81,8 @@ def seed_charts(test_session):
             opi_ss_x=1260.0, opi_ss_y=36.4,
             opi_sss_x=1576.1, opi_sss_y=36.4,
             opi_sssp_x=1710.0, opi_sssp_y=36.4,
-            opi_abfb_x=1810.0, opi_abfb_y=36.4,
-            opi_ap_x=1946.1, opi_ap_y=36.4
+            opi_s_x=1810.0, opi_s_y=36.4,
+            opi_abp_x=1946.1, opi_abp_y=36.4
         ),
         Chart(
             chart_id="mas_op1_titan",
@@ -93,8 +93,8 @@ def seed_charts(test_session):
             opi_ss_x=1220.0, opi_ss_y=46.2,
             opi_sss_x=1528.3, opi_sss_y=46.2,
             opi_sssp_x=1660.0, opi_sssp_y=46.2,
-            opi_abfb_x=1760.0, opi_abfb_y=46.2,
-            opi_ap_x=1890.0, opi_ap_y=46.2
+            opi_s_x=1760.0, opi_s_y=46.2,
+            opi_abp_x=1890.0, opi_abp_y=46.2
         ),
         Chart(
             chart_id="mas_trrricksters",
@@ -105,8 +105,8 @@ def seed_charts(test_session):
             opi_ss_x=1150.0, opi_ss_y=43.1,
             opi_sss_x=1453.7, opi_sss_y=43.1,
             opi_sssp_x=1580.0, opi_sssp_y=43.1,
-            opi_abfb_x=1680.0, opi_abfb_y=43.1,
-            opi_ap_x=1823.7, opi_ap_y=43.1
+            opi_s_x=1680.0, opi_s_y=43.1,
+            opi_abp_x=1823.7, opi_abp_y=43.1
         ),
         Chart(
             chart_id="mas_kanjou_acceleration",
@@ -117,8 +117,8 @@ def seed_charts(test_session):
             opi_ss_x=1020.0, opi_ss_y=39.2,
             opi_sss_x=1238.5, opi_sss_y=39.2,
             opi_sssp_x=1360.0, opi_sssp_y=39.2,
-            opi_abfb_x=1460.0, opi_abfb_y=39.2,
-            opi_ap_x=1608.5, opi_ap_y=39.2
+            opi_s_x=1460.0, opi_s_y=39.2,
+            opi_abp_x=1608.5, opi_abp_y=39.2
         ),
         Chart(
             chart_id="mas_starring_stars",
@@ -129,8 +129,8 @@ def seed_charts(test_session):
             opi_ss_x=980.0, opi_ss_y=42.0,
             opi_sss_x=1169.8, opi_sss_y=42.0,
             opi_sssp_x=1290.0, opi_sssp_y=42.0,
-            opi_abfb_x=1390.0, opi_abfb_y=42.0,
-            opi_ap_x=1539.8, opi_ap_y=42.0
+            opi_s_x=1390.0, opi_s_y=42.0,
+            opi_abp_x=1539.8, opi_abp_y=42.0
         ),
         Chart(
             chart_id="mas_titania",
@@ -141,8 +141,8 @@ def seed_charts(test_session):
             opi_ss_x=1280.0, opi_ss_y=40.0,
             opi_sss_x=1610.0, opi_sss_y=40.0,
             opi_sssp_x=1750.0, opi_sssp_y=40.0,
-            opi_abfb_x=1850.0, opi_abfb_y=40.0,
-            opi_ap_x=1980.0, opi_ap_y=40.0
+            opi_s_x=1850.0, opi_s_y=40.0,
+            opi_abp_x=1980.0, opi_abp_y=40.0
         ),
         Chart(
             chart_id="mas_marble_blue",
@@ -153,8 +153,8 @@ def seed_charts(test_session):
             opi_ss_x=1260.0, opi_ss_y=38.0,
             opi_sss_x=1580.0, opi_sss_y=38.0,
             opi_sssp_x=1720.0, opi_sssp_y=38.0,
-            opi_abfb_x=1820.0, opi_abfb_y=38.0,
-            opi_ap_x=1950.0, opi_ap_y=38.0
+            opi_s_x=1820.0, opi_s_y=38.0,
+            opi_abp_x=1950.0, opi_abp_y=38.0
         ),
         Chart(
             chart_id="mas_viyellas_tears",
@@ -165,8 +165,8 @@ def seed_charts(test_session):
             opi_ss_x=1200.0, opi_ss_y=42.0,
             opi_sss_x=1510.0, opi_sss_y=42.0,
             opi_sssp_x=1650.0, opi_sssp_y=42.0,
-            opi_abfb_x=1750.0, opi_abfb_y=42.0,
-            opi_ap_x=1880.0, opi_ap_y=42.0
+            opi_s_x=1750.0, opi_s_y=42.0,
+            opi_abp_x=1880.0, opi_abp_y=42.0
         ),
         Chart(
             chart_id="mas_stargazing",
@@ -177,8 +177,8 @@ def seed_charts(test_session):
             opi_ss_x=1170.0, opi_ss_y=43.0,
             opi_sss_x=1470.0, opi_sss_y=43.0,
             opi_sssp_x=1600.0, opi_sssp_y=43.0,
-            opi_abfb_x=1700.0, opi_abfb_y=43.0,
-            opi_ap_x=1840.0, opi_ap_y=43.0
+            opi_s_x=1700.0, opi_s_y=43.0,
+            opi_abp_x=1840.0, opi_abp_y=43.0
         ),
         Chart(
             chart_id="mas_meteorsnow",
@@ -189,8 +189,8 @@ def seed_charts(test_session):
             opi_ss_x=1130.0, opi_ss_y=41.0,
             opi_sss_x=1430.0, opi_sss_y=41.0,
             opi_sssp_x=1560.0, opi_sssp_y=41.0,
-            opi_abfb_x=1660.0, opi_abfb_y=41.0,
-            opi_ap_x=1800.0, opi_ap_y=41.0
+            opi_s_x=1660.0, opi_s_y=41.0,
+            opi_abp_x=1800.0, opi_abp_y=41.0
         ),
         Chart(
             chart_id="mas_dftm",
@@ -201,8 +201,8 @@ def seed_charts(test_session):
             opi_ss_x=1300.0, opi_ss_y=45.0,
             opi_sss_x=1680.0, opi_sss_y=45.0,
             opi_sssp_x=1800.0, opi_sssp_y=45.0,
-            opi_abfb_x=1900.0, opi_abfb_y=45.0,
-            opi_ap_x=2030.0, opi_ap_y=45.0
+            opi_s_x=1900.0, opi_s_y=45.0,
+            opi_abp_x=2030.0, opi_abp_y=45.0
         ),
     ]
     for c in charts:

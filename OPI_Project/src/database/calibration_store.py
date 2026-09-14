@@ -78,8 +78,8 @@ class CalibrationStore:
                 achieve_ss INTEGER NOT NULL CHECK(achieve_ss IN (0, 1)),
                 achieve_sss INTEGER NOT NULL CHECK(achieve_sss IN (0, 1)),
                 achieve_sssp INTEGER NOT NULL CHECK(achieve_sssp IN (0, 1)),
-                achieve_abfb INTEGER NOT NULL CHECK(achieve_abfb IN (0, 1)),
-                achieve_ap INTEGER NOT NULL CHECK(achieve_ap IN (0, 1)),
+                achieve_s INTEGER NOT NULL CHECK(achieve_s IN (0, 1)),
+                achieve_abp INTEGER NOT NULL CHECK(achieve_abp IN (0, 1)),
                 source_updated_at TEXT NOT NULL,
                 PRIMARY KEY(subject_key, chart_id),
                 FOREIGN KEY(subject_key) REFERENCES players(subject_key) ON DELETE CASCADE
@@ -285,7 +285,7 @@ class CalibrationStore:
                     INSERT INTO scores(
                         subject_key, chart_id, music_id, title, difficulty, level, score,
                         is_all_break, is_full_bell, achieve_ss, achieve_sss, achieve_sssp,
-                        achieve_abfb, achieve_ap, source_updated_at
+                        achieve_s, achieve_abp, source_updated_at
                     ) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                     ON CONFLICT(subject_key, chart_id) DO UPDATE SET
                         title = excluded.title,
@@ -296,8 +296,8 @@ class CalibrationStore:
                         achieve_ss = excluded.achieve_ss,
                         achieve_sss = excluded.achieve_sss,
                         achieve_sssp = excluded.achieve_sssp,
-                        achieve_abfb = excluded.achieve_abfb,
-                        achieve_ap = excluded.achieve_ap,
+                        achieve_s = excluded.achieve_s,
+                        achieve_abp = excluded.achieve_abp,
                         source_updated_at = excluded.source_updated_at
                     WHERE excluded.source_updated_at >= scores.source_updated_at
                       AND excluded.score >= scores.score
@@ -315,7 +315,7 @@ class CalibrationStore:
                         score_value >= 990_000,
                         score_value >= 1_000_000,
                         score_value >= 1_007_500,
-                        score_value >= 1_007_500 and is_ab and is_fb,
+                        score_value >= 975_000,
                         score_value == 1_010_000,
                         source_updated_at,
                     ),

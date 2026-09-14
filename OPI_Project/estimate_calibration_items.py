@@ -19,11 +19,11 @@ from src.database.calibration_store import CalibrationStore
 PROJECT_ROOT = Path(__file__).resolve().parent
 DEFAULT_CALIBRATION_DB = PROJECT_ROOT / "data" / "opi_calibration.sqlite"
 RANK_FIELDS = {
+    "S": "achieve_s",
     "SS": "achieve_ss",
     "SSS": "achieve_sss",
     "SSS+": "achieve_sssp",
-    "SSS+ABFB": "achieve_abfb",
-    "AP": "achieve_ap",
+    "AB+": "achieve_abp",
 }
 
 
@@ -65,8 +65,8 @@ def resolve_ability_run(store: CalibrationStore, ability_run_id: int | None):
 def load_item_observations(store: CalibrationStore, ability_run_id: int, master_version_id: str):
     rows = store.connection.execute(
         """
-        SELECT s.chart_id, s.achieve_ss, s.achieve_sss, s.achieve_sssp,
-               s.achieve_abfb, s.achieve_ap, a.theta, a.subject_key
+        SELECT s.chart_id, s.achieve_s, s.achieve_ss, s.achieve_sss, s.achieve_sssp,
+               s.achieve_abp, a.theta, a.subject_key
           FROM player_ability_estimates AS a
           JOIN scores AS s ON s.subject_key = a.subject_key
           JOIN chart_master_items AS m
@@ -88,8 +88,8 @@ def load_item_observations(store: CalibrationStore, ability_run_id: int, master_
         digest.update(
             (
                 f"{row['chart_id']}\0{row['subject_key']}\0{row['theta']:.12g}\0"
-                f"{row['achieve_ss']}{row['achieve_sss']}{row['achieve_sssp']}"
-                f"{row['achieve_abfb']}{row['achieve_ap']}\n"
+                f"{row['achieve_s']}{row['achieve_ss']}{row['achieve_sss']}"
+                f"{row['achieve_sssp']}{row['achieve_abp']}\n"
             ).encode("utf-8")
         )
     return grouped, digest.hexdigest()

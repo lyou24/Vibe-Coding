@@ -101,13 +101,13 @@ def test_score_log_flags_integrity():
     - score >= 990000 -> achieve_ss == True
     - score >= 1000000 -> achieve_sss == True
     - score >= 1007500 -> achieve_sssp == True
-    - score >= 1007500 and is_ab and is_fb -> achieve_abfb == True
-    - score == 1010000 -> achieve_ap == True
+    - score >= 1007500 and is_ab and is_fb -> achieve_s == True
+    - score == 1010000 -> achieve_abp == True
     """
     conn = sqlite3.connect(DB_PATH)
     cur = conn.cursor()
     cur.execute("""
-        SELECT score, is_all_break, is_full_bell, achieve_ss, achieve_sss, achieve_sssp, achieve_abfb, achieve_ap
+        SELECT score, is_all_break, is_full_bell, achieve_ss, achieve_sss, achieve_sssp, achieve_s, achieve_abp
         FROM score_logs WHERE user_id = 10605
     """)
     rows = cur.fetchall()
@@ -119,8 +119,8 @@ def test_score_log_flags_integrity():
         assert bool(sss) == (s >= 1000000), f"achieve_sss 不整合: score={s}, flag={sss}"
         assert bool(sssp) == (s >= 1007500), f"achieve_sssp 不整合: score={s}, flag={sssp}"
         expected_abfb = (s >= 1007500 and bool(is_ab) and bool(is_fb))
-        assert bool(abfb) == expected_abfb, f"achieve_abfb 不整合: score={s}, ab={is_ab}, fb={is_fb}, flag={abfb}"
-        assert bool(ap) == (s == 1010000), f"achieve_ap 不整合: score={s}, flag={ap}"
+        assert bool(abfb) == expected_abfb, f"achieve_s 不整合: score={s}, ab={is_ab}, fb={is_fb}, flag={abfb}"
+        assert bool(ap) == (s == 1010000), f"achieve_abp 不整合: score={s}, flag={ap}"
 
 
 def test_crawler_force_flag_adversarial():

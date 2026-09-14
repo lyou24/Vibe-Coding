@@ -63,8 +63,8 @@ class TestTier3CrossFeatureIntegration:
                 achieve_ss=score_val >= 990000,
                 achieve_sss=score_val >= 1000000,
                 achieve_sssp=score_val >= 1007500,
-                achieve_abfb=(score_val >= 1007500 and ab and fb),
-                achieve_ap=score_val == 1010000
+                achieve_s=(score_val >= 1007500 and ab and fb),
+                achieve_abp=score_val == 1010000
             )
             test_session.add(s_log)
 

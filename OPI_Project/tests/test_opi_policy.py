@@ -16,10 +16,10 @@ def make_chart(chart_id: str, constant: float):
         opi_sss_y=None,
         opi_sssp_x=None,
         opi_sssp_y=None,
-        opi_abfb_x=None,
-        opi_abfb_y=None,
-        opi_ap_x=None,
-        opi_ap_y=None,
+        opi_s_x=None,
+        opi_s_y=None,
+        opi_abp_x=None,
+        opi_abp_y=None,
     )
 
 
@@ -31,8 +31,8 @@ def test_seed_params_and_calculator_fallback_are_identical():
         "SS": "ss",
         "SSS": "sss",
         "SSS+": "sssp",
-        "SSS+ABFB": "abfb",
-        "AP": "ap",
+        "S": "s",
+        "AB+": "abp",
     }
 
     for rank, column_name in column_names.items():

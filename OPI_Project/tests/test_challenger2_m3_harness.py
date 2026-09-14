@@ -5,7 +5,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")
 Milestone 3 Empirical Verification Harness — Challenger 2
 =========================================================
 Adversarial Verification Suite for:
-1. Dynamic Difficulty Table Generation across all 5 Target Ranks (SS, SSS, SSS+, SSS+ABFB, AP)
+1. Dynamic Difficulty Table Generation across all 5 Target Ranks (SS, SSS, SSS+, S, AP)
 2. Monotonicity & Statistical Consistency of Difficulty Parameters
 3. Resilient Error Handling for Anomalous/Corrupted Charts in Difficulty Table
 4. Safe Atomic Crawler Updates & Differential Blockade Prevention (スコア失敗時のロールバックと差分閉塞防止)
@@ -45,8 +45,8 @@ class TestChallenger2M3DifficultyTable:
         engine.dispose()
 
     def test_difficulty_table_all_five_ranks_dynamic_generation(self):
-        """全5目標ランク（SS, SSS, SSS+, SSS+ABFB, AP）で実DB全譜面の動的生成および昇順ソートを検証"""
-        target_ranks = ["SS", "SSS", "SSS+", "SSS+ABFB", "AP"]
+        """全5目標ランク（SS, SSS, SSS+, S, AP）で実DB全譜面の動的生成および昇順ソートを検証"""
+        target_ranks = ["SS", "SSS", "SSS+", "S", "AB+"]
         charts = self.session.query(Chart).order_by(Chart.chart_constant.asc(), Chart.title.asc()).all()
         assert len(charts) > 0, "実DBに譜面データが存在すること"
 
@@ -99,36 +99,36 @@ class TestChallenger2M3DifficultyTable:
             opi_ss_x=None,
             opi_sss_x=None,
             opi_sssp_x=None,
-            opi_abfb_x=None,
-            opi_ap_x=None
+            opi_s_x=None,
+            opi_abp_x=None
         )
 
-        target_ranks = ["SS", "SSS", "SSS+", "SSS+ABFB", "AP"]
+        target_ranks = ["SS", "SSS", "SSS+", "S", "AB+"]
         params = {}
         for rank in target_ranks:
             x, y = calc.get_chart_rank_params(chart_mock, rank)
             assert x is not None, f"補完値が存在すること: {rank}"
             params[rank] = x
 
-        # 基準アンカー補完における厳密な単調増加: SS < SSS < SSS+ < SSS+ABFB < AP
+        # 基準アンカー補完における厳密な単調増加: SS < SSS < SSS+ < S < AP
         assert params["SS"] < params["SSS"], f"SS({params['SS']}) < SSS({params['SSS']})"
         assert params["SSS"] < params["SSS+"], f"SSS({params['SSS']}) < SSS+({params['SSS+']})"
-        assert params["SSS+"] < params["SSS+ABFB"], f"SSS+({params['SSS+']}) < SSS+ABFB({params['SSS+ABFB']})"
-        assert params["SSS+ABFB"] < params["AP"], f"SSS+ABFB({params['SSS+ABFB']}) < AP({params['AP']})"
+        assert params["SSS+"] < params["S"], f"SSS+({params['SSS+']}) < S({params['S']})"
+        assert params["S"] < params["AB+"], f"S({params['S']}) < AP({params['AB+']})"
 
         # 仕様オフセットの厳密一致確認
         sss_val = params["SSS"]
         assert params["SS"] == pytest.approx(sss_val - 120.0)
         assert params["SSS+"] == pytest.approx(sss_val + 120.0)
-        assert params["SSS+ABFB"] == pytest.approx(sss_val + 240.0)
-        assert params["AP"] == pytest.approx(sss_val + 360.0)
+        assert params["S"] == pytest.approx(sss_val + 240.0)
+        assert params["AB+"] == pytest.approx(sss_val + 360.0)
 
     def test_difficulty_table_real_db_macro_rank_consistency(self):
-        """実DB全譜面におけるマクロ的ランク難易度順序（平均値の序列: SS < SSS < SSS+ < SSS+ABFB < AP）を検証"""
+        """実DB全譜面におけるマクロ的ランク難易度順序（平均値の序列: SS < SSS < SSS+ < S < AP）を検証"""
         charts = self.session.query(Chart).all()
         assert len(charts) > 0
 
-        target_ranks = ["SS", "SSS", "SSS+", "SSS+ABFB", "AP"]
+        target_ranks = ["SS", "SSS", "SSS+", "S", "AB+"]
         rank_means = {}
 
         for rank in target_ranks:
@@ -141,7 +141,7 @@ class TestChallenger2M3DifficultyTable:
             rank_means[rank] = np.mean(values)
 
         # マクロ的な平均適正OPIの序列が正しく反映されていること
-        assert rank_means["SS"] < rank_means["SSS"] < rank_means["SSS+"] < rank_means["SSS+ABFB"] < rank_means["AP"], \
+        assert rank_means["SS"] < rank_means["SSS"] < rank_means["SSS+"] < rank_means["S"] < rank_means["AB+"], \
             f"マクロ平均難易度の序列が不正です: {rank_means}"
 
     def test_difficulty_table_anomalous_corrupted_charts_resilience(self):
@@ -166,7 +166,7 @@ class TestChallenger2M3DifficultyTable:
         ]
 
         calc = OPICalculator()
-        target_ranks = ["SS", "SSS", "SSS+", "SSS+ABFB", "AP"]
+        target_ranks = ["SS", "SSS", "SSS+", "S", "AB+"]
 
         for c in anomalous_charts:
             for rank in target_ranks:

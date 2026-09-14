@@ -7,7 +7,7 @@ from src.analyzer.opi_policy import calculate_fallback_rank_params
 
 logger = logging.getLogger(__name__)
 
-TARGET_RANKS = ["SS", "SSS", "SSS+", "SSS+ABFB", "AP"]
+TARGET_RANKS = ["S", "SS", "SSS", "SSS+", "AB+"]
 MIN_TARGET_CONSTANT = 14.0
 MIN_ELIGIBLE_SCORE = 970000
 
@@ -22,10 +22,10 @@ def normalize_rank(rank: str) -> str:
         return "SSS"
     if r in ("SSS+", "SSSP", "SSS_PLUS"):
         return "SSS+"
-    if r in ("SSS+ABFB", "SSS+ ABFB", "ABFB", "SSSP_ABFB"):
-        return "SSS+ABFB"
+    if r in ("AB+", "ABP"):
+        return "AB+"
     if r in ("AP", "ALL PERFECT", "ALLPERFECT"):
-        return "AP"
+        return "S"
     return r
 
 class OPICalculator:
@@ -58,11 +58,11 @@ class OPICalculator:
             x = getattr(chart, "opi_sssp_x", None)
             y = getattr(chart, "opi_sssp_y", None)
         elif norm_rank == "SSS+ABFB":
-            x = getattr(chart, "opi_abfb_x", None)
-            y = getattr(chart, "opi_abfb_y", None)
+            x = getattr(chart, "opi_s_x", None)
+            y = getattr(chart, "opi_s_y", None)
         elif norm_rank == "AP":
-            x = getattr(chart, "opi_ap_x", None)
-            y = getattr(chart, "opi_ap_y", None)
+            x = getattr(chart, "opi_abp_x", None)
+            y = getattr(chart, "opi_abp_y", None)
 
         # 2. 個人差度 y のフォールバック
         if y is None or y <= 0:
@@ -221,8 +221,8 @@ class OPICalculator:
             ach_ss = getattr(s, "achieve_ss", False) or (score_val >= 990000)
             ach_sss = getattr(s, "achieve_sss", False) or (score_val >= 1000000)
             ach_sssp = getattr(s, "achieve_sssp", False) or (score_val >= 1007500)
-            ach_abfb = getattr(s, "achieve_abfb", False) or (score_val >= 1007500 and is_ab and is_fb)
-            ach_ap = getattr(s, "achieve_ap", False) or (score_val >= 1010000)
+            ach_abfb = getattr(s, "achieve_s", False) or (score_val >= 1007500 and is_ab and is_fb)
+            ach_ap = getattr(s, "achieve_abp", False) or (score_val >= 1010000)
 
             rank_status = [
                 ("SS", ach_ss),

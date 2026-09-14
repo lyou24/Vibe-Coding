@@ -31,10 +31,10 @@ class Chart(Base):
     opi_sss_y = Column(Float, nullable=True)
     opi_sssp_x = Column(Float, nullable=True)
     opi_sssp_y = Column(Float, nullable=True)
-    opi_abfb_x = Column(Float, nullable=True)
-    opi_abfb_y = Column(Float, nullable=True)
-    opi_ap_x = Column(Float, nullable=True)
-    opi_ap_y = Column(Float, nullable=True)
+    opi_s_x = Column(Float, nullable=True)
+    opi_s_y = Column(Float, nullable=True)
+    opi_abp_x = Column(Float, nullable=True)
+    opi_abp_y = Column(Float, nullable=True)
 
     scores = relationship("ScoreLog", back_populates="chart")
 
@@ -73,8 +73,8 @@ class ScoreLog(Base):
     achieve_ss = Column(Boolean, default=False)
     achieve_sss = Column(Boolean, default=False)
     achieve_sssp = Column(Boolean, default=False)
-    achieve_abfb = Column(Boolean, default=False)
-    achieve_ap = Column(Boolean, default=False)
+    achieve_s = Column(Boolean, default=False)
+    achieve_abp = Column(Boolean, default=False)
 
     player = relationship("Player", back_populates="scores")
     chart = relationship("Chart", back_populates="scores")
