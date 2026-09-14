@@ -11,7 +11,7 @@ from src.database.calibration_store import CalibrationStore, make_subject_key
 
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 DEFAULT_DB_FILE = os.path.join(PROJECT_ROOT, "data", "opi_calibration.sqlite")
-MAX_COLLECTION_USERS = 75
+MAX_COLLECTION_USERS = 100
 
 
 def select_stratified_sample(candidates: list[dict], max_users: int) -> list[dict]:
