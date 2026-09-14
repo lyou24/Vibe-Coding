@@ -83,7 +83,7 @@ def test_collection_candidates_respect_total_population_limit():
 
 
 def test_collection_hard_limit_matches_validated_next_phase():
-    assert MAX_COLLECTION_USERS == 50
+    assert MAX_COLLECTION_USERS == 100
 
 
 def test_calibration_store_is_private_atomic_and_idempotent(tmp_path):
