@@ -54,26 +54,48 @@ class OngekiCrawler:
         max_attempts: int = 3,
     ) -> Optional[str]:
         """公開ページを限定回数だけ取得し、過負荷時は待機して再試行する。
-        Cloudflare WAF（403 Forbidden）対策として curl_cffi の TLS/JA3 フィンガープリント模倣を優先。
+        Cloudflare WAF（403 Forbidden）対策として curl_cffi の TLS/JA3 フィンガープリント模倣と
+        トップページへのセッションウォーミング（Cookie / CFクリアランス取得）を優先。
         """
         url = f"{self.BASE_URL}{path}"
+        base_page_url = f"{self.BASE_URL}/"
         last_status = None
 
         # 1. まず curl_cffi によるブラウザ完全模倣（Cloudflare WAF突破）を試行
-        # 複数のTLS/JA3/JA4指紋を順次試行し、手動HEADERSの上書きを廃止（fingerprint mismatch防止）
+        # 手動HEADERSの上書きを廃止（TLS指紋とのヘッダー矛盾を防ぐため）
         has_curl_cffi = False
         try:
             from curl_cffi.requests import AsyncSession
             has_curl_cffi = True
-            impersonate_list = ["chrome", "chrome120", "safari", "safari17_0"]
+            impersonate_list = ["chrome120", "chrome", "safari17_0", "safari"]
             for imp in impersonate_list:
                 try:
                     async with AsyncSession(impersonate=imp) as cffi_session:
                         for attempt in range(max_attempts):
                             try:
+                                # セッションウォーミング: トップページにアクセスして Cookie（ongekiscorelog_session 等）と CFクリアランスを確立
+                                if path.strip("/") != "":
+                                    warmup_resp = await cffi_session.get(
+                                        base_page_url,
+                                        headers={"Accept-Language": "ja,en-US;q=0.9,en;q=0.8"},
+                                        timeout=timeout_seconds,
+                                        allow_redirects=True,
+                                    )
+                                    if warmup_resp.status_code == 403:
+                                        logger.warning(f"curl_cffi ({imp}) トップページウォーミング 403 (試行 {attempt + 1})")
+                                        last_status = 403
+                                        await asyncio.sleep(1.0 + random.uniform(0.5, 1.5))
+                                        break  # この指紋はCFにブロックされたため次の指紋へフォールバック
+                                    await asyncio.sleep(0.3 + random.uniform(0.1, 0.3))
+
+                                # 目的のページを取得（Refererを付与）
+                                req_headers = {"Accept-Language": "ja,en-US;q=0.9,en;q=0.8"}
+                                if path.strip("/") != "":
+                                    req_headers["Referer"] = base_page_url
+
                                 resp = await cffi_session.get(
                                     url,
-                                    headers={"Accept-Language": "ja,en-US;q=0.9,en;q=0.8"},
+                                    headers=req_headers,
                                     timeout=timeout_seconds,
                                     allow_redirects=True,
                                 )
@@ -82,15 +104,21 @@ class OngekiCrawler:
                                     return resp.text
                                 if resp.status_code == 404:
                                     return None
-                                
-                                if resp.status_code == 403 or resp.status_code == 429 or 500 <= resp.status_code < 600:
+
+                                if resp.status_code == 403:
+                                    logger.warning(f"curl_cffi ({imp}) 目的ページ 403 (試行 {attempt + 1})")
+                                    last_status = 403
+                                    await asyncio.sleep(1.0 + random.uniform(0.5, 1.5))
+                                    break  # 403の場合は待機して別ブラウザ指紋へフォールバック
+
+                                if resp.status_code == 429 or 500 <= resp.status_code < 600:
                                     logger.warning(f"curl_cffi ({imp}) HTTP {resp.status_code} (試行 {attempt + 1})")
                                     if attempt < max_attempts - 1:
                                         await asyncio.sleep(1.0 + random.uniform(0.5, 1.5))
                                         continue
                                     break
                             except Exception as exc:
-                                logger.warning(f"curl_cffi ({imp}) 試行 {attempt} エラー: {exc}")
+                                logger.warning(f"curl_cffi ({imp}) 試行 {attempt + 1} エラー: {exc}")
                                 if attempt < max_attempts - 1:
                                     await asyncio.sleep(1.0)
                 except Exception as imp_exc:
@@ -101,14 +129,26 @@ class OngekiCrawler:
 
         # curl_cffi が利用可能だったが取得できなかった場合は、aiohttp に頼らず待機再試行かエラー
         if has_curl_cffi and last_status == 403:
-            raise PermissionError("公開ページへのアクセスが一時的に制限されています（Cloudflare WAF）。少し時間をおいて再度お試しください。")
+            raise PermissionError("公開ページへのアクセスが一時的に制限されています（Cloudflare WAF）。少し時間をおいて再度お試しいただくか、手動更新をご利用ください。")
 
         # 2. aiohttp によるフォールバック（curl_cffi 未導入環境等）
         await self._init_session()
         for attempt in range(max_attempts):
             try:
+                # トップページウォーミング（Cookie取得）
+                if path.strip("/") != "":
+                    try:
+                        await self.session.get(
+                            base_page_url,
+                            timeout=aiohttp.ClientTimeout(total=timeout_seconds),
+                        )
+                    except Exception:
+                        pass
+
+                req_headers = {"Referer": base_page_url} if path.strip("/") != "" else None
                 async with self.session.get(
                     url,
+                    headers=req_headers,
                     timeout=aiohttp.ClientTimeout(total=timeout_seconds),
                 ) as resp:
                     last_status = resp.status
@@ -296,6 +336,92 @@ class OngekiCrawler:
 
         if not scores:
             raise ValueError("有効なスコアがありません")
+
+        return {
+            "profile": {
+                "user_id": user_id,
+                "player_name": player_name,
+                "rating": rating,
+                "updated_at": updated_at,
+            },
+            "scores": scores,
+        }
+
+    @classmethod
+    def parse_user_text_or_html(
+        cls,
+        raw_text: str,
+        user_id: int,
+        *,
+        last_crawled_at: datetime = None,
+        force: bool = True,
+    ) -> Dict:
+        """HTMLまたはテキスト形式からユーザープロフィールとスコア一覧を抽出する。"""
+        raw_text = raw_text.strip()
+        if not raw_text:
+            raise ValueError("入力データが空です")
+
+        if "<table" in raw_text.lower():
+            res = cls.parse_user_snapshot(
+                raw_text,
+                user_id,
+                last_crawled_at=last_crawled_at,
+                force=force,
+            )
+            if res:
+                return res
+
+        # テキスト貼り付け（プレーンテキスト）のフォールバック解析
+        player_name = f"User_{user_id}"
+        m_name = re.search(r'(?:プレイヤーネーム|ネーム)\s*[:：]?\s*([^\r\n]+)', raw_text)
+        if m_name:
+            player_name = m_name.group(1).strip()
+
+        rating = None
+        m_rate = re.search(r'レーティング\s*[:：]?\s*(\d+\.\d+)', raw_text)
+        if m_rate:
+            rating = float(m_rate.group(1))
+
+        updated_at = datetime.now()
+        m_date = re.search(r'(?:最終更新|更新日時?)\s*[:：]?\s*(\d{4}[-/]\d{2}[-/]\d{2})', raw_text)
+        if m_date:
+            try:
+                updated_at = datetime.strptime(m_date.group(1).replace('/', '-'), "%Y-%m-%d")
+            except ValueError:
+                pass
+
+        scores = []
+        lines = [l.strip() for l in raw_text.splitlines() if l.strip()]
+        for line in lines:
+            score_m = re.search(r'\b(1[0\s,]*\d{3}[,\s]*\d{3}|\d{1,3}[,\s]*\d{3}[,\s]*\d{3}|\d{6,7})\b', line)
+            diff_m = re.search(r'\b(BASIC|ADVANCED|EXPERT|MASTER|LUNATIC|BAS|ADV|EXP|MAS|LUN)\b', line, re.IGNORECASE)
+            if score_m and diff_m:
+                score_num = int(re.sub(r'\D', '', score_m.group(1)))
+                if 500000 <= score_num <= 1010000:
+                    raw_diff = diff_m.group(1).upper()
+                    diff_map = {
+                        "BAS": "BASIC", "BASIC": "BASIC",
+                        "ADV": "ADVANCED", "ADVANCED": "ADVANCED",
+                        "EXP": "EXPERT", "EXPERT": "EXPERT",
+                        "MAS": "MASTER", "MASTER": "MASTER",
+                        "LUN": "LUNATIC", "LUNATIC": "LUNATIC",
+                    }
+                    difficulty = diff_map.get(raw_diff, "MASTER")
+                    title_part = line[:diff_m.start()].strip()
+                    if not title_part:
+                        title_part = line[diff_m.end():].strip()
+                        title_part = re.sub(r'[\d,]+', '', title_part).strip()
+                    if title_part:
+                        scores.append({
+                            "title": title_part,
+                            "difficulty": difficulty,
+                            "score": score_num,
+                            "is_all_break": bool(re.search(r'\b(AB|ALL\s*BREAK)\b', line, re.IGNORECASE)),
+                            "is_full_bell": bool(re.search(r'\b(FB|FULL\s*BELL)\b', line, re.IGNORECASE)),
+                        })
+
+        if not scores:
+            return cls.parse_user_snapshot(raw_text, user_id, last_crawled_at=last_crawled_at, force=force)
 
         return {
             "profile": {
