@@ -266,7 +266,7 @@ def check_password() -> bool:
 
     st.markdown("---")
     st.markdown("### 🔒 アクセス制限")
-    st.info("このアプリケーションは友人間限定で公開されています。合言葉を入力してください。")
+    st.info("合言葉を入力してください。")
 
     col1, col2 = st.columns([3, 1])
     with col1:
