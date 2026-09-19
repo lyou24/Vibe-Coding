@@ -1,0 +1,9347 @@
+{
+  "scores": {
+    "1227_Master": {
+      "music_id": 1227,
+      "difficulty": "Master",
+      "ts": 1005456
+    },
+    "1228_Master": {
+      "music_id": 1228,
+      "difficulty": "Master",
+      "ts": 1008795
+    },
+    "1229_Master": {
+      "music_id": 1229,
+      "difficulty": "Master",
+      "ts": 1004757
+    },
+    "942_Master": {
+      "music_id": 942,
+      "difficulty": "Master",
+      "ts": 998592
+    },
+    "1133_Expert": {
+      "music_id": 1133,
+      "difficulty": "Expert",
+      "ts": 998231
+    },
+    "363_Expert": {
+      "music_id": 363,
+      "difficulty": "Expert",
+      "ts": 1007753
+    },
+    "42_Lunatic": {
+      "music_id": 42,
+      "difficulty": "Lunatic",
+      "ts": 989892
+    },
+    "486_Lunatic": {
+      "music_id": 486,
+      "difficulty": "Lunatic",
+      "ts": 1005686
+    },
+    "70_Lunatic": {
+      "music_id": 70,
+      "difficulty": "Lunatic",
+      "ts": 1009768
+    },
+    "190_Lunatic": {
+      "music_id": 190,
+      "difficulty": "Lunatic",
+      "ts": 1007344
+    },
+    "1194_Master": {
+      "music_id": 1194,
+      "difficulty": "Master",
+      "ts": 1002270
+    },
+    "1166_Master": {
+      "music_id": 1166,
+      "difficulty": "Master",
+      "ts": 1006491
+    },
+    "1224_Master": {
+      "music_id": 1224,
+      "difficulty": "Master",
+      "ts": 1007718
+    },
+    "401_Master": {
+      "music_id": 401,
+      "difficulty": "Master",
+      "ts": 999531
+    },
+    "857_Master": {
+      "music_id": 857,
+      "difficulty": "Master",
+      "ts": 1000989
+    },
+    "937_Master": {
+      "music_id": 937,
+      "difficulty": "Master",
+      "ts": 1002161
+    },
+    "999_Master": {
+      "music_id": 999,
+      "difficulty": "Master",
+      "ts": 1008058
+    },
+    "1144_Master": {
+      "music_id": 1144,
+      "difficulty": "Master",
+      "ts": 993430
+    },
+    "1225_Master": {
+      "music_id": 1225,
+      "difficulty": "Master",
+      "ts": 1002575
+    },
+    "314_Master": {
+      "music_id": 314,
+      "difficulty": "Master",
+      "ts": 1007673
+    },
+    "415_Master": {
+      "music_id": 415,
+      "difficulty": "Master",
+      "ts": 1008635
+    },
+    "75_Master": {
+      "music_id": 75,
+      "difficulty": "Master",
+      "ts": 1008695
+    },
+    "712_Master": {
+      "music_id": 712,
+      "difficulty": "Master",
+      "ts": 1006519
+    },
+    "572_Master": {
+      "music_id": 572,
+      "difficulty": "Master",
+      "ts": 1006625
+    },
+    "139_Master": {
+      "music_id": 139,
+      "difficulty": "Master",
+      "ts": 990393
+    },
+    "702_Master": {
+      "music_id": 702,
+      "difficulty": "Master",
+      "ts": 997672
+    },
+    "777_Master": {
+      "music_id": 777,
+      "difficulty": "Master",
+      "ts": 979232
+    },
+    "966_Master": {
+      "music_id": 966,
+      "difficulty": "Master",
+      "ts": 995945
+    },
+    "513_Master": {
+      "music_id": 513,
+      "difficulty": "Master",
+      "ts": 960825
+    },
+    "951_Master": {
+      "music_id": 951,
+      "difficulty": "Master",
+      "ts": 1000570
+    },
+    "607_Master": {
+      "music_id": 607,
+      "difficulty": "Master",
+      "ts": 995190
+    },
+    "1222_Expert": {
+      "music_id": 1222,
+      "difficulty": "Expert",
+      "ts": 1008757
+    },
+    "1223_Expert": {
+      "music_id": 1223,
+      "difficulty": "Expert",
+      "ts": 1009481
+    },
+    "73_Expert": {
+      "music_id": 73,
+      "difficulty": "Expert",
+      "ts": 1009704
+    },
+    "774_Expert": {
+      "music_id": 774,
+      "difficulty": "Expert",
+      "ts": 1010000
+    },
+    "805_Expert": {
+      "music_id": 805,
+      "difficulty": "Expert",
+      "ts": 999051
+    },
+    "315_Expert": {
+      "music_id": 315,
+      "difficulty": "Expert",
+      "ts": 1009025
+    },
+    "529_Expert": {
+      "music_id": 529,
+      "difficulty": "Expert",
+      "ts": 1009556
+    },
+    "647_Expert": {
+      "music_id": 647,
+      "difficulty": "Expert",
+      "ts": 1008669
+    },
+    "797_Expert": {
+      "music_id": 797,
+      "difficulty": "Expert",
+      "ts": 1005484
+    },
+    "997_Expert": {
+      "music_id": 997,
+      "difficulty": "Expert",
+      "ts": 1009392
+    },
+    "966_Expert": {
+      "music_id": 966,
+      "difficulty": "Expert",
+      "ts": 1009066
+    },
+    "79_Expert": {
+      "music_id": 79,
+      "difficulty": "Expert",
+      "ts": 1008958
+    },
+    "774_Advanced": {
+      "music_id": 774,
+      "difficulty": "Advanced",
+      "ts": 1009411
+    },
+    "79_Advanced": {
+      "music_id": 79,
+      "difficulty": "Advanced",
+      "ts": 1009639
+    },
+    "679_Advanced": {
+      "music_id": 679,
+      "difficulty": "Advanced",
+      "ts": 1010000
+    },
+    "774_Basic": {
+      "music_id": 774,
+      "difficulty": "Basic",
+      "ts": 1009628
+    },
+    "79_Basic": {
+      "music_id": 79,
+      "difficulty": "Basic",
+      "ts": 1010000
+    },
+    "679_Basic": {
+      "music_id": 679,
+      "difficulty": "Basic",
+      "ts": 1009582
+    },
+    "79_Lunatic": {
+      "music_id": 79,
+      "difficulty": "Lunatic",
+      "ts": 982082
+    },
+    "1223_Master": {
+      "music_id": 1223,
+      "difficulty": "Master",
+      "ts": 989789
+    },
+    "489_Master": {
+      "music_id": 489,
+      "difficulty": "Master",
+      "ts": 996723
+    },
+    "776_Master": {
+      "music_id": 776,
+      "difficulty": "Master",
+      "ts": 1008281
+    },
+    "1092_Master": {
+      "music_id": 1092,
+      "difficulty": "Master",
+      "ts": 1008571
+    },
+    "74_Master": {
+      "music_id": 74,
+      "difficulty": "Master",
+      "ts": 1007248
+    },
+    "529_Master": {
+      "music_id": 529,
+      "difficulty": "Master",
+      "ts": 1004932
+    },
+    "775_Master": {
+      "music_id": 775,
+      "difficulty": "Master",
+      "ts": 988458
+    },
+    "79_Master": {
+      "music_id": 79,
+      "difficulty": "Master",
+      "ts": 1007692
+    },
+    "679_Master": {
+      "music_id": 679,
+      "difficulty": "Master",
+      "ts": 1004567
+    },
+    "138_Expert": {
+      "music_id": 138,
+      "difficulty": "Expert",
+      "ts": 1009766
+    },
+    "415_Expert": {
+      "music_id": 415,
+      "difficulty": "Expert",
+      "ts": 1009863
+    },
+    "75_Expert": {
+      "music_id": 75,
+      "difficulty": "Expert",
+      "ts": 1009175
+    },
+    "76_Expert": {
+      "music_id": 76,
+      "difficulty": "Expert",
+      "ts": 1009534
+    },
+    "1092_Expert": {
+      "music_id": 1092,
+      "difficulty": "Expert",
+      "ts": 1009598
+    },
+    "74_Expert": {
+      "music_id": 74,
+      "difficulty": "Expert",
+      "ts": 1009381
+    },
+    "77_Expert": {
+      "music_id": 77,
+      "difficulty": "Expert",
+      "ts": 1009279
+    },
+    "662_Expert": {
+      "music_id": 662,
+      "difficulty": "Expert",
+      "ts": 1007229
+    },
+    "777_Expert": {
+      "music_id": 777,
+      "difficulty": "Expert",
+      "ts": 1008484
+    },
+    "703_Expert": {
+      "music_id": 703,
+      "difficulty": "Expert",
+      "ts": 1009155
+    },
+    "138_Advanced": {
+      "music_id": 138,
+      "difficulty": "Advanced",
+      "ts": 1008275
+    },
+    "415_Advanced": {
+      "music_id": 415,
+      "difficulty": "Advanced",
+      "ts": 1010000
+    },
+    "75_Advanced": {
+      "music_id": 75,
+      "difficulty": "Advanced",
+      "ts": 1009136
+    },
+    "76_Advanced": {
+      "music_id": 76,
+      "difficulty": "Advanced",
+      "ts": 1009201
+    },
+    "603_Advanced": {
+      "music_id": 603,
+      "difficulty": "Advanced",
+      "ts": 1010000
+    },
+    "1092_Advanced": {
+      "music_id": 1092,
+      "difficulty": "Advanced",
+      "ts": 1010000
+    },
+    "74_Advanced": {
+      "music_id": 74,
+      "difficulty": "Advanced",
+      "ts": 1010000
+    },
+    "77_Advanced": {
+      "music_id": 77,
+      "difficulty": "Advanced",
+      "ts": 1009040
+    },
+    "78_Advanced": {
+      "music_id": 78,
+      "difficulty": "Advanced",
+      "ts": 1009769
+    },
+    "703_Advanced": {
+      "music_id": 703,
+      "difficulty": "Advanced",
+      "ts": 1010000
+    },
+    "415_Basic": {
+      "music_id": 415,
+      "difficulty": "Basic",
+      "ts": 1010000
+    },
+    "75_Basic": {
+      "music_id": 75,
+      "difficulty": "Basic",
+      "ts": 1009736
+    },
+    "76_Basic": {
+      "music_id": 76,
+      "difficulty": "Basic",
+      "ts": 1010000
+    },
+    "603_Basic": {
+      "music_id": 603,
+      "difficulty": "Basic",
+      "ts": 1010000
+    },
+    "1092_Basic": {
+      "music_id": 1092,
+      "difficulty": "Basic",
+      "ts": 1009682
+    },
+    "74_Basic": {
+      "music_id": 74,
+      "difficulty": "Basic",
+      "ts": 1009326
+    },
+    "77_Basic": {
+      "music_id": 77,
+      "difficulty": "Basic",
+      "ts": 1009733
+    },
+    "78_Basic": {
+      "music_id": 78,
+      "difficulty": "Basic",
+      "ts": 1008059
+    },
+    "703_Basic": {
+      "music_id": 703,
+      "difficulty": "Basic",
+      "ts": 1010000
+    },
+    "73_Lunatic": {
+      "music_id": 73,
+      "difficulty": "Lunatic",
+      "ts": 1008793
+    },
+    "774_Master": {
+      "music_id": 774,
+      "difficulty": "Master",
+      "ts": 1003057
+    },
+    "77_Master": {
+      "music_id": 77,
+      "difficulty": "Master",
+      "ts": 1003880
+    },
+    "315_Master": {
+      "music_id": 315,
+      "difficulty": "Master",
+      "ts": 1004269
+    },
+    "647_Master": {
+      "music_id": 647,
+      "difficulty": "Master",
+      "ts": 972598
+    },
+    "801_Master": {
+      "music_id": 801,
+      "difficulty": "Master",
+      "ts": 986679
+    },
+    "703_Master": {
+      "music_id": 703,
+      "difficulty": "Master",
+      "ts": 991342
+    },
+    "661_Master": {
+      "music_id": 661,
+      "difficulty": "Master",
+      "ts": 993818
+    },
+    "1225_Expert": {
+      "music_id": 1225,
+      "difficulty": "Expert",
+      "ts": 1008885
+    },
+    "1226_Expert": {
+      "music_id": 1226,
+      "difficulty": "Expert",
+      "ts": 1009868
+    },
+    "916_Expert": {
+      "music_id": 916,
+      "difficulty": "Expert",
+      "ts": 1009259
+    },
+    "78_Expert": {
+      "music_id": 78,
+      "difficulty": "Expert",
+      "ts": 1009828
+    },
+    "416_Expert": {
+      "music_id": 416,
+      "difficulty": "Expert",
+      "ts": 1008335
+    },
+    "1176_Master": {
+      "music_id": 1176,
+      "difficulty": "Master",
+      "ts": 1004082
+    },
+    "283_Master": {
+      "music_id": 283,
+      "difficulty": "Master",
+      "ts": 1009261
+    },
+    "441_Master": {
+      "music_id": 441,
+      "difficulty": "Master",
+      "ts": 1008971
+    },
+    "282_Master": {
+      "music_id": 282,
+      "difficulty": "Master",
+      "ts": 1007884
+    },
+    "645_Master": {
+      "music_id": 645,
+      "difficulty": "Master",
+      "ts": 1007230
+    },
+    "50_Master": {
+      "music_id": 50,
+      "difficulty": "Master",
+      "ts": 1007844
+    },
+    "349_Master": {
+      "music_id": 349,
+      "difficulty": "Master",
+      "ts": 1006075
+    },
+    "1076_Master": {
+      "music_id": 1076,
+      "difficulty": "Master",
+      "ts": 988017
+    },
+    "516_Master": {
+      "music_id": 516,
+      "difficulty": "Master",
+      "ts": 1006843
+    },
+    "948_Master": {
+      "music_id": 948,
+      "difficulty": "Master",
+      "ts": 974327
+    },
+    "984_Master": {
+      "music_id": 984,
+      "difficulty": "Master",
+      "ts": 1001774
+    },
+    "481_Master": {
+      "music_id": 481,
+      "difficulty": "Master",
+      "ts": 959245
+    },
+    "277_Expert": {
+      "music_id": 277,
+      "difficulty": "Expert",
+      "ts": 1009596
+    },
+    "327_Lunatic": {
+      "music_id": 327,
+      "difficulty": "Lunatic",
+      "ts": 1001703
+    },
+    "710_Lunatic": {
+      "music_id": 710,
+      "difficulty": "Lunatic",
+      "ts": 1005593
+    },
+    "1001_Master": {
+      "music_id": 1001,
+      "difficulty": "Master",
+      "ts": 1007830
+    },
+    "1141_Master": {
+      "music_id": 1141,
+      "difficulty": "Master",
+      "ts": 1004004
+    },
+    "1217_Master": {
+      "music_id": 1217,
+      "difficulty": "Master",
+      "ts": 1004262
+    },
+    "1073_Master": {
+      "music_id": 1073,
+      "difficulty": "Master",
+      "ts": 990722
+    },
+    "784_Master": {
+      "music_id": 784,
+      "difficulty": "Master",
+      "ts": 1006267
+    },
+    "787_Master": {
+      "music_id": 787,
+      "difficulty": "Master",
+      "ts": 1006096
+    },
+    "991_Master": {
+      "music_id": 991,
+      "difficulty": "Master",
+      "ts": 1006225
+    },
+    "1110_Master": {
+      "music_id": 1110,
+      "difficulty": "Master",
+      "ts": 1005506
+    },
+    "1226_Master": {
+      "music_id": 1226,
+      "difficulty": "Master",
+      "ts": 1003388
+    },
+    "1178_Master": {
+      "music_id": 1178,
+      "difficulty": "Master",
+      "ts": 999248
+    },
+    "416_Master": {
+      "music_id": 416,
+      "difficulty": "Master",
+      "ts": 989645
+    },
+    "604_Master": {
+      "music_id": 604,
+      "difficulty": "Master",
+      "ts": 1006136
+    },
+    "880_Master": {
+      "music_id": 880,
+      "difficulty": "Master",
+      "ts": 1007121
+    },
+    "1224_Expert": {
+      "music_id": 1224,
+      "difficulty": "Expert",
+      "ts": 1010000
+    },
+    "680_Expert": {
+      "music_id": 680,
+      "difficulty": "Expert",
+      "ts": 1007023
+    },
+    "1225_Advanced": {
+      "music_id": 1225,
+      "difficulty": "Advanced",
+      "ts": 1010000
+    },
+    "523_Advanced": {
+      "music_id": 523,
+      "difficulty": "Advanced",
+      "ts": 1009689
+    },
+    "363_Advanced": {
+      "music_id": 363,
+      "difficulty": "Advanced",
+      "ts": 1009636
+    },
+    "160_Lunatic": {
+      "music_id": 160,
+      "difficulty": "Lunatic",
+      "ts": 1002465
+    },
+    "840_Master": {
+      "music_id": 840,
+      "difficulty": "Master",
+      "ts": 999874
+    },
+    "61_Master": {
+      "music_id": 61,
+      "difficulty": "Master",
+      "ts": 1007558
+    },
+    "599_Master": {
+      "music_id": 599,
+      "difficulty": "Master",
+      "ts": 990872
+    },
+    "700_Master": {
+      "music_id": 700,
+      "difficulty": "Master",
+      "ts": 1006775
+    },
+    "132_Master": {
+      "music_id": 132,
+      "difficulty": "Master",
+      "ts": 1004837
+    },
+    "929_Master": {
+      "music_id": 929,
+      "difficulty": "Master",
+      "ts": 990514
+    },
+    "1088_Expert": {
+      "music_id": 1088,
+      "difficulty": "Expert",
+      "ts": 1004463
+    },
+    "1112_Master": {
+      "music_id": 1112,
+      "difficulty": "Master",
+      "ts": 999251
+    },
+    "1155_Master": {
+      "music_id": 1155,
+      "difficulty": "Master",
+      "ts": 1009191
+    },
+    "1025_Master": {
+      "music_id": 1025,
+      "difficulty": "Master",
+      "ts": 1009441
+    },
+    "1169_Master": {
+      "music_id": 1169,
+      "difficulty": "Master",
+      "ts": 994597
+    },
+    "425_Master": {
+      "music_id": 425,
+      "difficulty": "Master",
+      "ts": 989755
+    },
+    "509_Master": {
+      "music_id": 509,
+      "difficulty": "Master",
+      "ts": 1000277
+    },
+    "869_Master": {
+      "music_id": 869,
+      "difficulty": "Master",
+      "ts": 989797
+    },
+    "837_Master": {
+      "music_id": 837,
+      "difficulty": "Master",
+      "ts": 1002773
+    },
+    "704_Master": {
+      "music_id": 704,
+      "difficulty": "Master",
+      "ts": 975431
+    },
+    "1186_Lunatic": {
+      "music_id": 1186,
+      "difficulty": "Lunatic",
+      "ts": 976724
+    },
+    "80_Lunatic": {
+      "music_id": 80,
+      "difficulty": "Lunatic",
+      "ts": 1006929
+    },
+    "81_Lunatic": {
+      "music_id": 81,
+      "difficulty": "Lunatic",
+      "ts": 984237
+    },
+    "957_Master": {
+      "music_id": 957,
+      "difficulty": "Master",
+      "ts": 1007372
+    },
+    "1096_Master": {
+      "music_id": 1096,
+      "difficulty": "Master",
+      "ts": 1009078
+    },
+    "238_Master": {
+      "music_id": 238,
+      "difficulty": "Master",
+      "ts": 1008683
+    },
+    "239_Master": {
+      "music_id": 239,
+      "difficulty": "Master",
+      "ts": 1006951
+    },
+    "943_Master": {
+      "music_id": 943,
+      "difficulty": "Master",
+      "ts": 1007300
+    },
+    "1000_Master": {
+      "music_id": 1000,
+      "difficulty": "Master",
+      "ts": 1008735
+    },
+    "872_Master": {
+      "music_id": 872,
+      "difficulty": "Master",
+      "ts": 1008245
+    },
+    "439_Master": {
+      "music_id": 439,
+      "difficulty": "Master",
+      "ts": 998700
+    },
+    "438_Master": {
+      "music_id": 438,
+      "difficulty": "Master",
+      "ts": 1009051
+    },
+    "1177_Master": {
+      "music_id": 1177,
+      "difficulty": "Master",
+      "ts": 1000437
+    },
+    "683_Master": {
+      "music_id": 683,
+      "difficulty": "Master",
+      "ts": 1002439
+    },
+    "1017_Master": {
+      "music_id": 1017,
+      "difficulty": "Master",
+      "ts": 1009265
+    },
+    "1047_Master": {
+      "music_id": 1047,
+      "difficulty": "Master",
+      "ts": 1008642
+    },
+    "620_Master": {
+      "music_id": 620,
+      "difficulty": "Master",
+      "ts": 1007001
+    },
+    "1101_Master": {
+      "music_id": 1101,
+      "difficulty": "Master",
+      "ts": 1009797
+    },
+    "1066_Master": {
+      "music_id": 1066,
+      "difficulty": "Master",
+      "ts": 1007931
+    },
+    "1218_Master": {
+      "music_id": 1218,
+      "difficulty": "Master",
+      "ts": 1008548
+    },
+    "448_Master": {
+      "music_id": 448,
+      "difficulty": "Master",
+      "ts": 1009219
+    },
+    "1183_Master": {
+      "music_id": 1183,
+      "difficulty": "Master",
+      "ts": 1008766
+    },
+    "1114_Master": {
+      "music_id": 1114,
+      "difficulty": "Master",
+      "ts": 1007943
+    },
+    "338_Master": {
+      "music_id": 338,
+      "difficulty": "Master",
+      "ts": 1008744
+    },
+    "297_Master": {
+      "music_id": 297,
+      "difficulty": "Master",
+      "ts": 1008509
+    },
+    "493_Master": {
+      "music_id": 493,
+      "difficulty": "Master",
+      "ts": 997057
+    },
+    "593_Master": {
+      "music_id": 593,
+      "difficulty": "Master",
+      "ts": 1007454
+    },
+    "252_Master": {
+      "music_id": 252,
+      "difficulty": "Master",
+      "ts": 1008903
+    },
+    "1044_Master": {
+      "music_id": 1044,
+      "difficulty": "Master",
+      "ts": 1008913
+    },
+    "890_Master": {
+      "music_id": 890,
+      "difficulty": "Master",
+      "ts": 1009245
+    },
+    "535_Master": {
+      "music_id": 535,
+      "difficulty": "Master",
+      "ts": 1007451
+    },
+    "507_Master": {
+      "music_id": 507,
+      "difficulty": "Master",
+      "ts": 1008462
+    },
+    "447_Master": {
+      "music_id": 447,
+      "difficulty": "Master",
+      "ts": 1008709
+    },
+    "18_Master": {
+      "music_id": 18,
+      "difficulty": "Master",
+      "ts": 1007546
+    },
+    "552_Master": {
+      "music_id": 552,
+      "difficulty": "Master",
+      "ts": 1009552
+    },
+    "664_Master": {
+      "music_id": 664,
+      "difficulty": "Master",
+      "ts": 1008177
+    },
+    "947_Master": {
+      "music_id": 947,
+      "difficulty": "Master",
+      "ts": 1008783
+    },
+    "1222_Master": {
+      "music_id": 1222,
+      "difficulty": "Master",
+      "ts": 1007017
+    },
+    "1104_Master": {
+      "music_id": 1104,
+      "difficulty": "Master",
+      "ts": 1004315
+    },
+    "898_Master": {
+      "music_id": 898,
+      "difficulty": "Master",
+      "ts": 1004016
+    },
+    "668_Master": {
+      "music_id": 668,
+      "difficulty": "Master",
+      "ts": 990446
+    },
+    "1191_Master": {
+      "music_id": 1191,
+      "difficulty": "Master",
+      "ts": 992372
+    },
+    "49_Master": {
+      "music_id": 49,
+      "difficulty": "Master",
+      "ts": 988800
+    },
+    "428_Master": {
+      "music_id": 428,
+      "difficulty": "Master",
+      "ts": 1009174
+    },
+    "1129_Master": {
+      "music_id": 1129,
+      "difficulty": "Master",
+      "ts": 1009276
+    },
+    "46_Master": {
+      "music_id": 46,
+      "difficulty": "Master",
+      "ts": 1007462
+    },
+    "351_Master": {
+      "music_id": 351,
+      "difficulty": "Master",
+      "ts": 978671
+    },
+    "685_Master": {
+      "music_id": 685,
+      "difficulty": "Master",
+      "ts": 1004517
+    },
+    "65_Master": {
+      "music_id": 65,
+      "difficulty": "Master",
+      "ts": 998416
+    },
+    "248_Master": {
+      "music_id": 248,
+      "difficulty": "Master",
+      "ts": 987571
+    },
+    "394_Master": {
+      "music_id": 394,
+      "difficulty": "Master",
+      "ts": 1000459
+    },
+    "750_Master": {
+      "music_id": 750,
+      "difficulty": "Master",
+      "ts": 998500
+    },
+    "989_Master": {
+      "music_id": 989,
+      "difficulty": "Master",
+      "ts": 995951
+    },
+    "1119_Master": {
+      "music_id": 1119,
+      "difficulty": "Master",
+      "ts": 1003422
+    },
+    "1138_Master": {
+      "music_id": 1138,
+      "difficulty": "Master",
+      "ts": 1007417
+    },
+    "458_Master": {
+      "music_id": 458,
+      "difficulty": "Master",
+      "ts": 992183
+    },
+    "895_Master": {
+      "music_id": 895,
+      "difficulty": "Master",
+      "ts": 996939
+    },
+    "985_Master": {
+      "music_id": 985,
+      "difficulty": "Master",
+      "ts": 1002297
+    },
+    "499_Master": {
+      "music_id": 499,
+      "difficulty": "Master",
+      "ts": 982441
+    },
+    "220_Master": {
+      "music_id": 220,
+      "difficulty": "Master",
+      "ts": 1007872
+    },
+    "222_Master": {
+      "music_id": 222,
+      "difficulty": "Master",
+      "ts": 988647
+    },
+    "655_Expert": {
+      "music_id": 655,
+      "difficulty": "Expert",
+      "ts": 1009424
+    },
+    "925_Expert": {
+      "music_id": 925,
+      "difficulty": "Expert",
+      "ts": 957138
+    },
+    "107_Expert": {
+      "music_id": 107,
+      "difficulty": "Expert",
+      "ts": 1008921
+    },
+    "904_Expert": {
+      "music_id": 904,
+      "difficulty": "Expert",
+      "ts": 1007167
+    },
+    "342_Expert": {
+      "music_id": 342,
+      "difficulty": "Expert",
+      "ts": 1009786
+    },
+    "779_Expert": {
+      "music_id": 779,
+      "difficulty": "Expert",
+      "ts": 1003090
+    },
+    "327_Master": {
+      "music_id": 327,
+      "difficulty": "Master",
+      "ts": 1009626
+    },
+    "1016_Master": {
+      "music_id": 1016,
+      "difficulty": "Master",
+      "ts": 999630
+    },
+    "524_Master": {
+      "music_id": 524,
+      "difficulty": "Master",
+      "ts": 1008779
+    },
+    "856_Master": {
+      "music_id": 856,
+      "difficulty": "Master",
+      "ts": 1008201
+    },
+    "258_Master": {
+      "music_id": 258,
+      "difficulty": "Master",
+      "ts": 1002442
+    },
+    "520_Master": {
+      "music_id": 520,
+      "difficulty": "Master",
+      "ts": 1006661
+    },
+    "379_Master": {
+      "music_id": 379,
+      "difficulty": "Master",
+      "ts": 996912
+    },
+    "528_Master": {
+      "music_id": 528,
+      "difficulty": "Master",
+      "ts": 987211
+    },
+    "571_Master": {
+      "music_id": 571,
+      "difficulty": "Master",
+      "ts": 1001282
+    },
+    "699_Master": {
+      "music_id": 699,
+      "difficulty": "Master",
+      "ts": 986496
+    },
+    "815_Master": {
+      "music_id": 815,
+      "difficulty": "Master",
+      "ts": 1007957
+    },
+    "119_Master": {
+      "music_id": 119,
+      "difficulty": "Master",
+      "ts": 1008554
+    },
+    "198_Master": {
+      "music_id": 198,
+      "difficulty": "Master",
+      "ts": 1009767
+    },
+    "751_Master": {
+      "music_id": 751,
+      "difficulty": "Master",
+      "ts": 1009921
+    },
+    "476_Master": {
+      "music_id": 476,
+      "difficulty": "Master",
+      "ts": 1008471
+    },
+    "147_Master": {
+      "music_id": 147,
+      "difficulty": "Master",
+      "ts": 1007971
+    },
+    "800_Master": {
+      "music_id": 800,
+      "difficulty": "Master",
+      "ts": 1008993
+    },
+    "714_Master": {
+      "music_id": 714,
+      "difficulty": "Master",
+      "ts": 1008518
+    },
+    "216_Master": {
+      "music_id": 216,
+      "difficulty": "Master",
+      "ts": 1008682
+    },
+    "542_Master": {
+      "music_id": 542,
+      "difficulty": "Master",
+      "ts": 1008606
+    },
+    "1004_Master": {
+      "music_id": 1004,
+      "difficulty": "Master",
+      "ts": 1007897
+    },
+    "457_Master": {
+      "music_id": 457,
+      "difficulty": "Master",
+      "ts": 991097
+    },
+    "445_Master": {
+      "music_id": 445,
+      "difficulty": "Master",
+      "ts": 1006904
+    },
+    "550_Master": {
+      "music_id": 550,
+      "difficulty": "Master",
+      "ts": 1006808
+    },
+    "762_Master": {
+      "music_id": 762,
+      "difficulty": "Master",
+      "ts": 1008689
+    },
+    "278_Expert": {
+      "music_id": 278,
+      "difficulty": "Expert",
+      "ts": 1008813
+    },
+    "1134_Expert": {
+      "music_id": 1134,
+      "difficulty": "Expert",
+      "ts": 1009628
+    },
+    "150_Lunatic": {
+      "music_id": 150,
+      "difficulty": "Lunatic",
+      "ts": 1008758
+    },
+    "582_Lunatic": {
+      "music_id": 582,
+      "difficulty": "Lunatic",
+      "ts": 923605
+    },
+    "323_Lunatic": {
+      "music_id": 323,
+      "difficulty": "Lunatic",
+      "ts": 953345
+    },
+    "118_Lunatic": {
+      "music_id": 118,
+      "difficulty": "Lunatic",
+      "ts": 860781
+    },
+    "543_Lunatic": {
+      "music_id": 543,
+      "difficulty": "Lunatic",
+      "ts": 952055
+    },
+    "1213_Master": {
+      "music_id": 1213,
+      "difficulty": "Master",
+      "ts": 1005602
+    },
+    "1067_Master": {
+      "music_id": 1067,
+      "difficulty": "Master",
+      "ts": 1008629
+    },
+    "1056_Master": {
+      "music_id": 1056,
+      "difficulty": "Master",
+      "ts": 1006630
+    },
+    "956_Master": {
+      "music_id": 956,
+      "difficulty": "Master",
+      "ts": 1009254
+    },
+    "1002_Master": {
+      "music_id": 1002,
+      "difficulty": "Master",
+      "ts": 1008956
+    },
+    "682_Master": {
+      "music_id": 682,
+      "difficulty": "Master",
+      "ts": 1009610
+    },
+    "1100_Master": {
+      "music_id": 1100,
+      "difficulty": "Master",
+      "ts": 1001674
+    },
+    "1072_Master": {
+      "music_id": 1072,
+      "difficulty": "Master",
+      "ts": 988888
+    },
+    "330_Master": {
+      "music_id": 330,
+      "difficulty": "Master",
+      "ts": 1009090
+    },
+    "127_Master": {
+      "music_id": 127,
+      "difficulty": "Master",
+      "ts": 1008546
+    },
+    "628_Master": {
+      "music_id": 628,
+      "difficulty": "Master",
+      "ts": 1008807
+    },
+    "852_Master": {
+      "music_id": 852,
+      "difficulty": "Master",
+      "ts": 1007836
+    },
+    "635_Master": {
+      "music_id": 635,
+      "difficulty": "Master",
+      "ts": 1008494
+    },
+    "376_Master": {
+      "music_id": 376,
+      "difficulty": "Master",
+      "ts": 1008569
+    },
+    "128_Master": {
+      "music_id": 128,
+      "difficulty": "Master",
+      "ts": 1008626
+    },
+    "377_Master": {
+      "music_id": 377,
+      "difficulty": "Master",
+      "ts": 1008620
+    },
+    "436_Master": {
+      "music_id": 436,
+      "difficulty": "Master",
+      "ts": 1009423
+    },
+    "232_Master": {
+      "music_id": 232,
+      "difficulty": "Master",
+      "ts": 1009902
+    },
+    "36_Master": {
+      "music_id": 36,
+      "difficulty": "Master",
+      "ts": 1008290
+    },
+    "555_Master": {
+      "music_id": 555,
+      "difficulty": "Master",
+      "ts": 999023
+    },
+    "581_Master": {
+      "music_id": 581,
+      "difficulty": "Master",
+      "ts": 1009873
+    },
+    "442_Master": {
+      "music_id": 442,
+      "difficulty": "Master",
+      "ts": 1007956
+    },
+    "348_Master": {
+      "music_id": 348,
+      "difficulty": "Master",
+      "ts": 1008470
+    },
+    "39_Master": {
+      "music_id": 39,
+      "difficulty": "Master",
+      "ts": 1007888
+    },
+    "1131_Master": {
+      "music_id": 1131,
+      "difficulty": "Master",
+      "ts": 1000434
+    },
+    "733_Master": {
+      "music_id": 733,
+      "difficulty": "Master",
+      "ts": 987037
+    },
+    "474_Master": {
+      "music_id": 474,
+      "difficulty": "Master",
+      "ts": 998897
+    },
+    "55_Master": {
+      "music_id": 55,
+      "difficulty": "Master",
+      "ts": 1008389
+    },
+    "64_Master": {
+      "music_id": 64,
+      "difficulty": "Master",
+      "ts": 1008434
+    },
+    "413_Master": {
+      "music_id": 413,
+      "difficulty": "Master",
+      "ts": 1009085
+    },
+    "730_Master": {
+      "music_id": 730,
+      "difficulty": "Master",
+      "ts": 1009507
+    },
+    "859_Master": {
+      "music_id": 859,
+      "difficulty": "Master",
+      "ts": 998016
+    },
+    "1014_Master": {
+      "music_id": 1014,
+      "difficulty": "Master",
+      "ts": 1006883
+    },
+    "53_Master": {
+      "music_id": 53,
+      "difficulty": "Master",
+      "ts": 1009922
+    },
+    "821_Master": {
+      "music_id": 821,
+      "difficulty": "Master",
+      "ts": 1009181
+    },
+    "215_Master": {
+      "music_id": 215,
+      "difficulty": "Master",
+      "ts": 1009630
+    },
+    "601_Master": {
+      "music_id": 601,
+      "difficulty": "Master",
+      "ts": 1009592
+    },
+    "73_Master": {
+      "music_id": 73,
+      "difficulty": "Master",
+      "ts": 1008172
+    },
+    "602_Master": {
+      "music_id": 602,
+      "difficulty": "Master",
+      "ts": 1009674
+    },
+    "181_Master": {
+      "music_id": 181,
+      "difficulty": "Master",
+      "ts": 1007756
+    },
+    "713_Master": {
+      "music_id": 713,
+      "difficulty": "Master",
+      "ts": 1009623
+    },
+    "244_Master": {
+      "music_id": 244,
+      "difficulty": "Master",
+      "ts": 1008583
+    },
+    "336_Master": {
+      "music_id": 336,
+      "difficulty": "Master",
+      "ts": 1008061
+    },
+    "672_Master": {
+      "music_id": 672,
+      "difficulty": "Master",
+      "ts": 1008659
+    },
+    "716_Master": {
+      "music_id": 716,
+      "difficulty": "Master",
+      "ts": 1008881
+    },
+    "718_Master": {
+      "music_id": 718,
+      "difficulty": "Master",
+      "ts": 1007418
+    },
+    "1090_Master": {
+      "music_id": 1090,
+      "difficulty": "Master",
+      "ts": 1000577
+    },
+    "483_Master": {
+      "music_id": 483,
+      "difficulty": "Master",
+      "ts": 1008785
+    },
+    "503_Master": {
+      "music_id": 503,
+      "difficulty": "Master",
+      "ts": 1008375
+    },
+    "567_Master": {
+      "music_id": 567,
+      "difficulty": "Master",
+      "ts": 1008621
+    },
+    "568_Master": {
+      "music_id": 568,
+      "difficulty": "Master",
+      "ts": 1009419
+    },
+    "609_Master": {
+      "music_id": 609,
+      "difficulty": "Master",
+      "ts": 1009361
+    },
+    "622_Master": {
+      "music_id": 622,
+      "difficulty": "Master",
+      "ts": 1008782
+    },
+    "741_Master": {
+      "music_id": 741,
+      "difficulty": "Master",
+      "ts": 1009039
+    },
+    "1023_Master": {
+      "music_id": 1023,
+      "difficulty": "Master",
+      "ts": 1009254
+    },
+    "938_Master": {
+      "music_id": 938,
+      "difficulty": "Master",
+      "ts": 1004773
+    },
+    "939_Master": {
+      "music_id": 939,
+      "difficulty": "Master",
+      "ts": 1008838
+    },
+    "940_Master": {
+      "music_id": 940,
+      "difficulty": "Master",
+      "ts": 1007802
+    },
+    "831_Master": {
+      "music_id": 831,
+      "difficulty": "Master",
+      "ts": 1007708
+    },
+    "832_Master": {
+      "music_id": 832,
+      "difficulty": "Master",
+      "ts": 1008667
+    },
+    "833_Master": {
+      "music_id": 833,
+      "difficulty": "Master",
+      "ts": 1006793
+    },
+    "841_Master": {
+      "music_id": 841,
+      "difficulty": "Master",
+      "ts": 1008026
+    },
+    "842_Master": {
+      "music_id": 842,
+      "difficulty": "Master",
+      "ts": 530184
+    },
+    "843_Master": {
+      "music_id": 843,
+      "difficulty": "Master",
+      "ts": 447443
+    },
+    "844_Master": {
+      "music_id": 844,
+      "difficulty": "Master",
+      "ts": 1006617
+    },
+    "845_Master": {
+      "music_id": 845,
+      "difficulty": "Master",
+      "ts": 417039
+    },
+    "846_Master": {
+      "music_id": 846,
+      "difficulty": "Master",
+      "ts": 1006758
+    },
+    "847_Master": {
+      "music_id": 847,
+      "difficulty": "Master",
+      "ts": 416683
+    },
+    "848_Master": {
+      "music_id": 848,
+      "difficulty": "Master",
+      "ts": 416777
+    },
+    "849_Master": {
+      "music_id": 849,
+      "difficulty": "Master",
+      "ts": 416636
+    },
+    "968_Master": {
+      "music_id": 968,
+      "difficulty": "Master",
+      "ts": 1008534
+    },
+    "1106_Master": {
+      "music_id": 1106,
+      "difficulty": "Master",
+      "ts": 1009584
+    },
+    "573_Expert": {
+      "music_id": 573,
+      "difficulty": "Expert",
+      "ts": 1005522
+    },
+    "591_Master": {
+      "music_id": 591,
+      "difficulty": "Master",
+      "ts": 1005371
+    },
+    "691_Master": {
+      "music_id": 691,
+      "difficulty": "Master",
+      "ts": 1008958
+    },
+    "1065_Master": {
+      "music_id": 1065,
+      "difficulty": "Master",
+      "ts": 1008745
+    },
+    "926_Master": {
+      "music_id": 926,
+      "difficulty": "Master",
+      "ts": 1004337
+    },
+    "365_Master": {
+      "music_id": 365,
+      "difficulty": "Master",
+      "ts": 1004775
+    },
+    "629_Master": {
+      "music_id": 629,
+      "difficulty": "Master",
+      "ts": 1009607
+    },
+    "110_Master": {
+      "music_id": 110,
+      "difficulty": "Master",
+      "ts": 1008561
+    },
+    "291_Master": {
+      "music_id": 291,
+      "difficulty": "Master",
+      "ts": 1010000
+    },
+    "396_Master": {
+      "music_id": 396,
+      "difficulty": "Master",
+      "ts": 1009191
+    },
+    "1015_Master": {
+      "music_id": 1015,
+      "difficulty": "Master",
+      "ts": 1009926
+    },
+    "570_Master": {
+      "music_id": 570,
+      "difficulty": "Master",
+      "ts": 1009930
+    },
+    "208_Master": {
+      "music_id": 208,
+      "difficulty": "Master",
+      "ts": 1008870
+    },
+    "440_Master": {
+      "music_id": 440,
+      "difficulty": "Master",
+      "ts": 1009240
+    },
+    "24_Master": {
+      "music_id": 24,
+      "difficulty": "Master",
+      "ts": 1005490
+    },
+    "30_Master": {
+      "music_id": 30,
+      "difficulty": "Master",
+      "ts": 1009258
+    },
+    "29_Master": {
+      "music_id": 29,
+      "difficulty": "Master",
+      "ts": 1008679
+    },
+    "211_Master": {
+      "music_id": 211,
+      "difficulty": "Master",
+      "ts": 1009715
+    },
+    "424_Master": {
+      "music_id": 424,
+      "difficulty": "Master",
+      "ts": 1007202
+    },
+    "435_Master": {
+      "music_id": 435,
+      "difficulty": "Master",
+      "ts": 1008936
+    },
+    "652_Master": {
+      "music_id": 652,
+      "difficulty": "Master",
+      "ts": 1007667
+    },
+    "663_Master": {
+      "music_id": 663,
+      "difficulty": "Master",
+      "ts": 1007625
+    },
+    "38_Master": {
+      "music_id": 38,
+      "difficulty": "Master",
+      "ts": 1009087
+    },
+    "170_Master": {
+      "music_id": 170,
+      "difficulty": "Master",
+      "ts": 1009561
+    },
+    "556_Master": {
+      "music_id": 556,
+      "difficulty": "Master",
+      "ts": 1008877
+    },
+    "769_Master": {
+      "music_id": 769,
+      "difficulty": "Master",
+      "ts": 1008602
+    },
+    "174_Master": {
+      "music_id": 174,
+      "difficulty": "Master",
+      "ts": 1009507
+    },
+    "1061_Master": {
+      "music_id": 1061,
+      "difficulty": "Master",
+      "ts": 1001581
+    },
+    "48_Master": {
+      "music_id": 48,
+      "difficulty": "Master",
+      "ts": 1008927
+    },
+    "752_Master": {
+      "music_id": 752,
+      "difficulty": "Master",
+      "ts": 1001293
+    },
+    "960_Master": {
+      "music_id": 960,
+      "difficulty": "Master",
+      "ts": 1001857
+    },
+    "891_Master": {
+      "music_id": 891,
+      "difficulty": "Master",
+      "ts": 1009583
+    },
+    "1136_Master": {
+      "music_id": 1136,
+      "difficulty": "Master",
+      "ts": 1007862
+    },
+    "1027_Master": {
+      "music_id": 1027,
+      "difficulty": "Master",
+      "ts": 1008071
+    },
+    "1201_Master": {
+      "music_id": 1201,
+      "difficulty": "Master",
+      "ts": 1004412
+    },
+    "1184_Master": {
+      "music_id": 1184,
+      "difficulty": "Master",
+      "ts": 1007539
+    },
+    "1116_Master": {
+      "music_id": 1116,
+      "difficulty": "Master",
+      "ts": 1006959
+    },
+    "357_Master": {
+      "music_id": 357,
+      "difficulty": "Master",
+      "ts": 1008066
+    },
+    "207_Master": {
+      "music_id": 207,
+      "difficulty": "Master",
+      "ts": 1000577
+    },
+    "918_Master": {
+      "music_id": 918,
+      "difficulty": "Master",
+      "ts": 1004589
+    },
+    "766_Master": {
+      "music_id": 766,
+      "difficulty": "Master",
+      "ts": 1008177
+    },
+    "1018_Master": {
+      "music_id": 1018,
+      "difficulty": "Master",
+      "ts": 996107
+    },
+    "1190_Master": {
+      "music_id": 1190,
+      "difficulty": "Master",
+      "ts": 1005973
+    },
+    "380_Master": {
+      "music_id": 380,
+      "difficulty": "Master",
+      "ts": 1003300
+    },
+    "1160_Master": {
+      "music_id": 1160,
+      "difficulty": "Master",
+      "ts": 1006601
+    },
+    "58_Master": {
+      "music_id": 58,
+      "difficulty": "Master",
+      "ts": 1005740
+    },
+    "381_Master": {
+      "music_id": 381,
+      "difficulty": "Master",
+      "ts": 1000116
+    },
+    "874_Master": {
+      "music_id": 874,
+      "difficulty": "Master",
+      "ts": 1007747
+    },
+    "924_Master": {
+      "music_id": 924,
+      "difficulty": "Master",
+      "ts": 1001077
+    },
+    "66_Master": {
+      "music_id": 66,
+      "difficulty": "Master",
+      "ts": 1009024
+    },
+    "335_Master": {
+      "music_id": 335,
+      "difficulty": "Master",
+      "ts": 1007471
+    },
+    "352_Master": {
+      "music_id": 352,
+      "difficulty": "Master",
+      "ts": 989449
+    },
+    "538_Master": {
+      "music_id": 538,
+      "difficulty": "Master",
+      "ts": 1004592
+    },
+    "671_Master": {
+      "music_id": 671,
+      "difficulty": "Master",
+      "ts": 1005541
+    },
+    "949_Master": {
+      "music_id": 949,
+      "difficulty": "Master",
+      "ts": 1007278
+    },
+    "1121_Master": {
+      "music_id": 1121,
+      "difficulty": "Master",
+      "ts": 1007881
+    },
+    "964_Master": {
+      "music_id": 964,
+      "difficulty": "Master",
+      "ts": 1006670
+    },
+    "1139_Master": {
+      "music_id": 1139,
+      "difficulty": "Master",
+      "ts": 1006971
+    },
+    "742_Master": {
+      "music_id": 742,
+      "difficulty": "Master",
+      "ts": 1007545
+    },
+    "235_Master": {
+      "music_id": 235,
+      "difficulty": "Master",
+      "ts": 1008807
+    },
+    "660_Master": {
+      "music_id": 660,
+      "difficulty": "Master",
+      "ts": 1007356
+    },
+    "633_Master": {
+      "music_id": 633,
+      "difficulty": "Master",
+      "ts": 1004581
+    },
+    "605_Master": {
+      "music_id": 605,
+      "difficulty": "Master",
+      "ts": 1006098
+    },
+    "1182_Master": {
+      "music_id": 1182,
+      "difficulty": "Master",
+      "ts": 948849
+    },
+    "897_Expert": {
+      "music_id": 897,
+      "difficulty": "Expert",
+      "ts": 1005843
+    },
+    "919_Expert": {
+      "music_id": 919,
+      "difficulty": "Expert",
+      "ts": 1009206
+    },
+    "1078_Expert": {
+      "music_id": 1078,
+      "difficulty": "Expert",
+      "ts": 1007956
+    },
+    "858_Expert": {
+      "music_id": 858,
+      "difficulty": "Expert",
+      "ts": 1008133
+    },
+    "1013_Expert": {
+      "music_id": 1013,
+      "difficulty": "Expert",
+      "ts": 1008708
+    },
+    "1062_Expert": {
+      "music_id": 1062,
+      "difficulty": "Expert",
+      "ts": 1007108
+    },
+    "523_Expert": {
+      "music_id": 523,
+      "difficulty": "Expert",
+      "ts": 1008547
+    },
+    "996_Expert": {
+      "music_id": 996,
+      "difficulty": "Expert",
+      "ts": 1007962
+    },
+    "1033_Expert": {
+      "music_id": 1033,
+      "difficulty": "Expert",
+      "ts": 1006955
+    },
+    "681_Master": {
+      "music_id": 681,
+      "difficulty": "Master",
+      "ts": 1007655
+    },
+    "871_Master": {
+      "music_id": 871,
+      "difficulty": "Master",
+      "ts": 1009506
+    },
+    "136_Master": {
+      "music_id": 136,
+      "difficulty": "Master",
+      "ts": 1009601
+    },
+    "494_Master": {
+      "music_id": 494,
+      "difficulty": "Master",
+      "ts": 1007924
+    },
+    "93_Master": {
+      "music_id": 93,
+      "difficulty": "Master",
+      "ts": 1008930
+    },
+    "583_Master": {
+      "music_id": 583,
+      "difficulty": "Master",
+      "ts": 1004395
+    },
+    "56_Master": {
+      "music_id": 56,
+      "difficulty": "Master",
+      "ts": 1008644
+    },
+    "796_Master": {
+      "music_id": 796,
+      "difficulty": "Master",
+      "ts": 1010000
+    },
+    "1134_Master": {
+      "music_id": 1134,
+      "difficulty": "Master",
+      "ts": 989796
+    },
+    "646_Expert": {
+      "music_id": 646,
+      "difficulty": "Expert",
+      "ts": 1009348
+    },
+    "1159_Expert": {
+      "music_id": 1159,
+      "difficulty": "Expert",
+      "ts": 1009601
+    },
+    "266_Lunatic": {
+      "music_id": 266,
+      "difficulty": "Lunatic",
+      "ts": 975904
+    },
+    "27_Lunatic": {
+      "music_id": 27,
+      "difficulty": "Lunatic",
+      "ts": 977510
+    },
+    "163_Lunatic": {
+      "music_id": 163,
+      "difficulty": "Lunatic",
+      "ts": 997384
+    },
+    "429_Lunatic": {
+      "music_id": 429,
+      "difficulty": "Lunatic",
+      "ts": 990151
+    },
+    "1082_Lunatic": {
+      "music_id": 1082,
+      "difficulty": "Lunatic",
+      "ts": 987175
+    },
+    "693_Master": {
+      "music_id": 693,
+      "difficulty": "Master",
+      "ts": 1006116
+    },
+    "1197_Master": {
+      "music_id": 1197,
+      "difficulty": "Master",
+      "ts": 1005383
+    },
+    "1185_Master": {
+      "music_id": 1185,
+      "difficulty": "Master",
+      "ts": 1000198
+    },
+    "534_Master": {
+      "music_id": 534,
+      "difficulty": "Master",
+      "ts": 1009284
+    },
+    "469_Master": {
+      "music_id": 469,
+      "difficulty": "Master",
+      "ts": 1007664
+    },
+    "987_Master": {
+      "music_id": 987,
+      "difficulty": "Master",
+      "ts": 1005793
+    },
+    "724_Master": {
+      "music_id": 724,
+      "difficulty": "Master",
+      "ts": 997417
+    },
+    "141_Master": {
+      "music_id": 141,
+      "difficulty": "Master",
+      "ts": 1009469
+    },
+    "22_Master": {
+      "music_id": 22,
+      "difficulty": "Master",
+      "ts": 1008045
+    },
+    "1148_Master": {
+      "music_id": 1148,
+      "difficulty": "Master",
+      "ts": 1002739
+    },
+    "536_Master": {
+      "music_id": 536,
+      "difficulty": "Master",
+      "ts": 997163
+    },
+    "213_Master": {
+      "music_id": 213,
+      "difficulty": "Master",
+      "ts": 1007197
+    },
+    "580_Master": {
+      "music_id": 580,
+      "difficulty": "Master",
+      "ts": 1009335
+    },
+    "765_Master": {
+      "music_id": 765,
+      "difficulty": "Master",
+      "ts": 1009306
+    },
+    "839_Master": {
+      "music_id": 839,
+      "difficulty": "Master",
+      "ts": 1009213
+    },
+    "63_Master": {
+      "music_id": 63,
+      "difficulty": "Master",
+      "ts": 1001831
+    },
+    "71_Master": {
+      "music_id": 71,
+      "difficulty": "Master",
+      "ts": 1009217
+    },
+    "659_Master": {
+      "music_id": 659,
+      "difficulty": "Master",
+      "ts": 995872
+    },
+    "270_Master": {
+      "music_id": 270,
+      "difficulty": "Master",
+      "ts": 1008680
+    },
+    "82_Master": {
+      "music_id": 82,
+      "difficulty": "Master",
+      "ts": 1006277
+    },
+    "650_Master": {
+      "music_id": 650,
+      "difficulty": "Master",
+      "ts": 1007718
+    },
+    "934_Expert": {
+      "music_id": 934,
+      "difficulty": "Expert",
+      "ts": 1008904
+    },
+    "819_Expert": {
+      "music_id": 819,
+      "difficulty": "Expert",
+      "ts": 1009875
+    },
+    "106_Expert": {
+      "music_id": 106,
+      "difficulty": "Expert",
+      "ts": 1008524
+    },
+    "353_Expert": {
+      "music_id": 353,
+      "difficulty": "Expert",
+      "ts": 1009269
+    },
+    "389_Expert": {
+      "music_id": 389,
+      "difficulty": "Expert",
+      "ts": 1007150
+    },
+    "138_Lunatic": {
+      "music_id": 138,
+      "difficulty": "Lunatic",
+      "ts": 1006436
+    },
+    "296_Master": {
+      "music_id": 296,
+      "difficulty": "Master",
+      "ts": 1009285
+    },
+    "263_Master": {
+      "music_id": 263,
+      "difficulty": "Master",
+      "ts": 1009574
+    },
+    "653_Master": {
+      "music_id": 653,
+      "difficulty": "Master",
+      "ts": 1009160
+    },
+    "37_Master": {
+      "music_id": 37,
+      "difficulty": "Master",
+      "ts": 1008078
+    },
+    "557_Master": {
+      "music_id": 557,
+      "difficulty": "Master",
+      "ts": 1009078
+    },
+    "172_Master": {
+      "music_id": 172,
+      "difficulty": "Master",
+      "ts": 1009276
+    },
+    "40_Master": {
+      "music_id": 40,
+      "difficulty": "Master",
+      "ts": 1009436
+    },
+    "1122_Master": {
+      "music_id": 1122,
+      "difficulty": "Master",
+      "ts": 1008758
+    },
+    "45_Master": {
+      "music_id": 45,
+      "difficulty": "Master",
+      "ts": 1007874
+    },
+    "822_Master": {
+      "music_id": 822,
+      "difficulty": "Master",
+      "ts": 1009437
+    },
+    "919_Master": {
+      "music_id": 919,
+      "difficulty": "Master",
+      "ts": 985533
+    },
+    "57_Master": {
+      "music_id": 57,
+      "difficulty": "Master",
+      "ts": 1008156
+    },
+    "60_Master": {
+      "music_id": 60,
+      "difficulty": "Master",
+      "ts": 1009346
+    },
+    "882_Master": {
+      "music_id": 882,
+      "difficulty": "Master",
+      "ts": 1008868
+    },
+    "72_Master": {
+      "music_id": 72,
+      "difficulty": "Master",
+      "ts": 1009892
+    },
+    "221_Master": {
+      "music_id": 221,
+      "difficulty": "Master",
+      "ts": 1009118
+    },
+    "744_Master": {
+      "music_id": 744,
+      "difficulty": "Master",
+      "ts": 1009770
+    },
+    "358_Master": {
+      "music_id": 358,
+      "difficulty": "Master",
+      "ts": 1009591
+    },
+    "409_Master": {
+      "music_id": 409,
+      "difficulty": "Master",
+      "ts": 1008451
+    },
+    "632_Master": {
+      "music_id": 632,
+      "difficulty": "Master",
+      "ts": 1008417
+    },
+    "1031_Master": {
+      "music_id": 1031,
+      "difficulty": "Master",
+      "ts": 1002367
+    },
+    "642_Expert": {
+      "music_id": 642,
+      "difficulty": "Expert",
+      "ts": 1008035
+    },
+    "433_Expert": {
+      "music_id": 433,
+      "difficulty": "Expert",
+      "ts": 1008743
+    },
+    "72_Lunatic": {
+      "music_id": 72,
+      "difficulty": "Lunatic",
+      "ts": 1007703
+    },
+    "1216_Master": {
+      "music_id": 1216,
+      "difficulty": "Master",
+      "ts": 976316
+    },
+    "69_Master": {
+      "music_id": 69,
+      "difficulty": "Master",
+      "ts": 1009793
+    },
+    "802_Master": {
+      "music_id": 802,
+      "difficulty": "Master",
+      "ts": 1003344
+    },
+    "1213_Expert": {
+      "music_id": 1213,
+      "difficulty": "Expert",
+      "ts": 1010000
+    },
+    "1214_Expert": {
+      "music_id": 1214,
+      "difficulty": "Expert",
+      "ts": 1008983
+    },
+    "1217_Expert": {
+      "music_id": 1217,
+      "difficulty": "Expert",
+      "ts": 1009800
+    },
+    "867_Expert": {
+      "music_id": 867,
+      "difficulty": "Expert",
+      "ts": 1007018
+    },
+    "799_Expert": {
+      "music_id": 799,
+      "difficulty": "Expert",
+      "ts": 1007498
+    },
+    "803_Expert": {
+      "music_id": 803,
+      "difficulty": "Expert",
+      "ts": 993312
+    },
+    "513_Expert": {
+      "music_id": 513,
+      "difficulty": "Expert",
+      "ts": 1004746
+    },
+    "576_Master": {
+      "music_id": 576,
+      "difficulty": "Master",
+      "ts": 990934
+    },
+    "1060_Master": {
+      "music_id": 1060,
+      "difficulty": "Master",
+      "ts": 985320
+    },
+    "473_Master": {
+      "music_id": 473,
+      "difficulty": "Master",
+      "ts": 988678
+    },
+    "1098_Master": {
+      "music_id": 1098,
+      "difficulty": "Master",
+      "ts": 988119
+    },
+    "1094_Master": {
+      "music_id": 1094,
+      "difficulty": "Master",
+      "ts": 1008360
+    },
+    "992_Expert": {
+      "music_id": 992,
+      "difficulty": "Expert",
+      "ts": 1004655
+    },
+    "936_Expert": {
+      "music_id": 936,
+      "difficulty": "Expert",
+      "ts": 1009498
+    },
+    "554_Expert": {
+      "music_id": 554,
+      "difficulty": "Expert",
+      "ts": 1008629
+    },
+    "1193_Expert": {
+      "music_id": 1193,
+      "difficulty": "Expert",
+      "ts": 1008874
+    },
+    "574_Expert": {
+      "music_id": 574,
+      "difficulty": "Expert",
+      "ts": 1005885
+    },
+    "1198_Master": {
+      "music_id": 1198,
+      "difficulty": "Master",
+      "ts": 1008966
+    },
+    "1214_Master": {
+      "music_id": 1214,
+      "difficulty": "Master",
+      "ts": 1004904
+    },
+    "337_Master": {
+      "music_id": 337,
+      "difficulty": "Master",
+      "ts": 1009852
+    },
+    "946_Master": {
+      "music_id": 946,
+      "difficulty": "Master",
+      "ts": 1008737
+    },
+    "411_Master": {
+      "music_id": 411,
+      "difficulty": "Master",
+      "ts": 995284
+    },
+    "665_Master": {
+      "music_id": 665,
+      "difficulty": "Master",
+      "ts": 1009543
+    },
+    "648_Master": {
+      "music_id": 648,
+      "difficulty": "Master",
+      "ts": 1004395
+    },
+    "267_Master": {
+      "music_id": 267,
+      "difficulty": "Master",
+      "ts": 1008941
+    },
+    "76_Master": {
+      "music_id": 76,
+      "difficulty": "Master",
+      "ts": 1009659
+    },
+    "180_Master": {
+      "music_id": 180,
+      "difficulty": "Master",
+      "ts": 1007254
+    },
+    "709_Master": {
+      "music_id": 709,
+      "difficulty": "Master",
+      "ts": 1009770
+    },
+    "737_Master": {
+      "music_id": 737,
+      "difficulty": "Master",
+      "ts": 1008891
+    },
+    "738_Master": {
+      "music_id": 738,
+      "difficulty": "Master",
+      "ts": 1008744
+    },
+    "740_Master": {
+      "music_id": 740,
+      "difficulty": "Master",
+      "ts": 1007857
+    },
+    "759_Master": {
+      "music_id": 759,
+      "difficulty": "Master",
+      "ts": 1008980
+    },
+    "760_Master": {
+      "music_id": 760,
+      "difficulty": "Master",
+      "ts": 1008980
+    },
+    "761_Master": {
+      "music_id": 761,
+      "difficulty": "Master",
+      "ts": 1006796
+    },
+    "763_Master": {
+      "music_id": 763,
+      "difficulty": "Master",
+      "ts": 1008471
+    },
+    "537_Expert": {
+      "music_id": 537,
+      "difficulty": "Expert",
+      "ts": 1002521
+    },
+    "405_Expert": {
+      "music_id": 405,
+      "difficulty": "Expert",
+      "ts": 1009519
+    },
+    "790_Master": {
+      "music_id": 790,
+      "difficulty": "Master",
+      "ts": 1009660
+    },
+    "791_Master": {
+      "music_id": 791,
+      "difficulty": "Master",
+      "ts": 1008166
+    },
+    "85_Lunatic": {
+      "music_id": 85,
+      "difficulty": "Lunatic",
+      "ts": 995378
+    },
+    "986_Master": {
+      "music_id": 986,
+      "difficulty": "Master",
+      "ts": 1007502
+    },
+    "792_Master": {
+      "music_id": 792,
+      "difficulty": "Master",
+      "ts": 1009524
+    },
+    "1022_Master": {
+      "music_id": 1022,
+      "difficulty": "Master",
+      "ts": 1008193
+    },
+    "912_Master": {
+      "music_id": 912,
+      "difficulty": "Master",
+      "ts": 1003479
+    },
+    "1010_Master": {
+      "music_id": 1010,
+      "difficulty": "Master",
+      "ts": 1009200
+    },
+    "1011_Master": {
+      "music_id": 1011,
+      "difficulty": "Master",
+      "ts": 1009680
+    },
+    "1012_Master": {
+      "music_id": 1012,
+      "difficulty": "Master",
+      "ts": 1008347
+    },
+    "1105_Master": {
+      "music_id": 1105,
+      "difficulty": "Master",
+      "ts": 1009584
+    },
+    "1107_Master": {
+      "music_id": 1107,
+      "difficulty": "Master",
+      "ts": 1007706
+    },
+    "721_Master": {
+      "music_id": 721,
+      "difficulty": "Master",
+      "ts": 1003386
+    },
+    "456_Master": {
+      "music_id": 456,
+      "difficulty": "Master",
+      "ts": 1008409
+    },
+    "819_Master": {
+      "music_id": 819,
+      "difficulty": "Master",
+      "ts": 996621
+    },
+    "189_Master": {
+      "music_id": 189,
+      "difficulty": "Master",
+      "ts": 1007587
+    },
+    "828_Master": {
+      "music_id": 828,
+      "difficulty": "Master",
+      "ts": 1005422
+    },
+    "1221_Master": {
+      "music_id": 1221,
+      "difficulty": "Master",
+      "ts": 1008783
+    },
+    "271_Master": {
+      "music_id": 271,
+      "difficulty": "Master",
+      "ts": 1007782
+    },
+    "1215_Expert": {
+      "music_id": 1215,
+      "difficulty": "Expert",
+      "ts": 1009056
+    },
+    "1212_Master": {
+      "music_id": 1212,
+      "difficulty": "Master",
+      "ts": 1008948
+    },
+    "1219_Master": {
+      "music_id": 1219,
+      "difficulty": "Master",
+      "ts": 1007793
+    },
+    "1220_Master": {
+      "music_id": 1220,
+      "difficulty": "Master",
+      "ts": 990778
+    },
+    "1216_Expert": {
+      "music_id": 1216,
+      "difficulty": "Expert",
+      "ts": 1009081
+    },
+    "1220_Expert": {
+      "music_id": 1220,
+      "difficulty": "Expert",
+      "ts": 1010000
+    },
+    "229_Lunatic": {
+      "music_id": 229,
+      "difficulty": "Lunatic",
+      "ts": 820968
+    },
+    "441_Lunatic": {
+      "music_id": 441,
+      "difficulty": "Lunatic",
+      "ts": 993042
+    },
+    "59_Lunatic": {
+      "music_id": 59,
+      "difficulty": "Lunatic",
+      "ts": 1007905
+    },
+    "54_Lunatic": {
+      "music_id": 54,
+      "difficulty": "Lunatic",
+      "ts": 1003429
+    },
+    "355_Lunatic": {
+      "music_id": 355,
+      "difficulty": "Lunatic",
+      "ts": 978696
+    },
+    "76_Lunatic": {
+      "music_id": 76,
+      "difficulty": "Lunatic",
+      "ts": 1002122
+    },
+    "1140_Master": {
+      "music_id": 1140,
+      "difficulty": "Master",
+      "ts": 1008260
+    },
+    "692_Master": {
+      "music_id": 692,
+      "difficulty": "Master",
+      "ts": 1008671
+    },
+    "575_Master": {
+      "music_id": 575,
+      "difficulty": "Master",
+      "ts": 1008987
+    },
+    "406_Master": {
+      "music_id": 406,
+      "difficulty": "Master",
+      "ts": 1008229
+    },
+    "525_Master": {
+      "music_id": 525,
+      "difficulty": "Master",
+      "ts": 1009689
+    },
+    "145_Master": {
+      "music_id": 145,
+      "difficulty": "Master",
+      "ts": 1006998
+    },
+    "527_Master": {
+      "music_id": 527,
+      "difficulty": "Master",
+      "ts": 1008831
+    },
+    "452_Master": {
+      "music_id": 452,
+      "difficulty": "Master",
+      "ts": 1007823
+    },
+    "287_Master": {
+      "music_id": 287,
+      "difficulty": "Master",
+      "ts": 1009274
+    },
+    "142_Master": {
+      "music_id": 142,
+      "difficulty": "Master",
+      "ts": 1008428
+    },
+    "519_Master": {
+      "music_id": 519,
+      "difficulty": "Master",
+      "ts": 1009685
+    },
+    "67_Master": {
+      "music_id": 67,
+      "difficulty": "Master",
+      "ts": 1009450
+    },
+    "386_Master": {
+      "music_id": 386,
+      "difficulty": "Master",
+      "ts": 1004852
+    },
+    "906_Master": {
+      "music_id": 906,
+      "difficulty": "Master",
+      "ts": 1008244
+    },
+    "907_Master": {
+      "music_id": 907,
+      "difficulty": "Master",
+      "ts": 1008418
+    },
+    "908_Master": {
+      "music_id": 908,
+      "difficulty": "Master",
+      "ts": 1006211
+    },
+    "909_Master": {
+      "music_id": 909,
+      "difficulty": "Master",
+      "ts": 1008603
+    },
+    "911_Master": {
+      "music_id": 911,
+      "difficulty": "Master",
+      "ts": 1005441
+    },
+    "823_Expert": {
+      "music_id": 823,
+      "difficulty": "Expert",
+      "ts": 1009596
+    },
+    "139_Expert": {
+      "music_id": 139,
+      "difficulty": "Expert",
+      "ts": 1005581
+    },
+    "576_Lunatic": {
+      "music_id": 576,
+      "difficulty": "Lunatic",
+      "ts": 965403
+    },
+    "956_Lunatic": {
+      "music_id": 956,
+      "difficulty": "Lunatic",
+      "ts": 978347
+    },
+    "1188_Lunatic": {
+      "music_id": 1188,
+      "difficulty": "Lunatic",
+      "ts": 585239
+    },
+    "47_Lunatic": {
+      "music_id": 47,
+      "difficulty": "Lunatic",
+      "ts": 989295
+    },
+    "74_Lunatic": {
+      "music_id": 74,
+      "difficulty": "Lunatic",
+      "ts": 973369
+    },
+    "572_Lunatic": {
+      "music_id": 572,
+      "difficulty": "Lunatic",
+      "ts": 980636
+    },
+    "266_Master": {
+      "music_id": 266,
+      "difficulty": "Master",
+      "ts": 985520
+    },
+    "378_Master": {
+      "music_id": 378,
+      "difficulty": "Master",
+      "ts": 1007502
+    },
+    "1130_Master": {
+      "music_id": 1130,
+      "difficulty": "Master",
+      "ts": 1001406
+    },
+    "544_Master": {
+      "music_id": 544,
+      "difficulty": "Master",
+      "ts": 1000563
+    },
+    "630_Master": {
+      "music_id": 630,
+      "difficulty": "Master",
+      "ts": 1001347
+    },
+    "1154_Master": {
+      "music_id": 1154,
+      "difficulty": "Master",
+      "ts": 992536
+    },
+    "178_Master": {
+      "music_id": 178,
+      "difficulty": "Master",
+      "ts": 1008300
+    },
+    "745_Master": {
+      "music_id": 745,
+      "difficulty": "Master",
+      "ts": 995448
+    },
+    "789_Master": {
+      "music_id": 789,
+      "difficulty": "Master",
+      "ts": 1008845
+    },
+    "793_Master": {
+      "music_id": 793,
+      "difficulty": "Master",
+      "ts": 1009592
+    },
+    "812_Master": {
+      "music_id": 812,
+      "difficulty": "Master",
+      "ts": 1008248
+    },
+    "813_Master": {
+      "music_id": 813,
+      "difficulty": "Master",
+      "ts": 1010000
+    },
+    "814_Master": {
+      "music_id": 814,
+      "difficulty": "Master",
+      "ts": 1009660
+    },
+    "1083_Master": {
+      "music_id": 1083,
+      "difficulty": "Master",
+      "ts": 1009104
+    },
+    "1084_Master": {
+      "music_id": 1084,
+      "difficulty": "Master",
+      "ts": 1009626
+    },
+    "1202_Master": {
+      "music_id": 1202,
+      "difficulty": "Master",
+      "ts": 1009632
+    },
+    "1203_Master": {
+      "music_id": 1203,
+      "difficulty": "Master",
+      "ts": 1009642
+    },
+    "1050_Master": {
+      "music_id": 1050,
+      "difficulty": "Master",
+      "ts": 1007614
+    },
+    "1051_Master": {
+      "music_id": 1051,
+      "difficulty": "Master",
+      "ts": 1009147
+    },
+    "1145_Master": {
+      "music_id": 1145,
+      "difficulty": "Master",
+      "ts": 1008319
+    },
+    "1146_Master": {
+      "music_id": 1146,
+      "difficulty": "Master",
+      "ts": 1009415
+    },
+    "1021_Master": {
+      "music_id": 1021,
+      "difficulty": "Master",
+      "ts": 1008508
+    },
+    "1205_Master": {
+      "music_id": 1205,
+      "difficulty": "Master",
+      "ts": 1009314
+    },
+    "1206_Master": {
+      "music_id": 1206,
+      "difficulty": "Master",
+      "ts": 1009314
+    },
+    "920_Master": {
+      "music_id": 920,
+      "difficulty": "Master",
+      "ts": 1008705
+    },
+    "921_Master": {
+      "music_id": 921,
+      "difficulty": "Master",
+      "ts": 1009352
+    },
+    "922_Master": {
+      "music_id": 922,
+      "difficulty": "Master",
+      "ts": 1007411
+    },
+    "830_Master": {
+      "music_id": 830,
+      "difficulty": "Master",
+      "ts": 1008508
+    },
+    "1208_Master": {
+      "music_id": 1208,
+      "difficulty": "Master",
+      "ts": 1009628
+    },
+    "1209_Master": {
+      "music_id": 1209,
+      "difficulty": "Master",
+      "ts": 1008639
+    },
+    "728_Expert": {
+      "music_id": 728,
+      "difficulty": "Expert",
+      "ts": 1009159
+    },
+    "995_Expert": {
+      "music_id": 995,
+      "difficulty": "Expert",
+      "ts": 1009641
+    },
+    "948_Expert": {
+      "music_id": 948,
+      "difficulty": "Expert",
+      "ts": 1004319
+    },
+    "950_Expert": {
+      "music_id": 950,
+      "difficulty": "Expert",
+      "ts": 1009062
+    },
+    "167_Expert": {
+      "music_id": 167,
+      "difficulty": "Expert",
+      "ts": 1009752
+    },
+    "194_Expert": {
+      "music_id": 194,
+      "difficulty": "Expert",
+      "ts": 1009477
+    },
+    "1059_Lunatic": {
+      "music_id": 1059,
+      "difficulty": "Lunatic",
+      "ts": 985493
+    },
+    "178_Lunatic": {
+      "music_id": 178,
+      "difficulty": "Lunatic",
+      "ts": 987517
+    },
+    "619_Master": {
+      "music_id": 619,
+      "difficulty": "Master",
+      "ts": 1007196
+    },
+    "579_Master": {
+      "music_id": 579,
+      "difficulty": "Master",
+      "ts": 1002437
+    },
+    "345_Master": {
+      "music_id": 345,
+      "difficulty": "Master",
+      "ts": 1006093
+    },
+    "1194_Expert": {
+      "music_id": 1194,
+      "difficulty": "Expert",
+      "ts": 1009540
+    },
+    "1195_Expert": {
+      "music_id": 1195,
+      "difficulty": "Expert",
+      "ts": 1010000
+    },
+    "1181_Expert": {
+      "music_id": 1181,
+      "difficulty": "Expert",
+      "ts": 1009001
+    },
+    "1204_Expert": {
+      "music_id": 1204,
+      "difficulty": "Expert",
+      "ts": 1007706
+    },
+    "1173_Expert": {
+      "music_id": 1173,
+      "difficulty": "Expert",
+      "ts": 1008656
+    },
+    "1174_Expert": {
+      "music_id": 1174,
+      "difficulty": "Expert",
+      "ts": 1008117
+    },
+    "1019_Expert": {
+      "music_id": 1019,
+      "difficulty": "Expert",
+      "ts": 1008084
+    },
+    "1172_Expert": {
+      "music_id": 1172,
+      "difficulty": "Expert",
+      "ts": 1009512
+    },
+    "126_Lunatic": {
+      "music_id": 126,
+      "difficulty": "Lunatic",
+      "ts": 995570
+    },
+    "1057_Master": {
+      "music_id": 1057,
+      "difficulty": "Master",
+      "ts": 1008281
+    },
+    "234_Master": {
+      "music_id": 234,
+      "difficulty": "Master",
+      "ts": 1008344
+    },
+    "318_Master": {
+      "music_id": 318,
+      "difficulty": "Master",
+      "ts": 1006503
+    },
+    "1123_Master": {
+      "music_id": 1123,
+      "difficulty": "Master",
+      "ts": 1008276
+    },
+    "1059_Master": {
+      "music_id": 1059,
+      "difficulty": "Master",
+      "ts": 1001571
+    },
+    "631_Master": {
+      "music_id": 631,
+      "difficulty": "Master",
+      "ts": 1007751
+    },
+    "62_Master": {
+      "music_id": 62,
+      "difficulty": "Master",
+      "ts": 1004074
+    },
+    "624_Master": {
+      "music_id": 624,
+      "difficulty": "Master",
+      "ts": 1005135
+    },
+    "78_Master": {
+      "music_id": 78,
+      "difficulty": "Master",
+      "ts": 1008255
+    },
+    "302_Master": {
+      "music_id": 302,
+      "difficulty": "Master",
+      "ts": 996594
+    },
+    "418_Master": {
+      "music_id": 418,
+      "difficulty": "Master",
+      "ts": 1009548
+    },
+    "419_Master": {
+      "music_id": 419,
+      "difficulty": "Master",
+      "ts": 1009280
+    },
+    "708_Master": {
+      "music_id": 708,
+      "difficulty": "Master",
+      "ts": 1009185
+    },
+    "739_Master": {
+      "music_id": 739,
+      "difficulty": "Master",
+      "ts": 1009704
+    },
+    "1199_Master": {
+      "music_id": 1199,
+      "difficulty": "Master",
+      "ts": 1007589
+    },
+    "1049_Master": {
+      "music_id": 1049,
+      "difficulty": "Master",
+      "ts": 1001394
+    },
+    "1147_Master": {
+      "music_id": 1147,
+      "difficulty": "Master",
+      "ts": 1007880
+    },
+    "863_Master": {
+      "music_id": 863,
+      "difficulty": "Master",
+      "ts": 1005826
+    },
+    "865_Master": {
+      "music_id": 865,
+      "difficulty": "Master",
+      "ts": 1002077
+    },
+    "1160_Expert": {
+      "music_id": 1160,
+      "difficulty": "Expert",
+      "ts": 1009914
+    },
+    "1102_Expert": {
+      "music_id": 1102,
+      "difficulty": "Expert",
+      "ts": 1007733
+    },
+    "990_Expert": {
+      "music_id": 990,
+      "difficulty": "Expert",
+      "ts": 1009067
+    },
+    "1111_Expert": {
+      "music_id": 1111,
+      "difficulty": "Expert",
+      "ts": 1009626
+    },
+    "704_Expert": {
+      "music_id": 704,
+      "difficulty": "Expert",
+      "ts": 1008947
+    },
+    "1032_Expert": {
+      "music_id": 1032,
+      "difficulty": "Expert",
+      "ts": 1009039
+    },
+    "88_Expert": {
+      "music_id": 88,
+      "difficulty": "Expert",
+      "ts": 1007732
+    },
+    "715_Expert": {
+      "music_id": 715,
+      "difficulty": "Expert",
+      "ts": 1008869
+    },
+    "928_Master": {
+      "music_id": 928,
+      "difficulty": "Master",
+      "ts": 1009311
+    },
+    "1081_Expert": {
+      "music_id": 1081,
+      "difficulty": "Expert",
+      "ts": 1010000
+    },
+    "236_Expert": {
+      "music_id": 236,
+      "difficulty": "Expert",
+      "ts": 1009794
+    },
+    "917_Master": {
+      "music_id": 917,
+      "difficulty": "Master",
+      "ts": 1009718
+    },
+    "471_Master": {
+      "music_id": 471,
+      "difficulty": "Master",
+      "ts": 1009846
+    },
+    "342_Master": {
+      "music_id": 342,
+      "difficulty": "Master",
+      "ts": 988649
+    },
+    "1028_Expert": {
+      "music_id": 1028,
+      "difficulty": "Expert",
+      "ts": 1009602
+    },
+    "370_Master": {
+      "music_id": 370,
+      "difficulty": "Master",
+      "ts": 1009948
+    },
+    "1034_Expert": {
+      "music_id": 1034,
+      "difficulty": "Expert",
+      "ts": 1009926
+    },
+    "697_Expert": {
+      "music_id": 697,
+      "difficulty": "Expert",
+      "ts": 1009781
+    },
+    "302_Expert": {
+      "music_id": 302,
+      "difficulty": "Expert",
+      "ts": 1010000
+    },
+    "1204_Master": {
+      "music_id": 1204,
+      "difficulty": "Master",
+      "ts": 1007573
+    },
+    "1071_Master": {
+      "music_id": 1071,
+      "difficulty": "Master",
+      "ts": 999845
+    },
+    "210_Master": {
+      "music_id": 210,
+      "difficulty": "Master",
+      "ts": 1009908
+    },
+    "421_Master": {
+      "music_id": 421,
+      "difficulty": "Master",
+      "ts": 1009781
+    },
+    "326_Master": {
+      "music_id": 326,
+      "difficulty": "Master",
+      "ts": 992350
+    },
+    "1201_Expert": {
+      "music_id": 1201,
+      "difficulty": "Expert",
+      "ts": 1009826
+    },
+    "1071_Expert": {
+      "music_id": 1071,
+      "difficulty": "Expert",
+      "ts": 1009911
+    },
+    "379_Expert": {
+      "music_id": 379,
+      "difficulty": "Expert",
+      "ts": 1010000
+    },
+    "1020_Expert": {
+      "music_id": 1020,
+      "difficulty": "Expert",
+      "ts": 1009844
+    },
+    "991_Expert": {
+      "music_id": 991,
+      "difficulty": "Expert",
+      "ts": 1009895
+    },
+    "905_Expert": {
+      "music_id": 905,
+      "difficulty": "Expert",
+      "ts": 1009583
+    },
+    "1198_Expert": {
+      "music_id": 1198,
+      "difficulty": "Expert",
+      "ts": 1010000
+    },
+    "650_Expert": {
+      "music_id": 650,
+      "difficulty": "Expert",
+      "ts": 1009835
+    },
+    "1165_Master": {
+      "music_id": 1165,
+      "difficulty": "Master",
+      "ts": 1005647
+    },
+    "582_Master": {
+      "music_id": 582,
+      "difficulty": "Master",
+      "ts": 1004921
+    },
+    "51_Master": {
+      "music_id": 51,
+      "difficulty": "Master",
+      "ts": 1009918
+    },
+    "667_Expert": {
+      "music_id": 667,
+      "difficulty": "Expert",
+      "ts": 1008788
+    },
+    "1143_Expert": {
+      "music_id": 1143,
+      "difficulty": "Expert",
+      "ts": 1009733
+    },
+    "1041_Expert": {
+      "music_id": 1041,
+      "difficulty": "Expert",
+      "ts": 1009860
+    },
+    "382_Lunatic": {
+      "music_id": 382,
+      "difficulty": "Lunatic",
+      "ts": 1000119
+    },
+    "952_Master": {
+      "music_id": 952,
+      "difficulty": "Master",
+      "ts": 1001522
+    },
+    "877_Master": {
+      "music_id": 877,
+      "difficulty": "Master",
+      "ts": 1008088
+    },
+    "666_Master": {
+      "music_id": 666,
+      "difficulty": "Master",
+      "ts": 1002969
+    },
+    "710_Master": {
+      "music_id": 710,
+      "difficulty": "Master",
+      "ts": 1001343
+    },
+    "284_Master": {
+      "music_id": 284,
+      "difficulty": "Master",
+      "ts": 1000391
+    },
+    "98_Master": {
+      "music_id": 98,
+      "difficulty": "Master",
+      "ts": 993837
+    },
+    "1153_Master": {
+      "music_id": 1153,
+      "difficulty": "Master",
+      "ts": 1006119
+    },
+    "268_Master": {
+      "music_id": 268,
+      "difficulty": "Master",
+      "ts": 1005986
+    },
+    "827_Master": {
+      "music_id": 827,
+      "difficulty": "Master",
+      "ts": 998358
+    },
+    "217_Master": {
+      "music_id": 217,
+      "difficulty": "Master",
+      "ts": 1006802
+    },
+    "410_Master": {
+      "music_id": 410,
+      "difficulty": "Master",
+      "ts": 992992
+    },
+    "884_Expert": {
+      "music_id": 884,
+      "difficulty": "Expert",
+      "ts": 1009000
+    },
+    "1211_Expert": {
+      "music_id": 1211,
+      "difficulty": "Expert",
+      "ts": 1009753
+    },
+    "540_Expert": {
+      "music_id": 540,
+      "difficulty": "Expert",
+      "ts": 1009855
+    },
+    "829_Expert": {
+      "music_id": 829,
+      "difficulty": "Expert",
+      "ts": 1006633
+    },
+    "499_Expert": {
+      "music_id": 499,
+      "difficulty": "Expert",
+      "ts": 1009211
+    },
+    "356_Lunatic": {
+      "music_id": 356,
+      "difficulty": "Lunatic",
+      "ts": 993407
+    },
+    "58_Lunatic": {
+      "music_id": 58,
+      "difficulty": "Lunatic",
+      "ts": 985161
+    },
+    "476_Lunatic": {
+      "music_id": 476,
+      "difficulty": "Lunatic",
+      "ts": 1008471
+    },
+    "601_Lunatic": {
+      "music_id": 601,
+      "difficulty": "Lunatic",
+      "ts": 996348
+    },
+    "180_Lunatic": {
+      "music_id": 180,
+      "difficulty": "Lunatic",
+      "ts": 1008286
+    },
+    "1162_Master": {
+      "music_id": 1162,
+      "difficulty": "Master",
+      "ts": 1000244
+    },
+    "1150_Master": {
+      "music_id": 1150,
+      "difficulty": "Master",
+      "ts": 1008510
+    },
+    "137_Master": {
+      "music_id": 137,
+      "difficulty": "Master",
+      "ts": 1008599
+    },
+    "634_Master": {
+      "music_id": 634,
+      "difficulty": "Master",
+      "ts": 1008163
+    },
+    "241_Master": {
+      "music_id": 241,
+      "difficulty": "Master",
+      "ts": 1008423
+    },
+    "274_Master": {
+      "music_id": 274,
+      "difficulty": "Master",
+      "ts": 1008477
+    },
+    "187_Master": {
+      "music_id": 187,
+      "difficulty": "Master",
+      "ts": 1009702
+    },
+    "25_Master": {
+      "music_id": 25,
+      "difficulty": "Master",
+      "ts": 1009180
+    },
+    "34_Master": {
+      "music_id": 34,
+      "difficulty": "Master",
+      "ts": 1005852
+    },
+    "168_Master": {
+      "music_id": 168,
+      "difficulty": "Master",
+      "ts": 1009630
+    },
+    "644_Master": {
+      "music_id": 644,
+      "difficulty": "Master",
+      "ts": 986040
+    },
+    "770_Master": {
+      "music_id": 770,
+      "difficulty": "Master",
+      "ts": 983426
+    },
+    "423_Master": {
+      "music_id": 423,
+      "difficulty": "Master",
+      "ts": 1007700
+    },
+    "422_Master": {
+      "music_id": 422,
+      "difficulty": "Master",
+      "ts": 994702
+    },
+    "42_Master": {
+      "music_id": 42,
+      "difficulty": "Master",
+      "ts": 1004871
+    },
+    "1103_Master": {
+      "music_id": 1103,
+      "difficulty": "Master",
+      "ts": 1000745
+    },
+    "487_Master": {
+      "music_id": 487,
+      "difficulty": "Master",
+      "ts": 994651
+    },
+    "344_Master": {
+      "music_id": 344,
+      "difficulty": "Master",
+      "ts": 983468
+    },
+    "686_Master": {
+      "music_id": 686,
+      "difficulty": "Master",
+      "ts": 1002853
+    },
+    "47_Master": {
+      "music_id": 47,
+      "difficulty": "Master",
+      "ts": 1005383
+    },
+    "577_Master": {
+      "music_id": 577,
+      "difficulty": "Master",
+      "ts": 1005630
+    },
+    "54_Master": {
+      "music_id": 54,
+      "difficulty": "Master",
+      "ts": 1008606
+    },
+    "188_Master": {
+      "music_id": 188,
+      "difficulty": "Master",
+      "ts": 992546
+    },
+    "896_Master": {
+      "music_id": 896,
+      "difficulty": "Master",
+      "ts": 1006683
+    },
+    "1210_Master": {
+      "music_id": 1210,
+      "difficulty": "Master",
+      "ts": 1009198
+    },
+    "1211_Master": {
+      "music_id": 1211,
+      "difficulty": "Master",
+      "ts": 993656
+    },
+    "269_Master": {
+      "music_id": 269,
+      "difficulty": "Master",
+      "ts": 1008967
+    },
+    "285_Master": {
+      "music_id": 285,
+      "difficulty": "Master",
+      "ts": 997081
+    },
+    "289_Master": {
+      "music_id": 289,
+      "difficulty": "Master",
+      "ts": 1008243
+    },
+    "384_Master": {
+      "music_id": 384,
+      "difficulty": "Master",
+      "ts": 1007854
+    },
+    "86_Master": {
+      "music_id": 86,
+      "difficulty": "Master",
+      "ts": 1009573
+    },
+    "773_Master": {
+      "music_id": 773,
+      "difficulty": "Master",
+      "ts": 1007904
+    },
+    "875_Master": {
+      "music_id": 875,
+      "difficulty": "Master",
+      "ts": 1006209
+    },
+    "443_Master": {
+      "music_id": 443,
+      "difficulty": "Master",
+      "ts": 1007313
+    },
+    "149_Master": {
+      "music_id": 149,
+      "difficulty": "Master",
+      "ts": 1008238
+    },
+    "166_Master": {
+      "music_id": 166,
+      "difficulty": "Master",
+      "ts": 1007679
+    },
+    "286_Master": {
+      "music_id": 286,
+      "difficulty": "Master",
+      "ts": 1003672
+    },
+    "673_Master": {
+      "music_id": 673,
+      "difficulty": "Master",
+      "ts": 1002969
+    },
+    "606_Master": {
+      "music_id": 606,
+      "difficulty": "Master",
+      "ts": 998982
+    },
+    "932_Master": {
+      "music_id": 932,
+      "difficulty": "Master",
+      "ts": 980712
+    },
+    "434_Master": {
+      "music_id": 434,
+      "difficulty": "Master",
+      "ts": 979725
+    },
+    "391_Master": {
+      "music_id": 391,
+      "difficulty": "Master",
+      "ts": 1008830
+    },
+    "392_Master": {
+      "music_id": 392,
+      "difficulty": "Master",
+      "ts": 1009536
+    },
+    "417_Master": {
+      "music_id": 417,
+      "difficulty": "Master",
+      "ts": 1006843
+    },
+    "484_Master": {
+      "music_id": 484,
+      "difficulty": "Master",
+      "ts": 1008178
+    },
+    "485_Master": {
+      "music_id": 485,
+      "difficulty": "Master",
+      "ts": 1009190
+    },
+    "504_Master": {
+      "music_id": 504,
+      "difficulty": "Master",
+      "ts": 1007947
+    },
+    "531_Master": {
+      "music_id": 531,
+      "difficulty": "Master",
+      "ts": 1000036
+    },
+    "547_Master": {
+      "music_id": 547,
+      "difficulty": "Master",
+      "ts": 1007001
+    },
+    "548_Master": {
+      "music_id": 548,
+      "difficulty": "Master",
+      "ts": 1009285
+    },
+    "551_Master": {
+      "music_id": 551,
+      "difficulty": "Master",
+      "ts": 1007326
+    },
+    "621_Master": {
+      "music_id": 621,
+      "difficulty": "Master",
+      "ts": 1009797
+    },
+    "623_Master": {
+      "music_id": 623,
+      "difficulty": "Master",
+      "ts": 1008333
+    },
+    "638_Master": {
+      "music_id": 638,
+      "difficulty": "Master",
+      "ts": 1008386
+    },
+    "639_Master": {
+      "music_id": 639,
+      "difficulty": "Master",
+      "ts": 1009324
+    },
+    "656_Master": {
+      "music_id": 656,
+      "difficulty": "Master",
+      "ts": 1008680
+    },
+    "657_Master": {
+      "music_id": 657,
+      "difficulty": "Master",
+      "ts": 1008185
+    },
+    "658_Master": {
+      "music_id": 658,
+      "difficulty": "Master",
+      "ts": 1004557
+    },
+    "675_Master": {
+      "music_id": 675,
+      "difficulty": "Master",
+      "ts": 1009256
+    },
+    "705_Master": {
+      "music_id": 705,
+      "difficulty": "Master",
+      "ts": 1009780
+    },
+    "706_Master": {
+      "music_id": 706,
+      "difficulty": "Master",
+      "ts": 1009926
+    },
+    "707_Master": {
+      "music_id": 707,
+      "difficulty": "Master",
+      "ts": 1009634
+    },
+    "1200_Master": {
+      "music_id": 1200,
+      "difficulty": "Master",
+      "ts": 1005943
+    },
+    "879_Master": {
+      "music_id": 879,
+      "difficulty": "Master",
+      "ts": 1003311
+    },
+    "881_Master": {
+      "music_id": 881,
+      "difficulty": "Master",
+      "ts": 1007351
+    },
+    "970_Master": {
+      "music_id": 970,
+      "difficulty": "Master",
+      "ts": 984781
+    },
+    "1009_Master": {
+      "music_id": 1009,
+      "difficulty": "Master",
+      "ts": 1006054
+    },
+    "1108_Master": {
+      "music_id": 1108,
+      "difficulty": "Master",
+      "ts": 1009418
+    },
+    "1037_Expert": {
+      "music_id": 1037,
+      "difficulty": "Expert",
+      "ts": 1008709
+    },
+    "933_Expert": {
+      "music_id": 933,
+      "difficulty": "Expert",
+      "ts": 1002247
+    },
+    "698_Expert": {
+      "music_id": 698,
+      "difficulty": "Expert",
+      "ts": 1006995
+    },
+    "886_Expert": {
+      "music_id": 886,
+      "difficulty": "Expert",
+      "ts": 1006548
+    },
+    "109_Expert": {
+      "music_id": 109,
+      "difficulty": "Expert",
+      "ts": 1008962
+    },
+    "720_Expert": {
+      "music_id": 720,
+      "difficulty": "Expert",
+      "ts": 1000351
+    },
+    "434_Expert": {
+      "music_id": 434,
+      "difficulty": "Expert",
+      "ts": 1007567
+    },
+    "412_Master": {
+      "music_id": 412,
+      "difficulty": "Master",
+      "ts": 1006200
+    },
+    "731_Master": {
+      "music_id": 731,
+      "difficulty": "Master",
+      "ts": 995081
+    },
+    "903_Master": {
+      "music_id": 903,
+      "difficulty": "Master",
+      "ts": 1006831
+    },
+    "385_Master": {
+      "music_id": 385,
+      "difficulty": "Master",
+      "ts": 1007578
+    },
+    "1188_Expert": {
+      "music_id": 1188,
+      "difficulty": "Expert",
+      "ts": 1008336
+    },
+    "600_Expert": {
+      "music_id": 600,
+      "difficulty": "Expert",
+      "ts": 1007657
+    },
+    "1175_Master": {
+      "music_id": 1175,
+      "difficulty": "Master",
+      "ts": 1008635
+    },
+    "1161_Master": {
+      "music_id": 1161,
+      "difficulty": "Master",
+      "ts": 991246
+    },
+    "1192_Master": {
+      "music_id": 1192,
+      "difficulty": "Master",
+      "ts": 1008951
+    },
+    "477_Master": {
+      "music_id": 477,
+      "difficulty": "Master",
+      "ts": 1009000
+    },
+    "320_Master": {
+      "music_id": 320,
+      "difficulty": "Master",
+      "ts": 1008341
+    },
+    "475_Expert": {
+      "music_id": 475,
+      "difficulty": "Expert",
+      "ts": 1009208
+    },
+    "838_Expert": {
+      "music_id": 838,
+      "difficulty": "Expert",
+      "ts": 1007821
+    },
+    "1179_Master": {
+      "music_id": 1179,
+      "difficulty": "Master",
+      "ts": 1008807
+    },
+    "781_Master": {
+      "music_id": 781,
+      "difficulty": "Master",
+      "ts": 1008387
+    },
+    "855_Master": {
+      "music_id": 855,
+      "difficulty": "Master",
+      "ts": 1006041
+    },
+    "522_Master": {
+      "music_id": 522,
+      "difficulty": "Master",
+      "ts": 1008795
+    },
+    "758_Master": {
+      "music_id": 758,
+      "difficulty": "Master",
+      "ts": 1008354
+    },
+    "523_Master": {
+      "music_id": 523,
+      "difficulty": "Master",
+      "ts": 990671
+    },
+    "1058_Expert": {
+      "music_id": 1058,
+      "difficulty": "Expert",
+      "ts": 1009447
+    },
+    "1024_Master": {
+      "music_id": 1024,
+      "difficulty": "Master",
+      "ts": 1005190
+    },
+    "1037_Master": {
+      "music_id": 1037,
+      "difficulty": "Master",
+      "ts": 978797
+    },
+    "933_Master": {
+      "music_id": 933,
+      "difficulty": "Master",
+      "ts": 990036
+    },
+    "995_Master": {
+      "music_id": 995,
+      "difficulty": "Master",
+      "ts": 971374
+    },
+    "717_Master": {
+      "music_id": 717,
+      "difficulty": "Master",
+      "ts": 1000189
+    },
+    "301_Master": {
+      "music_id": 301,
+      "difficulty": "Master",
+      "ts": 1000834
+    },
+    "932_Expert": {
+      "music_id": 932,
+      "difficulty": "Expert",
+      "ts": 1005105
+    },
+    "569_Lunatic": {
+      "music_id": 569,
+      "difficulty": "Lunatic",
+      "ts": 978185
+    },
+    "902_Master": {
+      "music_id": 902,
+      "difficulty": "Master",
+      "ts": 1001710
+    },
+    "764_Master": {
+      "music_id": 764,
+      "difficulty": "Master",
+      "ts": 998664
+    },
+    "1035_Master": {
+      "music_id": 1035,
+      "difficulty": "Master",
+      "ts": 989983
+    },
+    "876_Master": {
+      "music_id": 876,
+      "difficulty": "Master",
+      "ts": 1001773
+    },
+    "1151_Master": {
+      "music_id": 1151,
+      "difficulty": "Master",
+      "ts": 1001741
+    },
+    "1081_Master": {
+      "music_id": 1081,
+      "difficulty": "Master",
+      "ts": 986376
+    },
+    "1207_Expert": {
+      "music_id": 1207,
+      "difficulty": "Expert",
+      "ts": 1008642
+    },
+    "1207_Master": {
+      "music_id": 1207,
+      "difficulty": "Master",
+      "ts": 1000078
+    },
+    "816_Master": {
+      "music_id": 816,
+      "difficulty": "Master",
+      "ts": 1008626
+    },
+    "1109_Master": {
+      "music_id": 1109,
+      "difficulty": "Master",
+      "ts": 1007540
+    },
+    "961_Expert": {
+      "music_id": 961,
+      "difficulty": "Expert",
+      "ts": 1004440
+    },
+    "959_Master": {
+      "music_id": 959,
+      "difficulty": "Master",
+      "ts": 997986
+    },
+    "834_Master": {
+      "music_id": 834,
+      "difficulty": "Master",
+      "ts": 996764
+    },
+    "901_Master": {
+      "music_id": 901,
+      "difficulty": "Master",
+      "ts": 1008706
+    },
+    "748_Expert": {
+      "music_id": 748,
+      "difficulty": "Expert",
+      "ts": 1007851
+    },
+    "1120_Expert": {
+      "music_id": 1120,
+      "difficulty": "Expert",
+      "ts": 1005947
+    },
+    "86_Lunatic": {
+      "music_id": 86,
+      "difficulty": "Lunatic",
+      "ts": 993416
+    },
+    "873_Master": {
+      "music_id": 873,
+      "difficulty": "Master",
+      "ts": 1005516
+    },
+    "958_Master": {
+      "music_id": 958,
+      "difficulty": "Master",
+      "ts": 1003004
+    },
+    "496_Master": {
+      "music_id": 496,
+      "difficulty": "Master",
+      "ts": 1008605
+    },
+    "437_Master": {
+      "music_id": 437,
+      "difficulty": "Master",
+      "ts": 990710
+    },
+    "1174_Master": {
+      "music_id": 1174,
+      "difficulty": "Master",
+      "ts": 1008924
+    },
+    "1180_Master": {
+      "music_id": 1180,
+      "difficulty": "Master",
+      "ts": 1006426
+    },
+    "1197_Expert": {
+      "music_id": 1197,
+      "difficulty": "Expert",
+      "ts": 1010000
+    },
+    "1195_Master": {
+      "music_id": 1195,
+      "difficulty": "Master",
+      "ts": 1008362
+    },
+    "1026_Master": {
+      "music_id": 1026,
+      "difficulty": "Master",
+      "ts": 988427
+    },
+    "979_Master": {
+      "music_id": 979,
+      "difficulty": "Master",
+      "ts": 1008254
+    },
+    "243_Master": {
+      "music_id": 243,
+      "difficulty": "Master",
+      "ts": 1004339
+    },
+    "57_Expert": {
+      "music_id": 57,
+      "difficulty": "Expert",
+      "ts": 1009777
+    },
+    "1158_Advanced": {
+      "music_id": 1158,
+      "difficulty": "Advanced",
+      "ts": 1009838
+    },
+    "1196_Master": {
+      "music_id": 1196,
+      "difficulty": "Master",
+      "ts": 1008675
+    },
+    "884_Master": {
+      "music_id": 884,
+      "difficulty": "Master",
+      "ts": 1005907
+    },
+    "1077_Master": {
+      "music_id": 1077,
+      "difficulty": "Master",
+      "ts": 1004721
+    },
+    "492_Master": {
+      "music_id": 492,
+      "difficulty": "Master",
+      "ts": 1002110
+    },
+    "866_Master": {
+      "music_id": 866,
+      "difficulty": "Master",
+      "ts": 1006563
+    },
+    "684_Master": {
+      "music_id": 684,
+      "difficulty": "Master",
+      "ts": 1000306
+    },
+    "1093_Master": {
+      "music_id": 1093,
+      "difficulty": "Master",
+      "ts": 1007964
+    },
+    "1175_Expert": {
+      "music_id": 1175,
+      "difficulty": "Expert",
+      "ts": 1009905
+    },
+    "770_Expert": {
+      "music_id": 770,
+      "difficulty": "Expert",
+      "ts": 1005417
+    },
+    "1191_Expert": {
+      "music_id": 1191,
+      "difficulty": "Expert",
+      "ts": 1009319
+    },
+    "1132_Expert": {
+      "music_id": 1132,
+      "difficulty": "Expert",
+      "ts": 1009255
+    },
+    "1097_Expert": {
+      "music_id": 1097,
+      "difficulty": "Expert",
+      "ts": 1008365
+    },
+    "1042_Expert": {
+      "music_id": 1042,
+      "difficulty": "Expert",
+      "ts": 1009656
+    },
+    "1178_Expert": {
+      "music_id": 1178,
+      "difficulty": "Expert",
+      "ts": 1009555
+    },
+    "723_Master": {
+      "music_id": 723,
+      "difficulty": "Master",
+      "ts": 1008627
+    },
+    "339_Master": {
+      "music_id": 339,
+      "difficulty": "Master",
+      "ts": 1009193
+    },
+    "1189_Master": {
+      "music_id": 1189,
+      "difficulty": "Master",
+      "ts": 995286
+    },
+    "190_Master": {
+      "music_id": 190,
+      "difficulty": "Master",
+      "ts": 1009201
+    },
+    "618_Expert": {
+      "music_id": 618,
+      "difficulty": "Expert",
+      "ts": 1009110
+    },
+    "1187_Expert": {
+      "music_id": 1187,
+      "difficulty": "Expert",
+      "ts": 1007005
+    },
+    "1185_Expert": {
+      "music_id": 1185,
+      "difficulty": "Expert",
+      "ts": 1009884
+    },
+    "723_Expert": {
+      "music_id": 723,
+      "difficulty": "Expert",
+      "ts": 1009449
+    },
+    "1189_Expert": {
+      "music_id": 1189,
+      "difficulty": "Expert",
+      "ts": 1007654
+    },
+    "788_Expert": {
+      "music_id": 788,
+      "difficulty": "Expert",
+      "ts": 1008970
+    },
+    "1091_Expert": {
+      "music_id": 1091,
+      "difficulty": "Expert",
+      "ts": 1009004
+    },
+    "745_Expert": {
+      "music_id": 745,
+      "difficulty": "Expert",
+      "ts": 1009622
+    },
+    "193_Expert": {
+      "music_id": 193,
+      "difficulty": "Expert",
+      "ts": 1009458
+    },
+    "734_Lunatic": {
+      "music_id": 734,
+      "difficulty": "Lunatic",
+      "ts": 939804
+    },
+    "988_Master": {
+      "music_id": 988,
+      "difficulty": "Master",
+      "ts": 1009572
+    },
+    "786_Master": {
+      "music_id": 786,
+      "difficulty": "Master",
+      "ts": 1009344
+    },
+    "1172_Master": {
+      "music_id": 1172,
+      "difficulty": "Master",
+      "ts": 964908
+    },
+    "1142_Master": {
+      "music_id": 1142,
+      "difficulty": "Master",
+      "ts": 1009246
+    },
+    "99_Master": {
+      "music_id": 99,
+      "difficulty": "Master",
+      "ts": 1009795
+    },
+    "795_Master": {
+      "music_id": 795,
+      "difficulty": "Master",
+      "ts": 984060
+    },
+    "1063_Master": {
+      "music_id": 1063,
+      "difficulty": "Master",
+      "ts": 1008741
+    },
+    "341_Master": {
+      "music_id": 341,
+      "difficulty": "Master",
+      "ts": 1009321
+    },
+    "930_Expert": {
+      "music_id": 930,
+      "difficulty": "Expert",
+      "ts": 1007790
+    },
+    "457_Expert": {
+      "music_id": 457,
+      "difficulty": "Expert",
+      "ts": 1009344
+    },
+    "581_Lunatic": {
+      "music_id": 581,
+      "difficulty": "Lunatic",
+      "ts": 1004666
+    },
+    "945_Master": {
+      "music_id": 945,
+      "difficulty": "Master",
+      "ts": 989791
+    },
+    "1043_Master": {
+      "music_id": 1043,
+      "difficulty": "Master",
+      "ts": 1007170
+    },
+    "972_Master": {
+      "music_id": 972,
+      "difficulty": "Master",
+      "ts": 995320
+    },
+    "129_Master": {
+      "music_id": 129,
+      "difficulty": "Master",
+      "ts": 1003213
+    },
+    "728_Master": {
+      "music_id": 728,
+      "difficulty": "Master",
+      "ts": 940867
+    },
+    "537_Master": {
+      "music_id": 537,
+      "difficulty": "Master",
+      "ts": 972883
+    },
+    "1193_Master": {
+      "music_id": 1193,
+      "difficulty": "Master",
+      "ts": 994203
+    },
+    "808_Master": {
+      "music_id": 808,
+      "difficulty": "Master",
+      "ts": 895143
+    },
+    "478_Master": {
+      "music_id": 478,
+      "difficulty": "Master",
+      "ts": 1006707
+    },
+    "148_Master": {
+      "music_id": 148,
+      "difficulty": "Master",
+      "ts": 1007608
+    },
+    "362_Master": {
+      "music_id": 362,
+      "difficulty": "Master",
+      "ts": 977479
+    },
+    "388_Master": {
+      "music_id": 388,
+      "difficulty": "Master",
+      "ts": 1006160
+    },
+    "1181_Master": {
+      "music_id": 1181,
+      "difficulty": "Master",
+      "ts": 1008949
+    },
+    "888_Master": {
+      "music_id": 888,
+      "difficulty": "Master",
+      "ts": 1004615
+    },
+    "595_Master": {
+      "music_id": 595,
+      "difficulty": "Master",
+      "ts": 1006548
+    },
+    "430_Master": {
+      "music_id": 430,
+      "difficulty": "Master",
+      "ts": 1008601
+    },
+    "431_Master": {
+      "music_id": 431,
+      "difficulty": "Master",
+      "ts": 1009062
+    },
+    "889_Master": {
+      "music_id": 889,
+      "difficulty": "Master",
+      "ts": 1007417
+    },
+    "998_Master": {
+      "music_id": 998,
+      "difficulty": "Master",
+      "ts": 1008577
+    },
+    "192_Master": {
+      "music_id": 192,
+      "difficulty": "Master",
+      "ts": 1003063
+    },
+    "1048_Master": {
+      "music_id": 1048,
+      "difficulty": "Master",
+      "ts": 998095
+    },
+    "854_Master": {
+      "music_id": 854,
+      "difficulty": "Master",
+      "ts": 997502
+    },
+    "560_Master": {
+      "music_id": 560,
+      "difficulty": "Master",
+      "ts": 986808
+    },
+    "303_Master": {
+      "music_id": 303,
+      "difficulty": "Master",
+      "ts": 1003252
+    },
+    "218_Master": {
+      "music_id": 218,
+      "difficulty": "Master",
+      "ts": 998284
+    },
+    "1154_Expert": {
+      "music_id": 1154,
+      "difficulty": "Expert",
+      "ts": 1008964
+    },
+    "681_Lunatic": {
+      "music_id": 681,
+      "difficulty": "Lunatic",
+      "ts": 987545
+    },
+    "1189_Lunatic": {
+      "music_id": 1189,
+      "difficulty": "Lunatic",
+      "ts": 909301
+    },
+    "804_Lunatic": {
+      "music_id": 804,
+      "difficulty": "Lunatic",
+      "ts": 908055
+    },
+    "179_Lunatic": {
+      "music_id": 179,
+      "difficulty": "Lunatic",
+      "ts": 1000994
+    },
+    "160_Master": {
+      "music_id": 160,
+      "difficulty": "Master",
+      "ts": 1009692
+    },
+    "617_Master": {
+      "music_id": 617,
+      "difficulty": "Master",
+      "ts": 1010000
+    },
+    "618_Master": {
+      "music_id": 618,
+      "difficulty": "Master",
+      "ts": 1009164
+    },
+    "186_Master": {
+      "music_id": 186,
+      "difficulty": "Master",
+      "ts": 1009763
+    },
+    "209_Master": {
+      "music_id": 209,
+      "difficulty": "Master",
+      "ts": 1009590
+    },
+    "313_Master": {
+      "music_id": 313,
+      "difficulty": "Master",
+      "ts": 1010000
+    },
+    "694_Master": {
+      "music_id": 694,
+      "difficulty": "Master",
+      "ts": 1008778
+    },
+    "175_Master": {
+      "music_id": 175,
+      "difficulty": "Master",
+      "ts": 1005930
+    },
+    "785_Master": {
+      "music_id": 785,
+      "difficulty": "Master",
+      "ts": 1001149
+    },
+    "697_Master": {
+      "music_id": 697,
+      "difficulty": "Master",
+      "ts": 999396
+    },
+    "177_Master": {
+      "music_id": 177,
+      "difficulty": "Master",
+      "ts": 995156
+    },
+    "649_Master": {
+      "music_id": 649,
+      "difficulty": "Master",
+      "ts": 1008540
+    },
+    "512_Master": {
+      "music_id": 512,
+      "difficulty": "Master",
+      "ts": 1005301
+    },
+    "480_Master": {
+      "music_id": 480,
+      "difficulty": "Master",
+      "ts": 1000851
+    },
+    "450_Master": {
+      "music_id": 450,
+      "difficulty": "Master",
+      "ts": 1001617
+    },
+    "321_Master": {
+      "music_id": 321,
+      "difficulty": "Master",
+      "ts": 1007574
+    },
+    "109_Master": {
+      "music_id": 109,
+      "difficulty": "Master",
+      "ts": 979650
+    },
+    "325_Master": {
+      "music_id": 325,
+      "difficulty": "Master",
+      "ts": 996845
+    },
+    "913_Master": {
+      "music_id": 913,
+      "difficulty": "Master",
+      "ts": 1000966
+    },
+    "914_Master": {
+      "music_id": 914,
+      "difficulty": "Master",
+      "ts": 1002758
+    },
+    "973_Master": {
+      "music_id": 973,
+      "difficulty": "Master",
+      "ts": 1005079
+    },
+    "974_Master": {
+      "music_id": 974,
+      "difficulty": "Master",
+      "ts": 996754
+    },
+    "975_Master": {
+      "music_id": 975,
+      "difficulty": "Master",
+      "ts": 998973
+    },
+    "1005_Master": {
+      "music_id": 1005,
+      "difficulty": "Master",
+      "ts": 976997
+    },
+    "214_Expert": {
+      "music_id": 214,
+      "difficulty": "Expert",
+      "ts": 1009932
+    },
+    "869_Expert": {
+      "music_id": 869,
+      "difficulty": "Expert",
+      "ts": 1008608
+    },
+    "870_Expert": {
+      "music_id": 870,
+      "difficulty": "Expert",
+      "ts": 1002509
+    },
+    "326_Expert": {
+      "music_id": 326,
+      "difficulty": "Expert",
+      "ts": 1008691
+    },
+    "1006_Expert": {
+      "music_id": 1006,
+      "difficulty": "Expert",
+      "ts": 1008953
+    },
+    "1007_Expert": {
+      "music_id": 1007,
+      "difficulty": "Expert",
+      "ts": 1009534
+    },
+    "488_Lunatic": {
+      "music_id": 488,
+      "difficulty": "Lunatic",
+      "ts": 981266
+    },
+    "75_Lunatic": {
+      "music_id": 75,
+      "difficulty": "Lunatic",
+      "ts": 983884
+    },
+    "1158_Master": {
+      "music_id": 1158,
+      "difficulty": "Master",
+      "ts": 999218
+    },
+    "860_Master": {
+      "music_id": 860,
+      "difficulty": "Master",
+      "ts": 1008843
+    },
+    "1124_Master": {
+      "music_id": 1124,
+      "difficulty": "Master",
+      "ts": 987472
+    },
+    "788_Master": {
+      "music_id": 788,
+      "difficulty": "Master",
+      "ts": 968424
+    },
+    "1058_Master": {
+      "music_id": 1058,
+      "difficulty": "Master",
+      "ts": 961805
+    },
+    "753_Master": {
+      "music_id": 753,
+      "difficulty": "Master",
+      "ts": 990274
+    },
+    "1078_Master": {
+      "music_id": 1078,
+      "difficulty": "Master",
+      "ts": 734185
+    },
+    "68_Master": {
+      "music_id": 68,
+      "difficulty": "Master",
+      "ts": 979078
+    },
+    "1111_Master": {
+      "music_id": 1111,
+      "difficulty": "Master",
+      "ts": 964742
+    },
+    "81_Master": {
+      "music_id": 81,
+      "difficulty": "Master",
+      "ts": 1006101
+    },
+    "883_Master": {
+      "music_id": 883,
+      "difficulty": "Master",
+      "ts": 999914
+    },
+    "479_Master": {
+      "music_id": 479,
+      "difficulty": "Master",
+      "ts": 1001949
+    },
+    "668_Expert": {
+      "music_id": 668,
+      "difficulty": "Expert",
+      "ts": 1008696
+    },
+    "1182_Expert": {
+      "music_id": 1182,
+      "difficulty": "Expert",
+      "ts": 988500
+    },
+    "1152_Expert": {
+      "music_id": 1152,
+      "difficulty": "Expert",
+      "ts": 1000746
+    },
+    "977_Master": {
+      "music_id": 977,
+      "difficulty": "Master",
+      "ts": 1009704
+    },
+    "971_Master": {
+      "music_id": 971,
+      "difficulty": "Master",
+      "ts": 1009654
+    },
+    "328_Master": {
+      "music_id": 328,
+      "difficulty": "Master",
+      "ts": 1009567
+    },
+    "126_Master": {
+      "music_id": 126,
+      "difficulty": "Master",
+      "ts": 1009491
+    },
+    "594_Master": {
+      "music_id": 594,
+      "difficulty": "Master",
+      "ts": 1009604
+    },
+    "1187_Master": {
+      "music_id": 1187,
+      "difficulty": "Master",
+      "ts": 1007863
+    },
+    "546_Master": {
+      "music_id": 546,
+      "difficulty": "Master",
+      "ts": 988157
+    },
+    "83_Master": {
+      "music_id": 83,
+      "difficulty": "Master",
+      "ts": 1002916
+    },
+    "237_Master": {
+      "music_id": 237,
+      "difficulty": "Master",
+      "ts": 1008808
+    },
+    "92_Master": {
+      "music_id": 92,
+      "difficulty": "Master",
+      "ts": 1009173
+    },
+    "767_Master": {
+      "music_id": 767,
+      "difficulty": "Master",
+      "ts": 1008194
+    },
+    "426_Master": {
+      "music_id": 426,
+      "difficulty": "Master",
+      "ts": 1003734
+    },
+    "21_Lunatic": {
+      "music_id": 21,
+      "difficulty": "Lunatic",
+      "ts": 999366
+    },
+    "1157_Master": {
+      "music_id": 1157,
+      "difficulty": "Master",
+      "ts": 1009091
+    },
+    "1163_Master": {
+      "music_id": 1163,
+      "difficulty": "Master",
+      "ts": 979637
+    },
+    "1170_Master": {
+      "music_id": 1170,
+      "difficulty": "Master",
+      "ts": 1009045
+    },
+    "1020_Master": {
+      "music_id": 1020,
+      "difficulty": "Master",
+      "ts": 1005029
+    },
+    "366_Master": {
+      "music_id": 366,
+      "difficulty": "Master",
+      "ts": 1001297
+    },
+    "1120_Master": {
+      "music_id": 1120,
+      "difficulty": "Master",
+      "ts": 991584
+    },
+    "368_Master": {
+      "music_id": 368,
+      "difficulty": "Master",
+      "ts": 985249
+    },
+    "87_Master": {
+      "music_id": 87,
+      "difficulty": "Master",
+      "ts": 1001274
+    },
+    "808_Expert": {
+      "music_id": 808,
+      "difficulty": "Expert",
+      "ts": 983207
+    },
+    "22_Lunatic": {
+      "music_id": 22,
+      "difficulty": "Lunatic",
+      "ts": 993439
+    },
+    "215_Lunatic": {
+      "music_id": 215,
+      "difficulty": "Lunatic",
+      "ts": 1006636
+    },
+    "1038_Master": {
+      "music_id": 1038,
+      "difficulty": "Master",
+      "ts": 1007530
+    },
+    "899_Master": {
+      "music_id": 899,
+      "difficulty": "Master",
+      "ts": 1002954
+    },
+    "1132_Master": {
+      "music_id": 1132,
+      "difficulty": "Master",
+      "ts": 986877
+    },
+    "600_Master": {
+      "music_id": 600,
+      "difficulty": "Master",
+      "ts": 986545
+    },
+    "754_Master": {
+      "music_id": 754,
+      "difficulty": "Master",
+      "ts": 1007574
+    },
+    "811_Master": {
+      "music_id": 811,
+      "difficulty": "Master",
+      "ts": 997661
+    },
+    "304_Master": {
+      "music_id": 304,
+      "difficulty": "Master",
+      "ts": 996225
+    },
+    "1184_Expert": {
+      "music_id": 1184,
+      "difficulty": "Expert",
+      "ts": 1009881
+    },
+    "29_Lunatic": {
+      "music_id": 29,
+      "difficulty": "Lunatic",
+      "ts": 1006328
+    },
+    "1099_Master": {
+      "music_id": 1099,
+      "difficulty": "Master",
+      "ts": 1007390
+    },
+    "1164_Master": {
+      "music_id": 1164,
+      "difficulty": "Master",
+      "ts": 1008233
+    },
+    "307_Master": {
+      "music_id": 307,
+      "difficulty": "Master",
+      "ts": 1008748
+    },
+    "460_Master": {
+      "music_id": 460,
+      "difficulty": "Master",
+      "ts": 1008229
+    },
+    "1143_Master": {
+      "music_id": 1143,
+      "difficulty": "Master",
+      "ts": 985864
+    },
+    "511_Master": {
+      "music_id": 511,
+      "difficulty": "Master",
+      "ts": 1008930
+    },
+    "133_Master": {
+      "music_id": 133,
+      "difficulty": "Master",
+      "ts": 1007636
+    },
+    "637_Master": {
+      "music_id": 637,
+      "difficulty": "Master",
+      "ts": 1008784
+    },
+    "1182_Advanced": {
+      "music_id": 1182,
+      "difficulty": "Advanced",
+      "ts": 1009713
+    },
+    "1179_Expert": {
+      "music_id": 1179,
+      "difficulty": "Expert",
+      "ts": 1009889
+    },
+    "1162_Expert": {
+      "music_id": 1162,
+      "difficulty": "Expert",
+      "ts": 1009900
+    },
+    "1166_Expert": {
+      "music_id": 1166,
+      "difficulty": "Expert",
+      "ts": 1008371
+    },
+    "1129_Expert": {
+      "music_id": 1129,
+      "difficulty": "Expert",
+      "ts": 1006392
+    },
+    "1123_Expert": {
+      "music_id": 1123,
+      "difficulty": "Expert",
+      "ts": 1009571
+    },
+    "366_Expert": {
+      "music_id": 366,
+      "difficulty": "Expert",
+      "ts": 1009194
+    },
+    "862_Expert": {
+      "music_id": 862,
+      "difficulty": "Expert",
+      "ts": 1009063
+    },
+    "437_Expert": {
+      "music_id": 437,
+      "difficulty": "Expert",
+      "ts": 1009927
+    },
+    "572_Expert": {
+      "music_id": 572,
+      "difficulty": "Expert",
+      "ts": 1009814
+    },
+    "163_Master": {
+      "music_id": 163,
+      "difficulty": "Master",
+      "ts": 1009027
+    },
+    "965_Master": {
+      "music_id": 965,
+      "difficulty": "Master",
+      "ts": 1009012
+    },
+    "1055_Master": {
+      "music_id": 1055,
+      "difficulty": "Master",
+      "ts": 1008542
+    },
+    "733_Expert": {
+      "music_id": 733,
+      "difficulty": "Expert",
+      "ts": 1009811
+    },
+    "1151_Expert": {
+      "music_id": 1151,
+      "difficulty": "Expert",
+      "ts": 1010000
+    },
+    "477_Expert": {
+      "music_id": 477,
+      "difficulty": "Expert",
+      "ts": 1009387
+    },
+    "778_Expert": {
+      "music_id": 778,
+      "difficulty": "Expert",
+      "ts": 1009990
+    },
+    "1173_Master": {
+      "music_id": 1173,
+      "difficulty": "Master",
+      "ts": 961090
+    },
+    "541_Master": {
+      "music_id": 541,
+      "difficulty": "Master",
+      "ts": 983592
+    },
+    "71_Lunatic": {
+      "music_id": 71,
+      "difficulty": "Lunatic",
+      "ts": 1006165
+    },
+    "926_Expert": {
+      "music_id": 926,
+      "difficulty": "Expert",
+      "ts": 1010000
+    },
+    "815_Expert": {
+      "music_id": 815,
+      "difficulty": "Expert",
+      "ts": 1009907
+    },
+    "949_Expert": {
+      "music_id": 949,
+      "difficulty": "Expert",
+      "ts": 1009505
+    },
+    "1133_Advanced": {
+      "music_id": 1133,
+      "difficulty": "Advanced",
+      "ts": 1008342
+    },
+    "18_Lunatic": {
+      "music_id": 18,
+      "difficulty": "Lunatic",
+      "ts": 970129
+    },
+    "231_Master": {
+      "music_id": 231,
+      "difficulty": "Master",
+      "ts": 1009304
+    },
+    "1171_Master": {
+      "music_id": 1171,
+      "difficulty": "Master",
+      "ts": 1007898
+    },
+    "1176_Expert": {
+      "music_id": 1176,
+      "difficulty": "Expert",
+      "ts": 1008730
+    },
+    "1177_Expert": {
+      "music_id": 1177,
+      "difficulty": "Expert",
+      "ts": 1010000
+    },
+    "167_Master": {
+      "music_id": 167,
+      "difficulty": "Master",
+      "ts": 966765
+    },
+    "1113_Expert": {
+      "music_id": 1113,
+      "difficulty": "Expert",
+      "ts": 1008469
+    },
+    "1165_Expert": {
+      "music_id": 1165,
+      "difficulty": "Expert",
+      "ts": 1008002
+    },
+    "1030_Expert": {
+      "music_id": 1030,
+      "difficulty": "Expert",
+      "ts": 1003110
+    },
+    "140_Master": {
+      "music_id": 140,
+      "difficulty": "Master",
+      "ts": 1006343
+    },
+    "506_Master": {
+      "music_id": 506,
+      "difficulty": "Master",
+      "ts": 1007932
+    },
+    "52_Master": {
+      "music_id": 52,
+      "difficulty": "Master",
+      "ts": 999921
+    },
+    "1068_Master": {
+      "music_id": 1068,
+      "difficulty": "Master",
+      "ts": 1004659
+    },
+    "655_Master": {
+      "music_id": 655,
+      "difficulty": "Master",
+      "ts": 971995
+    },
+    "1163_Expert": {
+      "music_id": 1163,
+      "difficulty": "Expert",
+      "ts": 1009546
+    },
+    "1095_Master": {
+      "music_id": 1095,
+      "difficulty": "Master",
+      "ts": 1007622
+    },
+    "309_Master": {
+      "music_id": 309,
+      "difficulty": "Master",
+      "ts": 1005203
+    },
+    "312_Master": {
+      "music_id": 312,
+      "difficulty": "Master",
+      "ts": 1009022
+    },
+    "1161_Expert": {
+      "music_id": 1161,
+      "difficulty": "Expert",
+      "ts": 1009840
+    },
+    "1156_Master": {
+      "music_id": 1156,
+      "difficulty": "Master",
+      "ts": 1009715
+    },
+    "405_Master": {
+      "music_id": 405,
+      "difficulty": "Master",
+      "ts": 978297
+    },
+    "389_Master": {
+      "music_id": 389,
+      "difficulty": "Master",
+      "ts": 993889
+    },
+    "1155_Expert": {
+      "music_id": 1155,
+      "difficulty": "Expert",
+      "ts": 1009761
+    },
+    "1158_Expert": {
+      "music_id": 1158,
+      "difficulty": "Expert",
+      "ts": 1009920
+    },
+    "291_Lunatic": {
+      "music_id": 291,
+      "difficulty": "Lunatic",
+      "ts": 1009378
+    },
+    "1058_Lunatic": {
+      "music_id": 1058,
+      "difficulty": "Lunatic",
+      "ts": 876429
+    },
+    "885_Master": {
+      "music_id": 885,
+      "difficulty": "Master",
+      "ts": 1009120
+    },
+    "449_Master": {
+      "music_id": 449,
+      "difficulty": "Master",
+      "ts": 996575
+    },
+    "574_Basic": {
+      "music_id": 574,
+      "difficulty": "Basic",
+      "ts": 1010000
+    },
+    "212_Master": {
+      "music_id": 212,
+      "difficulty": "Master",
+      "ts": 1004600
+    },
+    "459_Master": {
+      "music_id": 459,
+      "difficulty": "Master",
+      "ts": 1007720
+    },
+    "614_Master": {
+      "music_id": 614,
+      "difficulty": "Master",
+      "ts": 993974
+    },
+    "322_Master": {
+      "music_id": 322,
+      "difficulty": "Master",
+      "ts": 992514
+    },
+    "929_Expert": {
+      "music_id": 929,
+      "difficulty": "Expert",
+      "ts": 1007800
+    },
+    "578_Master": {
+      "music_id": 578,
+      "difficulty": "Master",
+      "ts": 1005516
+    },
+    "1153_Expert": {
+      "music_id": 1153,
+      "difficulty": "Expert",
+      "ts": 1008702
+    },
+    "229_Master": {
+      "music_id": 229,
+      "difficulty": "Master",
+      "ts": 1001685
+    },
+    "171_Master": {
+      "music_id": 171,
+      "difficulty": "Master",
+      "ts": 1006193
+    },
+    "118_Master": {
+      "music_id": 118,
+      "difficulty": "Master",
+      "ts": 1007437
+    },
+    "1069_Master": {
+      "music_id": 1069,
+      "difficulty": "Master",
+      "ts": 1008562
+    },
+    "782_Master": {
+      "music_id": 782,
+      "difficulty": "Master",
+      "ts": 1001648
+    },
+    "771_Master": {
+      "music_id": 771,
+      "difficulty": "Master",
+      "ts": 1007183
+    },
+    "695_Master": {
+      "music_id": 695,
+      "difficulty": "Master",
+      "ts": 990061
+    },
+    "994_Master": {
+      "music_id": 994,
+      "difficulty": "Master",
+      "ts": 1001129
+    },
+    "757_Master": {
+      "music_id": 757,
+      "difficulty": "Master",
+      "ts": 977811
+    },
+    "603_Master": {
+      "music_id": 603,
+      "difficulty": "Master",
+      "ts": 1008326
+    },
+    "545_Master": {
+      "music_id": 545,
+      "difficulty": "Master",
+      "ts": 1007367
+    },
+    "1080_Expert": {
+      "music_id": 1080,
+      "difficulty": "Expert",
+      "ts": 1006332
+    },
+    "458_Expert": {
+      "music_id": 458,
+      "difficulty": "Expert",
+      "ts": 1009009
+    },
+    "1054_Master": {
+      "music_id": 1054,
+      "difficulty": "Master",
+      "ts": 1000083
+    },
+    "1135_Expert": {
+      "music_id": 1135,
+      "difficulty": "Expert",
+      "ts": 1007660
+    },
+    "481_Expert": {
+      "music_id": 481,
+      "difficulty": "Expert",
+      "ts": 1008338
+    },
+    "835_Master": {
+      "music_id": 835,
+      "difficulty": "Master",
+      "ts": 1009225
+    },
+    "498_Master": {
+      "music_id": 498,
+      "difficulty": "Master",
+      "ts": 1009662
+    },
+    "625_Master": {
+      "music_id": 625,
+      "difficulty": "Master",
+      "ts": 1008700
+    },
+    "387_Master": {
+      "music_id": 387,
+      "difficulty": "Master",
+      "ts": 998680
+    },
+    "472_Master": {
+      "music_id": 472,
+      "difficulty": "Master",
+      "ts": 1006525
+    },
+    "667_Master": {
+      "music_id": 667,
+      "difficulty": "Master",
+      "ts": 989667
+    },
+    "214_Master": {
+      "music_id": 214,
+      "difficulty": "Master",
+      "ts": 997712
+    },
+    "905_Master": {
+      "music_id": 905,
+      "difficulty": "Master",
+      "ts": 1000031
+    },
+    "432_Master": {
+      "music_id": 432,
+      "difficulty": "Master",
+      "ts": 1007453
+    },
+    "715_Master": {
+      "music_id": 715,
+      "difficulty": "Master",
+      "ts": 988884
+    },
+    "188_Expert": {
+      "music_id": 188,
+      "difficulty": "Expert",
+      "ts": 1009525
+    },
+    "1034_Master": {
+      "music_id": 1034,
+      "difficulty": "Master",
+      "ts": 999637
+    },
+    "383_Master": {
+      "music_id": 383,
+      "difficulty": "Master",
+      "ts": 1006960
+    },
+    "131_Master": {
+      "music_id": 131,
+      "difficulty": "Master",
+      "ts": 1008487
+    },
+    "433_Master": {
+      "music_id": 433,
+      "difficulty": "Master",
+      "ts": 968971
+    },
+    "1040_Master": {
+      "music_id": 1040,
+      "difficulty": "Master",
+      "ts": 1007428
+    },
+    "451_Master": {
+      "music_id": 451,
+      "difficulty": "Master",
+      "ts": 1009455
+    },
+    "1149_Master": {
+      "music_id": 1149,
+      "difficulty": "Master",
+      "ts": 1007657
+    },
+    "275_Master": {
+      "music_id": 275,
+      "difficulty": "Master",
+      "ts": 1009476
+    },
+    "260_Master": {
+      "music_id": 260,
+      "difficulty": "Master",
+      "ts": 1008173
+    },
+    "300_Master": {
+      "music_id": 300,
+      "difficulty": "Master",
+      "ts": 1008159
+    },
+    "236_Master": {
+      "music_id": 236,
+      "difficulty": "Master",
+      "ts": 973477
+    },
+    "91_Master": {
+      "music_id": 91,
+      "difficulty": "Master",
+      "ts": 994582
+    },
+    "598_Master": {
+      "music_id": 598,
+      "difficulty": "Master",
+      "ts": 1005897
+    },
+    "809_Master": {
+      "music_id": 809,
+      "difficulty": "Master",
+      "ts": 993342
+    },
+    "952_Expert": {
+      "music_id": 952,
+      "difficulty": "Expert",
+      "ts": 1008738
+    },
+    "446_Master": {
+      "music_id": 446,
+      "difficulty": "Master",
+      "ts": 1009750
+    },
+    "1045_Master": {
+      "music_id": 1045,
+      "difficulty": "Master",
+      "ts": 996070
+    },
+    "1070_Master": {
+      "music_id": 1070,
+      "difficulty": "Master",
+      "ts": 1008089
+    },
+    "273_Master": {
+      "music_id": 273,
+      "difficulty": "Master",
+      "ts": 1007948
+    },
+    "836_Master": {
+      "music_id": 836,
+      "difficulty": "Master",
+      "ts": 1008222
+    },
+    "264_Master": {
+      "music_id": 264,
+      "difficulty": "Master",
+      "ts": 1008813
+    },
+    "755_Master": {
+      "music_id": 755,
+      "difficulty": "Master",
+      "ts": 1008066
+    },
+    "233_Master": {
+      "music_id": 233,
+      "difficulty": "Master",
+      "ts": 1003894
+    },
+    "169_Master": {
+      "music_id": 169,
+      "difficulty": "Master",
+      "ts": 1008763
+    },
+    "510_Master": {
+      "music_id": 510,
+      "difficulty": "Master",
+      "ts": 983110
+    },
+    "247_Master": {
+      "music_id": 247,
+      "difficulty": "Master",
+      "ts": 1003101
+    },
+    "1091_Master": {
+      "music_id": 1091,
+      "difficulty": "Master",
+      "ts": 984541
+    },
+    "900_Master": {
+      "music_id": 900,
+      "difficulty": "Master",
+      "ts": 1008962
+    },
+    "662_Master": {
+      "music_id": 662,
+      "difficulty": "Master",
+      "ts": 966421
+    },
+    "245_Master": {
+      "music_id": 245,
+      "difficulty": "Master",
+      "ts": 993743
+    },
+    "1016_Expert": {
+      "music_id": 1016,
+      "difficulty": "Expert",
+      "ts": 1009714
+    },
+    "400_Expert": {
+      "music_id": 400,
+      "difficulty": "Expert",
+      "ts": 1009735
+    },
+    "509_Expert": {
+      "music_id": 509,
+      "difficulty": "Expert",
+      "ts": 1009585
+    },
+    "757_Expert": {
+      "music_id": 757,
+      "difficulty": "Expert",
+      "ts": 1008595
+    },
+    "840_Expert": {
+      "music_id": 840,
+      "difficulty": "Expert",
+      "ts": 1009033
+    },
+    "254_Expert": {
+      "music_id": 254,
+      "difficulty": "Expert",
+      "ts": 1006366
+    },
+    "407_Master": {
+      "music_id": 407,
+      "difficulty": "Master",
+      "ts": 1007613
+    },
+    "775_Expert": {
+      "music_id": 775,
+      "difficulty": "Expert",
+      "ts": 1008354
+    },
+    "334_Master": {
+      "music_id": 334,
+      "difficulty": "Master",
+      "ts": 1008833
+    },
+    "299_Master": {
+      "music_id": 299,
+      "difficulty": "Master",
+      "ts": 1008236
+    },
+    "521_Master": {
+      "music_id": 521,
+      "difficulty": "Master",
+      "ts": 1007168
+    },
+    "1142_Expert": {
+      "music_id": 1142,
+      "difficulty": "Expert",
+      "ts": 1009810
+    },
+    "1144_Expert": {
+      "music_id": 1144,
+      "difficulty": "Expert",
+      "ts": 1008745
+    },
+    "284_Expert": {
+      "music_id": 284,
+      "difficulty": "Expert",
+      "ts": 1007175
+    },
+    "606_Expert": {
+      "music_id": 606,
+      "difficulty": "Expert",
+      "ts": 1008015
+    },
+    "722_Master": {
+      "music_id": 722,
+      "difficulty": "Master",
+      "ts": 995028
+    },
+    "1087_Expert": {
+      "music_id": 1087,
+      "difficulty": "Expert",
+      "ts": 1009423
+    },
+    "1087_Advanced": {
+      "music_id": 1087,
+      "difficulty": "Advanced",
+      "ts": 1010000
+    },
+    "1087_Basic": {
+      "music_id": 1087,
+      "difficulty": "Basic",
+      "ts": 1010000
+    },
+    "1087_Master": {
+      "music_id": 1087,
+      "difficulty": "Master",
+      "ts": 1008033
+    },
+    "1113_Master": {
+      "music_id": 1113,
+      "difficulty": "Master",
+      "ts": 1002145
+    },
+    "240_Master": {
+      "music_id": 240,
+      "difficulty": "Master",
+      "ts": 993930
+    },
+    "94_Master": {
+      "music_id": 94,
+      "difficulty": "Master",
+      "ts": 1008758
+    },
+    "783_Master": {
+      "music_id": 783,
+      "difficulty": "Master",
+      "ts": 1008788
+    },
+    "930_Master": {
+      "music_id": 930,
+      "difficulty": "Master",
+      "ts": 986793
+    },
+    "84_Master": {
+      "music_id": 84,
+      "difficulty": "Master",
+      "ts": 981195
+    },
+    "1136_Expert": {
+      "music_id": 1136,
+      "difficulty": "Expert",
+      "ts": 1008937
+    },
+    "1137_Expert": {
+      "music_id": 1137,
+      "difficulty": "Expert",
+      "ts": 1007522
+    },
+    "824_Master": {
+      "music_id": 824,
+      "difficulty": "Master",
+      "ts": 1007107
+    },
+    "825_Master": {
+      "music_id": 825,
+      "difficulty": "Master",
+      "ts": 1004592
+    },
+    "1125_Master": {
+      "music_id": 1125,
+      "difficulty": "Master",
+      "ts": 1008984
+    },
+    "1126_Master": {
+      "music_id": 1126,
+      "difficulty": "Master",
+      "ts": 1009823
+    },
+    "1127_Master": {
+      "music_id": 1127,
+      "difficulty": "Master",
+      "ts": 1007584
+    },
+    "1128_Master": {
+      "music_id": 1128,
+      "difficulty": "Master",
+      "ts": 1003738
+    },
+    "1075_Expert": {
+      "music_id": 1075,
+      "difficulty": "Expert",
+      "ts": 1008774
+    },
+    "1018_Expert": {
+      "music_id": 1018,
+      "difficulty": "Expert",
+      "ts": 1009021
+    },
+    "362_Expert": {
+      "music_id": 362,
+      "difficulty": "Expert",
+      "ts": 1000875
+    },
+    "1137_Master": {
+      "music_id": 1137,
+      "difficulty": "Master",
+      "ts": 974576
+    },
+    "945_Expert": {
+      "music_id": 945,
+      "difficulty": "Expert",
+      "ts": 1010000
+    },
+    "555_Expert": {
+      "music_id": 555,
+      "difficulty": "Expert",
+      "ts": 1009836
+    },
+    "1138_Expert": {
+      "music_id": 1138,
+      "difficulty": "Expert",
+      "ts": 1010000
+    },
+    "1139_Expert": {
+      "music_id": 1139,
+      "difficulty": "Expert",
+      "ts": 1009721
+    },
+    "607_Expert": {
+      "music_id": 607,
+      "difficulty": "Expert",
+      "ts": 1008581
+    },
+    "382_Master": {
+      "music_id": 382,
+      "difficulty": "Master",
+      "ts": 1009675
+    },
+    "577_Expert": {
+      "music_id": 577,
+      "difficulty": "Expert",
+      "ts": 1009894
+    },
+    "773_Expert": {
+      "music_id": 773,
+      "difficulty": "Expert",
+      "ts": 1009702
+    },
+    "942_Expert": {
+      "music_id": 942,
+      "difficulty": "Expert",
+      "ts": 1009761
+    },
+    "604_Expert": {
+      "music_id": 604,
+      "difficulty": "Expert",
+      "ts": 1009263
+    },
+    "959_Lunatic": {
+      "music_id": 959,
+      "difficulty": "Lunatic",
+      "ts": 1009830
+    },
+    "752_Expert": {
+      "music_id": 752,
+      "difficulty": "Expert",
+      "ts": 1009229
+    },
+    "413_Expert": {
+      "music_id": 413,
+      "difficulty": "Expert",
+      "ts": 1009786
+    },
+    "660_Expert": {
+      "music_id": 660,
+      "difficulty": "Expert",
+      "ts": 1010000
+    },
+    "875_Expert": {
+      "music_id": 875,
+      "difficulty": "Expert",
+      "ts": 1010000
+    },
+    "627_Expert": {
+      "music_id": 627,
+      "difficulty": "Expert",
+      "ts": 1009457
+    },
+    "972_Expert": {
+      "music_id": 972,
+      "difficulty": "Expert",
+      "ts": 1009122
+    },
+    "427_Expert": {
+      "music_id": 427,
+      "difficulty": "Expert",
+      "ts": 1009104
+    },
+    "1059_Expert": {
+      "music_id": 1059,
+      "difficulty": "Expert",
+      "ts": 1010000
+    },
+    "896_Expert": {
+      "music_id": 896,
+      "difficulty": "Expert",
+      "ts": 1009803
+    },
+    "394_Expert": {
+      "music_id": 394,
+      "difficulty": "Expert",
+      "ts": 1010000
+    },
+    "462_Expert": {
+      "music_id": 462,
+      "difficulty": "Expert",
+      "ts": 1008726
+    },
+    "928_Expert": {
+      "music_id": 928,
+      "difficulty": "Expert",
+      "ts": 1010000
+    },
+    "322_Expert": {
+      "music_id": 322,
+      "difficulty": "Expert",
+      "ts": 1010000
+    },
+    "100_Master": {
+      "music_id": 100,
+      "difficulty": "Master",
+      "ts": 1010000
+    },
+    "407_Expert": {
+      "music_id": 407,
+      "difficulty": "Expert",
+      "ts": 1009892
+    },
+    "595_Expert": {
+      "music_id": 595,
+      "difficulty": "Expert",
+      "ts": 1009813
+    },
+    "1043_Expert": {
+      "music_id": 1043,
+      "difficulty": "Expert",
+      "ts": 1010000
+    },
+    "787_Expert": {
+      "music_id": 787,
+      "difficulty": "Expert",
+      "ts": 1009928
+    },
+    "352_Expert": {
+      "music_id": 352,
+      "difficulty": "Expert",
+      "ts": 1008708
+    },
+    "1079_Expert": {
+      "music_id": 1079,
+      "difficulty": "Expert",
+      "ts": 1010000
+    },
+    "1124_Expert": {
+      "music_id": 1124,
+      "difficulty": "Expert",
+      "ts": 1008991
+    },
+    "325_Expert": {
+      "music_id": 325,
+      "difficulty": "Expert",
+      "ts": 1010000
+    },
+    "285_Expert": {
+      "music_id": 285,
+      "difficulty": "Expert",
+      "ts": 1009990
+    },
+    "1001_Expert": {
+      "music_id": 1001,
+      "difficulty": "Expert",
+      "ts": 1009872
+    },
+    "516_Expert": {
+      "music_id": 516,
+      "difficulty": "Expert",
+      "ts": 1008866
+    },
+    "517_Master": {
+      "music_id": 517,
+      "difficulty": "Master",
+      "ts": 1008414
+    },
+    "953_Master": {
+      "music_id": 953,
+      "difficulty": "Master",
+      "ts": 998828
+    },
+    "1115_Master": {
+      "music_id": 1115,
+      "difficulty": "Master",
+      "ts": 1008224
+    },
+    "829_Master": {
+      "music_id": 829,
+      "difficulty": "Master",
+      "ts": 946957
+    },
+    "654_Master": {
+      "music_id": 654,
+      "difficulty": "Master",
+      "ts": 1009068
+    },
+    "130_Master": {
+      "music_id": 130,
+      "difficulty": "Master",
+      "ts": 1009634
+    },
+    "265_Master": {
+      "music_id": 265,
+      "difficulty": "Master",
+      "ts": 1009011
+    },
+    "165_Master": {
+      "music_id": 165,
+      "difficulty": "Master",
+      "ts": 1009560
+    },
+    "324_Master": {
+      "music_id": 324,
+      "difficulty": "Master",
+      "ts": 1008939
+    },
+    "253_Master": {
+      "music_id": 253,
+      "difficulty": "Master",
+      "ts": 1008319
+    },
+    "984_Expert": {
+      "music_id": 984,
+      "difficulty": "Expert",
+      "ts": 1009359
+    },
+    "191_Expert": {
+      "music_id": 191,
+      "difficulty": "Expert",
+      "ts": 1007159
+    },
+    "878_Master": {
+      "music_id": 878,
+      "difficulty": "Master",
+      "ts": 1008146
+    },
+    "230_Master": {
+      "music_id": 230,
+      "difficulty": "Master",
+      "ts": 1008086
+    },
+    "173_Master": {
+      "music_id": 173,
+      "difficulty": "Master",
+      "ts": 1009027
+    },
+    "402_Master": {
+      "music_id": 402,
+      "difficulty": "Master",
+      "ts": 1008787
+    },
+    "351_Expert": {
+      "music_id": 351,
+      "difficulty": "Expert",
+      "ts": 1009362
+    },
+    "686_Expert": {
+      "music_id": 686,
+      "difficulty": "Expert",
+      "ts": 1001462
+    },
+    "944_Expert": {
+      "music_id": 944,
+      "difficulty": "Expert",
+      "ts": 1008804
+    },
+    "1118_Master": {
+      "music_id": 1118,
+      "difficulty": "Master",
+      "ts": 1008394
+    },
+    "21_Master": {
+      "music_id": 21,
+      "difficulty": "Master",
+      "ts": 1008914
+    },
+    "861_Lunatic": {
+      "music_id": 861,
+      "difficulty": "Lunatic",
+      "ts": 1005459
+    },
+    "669_Lunatic": {
+      "music_id": 669,
+      "difficulty": "Lunatic",
+      "ts": 1008641
+    },
+    "216_Lunatic": {
+      "music_id": 216,
+      "difficulty": "Lunatic",
+      "ts": 985117
+    },
+    "502_Master": {
+      "music_id": 502,
+      "difficulty": "Master",
+      "ts": 1008958
+    },
+    "558_Master": {
+      "music_id": 558,
+      "difficulty": "Master",
+      "ts": 1007823
+    },
+    "794_Master": {
+      "music_id": 794,
+      "difficulty": "Master",
+      "ts": 1008264
+    },
+    "857_Expert": {
+      "music_id": 857,
+      "difficulty": "Expert",
+      "ts": 1008766
+    },
+    "108_Expert": {
+      "music_id": 108,
+      "difficulty": "Expert",
+      "ts": 1007594
+    },
+    "1117_Master": {
+      "music_id": 1117,
+      "difficulty": "Master",
+      "ts": 1009358
+    },
+    "1036_Master": {
+      "music_id": 1036,
+      "difficulty": "Master",
+      "ts": 1002818
+    },
+    "853_Master": {
+      "music_id": 853,
+      "difficulty": "Master",
+      "ts": 1008626
+    },
+    "1085_Master": {
+      "music_id": 1085,
+      "difficulty": "Master",
+      "ts": 1007462
+    },
+    "954_Master": {
+      "music_id": 954,
+      "difficulty": "Master",
+      "ts": 1008787
+    },
+    "993_Master": {
+      "music_id": 993,
+      "difficulty": "Master",
+      "ts": 984877
+    },
+    "367_Master": {
+      "music_id": 367,
+      "difficulty": "Master",
+      "ts": 1007545
+    },
+    "1119_Expert": {
+      "music_id": 1119,
+      "difficulty": "Expert",
+      "ts": 1007758
+    },
+    "329_Master": {
+      "music_id": 329,
+      "difficulty": "Master",
+      "ts": 1008687
+    },
+    "361_Master": {
+      "music_id": 361,
+      "difficulty": "Master",
+      "ts": 1007024
+    },
+    "935_Master": {
+      "music_id": 935,
+      "difficulty": "Master",
+      "ts": 1007571
+    },
+    "219_Master": {
+      "music_id": 219,
+      "difficulty": "Master",
+      "ts": 1006111
+    },
+    "221_Lunatic": {
+      "music_id": 221,
+      "difficulty": "Lunatic",
+      "ts": 1007136
+    },
+    "43_Master": {
+      "music_id": 43,
+      "difficulty": "Master",
+      "ts": 1008670
+    },
+    "818_Master": {
+      "music_id": 818,
+      "difficulty": "Master",
+      "ts": 1007228
+    },
+    "145_Lunatic": {
+      "music_id": 145,
+      "difficulty": "Lunatic",
+      "ts": 1006371
+    },
+    "34_Lunatic": {
+      "music_id": 34,
+      "difficulty": "Lunatic",
+      "ts": 1003529
+    },
+    "23_Master": {
+      "music_id": 23,
+      "difficulty": "Master",
+      "ts": 1009395
+    },
+    "883_Expert": {
+      "music_id": 883,
+      "difficulty": "Expert",
+      "ts": 1009535
+    },
+    "962_Master": {
+      "music_id": 962,
+      "difficulty": "Master",
+      "ts": 1006940
+    },
+    "85_Master": {
+      "music_id": 85,
+      "difficulty": "Master",
+      "ts": 1006360
+    },
+    "1103_Expert": {
+      "music_id": 1103,
+      "difficulty": "Expert",
+      "ts": 1006338
+    },
+    "1060_Expert": {
+      "music_id": 1060,
+      "difficulty": "Expert",
+      "ts": 1003061
+    },
+    "872_Lunatic": {
+      "music_id": 872,
+      "difficulty": "Lunatic",
+      "ts": 972139
+    },
+    "894_Master": {
+      "music_id": 894,
+      "difficulty": "Master",
+      "ts": 1007823
+    },
+    "1112_Expert": {
+      "music_id": 1112,
+      "difficulty": "Expert",
+      "ts": 1010000
+    },
+    "1093_Expert": {
+      "music_id": 1093,
+      "difficulty": "Expert",
+      "ts": 1009366
+    },
+    "626_Expert": {
+      "music_id": 626,
+      "difficulty": "Expert",
+      "ts": 1008574
+    },
+    "427_Master": {
+      "music_id": 427,
+      "difficulty": "Master",
+      "ts": 1002545
+    },
+    "868_Expert": {
+      "music_id": 868,
+      "difficulty": "Expert",
+      "ts": 1007711
+    },
+    "1104_Expert": {
+      "music_id": 1104,
+      "difficulty": "Expert",
+      "ts": 1009158
+    },
+    "510_Expert": {
+      "music_id": 510,
+      "difficulty": "Expert",
+      "ts": 1009263
+    },
+    "960_Expert": {
+      "music_id": 960,
+      "difficulty": "Expert",
+      "ts": 1007161
+    },
+    "1098_Expert": {
+      "music_id": 1098,
+      "difficulty": "Expert",
+      "ts": 1009674
+    },
+    "874_Expert": {
+      "music_id": 874,
+      "difficulty": "Expert",
+      "ts": 1009454
+    },
+    "747_Expert": {
+      "music_id": 747,
+      "difficulty": "Expert",
+      "ts": 1007525
+    },
+    "1039_Master": {
+      "music_id": 1039,
+      "difficulty": "Master",
+      "ts": 1007967
+    },
+    "195_Master": {
+      "music_id": 195,
+      "difficulty": "Master",
+      "ts": 1008146
+    },
+    "41_Master": {
+      "music_id": 41,
+      "difficulty": "Master",
+      "ts": 1004776
+    },
+    "854_Advanced": {
+      "music_id": 854,
+      "difficulty": "Advanced",
+      "ts": 1009640
+    },
+    "1028_Master": {
+      "music_id": 1028,
+      "difficulty": "Master",
+      "ts": 941633
+    },
+    "806_Master": {
+      "music_id": 806,
+      "difficulty": "Master",
+      "ts": 1008590
+    },
+    "701_Master": {
+      "music_id": 701,
+      "difficulty": "Master",
+      "ts": 1008641
+    },
+    "953_Expert": {
+      "music_id": 953,
+      "difficulty": "Expert",
+      "ts": 1009356
+    },
+    "785_Expert": {
+      "music_id": 785,
+      "difficulty": "Expert",
+      "ts": 1009521
+    },
+    "951_Expert": {
+      "music_id": 951,
+      "difficulty": "Expert",
+      "ts": 1006328
+    },
+    "288_Master": {
+      "music_id": 288,
+      "difficulty": "Master",
+      "ts": 1009950
+    },
+    "420_Master": {
+      "music_id": 420,
+      "difficulty": "Master",
+      "ts": 1009424
+    },
+    "934_Master": {
+      "music_id": 934,
+      "difficulty": "Master",
+      "ts": 956464
+    },
+    "219_Lunatic": {
+      "music_id": 219,
+      "difficulty": "Lunatic",
+      "ts": 991325
+    },
+    "746_Master": {
+      "music_id": 746,
+      "difficulty": "Master",
+      "ts": 999548
+    },
+    "1097_Master": {
+      "music_id": 1097,
+      "difficulty": "Master",
+      "ts": 934803
+    },
+    "616_Master": {
+      "music_id": 616,
+      "difficulty": "Master",
+      "ts": 1009646
+    },
+    "247_Expert": {
+      "music_id": 247,
+      "difficulty": "Expert",
+      "ts": 1009378
+    },
+    "643_Master": {
+      "music_id": 643,
+      "difficulty": "Master",
+      "ts": 1008210
+    },
+    "176_Master": {
+      "music_id": 176,
+      "difficulty": "Master",
+      "ts": 1008007
+    },
+    "350_Master": {
+      "music_id": 350,
+      "difficulty": "Master",
+      "ts": 1005435
+    },
+    "615_Master": {
+      "music_id": 615,
+      "difficulty": "Master",
+      "ts": 1007741
+    },
+    "497_Master": {
+      "music_id": 497,
+      "difficulty": "Master",
+      "ts": 1001678
+    },
+    "569_Master": {
+      "music_id": 569,
+      "difficulty": "Master",
+      "ts": 1009880
+    },
+    "978_Master": {
+      "music_id": 978,
+      "difficulty": "Master",
+      "ts": 1008708
+    },
+    "423_Expert": {
+      "music_id": 423,
+      "difficulty": "Expert",
+      "ts": 1009500
+    },
+    "528_Expert": {
+      "music_id": 528,
+      "difficulty": "Expert",
+      "ts": 1009806
+    },
+    "994_Expert": {
+      "music_id": 994,
+      "difficulty": "Expert",
+      "ts": 1008004
+    },
+    "985_Expert": {
+      "music_id": 985,
+      "difficulty": "Expert",
+      "ts": 1008508
+    },
+    "1095_Expert": {
+      "music_id": 1095,
+      "difficulty": "Expert",
+      "ts": 1010000
+    },
+    "238_Expert": {
+      "music_id": 238,
+      "difficulty": "Expert",
+      "ts": 1010000
+    },
+    "459_Expert": {
+      "music_id": 459,
+      "difficulty": "Expert",
+      "ts": 1009621
+    },
+    "947_Expert": {
+      "music_id": 947,
+      "difficulty": "Expert",
+      "ts": 1009902
+    },
+    "348_Expert": {
+      "music_id": 348,
+      "difficulty": "Expert",
+      "ts": 1010000
+    },
+    "598_Expert": {
+      "music_id": 598,
+      "difficulty": "Expert",
+      "ts": 1009908
+    },
+    "345_Expert": {
+      "music_id": 345,
+      "difficulty": "Expert",
+      "ts": 1009863
+    },
+    "1089_Expert": {
+      "music_id": 1089,
+      "difficulty": "Expert",
+      "ts": 1009322
+    },
+    "700_Expert": {
+      "music_id": 700,
+      "difficulty": "Expert",
+      "ts": 1009357
+    },
+    "1099_Expert": {
+      "music_id": 1099,
+      "difficulty": "Expert",
+      "ts": 1008908
+    },
+    "1100_Expert": {
+      "music_id": 1100,
+      "difficulty": "Expert",
+      "ts": 1008389
+    },
+    "365_Expert": {
+      "music_id": 365,
+      "difficulty": "Expert",
+      "ts": 1010000
+    },
+    "1015_Expert": {
+      "music_id": 1015,
+      "difficulty": "Expert",
+      "ts": 1009617
+    },
+    "243_Expert": {
+      "music_id": 243,
+      "difficulty": "Expert",
+      "ts": 1009820
+    },
+    "769_Expert": {
+      "music_id": 769,
+      "difficulty": "Expert",
+      "ts": 1009365
+    },
+    "441_Expert": {
+      "music_id": 441,
+      "difficulty": "Expert",
+      "ts": 1009797
+    },
+    "473_Expert": {
+      "music_id": 473,
+      "difficulty": "Expert",
+      "ts": 1009768
+    },
+    "55_Expert": {
+      "music_id": 55,
+      "difficulty": "Expert",
+      "ts": 1001222
+    },
+    "151_Expert": {
+      "music_id": 151,
+      "difficulty": "Expert",
+      "ts": 1009914
+    },
+    "1004_Expert": {
+      "music_id": 1004,
+      "difficulty": "Expert",
+      "ts": 1009092
+    },
+    "679_Expert": {
+      "music_id": 679,
+      "difficulty": "Expert",
+      "ts": 1009928
+    },
+    "117_Master": {
+      "music_id": 117,
+      "difficulty": "Master",
+      "ts": 1006188
+    },
+    "817_Lunatic": {
+      "music_id": 817,
+      "difficulty": "Lunatic",
+      "ts": 1006329
+    },
+    "478_Lunatic": {
+      "music_id": 478,
+      "difficulty": "Lunatic",
+      "ts": 1009900
+    },
+    "756_Master": {
+      "music_id": 756,
+      "difficulty": "Master",
+      "ts": 1000768
+    },
+    "563_Master": {
+      "music_id": 563,
+      "difficulty": "Master",
+      "ts": 1009597
+    },
+    "354_Master": {
+      "music_id": 354,
+      "difficulty": "Master",
+      "ts": 1007316
+    },
+    "720_Master": {
+      "music_id": 720,
+      "difficulty": "Master",
+      "ts": 971566
+    },
+    "340_Master": {
+      "music_id": 340,
+      "difficulty": "Master",
+      "ts": 1008370
+    },
+    "1003_Master": {
+      "music_id": 1003,
+      "difficulty": "Master",
+      "ts": 1009083
+    },
+    "561_Master": {
+      "music_id": 561,
+      "difficulty": "Master",
+      "ts": 1008601
+    },
+    "627_Master": {
+      "music_id": 627,
+      "difficulty": "Master",
+      "ts": 993888
+    },
+    "138_Master": {
+      "music_id": 138,
+      "difficulty": "Master",
+      "ts": 1008507
+    },
+    "1029_Expert": {
+      "music_id": 1029,
+      "difficulty": "Expert",
+      "ts": 1006289
+    },
+    "702_Expert": {
+      "music_id": 702,
+      "difficulty": "Expert",
+      "ts": 1009537
+    },
+    "719_Expert": {
+      "music_id": 719,
+      "difficulty": "Expert",
+      "ts": 1008157
+    },
+    "613_Lunatic": {
+      "music_id": 613,
+      "difficulty": "Lunatic",
+      "ts": 1008477
+    },
+    "390_Advanced": {
+      "music_id": 390,
+      "difficulty": "Advanced",
+      "ts": 1009560
+    },
+    "1090_Expert": {
+      "music_id": 1090,
+      "difficulty": "Expert",
+      "ts": 1009467
+    },
+    "1094_Expert": {
+      "music_id": 1094,
+      "difficulty": "Expert",
+      "ts": 1009372
+    },
+    "826_Master": {
+      "music_id": 826,
+      "difficulty": "Master",
+      "ts": 1005913
+    },
+    "864_Master": {
+      "music_id": 864,
+      "difficulty": "Master",
+      "ts": 1002208
+    },
+    "892_Master": {
+      "music_id": 892,
+      "difficulty": "Master",
+      "ts": 1007230
+    },
+    "893_Master": {
+      "music_id": 893,
+      "difficulty": "Master",
+      "ts": 1007712
+    },
+    "281_Master": {
+      "music_id": 281,
+      "difficulty": "Master",
+      "ts": 1007581
+    },
+    "1046_Master": {
+      "music_id": 1046,
+      "difficulty": "Master",
+      "ts": 1008272
+    },
+    "196_Master": {
+      "music_id": 196,
+      "difficulty": "Master",
+      "ts": 1008278
+    },
+    "151_Master": {
+      "music_id": 151,
+      "difficulty": "Master",
+      "ts": 1008941
+    },
+    "489_Expert": {
+      "music_id": 489,
+      "difficulty": "Expert",
+      "ts": 1009149
+    },
+    "798_Master": {
+      "music_id": 798,
+      "difficulty": "Master",
+      "ts": 1009685
+    },
+    "349_Expert": {
+      "music_id": 349,
+      "difficulty": "Expert",
+      "ts": 1009920
+    },
+    "964_Expert": {
+      "music_id": 964,
+      "difficulty": "Expert",
+      "ts": 1009753
+    },
+    "776_Expert": {
+      "music_id": 776,
+      "difficulty": "Expert",
+      "ts": 1009732
+    },
+    "605_Expert": {
+      "music_id": 605,
+      "difficulty": "Expert",
+      "ts": 1009432
+    },
+    "1069_Expert": {
+      "music_id": 1069,
+      "difficulty": "Expert",
+      "ts": 1009845
+    },
+    "957_Expert": {
+      "music_id": 957,
+      "difficulty": "Expert",
+      "ts": 1010000
+    },
+    "428_Expert": {
+      "music_id": 428,
+      "difficulty": "Expert",
+      "ts": 1009781
+    },
+    "805_Advanced": {
+      "music_id": 805,
+      "difficulty": "Advanced",
+      "ts": 1009717
+    },
+    "1026_Expert": {
+      "music_id": 1026,
+      "difficulty": "Expert",
+      "ts": 1010000
+    },
+    "872_Expert": {
+      "music_id": 872,
+      "difficulty": "Expert",
+      "ts": 1005463
+    },
+    "535_Expert": {
+      "music_id": 535,
+      "difficulty": "Expert",
+      "ts": 1009490
+    },
+    "377_Expert": {
+      "music_id": 377,
+      "difficulty": "Expert",
+      "ts": 1010000
+    },
+    "899_Expert": {
+      "music_id": 899,
+      "difficulty": "Expert",
+      "ts": 1010000
+    },
+    "710_Expert": {
+      "music_id": 710,
+      "difficulty": "Expert",
+      "ts": 1008590
+    },
+    "309_Expert": {
+      "music_id": 309,
+      "difficulty": "Expert",
+      "ts": 1009866
+    },
+    "616_Expert": {
+      "music_id": 616,
+      "difficulty": "Expert",
+      "ts": 1009686
+    },
+    "671_Expert": {
+      "music_id": 671,
+      "difficulty": "Expert",
+      "ts": 1008498
+    },
+    "806_Expert": {
+      "music_id": 806,
+      "difficulty": "Expert",
+      "ts": 1009859
+    },
+    "695_Expert": {
+      "music_id": 695,
+      "difficulty": "Expert",
+      "ts": 1009832
+    },
+    "164_Master": {
+      "music_id": 164,
+      "difficulty": "Master",
+      "ts": 1009833
+    },
+    "885_Expert": {
+      "music_id": 885,
+      "difficulty": "Expert",
+      "ts": 1009898
+    },
+    "1038_Expert": {
+      "music_id": 1038,
+      "difficulty": "Expert",
+      "ts": 1009852
+    },
+    "264_Expert": {
+      "music_id": 264,
+      "difficulty": "Expert",
+      "ts": 277816
+    },
+    "1036_Expert": {
+      "music_id": 1036,
+      "difficulty": "Expert",
+      "ts": 1009742
+    },
+    "496_Expert": {
+      "music_id": 496,
+      "difficulty": "Expert",
+      "ts": 1009685
+    },
+    "1077_Expert": {
+      "music_id": 1077,
+      "difficulty": "Expert",
+      "ts": 1010000
+    },
+    "544_Expert": {
+      "music_id": 544,
+      "difficulty": "Expert",
+      "ts": 1001614
+    },
+    "834_Expert": {
+      "music_id": 834,
+      "difficulty": "Expert",
+      "ts": 1009915
+    },
+    "965_Expert": {
+      "music_id": 965,
+      "difficulty": "Expert",
+      "ts": 1009567
+    },
+    "659_Expert": {
+      "music_id": 659,
+      "difficulty": "Expert",
+      "ts": 1009828
+    },
+    "511_Expert": {
+      "music_id": 511,
+      "difficulty": "Expert",
+      "ts": 1009782
+    },
+    "716_Expert": {
+      "music_id": 716,
+      "difficulty": "Expert",
+      "ts": 1009897
+    },
+    "478_Expert": {
+      "music_id": 478,
+      "difficulty": "Expert",
+      "ts": 1009098
+    },
+    "955_Master": {
+      "music_id": 955,
+      "difficulty": "Master",
+      "ts": 1006746
+    },
+    "232_Expert": {
+      "music_id": 232,
+      "difficulty": "Expert",
+      "ts": 998881
+    },
+    "240_Expert": {
+      "music_id": 240,
+      "difficulty": "Expert",
+      "ts": 1009133
+    },
+    "1076_Expert": {
+      "music_id": 1076,
+      "difficulty": "Expert",
+      "ts": 1008552
+    },
+    "808_Advanced": {
+      "music_id": 808,
+      "difficulty": "Advanced",
+      "ts": 1008733
+    },
+    "69_Lunatic": {
+      "music_id": 69,
+      "difficulty": "Lunatic",
+      "ts": 1006329
+    },
+    "861_Master": {
+      "music_id": 861,
+      "difficulty": "Master",
+      "ts": 1009022
+    },
+    "146_Master": {
+      "music_id": 146,
+      "difficulty": "Master",
+      "ts": 1007251
+    },
+    "27_Master": {
+      "music_id": 27,
+      "difficulty": "Master",
+      "ts": 966789
+    },
+    "592_Master": {
+      "music_id": 592,
+      "difficulty": "Master",
+      "ts": 1008614
+    },
+    "19_Master": {
+      "music_id": 19,
+      "difficulty": "Master",
+      "ts": 1009290
+    },
+    "518_Master": {
+      "music_id": 518,
+      "difficulty": "Master",
+      "ts": 1007790
+    },
+    "33_Master": {
+      "music_id": 33,
+      "difficulty": "Master",
+      "ts": 1009126
+    },
+    "596_Master": {
+      "music_id": 596,
+      "difficulty": "Master",
+      "ts": 1009000
+    },
+    "696_Master": {
+      "music_id": 696,
+      "difficulty": "Master",
+      "ts": 1009027
+    },
+    "35_Master": {
+      "music_id": 35,
+      "difficulty": "Master",
+      "ts": 1009484
+    },
+    "768_Master": {
+      "music_id": 768,
+      "difficulty": "Master",
+      "ts": 968284
+    },
+    "1019_Master": {
+      "music_id": 1019,
+      "difficulty": "Master",
+      "ts": 950272
+    },
+    "584_Master": {
+      "music_id": 584,
+      "difficulty": "Master",
+      "ts": 1008490
+    },
+    "44_Master": {
+      "music_id": 44,
+      "difficulty": "Master",
+      "ts": 1009767
+    },
+    "400_Master": {
+      "music_id": 400,
+      "difficulty": "Master",
+      "ts": 983523
+    },
+    "886_Master": {
+      "music_id": 886,
+      "difficulty": "Master",
+      "ts": 965259
+    },
+    "925_Master": {
+      "music_id": 925,
+      "difficulty": "Master",
+      "ts": 902379
+    },
+    "923_Master": {
+      "music_id": 923,
+      "difficulty": "Master",
+      "ts": 1006462
+    },
+    "931_Master": {
+      "music_id": 931,
+      "difficulty": "Master",
+      "ts": 1005912
+    },
+    "936_Master": {
+      "music_id": 936,
+      "difficulty": "Master",
+      "ts": 945694
+    },
+    "1042_Master": {
+      "music_id": 1042,
+      "difficulty": "Master",
+      "ts": 959281
+    },
+    "59_Master": {
+      "music_id": 59,
+      "difficulty": "Master",
+      "ts": 1004694
+    },
+    "353_Master": {
+      "music_id": 353,
+      "difficulty": "Master",
+      "ts": 961066
+    },
+    "539_Master": {
+      "music_id": 539,
+      "difficulty": "Master",
+      "ts": 1008097
+    },
+    "810_Master": {
+      "music_id": 810,
+      "difficulty": "Master",
+      "ts": 1008741
+    },
+    "915_Master": {
+      "music_id": 915,
+      "difficulty": "Master",
+      "ts": 970555
+    },
+    "1064_Master": {
+      "music_id": 1064,
+      "difficulty": "Master",
+      "ts": 999460
+    },
+    "1082_Master": {
+      "music_id": 1082,
+      "difficulty": "Master",
+      "ts": 1009335
+    },
+    "70_Master": {
+      "music_id": 70,
+      "difficulty": "Master",
+      "ts": 1009884
+    },
+    "963_Master": {
+      "music_id": 963,
+      "difficulty": "Master",
+      "ts": 1008993
+    },
+    "80_Master": {
+      "music_id": 80,
+      "difficulty": "Master",
+      "ts": 1003858
+    },
+    "179_Master": {
+      "music_id": 179,
+      "difficulty": "Master",
+      "ts": 1007558
+    },
+    "743_Master": {
+      "music_id": 743,
+      "difficulty": "Master",
+      "ts": 1003850
+    },
+    "254_Master": {
+      "music_id": 254,
+      "difficulty": "Master",
+      "ts": 939357
+    },
+    "277_Master": {
+      "music_id": 277,
+      "difficulty": "Master",
+      "ts": 955652
+    },
+    "246_Master": {
+      "music_id": 246,
+      "difficulty": "Master",
+      "ts": 1002677
+    },
+    "574_Master": {
+      "music_id": 574,
+      "difficulty": "Master",
+      "ts": 949551
+    },
+    "626_Master": {
+      "music_id": 626,
+      "difficulty": "Master",
+      "ts": 969007
+    },
+    "941_Master": {
+      "music_id": 941,
+      "difficulty": "Master",
+      "ts": 997253
+    },
+    "961_Master": {
+      "music_id": 961,
+      "difficulty": "Master",
+      "ts": 965936
+    },
+    "390_Master": {
+      "music_id": 390,
+      "difficulty": "Master",
+      "ts": 1009420
+    },
+    "444_Master": {
+      "music_id": 444,
+      "difficulty": "Master",
+      "ts": 1006157
+    },
+    "530_Master": {
+      "music_id": 530,
+      "difficulty": "Master",
+      "ts": 989927
+    },
+    "532_Master": {
+      "music_id": 532,
+      "difficulty": "Master",
+      "ts": 983083
+    },
+    "549_Master": {
+      "music_id": 549,
+      "difficulty": "Master",
+      "ts": 1004318
+    },
+    "566_Master": {
+      "music_id": 566,
+      "difficulty": "Master",
+      "ts": 1001653
+    },
+    "608_Master": {
+      "music_id": 608,
+      "difficulty": "Master",
+      "ts": 1009057
+    },
+    "610_Master": {
+      "music_id": 610,
+      "difficulty": "Master",
+      "ts": 1008875
+    },
+    "611_Master": {
+      "music_id": 611,
+      "difficulty": "Master",
+      "ts": 1007406
+    },
+    "612_Master": {
+      "music_id": 612,
+      "difficulty": "Master",
+      "ts": 1007721
+    },
+    "674_Master": {
+      "music_id": 674,
+      "difficulty": "Master",
+      "ts": 1006431
+    },
+    "676_Master": {
+      "music_id": 676,
+      "difficulty": "Master",
+      "ts": 1005722
+    },
+    "677_Master": {
+      "music_id": 677,
+      "difficulty": "Master",
+      "ts": 1002597
+    },
+    "980_Master": {
+      "music_id": 980,
+      "difficulty": "Master",
+      "ts": 1004102
+    },
+    "981_Master": {
+      "music_id": 981,
+      "difficulty": "Master",
+      "ts": 1004710
+    },
+    "982_Master": {
+      "music_id": 982,
+      "difficulty": "Master",
+      "ts": 1004864
+    },
+    "910_Master": {
+      "music_id": 910,
+      "difficulty": "Master",
+      "ts": 1002144
+    },
+    "967_Master": {
+      "music_id": 967,
+      "difficulty": "Master",
+      "ts": 1006580
+    },
+    "976_Master": {
+      "music_id": 976,
+      "difficulty": "Master",
+      "ts": 1000027
+    },
+    "1086_Master": {
+      "music_id": 1086,
+      "difficulty": "Master",
+      "ts": 1007867
+    },
+    "1008_Master": {
+      "music_id": 1008,
+      "difficulty": "Master",
+      "ts": 1006418
+    },
+    "451_Expert": {
+      "music_id": 451,
+      "difficulty": "Expert",
+      "ts": 999538
+    },
+    "591_Expert": {
+      "music_id": 591,
+      "difficulty": "Expert",
+      "ts": 1005374
+    },
+    "692_Expert": {
+      "music_id": 692,
+      "difficulty": "Expert",
+      "ts": 1005945
+    },
+    "861_Expert": {
+      "music_id": 861,
+      "difficulty": "Expert",
+      "ts": 978919
+    },
+    "977_Expert": {
+      "music_id": 977,
+      "difficulty": "Expert",
+      "ts": 1004690
+    },
+    "160_Expert": {
+      "music_id": 160,
+      "difficulty": "Expert",
+      "ts": 1000347
+    },
+    "446_Expert": {
+      "music_id": 446,
+      "difficulty": "Expert",
+      "ts": 991285
+    },
+    "146_Expert": {
+      "music_id": 146,
+      "difficulty": "Expert",
+      "ts": 984058
+    },
+    "569_Expert": {
+      "music_id": 569,
+      "difficulty": "Expert",
+      "ts": 974626
+    },
+    "860_Expert": {
+      "music_id": 860,
+      "difficulty": "Expert",
+      "ts": 982565
+    },
+    "1056_Expert": {
+      "music_id": 1056,
+      "difficulty": "Expert",
+      "ts": 1009927
+    },
+    "1057_Expert": {
+      "music_id": 1057,
+      "difficulty": "Expert",
+      "ts": 1010000
+    },
+    "239_Expert": {
+      "music_id": 239,
+      "difficulty": "Expert",
+      "ts": 993532
+    },
+    "575_Expert": {
+      "music_id": 575,
+      "difficulty": "Expert",
+      "ts": 1003513
+    },
+    "629_Expert": {
+      "music_id": 629,
+      "difficulty": "Expert",
+      "ts": 983860
+    },
+    "943_Expert": {
+      "music_id": 943,
+      "difficulty": "Expert",
+      "ts": 990572
+    },
+    "110_Expert": {
+      "music_id": 110,
+      "difficulty": "Expert",
+      "ts": 1003043
+    },
+    "956_Expert": {
+      "music_id": 956,
+      "difficulty": "Expert",
+      "ts": 998365
+    },
+    "971_Expert": {
+      "music_id": 971,
+      "difficulty": "Expert",
+      "ts": 997314
+    },
+    "1027_Expert": {
+      "music_id": 1027,
+      "difficulty": "Expert",
+      "ts": 1006785
+    },
+    "327_Expert": {
+      "music_id": 327,
+      "difficulty": "Expert",
+      "ts": 988903
+    },
+    "328_Expert": {
+      "music_id": 328,
+      "difficulty": "Expert",
+      "ts": 1007767
+    },
+    "329_Expert": {
+      "music_id": 329,
+      "difficulty": "Expert",
+      "ts": 983108
+    },
+    "438_Expert": {
+      "music_id": 438,
+      "difficulty": "Expert",
+      "ts": 994939
+    },
+    "439_Expert": {
+      "music_id": 439,
+      "difficulty": "Expert",
+      "ts": 995765
+    },
+    "681_Expert": {
+      "music_id": 681,
+      "difficulty": "Expert",
+      "ts": 996234
+    },
+    "682_Expert": {
+      "music_id": 682,
+      "difficulty": "Expert",
+      "ts": 991772
+    },
+    "683_Expert": {
+      "music_id": 683,
+      "difficulty": "Expert",
+      "ts": 975606
+    },
+    "871_Expert": {
+      "music_id": 871,
+      "difficulty": "Expert",
+      "ts": 989549
+    },
+    "873_Expert": {
+      "music_id": 873,
+      "difficulty": "Expert",
+      "ts": 1009300
+    },
+    "1000_Expert": {
+      "music_id": 1000,
+      "difficulty": "Expert",
+      "ts": 1008120
+    },
+    "1002_Expert": {
+      "music_id": 1002,
+      "difficulty": "Expert",
+      "ts": 1003507
+    },
+    "370_Expert": {
+      "music_id": 370,
+      "difficulty": "Expert",
+      "ts": 1001950
+    },
+    "396_Expert": {
+      "music_id": 396,
+      "difficulty": "Expert",
+      "ts": 993697
+    },
+    "693_Expert": {
+      "music_id": 693,
+      "difficulty": "Expert",
+      "ts": 982276
+    },
+    "1039_Expert": {
+      "music_id": 1039,
+      "difficulty": "Expert",
+      "ts": 1008133
+    },
+    "1047_Expert": {
+      "music_id": 1047,
+      "difficulty": "Expert",
+      "ts": 1009185
+    },
+    "1046_Expert": {
+      "music_id": 1046,
+      "difficulty": "Expert",
+      "ts": 1009310
+    },
+    "1045_Expert": {
+      "music_id": 1045,
+      "difficulty": "Expert",
+      "ts": 1007100
+    },
+    "617_Expert": {
+      "music_id": 617,
+      "difficulty": "Expert",
+      "ts": 999107
+    },
+    "888_Expert": {
+      "music_id": 888,
+      "difficulty": "Expert",
+      "ts": 975451
+    },
+    "620_Expert": {
+      "music_id": 620,
+      "difficulty": "Expert",
+      "ts": 981877
+    },
+    "978_Expert": {
+      "music_id": 978,
+      "difficulty": "Expert",
+      "ts": 1006333
+    },
+    "979_Expert": {
+      "music_id": 979,
+      "difficulty": "Expert",
+      "ts": 1009043
+    },
+    "619_Expert": {
+      "music_id": 619,
+      "difficulty": "Expert",
+      "ts": 981091
+    },
+    "361_Expert": {
+      "music_id": 361,
+      "difficulty": "Expert",
+      "ts": 1003889
+    },
+    "1070_Expert": {
+      "music_id": 1070,
+      "difficulty": "Expert",
+      "ts": 1009866
+    },
+    "126_Expert": {
+      "music_id": 126,
+      "difficulty": "Expert",
+      "ts": 999711
+    },
+    "296_Expert": {
+      "music_id": 296,
+      "difficulty": "Expert",
+      "ts": 1008072
+    },
+    "312_Expert": {
+      "music_id": 312,
+      "difficulty": "Expert",
+      "ts": 1006952
+    },
+    "91_Expert": {
+      "music_id": 91,
+      "difficulty": "Expert",
+      "ts": 1008410
+    },
+    "196_Expert": {
+      "music_id": 196,
+      "difficulty": "Expert",
+      "ts": 988564
+    },
+    "234_Expert": {
+      "music_id": 234,
+      "difficulty": "Expert",
+      "ts": 1003444
+    },
+    "281_Expert": {
+      "music_id": 281,
+      "difficulty": "Expert",
+      "ts": 1006819
+    },
+    "23_Expert": {
+      "music_id": 23,
+      "difficulty": "Expert",
+      "ts": 1000952
+    },
+    "570_Expert": {
+      "music_id": 570,
+      "difficulty": "Expert",
+      "ts": 1009134
+    },
+    "634_Expert": {
+      "music_id": 634,
+      "difficulty": "Expert",
+      "ts": 994783
+    },
+    "241_Expert": {
+      "music_id": 241,
+      "difficulty": "Expert",
+      "ts": 1004893
+    },
+    "440_Expert": {
+      "music_id": 440,
+      "difficulty": "Expert",
+      "ts": 1007941
+    },
+    "136_Expert": {
+      "music_id": 136,
+      "difficulty": "Expert",
+      "ts": 1006071
+    },
+    "258_Expert": {
+      "music_id": 258,
+      "difficulty": "Expert",
+      "ts": 1000843
+    },
+    "338_Expert": {
+      "music_id": 338,
+      "difficulty": "Expert",
+      "ts": 1007541
+    },
+    "145_Expert": {
+      "music_id": 145,
+      "difficulty": "Expert",
+      "ts": 1007751
+    },
+    "263_Expert": {
+      "music_id": 263,
+      "difficulty": "Expert",
+      "ts": 1007895
+    },
+    "27_Expert": {
+      "music_id": 27,
+      "difficulty": "Expert",
+      "ts": 1002892
+    },
+    "140_Expert": {
+      "music_id": 140,
+      "difficulty": "Expert",
+      "ts": 1007970
+    },
+    "493_Expert": {
+      "music_id": 493,
+      "difficulty": "Expert",
+      "ts": 1008913
+    },
+    "207_Expert": {
+      "music_id": 207,
+      "difficulty": "Expert",
+      "ts": 1008329
+    },
+    "330_Expert": {
+      "music_id": 330,
+      "difficulty": "Expert",
+      "ts": 1004337
+    },
+    "252_Expert": {
+      "music_id": 252,
+      "difficulty": "Expert",
+      "ts": 994151
+    },
+    "1044_Expert": {
+      "music_id": 1044,
+      "difficulty": "Expert",
+      "ts": 1006380
+    },
+    "1024_Expert": {
+      "music_id": 1024,
+      "difficulty": "Expert",
+      "ts": 1008321
+    },
+    "1025_Expert": {
+      "music_id": 1025,
+      "difficulty": "Expert",
+      "ts": 1007772
+    },
+    "986_Expert": {
+      "music_id": 986,
+      "difficulty": "Expert",
+      "ts": 1007699
+    },
+    "958_Expert": {
+      "music_id": 958,
+      "difficulty": "Expert",
+      "ts": 1004939
+    },
+    "902_Expert": {
+      "music_id": 902,
+      "difficulty": "Expert",
+      "ts": 1008841
+    },
+    "852_Expert": {
+      "music_id": 852,
+      "difficulty": "Expert",
+      "ts": 1007174
+    },
+    "721_Expert": {
+      "music_id": 721,
+      "difficulty": "Expert",
+      "ts": 1008613
+    },
+    "722_Expert": {
+      "music_id": 722,
+      "difficulty": "Expert",
+      "ts": 1009046
+    },
+    "724_Expert": {
+      "music_id": 724,
+      "difficulty": "Expert",
+      "ts": 1007385
+    },
+    "635_Expert": {
+      "music_id": 635,
+      "difficulty": "Expert",
+      "ts": 984518
+    },
+    "507_Expert": {
+      "music_id": 507,
+      "difficulty": "Expert",
+      "ts": 1003038
+    },
+    "274_Expert": {
+      "music_id": 274,
+      "difficulty": "Expert",
+      "ts": 999033
+    },
+    "195_Expert": {
+      "music_id": 195,
+      "difficulty": "Expert",
+      "ts": 1006888
+    },
+    "187_Expert": {
+      "music_id": 187,
+      "difficulty": "Expert",
+      "ts": 1009166
+    },
+    "141_Expert": {
+      "music_id": 141,
+      "difficulty": "Expert",
+      "ts": 994346
+    },
+    "987_Expert": {
+      "music_id": 987,
+      "difficulty": "Expert",
+      "ts": 1003508
+    },
+    "988_Expert": {
+      "music_id": 988,
+      "difficulty": "Expert",
+      "ts": 1003808
+    },
+    "93_Expert": {
+      "music_id": 93,
+      "difficulty": "Expert",
+      "ts": 1006541
+    },
+    "19_Expert": {
+      "music_id": 19,
+      "difficulty": "Expert",
+      "ts": 1003508
+    },
+    "18_Expert": {
+      "music_id": 18,
+      "difficulty": "Expert",
+      "ts": 1006486
+    },
+    "520_Expert": {
+      "music_id": 520,
+      "difficulty": "Expert",
+      "ts": 1006108
+    },
+    "946_Expert": {
+      "music_id": 946,
+      "difficulty": "Expert",
+      "ts": 1005380
+    },
+    "1073_Expert": {
+      "music_id": 1073,
+      "difficulty": "Expert",
+      "ts": 1009294
+    },
+    "34_Expert": {
+      "music_id": 34,
+      "difficulty": "Expert",
+      "ts": 993245
+    },
+    "411_Expert": {
+      "music_id": 411,
+      "difficulty": "Expert",
+      "ts": 984842
+    },
+    "43_Expert": {
+      "music_id": 43,
+      "difficulty": "Expert",
+      "ts": 1007973
+    },
+    "229_Expert": {
+      "music_id": 229,
+      "difficulty": "Expert",
+      "ts": 1008482
+    },
+    "212_Expert": {
+      "music_id": 212,
+      "difficulty": "Expert",
+      "ts": 1008819
+    },
+    "918_Expert": {
+      "music_id": 918,
+      "difficulty": "Expert",
+      "ts": 1008954
+    },
+    "502_Expert": {
+      "music_id": 502,
+      "difficulty": "Expert",
+      "ts": 993599
+    },
+    "771_Expert": {
+      "music_id": 771,
+      "difficulty": "Expert",
+      "ts": 995457
+    },
+    "33_Expert": {
+      "music_id": 33,
+      "difficulty": "Expert",
+      "ts": 1004890
+    },
+    "456_Expert": {
+      "music_id": 456,
+      "difficulty": "Expert",
+      "ts": 1003183
+    },
+    "36_Expert": {
+      "music_id": 36,
+      "difficulty": "Expert",
+      "ts": 1007388
+    },
+    "578_Expert": {
+      "music_id": 578,
+      "difficulty": "Expert",
+      "ts": 1005352
+    },
+    "472_Expert": {
+      "music_id": 472,
+      "difficulty": "Expert",
+      "ts": 991041
+    },
+    "192_Expert": {
+      "music_id": 192,
+      "difficulty": "Expert",
+      "ts": 995928
+    },
+    "213_Expert": {
+      "music_id": 213,
+      "difficulty": "Expert",
+      "ts": 970243
+    },
+    "231_Expert": {
+      "music_id": 231,
+      "difficulty": "Expert",
+      "ts": 991629
+    },
+    "100_Expert": {
+      "music_id": 100,
+      "difficulty": "Expert",
+      "ts": 993463
+    },
+    "596_Expert": {
+      "music_id": 596,
+      "difficulty": "Expert",
+      "ts": 970738
+    },
+    "41_Expert": {
+      "music_id": 41,
+      "difficulty": "Expert",
+      "ts": 951000
+    },
+    "420_Expert": {
+      "music_id": 420,
+      "difficulty": "Expert",
+      "ts": 1005299
+    },
+    "580_Expert": {
+      "music_id": 580,
+      "difficulty": "Expert",
+      "ts": 1000552
+    },
+    "38_Expert": {
+      "music_id": 38,
+      "difficulty": "Expert",
+      "ts": 994905
+    },
+    "230_Expert": {
+      "music_id": 230,
+      "difficulty": "Expert",
+      "ts": 1007510
+    },
+    "170_Expert": {
+      "music_id": 170,
+      "difficulty": "Expert",
+      "ts": 998465
+    },
+    "175_Expert": {
+      "music_id": 175,
+      "difficulty": "Expert",
+      "ts": 999568
+    },
+    "37_Expert": {
+      "music_id": 37,
+      "difficulty": "Expert",
+      "ts": 998660
+    },
+    "168_Expert": {
+      "music_id": 168,
+      "difficulty": "Expert",
+      "ts": 993342
+    },
+    "318_Expert": {
+      "music_id": 318,
+      "difficulty": "Expert",
+      "ts": 979517
+    },
+    "35_Expert": {
+      "music_id": 35,
+      "difficulty": "Expert",
+      "ts": 976830
+    },
+    "283_Expert": {
+      "music_id": 283,
+      "difficulty": "Expert",
+      "ts": 1010000
+    },
+    "163_Expert": {
+      "music_id": 163,
+      "difficulty": "Expert",
+      "ts": 997837
+    },
+    "233_Expert": {
+      "music_id": 233,
+      "difficulty": "Expert",
+      "ts": 1009370
+    },
+    "768_Expert": {
+      "music_id": 768,
+      "difficulty": "Expert",
+      "ts": 1008376
+    },
+    "644_Expert": {
+      "music_id": 644,
+      "difficulty": "Expert",
+      "ts": 1005333
+    },
+    "764_Expert": {
+      "music_id": 764,
+      "difficulty": "Expert",
+      "ts": 1008527
+    },
+    "766_Expert": {
+      "music_id": 766,
+      "difficulty": "Expert",
+      "ts": 995032
+    },
+    "442_Expert": {
+      "music_id": 442,
+      "difficulty": "Expert",
+      "ts": 1006287
+    },
+    "422_Expert": {
+      "music_id": 422,
+      "difficulty": "Expert",
+      "ts": 1008693
+    },
+    "421_Expert": {
+      "music_id": 421,
+      "difficulty": "Expert",
+      "ts": 997843
+    },
+    "174_Expert": {
+      "music_id": 174,
+      "difficulty": "Expert",
+      "ts": 1008035
+    },
+    "173_Expert": {
+      "music_id": 173,
+      "difficulty": "Expert",
+      "ts": 1007108
+    },
+    "172_Expert": {
+      "music_id": 172,
+      "difficulty": "Expert",
+      "ts": 1001445
+    },
+    "171_Expert": {
+      "music_id": 171,
+      "difficulty": "Expert",
+      "ts": 1005476
+    },
+    "129_Expert": {
+      "music_id": 129,
+      "difficulty": "Expert",
+      "ts": 1006757
+    },
+    "42_Expert": {
+      "music_id": 42,
+      "difficulty": "Expert",
+      "ts": 1005215
+    },
+    "39_Expert": {
+      "music_id": 39,
+      "difficulty": "Expert",
+      "ts": 1009107
+    },
+    "40_Expert": {
+      "music_id": 40,
+      "difficulty": "Expert",
+      "ts": 1006833
+    },
+    "959_Expert": {
+      "music_id": 959,
+      "difficulty": "Expert",
+      "ts": 1008414
+    },
+    "426_Expert": {
+      "music_id": 426,
+      "difficulty": "Expert",
+      "ts": 996165
+    },
+    "784_Expert": {
+      "music_id": 784,
+      "difficulty": "Expert",
+      "ts": 986943
+    },
+    "786_Expert": {
+      "music_id": 786,
+      "difficulty": "Expert",
+      "ts": 981075
+    },
+    "1035_Expert": {
+      "music_id": 1035,
+      "difficulty": "Expert",
+      "ts": 1008184
+    },
+    "878_Expert": {
+      "music_id": 878,
+      "difficulty": "Expert",
+      "ts": 995798
+    },
+    "877_Expert": {
+      "music_id": 877,
+      "difficulty": "Expert",
+      "ts": 1008831
+    },
+    "876_Expert": {
+      "music_id": 876,
+      "difficulty": "Expert",
+      "ts": 1007043
+    },
+    "898_Expert": {
+      "music_id": 898,
+      "difficulty": "Expert",
+      "ts": 1009099
+    },
+    "665_Expert": {
+      "music_id": 665,
+      "difficulty": "Expert",
+      "ts": 1001914
+    },
+    "666_Expert": {
+      "music_id": 666,
+      "difficulty": "Expert",
+      "ts": 1009395
+    },
+    "935_Expert": {
+      "music_id": 935,
+      "difficulty": "Expert",
+      "ts": 1009220
+    },
+    "993_Expert": {
+      "music_id": 993,
+      "difficulty": "Expert",
+      "ts": 1006720
+    },
+    "49_Expert": {
+      "music_id": 49,
+      "difficulty": "Expert",
+      "ts": 1008589
+    },
+    "44_Expert": {
+      "music_id": 44,
+      "difficulty": "Expert",
+      "ts": 993708
+    },
+    "48_Expert": {
+      "music_id": 48,
+      "difficulty": "Expert",
+      "ts": 991393
+    },
+    "46_Expert": {
+      "music_id": 46,
+      "difficulty": "Expert",
+      "ts": 1007013
+    },
+    "350_Expert": {
+      "music_id": 350,
+      "difficulty": "Expert",
+      "ts": 970092
+    },
+    "380_Expert": {
+      "music_id": 380,
+      "difficulty": "Expert",
+      "ts": 1004603
+    },
+    "648_Expert": {
+      "music_id": 648,
+      "difficulty": "Expert",
+      "ts": 1007158
+    },
+    "474_Expert": {
+      "music_id": 474,
+      "difficulty": "Expert",
+      "ts": 1007518
+    },
+    "685_Expert": {
+      "music_id": 685,
+      "difficulty": "Expert",
+      "ts": 1009321
+    },
+    "344_Expert": {
+      "music_id": 344,
+      "difficulty": "Expert",
+      "ts": 1008842
+    },
+    "684_Expert": {
+      "music_id": 684,
+      "difficulty": "Expert",
+      "ts": 1009720
+    },
+    "645_Expert": {
+      "music_id": 645,
+      "difficulty": "Expert",
+      "ts": 997342
+    },
+    "177_Expert": {
+      "music_id": 177,
+      "difficulty": "Expert",
+      "ts": 1007448
+    },
+    "45_Expert": {
+      "music_id": 45,
+      "difficulty": "Expert",
+      "ts": 999386
+    },
+    "571_Expert": {
+      "music_id": 571,
+      "difficulty": "Expert",
+      "ts": 972463
+    },
+    "565_Expert": {
+      "music_id": 565,
+      "difficulty": "Expert",
+      "ts": 1008937
+    },
+    "582_Expert": {
+      "music_id": 582,
+      "difficulty": "Expert",
+      "ts": 1007769
+    },
+    "614_Expert": {
+      "music_id": 614,
+      "difficulty": "Expert",
+      "ts": 1008848
+    },
+    "753_Expert": {
+      "music_id": 753,
+      "difficulty": "Expert",
+      "ts": 1004352
+    },
+    "52_Expert": {
+      "music_id": 52,
+      "difficulty": "Expert",
+      "ts": 995294
+    },
+    "54_Expert": {
+      "music_id": 54,
+      "difficulty": "Expert",
+      "ts": 1006041
+    },
+    "56_Expert": {
+      "music_id": 56,
+      "difficulty": "Expert",
+      "ts": 1004759
+    },
+    "58_Expert": {
+      "music_id": 58,
+      "difficulty": "Expert",
+      "ts": 945136
+    },
+    "65_Expert": {
+      "music_id": 65,
+      "difficulty": "Expert",
+      "ts": 1007794
+    },
+    "99_Expert": {
+      "music_id": 99,
+      "difficulty": "Expert",
+      "ts": 1009586
+    },
+    "334_Expert": {
+      "music_id": 334,
+      "difficulty": "Expert",
+      "ts": 994843
+    },
+    "340_Expert": {
+      "music_id": 340,
+      "difficulty": "Expert",
+      "ts": 976951
+    },
+    "381_Expert": {
+      "music_id": 381,
+      "difficulty": "Expert",
+      "ts": 1008292
+    },
+    "461_Expert": {
+      "music_id": 461,
+      "difficulty": "Expert",
+      "ts": 1008034
+    },
+    "497_Expert": {
+      "music_id": 497,
+      "difficulty": "Expert",
+      "ts": 1008503
+    },
+    "631_Expert": {
+      "music_id": 631,
+      "difficulty": "Expert",
+      "ts": 1008393
+    },
+    "699_Expert": {
+      "music_id": 699,
+      "difficulty": "Expert",
+      "ts": 1006177
+    },
+    "731_Expert": {
+      "music_id": 731,
+      "difficulty": "Expert",
+      "ts": 1000643
+    },
+    "730_Expert": {
+      "music_id": 730,
+      "difficulty": "Expert",
+      "ts": 1005346
+    },
+    "795_Expert": {
+      "music_id": 795,
+      "difficulty": "Expert",
+      "ts": 973442
+    },
+    "811_Expert": {
+      "music_id": 811,
+      "difficulty": "Expert",
+      "ts": 1007884
+    },
+    "822_Expert": {
+      "music_id": 822,
+      "difficulty": "Expert",
+      "ts": 1007233
+    },
+    "839_Expert": {
+      "music_id": 839,
+      "difficulty": "Expert",
+      "ts": 1008335
+    },
+    "894_Expert": {
+      "music_id": 894,
+      "difficulty": "Expert",
+      "ts": 1009387
+    },
+    "903_Expert": {
+      "music_id": 903,
+      "difficulty": "Expert",
+      "ts": 1008751
+    },
+    "924_Expert": {
+      "music_id": 924,
+      "difficulty": "Expert",
+      "ts": 1009022
+    },
+    "1014_Expert": {
+      "music_id": 1014,
+      "difficulty": "Expert",
+      "ts": 1006774
+    },
+    "51_Expert": {
+      "music_id": 51,
+      "difficulty": "Expert",
+      "ts": 1000708
+    },
+    "63_Expert": {
+      "music_id": 63,
+      "difficulty": "Expert",
+      "ts": 1004516
+    },
+    "68_Expert": {
+      "music_id": 68,
+      "difficulty": "Expert",
+      "ts": 1008691
+    },
+    "119_Expert": {
+      "music_id": 119,
+      "difficulty": "Expert",
+      "ts": 1007288
+    },
+    "189_Expert": {
+      "music_id": 189,
+      "difficulty": "Expert",
+      "ts": 1007335
+    },
+    "248_Expert": {
+      "music_id": 248,
+      "difficulty": "Expert",
+      "ts": 1008213
+    },
+    "267_Expert": {
+      "music_id": 267,
+      "difficulty": "Expert",
+      "ts": 1006301
+    },
+    "319_Expert": {
+      "music_id": 319,
+      "difficulty": "Expert",
+      "ts": 1008590
+    },
+    "335_Expert": {
+      "music_id": 335,
+      "difficulty": "Expert",
+      "ts": 1009263
+    },
+    "492_Expert": {
+      "music_id": 492,
+      "difficulty": "Expert",
+      "ts": 1008465
+    },
+    "541_Expert": {
+      "music_id": 541,
+      "difficulty": "Expert",
+      "ts": 1007517
+    },
+    "563_Expert": {
+      "music_id": 563,
+      "difficulty": "Expert",
+      "ts": 1005928
+    },
+    "599_Expert": {
+      "music_id": 599,
+      "difficulty": "Expert",
+      "ts": 996428
+    },
+    "630_Expert": {
+      "music_id": 630,
+      "difficulty": "Expert",
+      "ts": 1008935
+    },
+    "751_Expert": {
+      "music_id": 751,
+      "difficulty": "Expert",
+      "ts": 1007063
+    },
+    "750_Expert": {
+      "music_id": 750,
+      "difficulty": "Expert",
+      "ts": 1006489
+    },
+    "794_Expert": {
+      "music_id": 794,
+      "difficulty": "Expert",
+      "ts": 1007779
+    },
+    "820_Expert": {
+      "music_id": 820,
+      "difficulty": "Expert",
+      "ts": 1007544
+    },
+    "827_Expert": {
+      "music_id": 827,
+      "difficulty": "Expert",
+      "ts": 1009056
+    },
+    "837_Expert": {
+      "music_id": 837,
+      "difficulty": "Expert",
+      "ts": 1008659
+    },
+    "855_Expert": {
+      "music_id": 855,
+      "difficulty": "Expert",
+      "ts": 1006154
+    },
+    "854_Expert": {
+      "music_id": 854,
+      "difficulty": "Expert",
+      "ts": 1008850
+    },
+    "915_Expert": {
+      "music_id": 915,
+      "difficulty": "Expert",
+      "ts": 1002210
+    },
+    "937_Expert": {
+      "music_id": 937,
+      "difficulty": "Expert",
+      "ts": 1008023
+    },
+    "989_Expert": {
+      "music_id": 989,
+      "difficulty": "Expert",
+      "ts": 1008990
+    },
+    "999_Expert": {
+      "music_id": 999,
+      "difficulty": "Expert",
+      "ts": 1008010
+    },
+    "70_Expert": {
+      "music_id": 70,
+      "difficulty": "Expert",
+      "ts": 1008401
+    },
+    "130_Expert": {
+      "music_id": 130,
+      "difficulty": "Expert",
+      "ts": 1007170
+    },
+    "215_Expert": {
+      "music_id": 215,
+      "difficulty": "Expert",
+      "ts": 999560
+    },
+    "300_Expert": {
+      "music_id": 300,
+      "difficulty": "Expert",
+      "ts": 990647
+    },
+    "382_Expert": {
+      "music_id": 382,
+      "difficulty": "Expert",
+      "ts": 1007896
+    },
+    "476_Expert": {
+      "music_id": 476,
+      "difficulty": "Expert",
+      "ts": 989995
+    },
+    "601_Expert": {
+      "music_id": 601,
+      "difficulty": "Expert",
+      "ts": 1009371
+    },
+    "901_Expert": {
+      "music_id": 901,
+      "difficulty": "Expert",
+      "ts": 999418
+    },
+    "962_Expert": {
+      "music_id": 962,
+      "difficulty": "Expert",
+      "ts": 1008353
+    },
+    "1003_Expert": {
+      "music_id": 1003,
+      "difficulty": "Expert",
+      "ts": 1008770
+    },
+    "190_Expert": {
+      "music_id": 190,
+      "difficulty": "Expert",
+      "ts": 991517
+    },
+    "341_Expert": {
+      "music_id": 341,
+      "difficulty": "Expert",
+      "ts": 1007118
+    },
+    "798_Expert": {
+      "music_id": 798,
+      "difficulty": "Expert",
+      "ts": 995770
+    },
+    "69_Expert": {
+      "music_id": 69,
+      "difficulty": "Expert",
+      "ts": 996495
+    },
+    "383_Expert": {
+      "music_id": 383,
+      "difficulty": "Expert",
+      "ts": 990589
+    },
+    "963_Expert": {
+      "music_id": 963,
+      "difficulty": "Expert",
+      "ts": 1002180
+    },
+    "71_Expert": {
+      "music_id": 71,
+      "difficulty": "Expert",
+      "ts": 999563
+    },
+    "384_Expert": {
+      "music_id": 384,
+      "difficulty": "Expert",
+      "ts": 1007193
+    },
+    "72_Expert": {
+      "music_id": 72,
+      "difficulty": "Expert",
+      "ts": 987522
+    },
+    "385_Expert": {
+      "music_id": 385,
+      "difficulty": "Expert",
+      "ts": 976223
+    },
+    "265_Expert": {
+      "music_id": 265,
+      "difficulty": "Expert",
+      "ts": 1008735
+    },
+    "314_Expert": {
+      "music_id": 314,
+      "difficulty": "Expert",
+      "ts": 1004588
+    },
+    "603_Expert": {
+      "music_id": 603,
+      "difficulty": "Expert",
+      "ts": 1006724
+    },
+    "147_Expert": {
+      "music_id": 147,
+      "difficulty": "Expert",
+      "ts": 998814
+    },
+    "80_Expert": {
+      "music_id": 80,
+      "difficulty": "Expert",
+      "ts": 1004371
+    },
+    "81_Expert": {
+      "music_id": 81,
+      "difficulty": "Expert",
+      "ts": 988448
+    },
+    "624_Expert": {
+      "music_id": 624,
+      "difficulty": "Expert",
+      "ts": 1003513
+    },
+    "165_Expert": {
+      "music_id": 165,
+      "difficulty": "Expert",
+      "ts": 1002864
+    },
+    "85_Expert": {
+      "music_id": 85,
+      "difficulty": "Expert",
+      "ts": 1002181
+    },
+    "545_Expert": {
+      "music_id": 545,
+      "difficulty": "Expert",
+      "ts": 1006610
+    },
+    "86_Expert": {
+      "music_id": 86,
+      "difficulty": "Expert",
+      "ts": 1009004
+    },
+    "602_Expert": {
+      "music_id": 602,
+      "difficulty": "Expert",
+      "ts": 1005561
+    },
+    "800_Expert": {
+      "music_id": 800,
+      "difficulty": "Expert",
+      "ts": 999848
+    },
+    "181_Expert": {
+      "music_id": 181,
+      "difficulty": "Expert",
+      "ts": 1006649
+    },
+    "449_Expert": {
+      "music_id": 449,
+      "difficulty": "Expert",
+      "ts": 1008406
+    },
+    "713_Expert": {
+      "music_id": 713,
+      "difficulty": "Expert",
+      "ts": 1007527
+    },
+    "179_Expert": {
+      "music_id": 179,
+      "difficulty": "Expert",
+      "ts": 1006190
+    },
+    "712_Expert": {
+      "music_id": 712,
+      "difficulty": "Expert",
+      "ts": 1008992
+    },
+    "180_Expert": {
+      "music_id": 180,
+      "difficulty": "Expert",
+      "ts": 1008383
+    },
+    "320_Expert": {
+      "music_id": 320,
+      "difficulty": "Expert",
+      "ts": 985070
+    },
+    "714_Expert": {
+      "music_id": 714,
+      "difficulty": "Expert",
+      "ts": 998646
+    },
+    "244_Expert": {
+      "music_id": 244,
+      "difficulty": "Expert",
+      "ts": 1007130
+    },
+    "324_Expert": {
+      "music_id": 324,
+      "difficulty": "Expert",
+      "ts": 998741
+    },
+    "216_Expert": {
+      "music_id": 216,
+      "difficulty": "Expert",
+      "ts": 1008532
+    },
+    "219_Expert": {
+      "music_id": 219,
+      "difficulty": "Expert",
+      "ts": 977616
+    },
+    "743_Expert": {
+      "music_id": 743,
+      "difficulty": "Expert",
+      "ts": 1006696
+    },
+    "221_Expert": {
+      "music_id": 221,
+      "difficulty": "Expert",
+      "ts": 999798
+    },
+    "744_Expert": {
+      "music_id": 744,
+      "difficulty": "Expert",
+      "ts": 999113
+    },
+    "235_Expert": {
+      "music_id": 235,
+      "difficulty": "Expert",
+      "ts": 1006364
+    },
+    "253_Expert": {
+      "music_id": 253,
+      "difficulty": "Expert",
+      "ts": 1008158
+    },
+    "270_Expert": {
+      "music_id": 270,
+      "difficulty": "Expert",
+      "ts": 1007052
+    },
+    "336_Expert": {
+      "music_id": 336,
+      "difficulty": "Expert",
+      "ts": 1004797
+    },
+    "354_Expert": {
+      "music_id": 354,
+      "difficulty": "Expert",
+      "ts": 1007298
+    },
+    "358_Expert": {
+      "music_id": 358,
+      "difficulty": "Expert",
+      "ts": 983733
+    },
+    "402_Expert": {
+      "music_id": 402,
+      "difficulty": "Expert",
+      "ts": 1003204
+    },
+    "409_Expert": {
+      "music_id": 409,
+      "difficulty": "Expert",
+      "ts": 1008580
+    },
+    "432_Expert": {
+      "music_id": 432,
+      "difficulty": "Expert",
+      "ts": 1000749
+    },
+    "498_Expert": {
+      "music_id": 498,
+      "difficulty": "Expert",
+      "ts": 1008219
+    },
+    "522_Expert": {
+      "music_id": 522,
+      "difficulty": "Expert",
+      "ts": 1008858
+    },
+    "542_Expert": {
+      "music_id": 542,
+      "difficulty": "Expert",
+      "ts": 1003833
+    },
+    "632_Expert": {
+      "music_id": 632,
+      "difficulty": "Expert",
+      "ts": 1008441
+    },
+    "649_Expert": {
+      "music_id": 649,
+      "difficulty": "Expert",
+      "ts": 1006545
+    },
+    "796_Expert": {
+      "music_id": 796,
+      "difficulty": "Expert",
+      "ts": 1009609
+    },
+    "1031_Expert": {
+      "music_id": 1031,
+      "difficulty": "Expert",
+      "ts": 1008992
+    },
+    "900_Expert": {
+      "music_id": 900,
+      "difficulty": "Expert",
+      "ts": 1003149
+    },
+    "386_Expert": {
+      "music_id": 386,
+      "difficulty": "Expert",
+      "ts": 1008936
+    },
+    "802_Expert": {
+      "music_id": 802,
+      "difficulty": "Expert",
+      "ts": 1009145
+    },
+    "132_Expert": {
+      "music_id": 132,
+      "difficulty": "Expert",
+      "ts": 1004900
+    },
+    "546_Expert": {
+      "music_id": 546,
+      "difficulty": "Expert",
+      "ts": 1008493
+    },
+    "625_Expert": {
+      "music_id": 625,
+      "difficulty": "Expert",
+      "ts": 1006962
+    },
+    "443_Expert": {
+      "music_id": 443,
+      "difficulty": "Expert",
+      "ts": 1008242
+    },
+    "801_Expert": {
+      "music_id": 801,
+      "difficulty": "Expert",
+      "ts": 1008576
+    },
+    "560_Expert": {
+      "music_id": 560,
+      "difficulty": "Expert",
+      "ts": 1008403
+    },
+    "661_Expert": {
+      "music_id": 661,
+      "difficulty": "Expert",
+      "ts": 1008262
+    },
+    "1054_Expert": {
+      "music_id": 1054,
+      "difficulty": "Expert",
+      "ts": 1002851
+    },
+    "149_Expert": {
+      "music_id": 149,
+      "difficulty": "Expert",
+      "ts": 1004169
+    },
+    "303_Expert": {
+      "music_id": 303,
+      "difficulty": "Expert",
+      "ts": 1009346
+    },
+    "304_Expert": {
+      "music_id": 304,
+      "difficulty": "Expert",
+      "ts": 1003670
+    },
+    "512_Expert": {
+      "music_id": 512,
+      "difficulty": "Expert",
+      "ts": 1003397
+    },
+    "717_Expert": {
+      "music_id": 717,
+      "difficulty": "Expert",
+      "ts": 1002919
+    },
+    "746_Expert": {
+      "music_id": 746,
+      "difficulty": "Expert",
+      "ts": 1007728
+    },
+    "895_Expert": {
+      "music_id": 895,
+      "difficulty": "Expert",
+      "ts": 1003704
+    },
+    "479_Expert": {
+      "music_id": 479,
+      "difficulty": "Expert",
+      "ts": 1005194
+    },
+    "701_Expert": {
+      "music_id": 701,
+      "difficulty": "Expert",
+      "ts": 1006975
+    },
+    "301_Expert": {
+      "music_id": 301,
+      "difficulty": "Expert",
+      "ts": 1008747
+    },
+    "718_Expert": {
+      "music_id": 718,
+      "difficulty": "Expert",
+      "ts": 1007581
+    },
+    "1055_Expert": {
+      "music_id": 1055,
+      "difficulty": "Expert",
+      "ts": 1006625
+    },
+    "84_Expert": {
+      "music_id": 84,
+      "difficulty": "Expert",
+      "ts": 1009035
+    },
+    "368_Expert": {
+      "music_id": 368,
+      "difficulty": "Expert",
+      "ts": 1002109
+    },
+    "387_Expert": {
+      "music_id": 387,
+      "difficulty": "Expert",
+      "ts": 1000836
+    },
+    "87_Expert": {
+      "music_id": 87,
+      "difficulty": "Expert",
+      "ts": 1000250
+    },
+    "321_Expert": {
+      "music_id": 321,
+      "difficulty": "Expert",
+      "ts": 1009101
+    },
+    "388_Expert": {
+      "music_id": 388,
+      "difficulty": "Expert",
+      "ts": 1008801
+    },
+    "286_Expert": {
+      "music_id": 286,
+      "difficulty": "Expert",
+      "ts": 1003214
+    },
+    "673_Expert": {
+      "music_id": 673,
+      "difficulty": "Expert",
+      "ts": 1008568
+    },
+    "217_Expert": {
+      "music_id": 217,
+      "difficulty": "Expert",
+      "ts": 1007724
+    },
+    "220_Expert": {
+      "music_id": 220,
+      "difficulty": "Expert",
+      "ts": 942257
+    },
+    "245_Expert": {
+      "music_id": 245,
+      "difficulty": "Expert",
+      "ts": 1004897
+    },
+    "222_Expert": {
+      "music_id": 222,
+      "difficulty": "Expert",
+      "ts": 1007564
+    },
+    "246_Expert": {
+      "music_id": 246,
+      "difficulty": "Expert",
+      "ts": 1009313
+    },
+    "410_Expert": {
+      "music_id": 410,
+      "difficulty": "Expert",
+      "ts": 1008721
+    },
+    "941_Expert": {
+      "music_id": 941,
+      "difficulty": "Expert",
+      "ts": 1007718
+    },
+    "504_Expert": {
+      "music_id": 504,
+      "difficulty": "Expert",
+      "ts": 1008828
+    },
+    "623_Expert": {
+      "music_id": 623,
+      "difficulty": "Expert",
+      "ts": 1008923
+    },
+    "741_Expert": {
+      "music_id": 741,
+      "difficulty": "Expert",
+      "ts": 1006868
+    },
+    "833_Expert": {
+      "music_id": 833,
+      "difficulty": "Expert",
+      "ts": 1008666
+    },
+    "968_Expert": {
+      "music_id": 968,
+      "difficulty": "Expert",
+      "ts": 982637
+    },
+    "969_Expert": {
+      "music_id": 969,
+      "difficulty": "Expert",
+      "ts": 1009305
+    },
+    "425_Expert": {
+      "music_id": 425,
+      "difficulty": "Expert",
+      "ts": 1008421
+    },
+    "487_Expert": {
+      "music_id": 487,
+      "difficulty": "Expert",
+      "ts": 1008421
+    },
+    "957_Advanced": {
+      "music_id": 957,
+      "difficulty": "Advanced",
+      "ts": 898961
+    },
+    "977_Advanced": {
+      "music_id": 977,
+      "difficulty": "Advanced",
+      "ts": 980867
+    },
+    "1056_Advanced": {
+      "music_id": 1056,
+      "difficulty": "Advanced",
+      "ts": 1010000
+    },
+    "1057_Advanced": {
+      "music_id": 1057,
+      "difficulty": "Advanced",
+      "ts": 1010000
+    },
+    "238_Advanced": {
+      "music_id": 238,
+      "difficulty": "Advanced",
+      "ts": 1009778
+    },
+    "958_Advanced": {
+      "music_id": 958,
+      "difficulty": "Advanced",
+      "ts": 858423
+    },
+    "36_Advanced": {
+      "music_id": 36,
+      "difficulty": "Advanced",
+      "ts": 920924
+    },
+    "420_Advanced": {
+      "music_id": 420,
+      "difficulty": "Advanced",
+      "ts": 965498
+    },
+    "283_Advanced": {
+      "music_id": 283,
+      "difficulty": "Advanced",
+      "ts": 1010000
+    },
+    "959_Advanced": {
+      "music_id": 959,
+      "difficulty": "Advanced",
+      "ts": 785628
+    },
+    "489_Advanced": {
+      "music_id": 489,
+      "difficulty": "Advanced",
+      "ts": 1001022
+    },
+    "794_Advanced": {
+      "music_id": 794,
+      "difficulty": "Advanced",
+      "ts": 1009326
+    },
+    "965_Advanced": {
+      "music_id": 965,
+      "difficulty": "Advanced",
+      "ts": 1008932
+    },
+    "776_Advanced": {
+      "music_id": 776,
+      "difficulty": "Advanced",
+      "ts": 1010000
+    },
+    "86_Advanced": {
+      "music_id": 86,
+      "difficulty": "Advanced",
+      "ts": 1008839
+    },
+    "498_Advanced": {
+      "music_id": 498,
+      "difficulty": "Advanced",
+      "ts": 1010000
+    },
+    "966_Advanced": {
+      "music_id": 966,
+      "difficulty": "Advanced",
+      "ts": 1000773
+    },
+    "961_Advanced": {
+      "music_id": 961,
+      "difficulty": "Advanced",
+      "ts": 993544
+    },
+    "957_Basic": {
+      "music_id": 957,
+      "difficulty": "Basic",
+      "ts": 985132
+    },
+    "1056_Basic": {
+      "music_id": 1056,
+      "difficulty": "Basic",
+      "ts": 1010000
+    },
+    "1057_Basic": {
+      "music_id": 1057,
+      "difficulty": "Basic",
+      "ts": 1010000
+    },
+    "238_Basic": {
+      "music_id": 238,
+      "difficulty": "Basic",
+      "ts": 1009128
+    },
+    "956_Basic": {
+      "music_id": 956,
+      "difficulty": "Basic",
+      "ts": 820479
+    },
+    "283_Basic": {
+      "music_id": 283,
+      "difficulty": "Basic",
+      "ts": 1010000
+    },
+    "924_Basic": {
+      "music_id": 924,
+      "difficulty": "Basic",
+      "ts": 1010000
+    },
+    "794_Basic": {
+      "music_id": 794,
+      "difficulty": "Basic",
+      "ts": 1010000
+    },
+    "965_Basic": {
+      "music_id": 965,
+      "difficulty": "Basic",
+      "ts": 1009370
+    },
+    "776_Basic": {
+      "music_id": 776,
+      "difficulty": "Basic",
+      "ts": 1010000
+    },
+    "81_Basic": {
+      "music_id": 81,
+      "difficulty": "Basic",
+      "ts": 1009602
+    },
+    "86_Basic": {
+      "music_id": 86,
+      "difficulty": "Basic",
+      "ts": 1009231
+    },
+    "498_Basic": {
+      "music_id": 498,
+      "difficulty": "Basic",
+      "ts": 1009640
+    },
+    "127_Lunatic": {
+      "music_id": 127,
+      "difficulty": "Lunatic",
+      "ts": 978812
+    },
+    "129_Lunatic": {
+      "music_id": 129,
+      "difficulty": "Lunatic",
+      "ts": 1007964
+    }
+  },
+  "rating_profile": {
+    "new_songs": [
+      {
+        "key": "1217_Master",
+        "stars": 0
+      },
+      {
+        "key": "1225_Master",
+        "stars": 0
+      },
+      {
+        "key": "1216_Expert",
+        "stars": 0
+      },
+      {
+        "key": "1219_Master",
+        "stars": 0
+      },
+      {
+        "key": "1218_Master",
+        "stars": 0
+      },
+      {
+        "key": "1221_Master",
+        "stars": 0
+      },
+      {
+        "key": "1224_Master",
+        "stars": 0
+      },
+      {
+        "key": "1215_Expert",
+        "stars": 0
+      },
+      {
+        "key": "1213_Master",
+        "stars": 0
+      },
+      {
+        "key": "1222_Master",
+        "stars": 0
+      }
+    ],
+    "best_songs": [
+      {
+        "key": "959_Lunatic",
+        "stars": 0
+      },
+      {
+        "key": "613_Lunatic",
+        "stars": 0
+      },
+      {
+        "key": "291_Lunatic",
+        "stars": 0
+      },
+      {
+        "key": "129_Lunatic",
+        "stars": 0
+      },
+      {
+        "key": "1136_Master",
+        "stars": 0
+      },
+      {
+        "key": "1174_Master",
+        "stars": 0
+      },
+      {
+        "key": "73_Lunatic",
+        "stars": 0
+      },
+      {
+        "key": "477_Master",
+        "stars": 0
+      },
+      {
+        "key": "1171_Master",
+        "stars": 0
+      },
+      {
+        "key": "1204_Master",
+        "stars": 0
+      },
+      {
+        "key": "679_Master",
+        "stars": 0
+      },
+      {
+        "key": "1094_Master",
+        "stars": 0
+      },
+      {
+        "key": "858_Expert",
+        "stars": 0
+      },
+      {
+        "key": "999_Master",
+        "stars": 0
+      },
+      {
+        "key": "1087_Master",
+        "stars": 0
+      },
+      {
+        "key": "150_Lunatic",
+        "stars": 0
+      },
+      {
+        "key": "1122_Master",
+        "stars": 0
+      },
+      {
+        "key": "874_Master",
+        "stars": 0
+      },
+      {
+        "key": "984_Master",
+        "stars": 0
+      },
+      {
+        "key": "669_Lunatic",
+        "stars": 0
+      },
+      {
+        "key": "128_Master",
+        "stars": 0
+      },
+      {
+        "key": "496_Master",
+        "stars": 0
+      },
+      {
+        "key": "718_Master",
+        "stars": 0
+      },
+      {
+        "key": "456_Master",
+        "stars": 0
+      },
+      {
+        "key": "979_Master",
+        "stars": 0
+      },
+      {
+        "key": "877_Master",
+        "stars": 0
+      },
+      {
+        "key": "965_Master",
+        "stars": 0
+      },
+      {
+        "key": "1198_Master",
+        "stars": 0
+      },
+      {
+        "key": "815_Master",
+        "stars": 0
+      },
+      {
+        "key": "506_Master",
+        "stars": 0
+      },
+      {
+        "key": "282_Master",
+        "stars": 0
+      },
+      {
+        "key": "951_Master",
+        "stars": 0
+      },
+      {
+        "key": "1001_Master",
+        "stars": 0
+      },
+      {
+        "key": "271_Master",
+        "stars": 0
+      },
+      {
+        "key": "338_Master",
+        "stars": 0
+      },
+      {
+        "key": "189_Master",
+        "stars": 0
+      },
+      {
+        "key": "1092_Master",
+        "stars": 0
+      },
+      {
+        "key": "605_Master",
+        "stars": 0
+      },
+      {
+        "key": "1055_Master",
+        "stars": 0
+      },
+      {
+        "key": "986_Master",
+        "stars": 0
+      },
+      {
+        "key": "635_Master",
+        "stars": 0
+      },
+      {
+        "key": "335_Master",
+        "stars": 0
+      },
+      {
+        "key": "1138_Master",
+        "stars": 0
+      },
+      {
+        "key": "1201_Master",
+        "stars": 0
+      },
+      {
+        "key": "840_Master",
+        "stars": 0
+      },
+      {
+        "key": "1195_Master",
+        "stars": 0
+      },
+      {
+        "key": "234_Master",
+        "stars": 0
+      },
+      {
+        "key": "1188_Expert",
+        "stars": 0
+      },
+      {
+        "key": "1120_Master",
+        "stars": 0
+      },
+      {
+        "key": "180_Lunatic",
+        "stars": 0
+      }
+    ],
+    "ps_songs": [
+      {
+        "key": "959_Lunatic",
+        "stars": 5
+      },
+      {
+        "key": "581_Master",
+        "stars": 5
+      },
+      {
+        "key": "528_Expert",
+        "stars": 5
+      },
+      {
+        "key": "370_Master",
+        "stars": 5
+      },
+      {
+        "key": "1151_Expert",
+        "stars": 5
+      },
+      {
+        "key": "570_Master",
+        "stars": 5
+      },
+      {
+        "key": "778_Expert",
+        "stars": 5
+      },
+      {
+        "key": "325_Expert",
+        "stars": 5
+      },
+      {
+        "key": "1001_Expert",
+        "stars": 5
+      },
+      {
+        "key": "187_Master",
+        "stars": 5
+      },
+      {
+        "key": "1161_Expert",
+        "stars": 5
+      },
+      {
+        "key": "569_Master",
+        "stars": 5
+      },
+      {
+        "key": "1081_Expert",
+        "stars": 5
+      },
+      {
+        "key": "379_Expert",
+        "stars": 5
+      },
+      {
+        "key": "100_Master",
+        "stars": 5
+      },
+      {
+        "key": "302_Expert",
+        "stars": 5
+      },
+      {
+        "key": "1177_Expert",
+        "stars": 5
+      },
+      {
+        "key": "834_Expert",
+        "stars": 5
+      },
+      {
+        "key": "1158_Expert",
+        "stars": 5
+      },
+      {
+        "key": "437_Expert",
+        "stars": 5
+      },
+      {
+        "key": "394_Expert",
+        "stars": 5
+      },
+      {
+        "key": "1144_Expert",
+        "stars": 5
+      },
+      {
+        "key": "1139_Expert",
+        "stars": 5
+      },
+      {
+        "key": "650_Expert",
+        "stars": 5
+      },
+      {
+        "key": "787_Expert",
+        "stars": 5
+      },
+      {
+        "key": "926_Expert",
+        "stars": 5
+      },
+      {
+        "key": "1079_Expert",
+        "stars": 5
+      },
+      {
+        "key": "1159_Expert",
+        "stars": 4
+      },
+      {
+        "key": "964_Expert",
+        "stars": 5
+      },
+      {
+        "key": "695_Expert",
+        "stars": 5
+      },
+      {
+        "key": "309_Expert",
+        "stars": 5
+      },
+      {
+        "key": "1213_Expert",
+        "stars": 5
+      },
+      {
+        "key": "616_Master",
+        "stars": 4
+      },
+      {
+        "key": "1214_Expert",
+        "stars": 5
+      },
+      {
+        "key": "577_Expert",
+        "stars": 5
+      },
+      {
+        "key": "349_Expert",
+        "stars": 5
+      },
+      {
+        "key": "1197_Expert",
+        "stars": 5
+      },
+      {
+        "key": "1043_Expert",
+        "stars": 5
+      },
+      {
+        "key": "928_Expert",
+        "stars": 5
+      },
+      {
+        "key": "322_Expert",
+        "stars": 5
+      },
+      {
+        "key": "1198_Expert",
+        "stars": 5
+      },
+      {
+        "key": "977_Master",
+        "stars": 4
+      },
+      {
+        "key": "70_Lunatic",
+        "stars": 4
+      },
+      {
+        "key": "598_Expert",
+        "stars": 5
+      },
+      {
+        "key": "875_Expert",
+        "stars": 5
+      },
+      {
+        "key": "1089_Expert",
+        "stars": 4
+      },
+      {
+        "key": "1172_Expert",
+        "stars": 4
+      },
+      {
+        "key": "1028_Expert",
+        "stars": 4
+      },
+      {
+        "key": "1220_Expert",
+        "stars": 4
+      },
+      {
+        "key": "407_Expert",
+        "stars": 5
+      }
+    ],
+    "borders": {
+      "new": 0,
+      "best": 0,
+      "ps": 0
+    }
+  }
+}
