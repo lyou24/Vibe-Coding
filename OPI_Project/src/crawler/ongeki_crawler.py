@@ -425,6 +425,8 @@ class OngekiCrawler:
 
         scores = []
         lines = [l.strip() for l in raw_text.splitlines() if l.strip()]
+
+        # 1. 1行形式（曲名 難易度 スコア が同一行にある場合）
         for line in lines:
             score_m = re.search(r'\b(1[0\s,]*\d{3}[,\s]*\d{3}|\d{1,3}[,\s]*\d{3}[,\s]*\d{3}|\d{6,7})\b', line)
             diff_m = re.search(r'\b(BASIC|ADVANCED|EXPERT|MASTER|LUNATIC|BAS|ADV|EXP|MAS|LUN)\b', line, re.IGNORECASE)
@@ -452,6 +454,55 @@ class OngekiCrawler:
                             "is_all_break": bool(re.search(r'\b(AB|ALL\s*BREAK)\b', line, re.IGNORECASE)),
                             "is_full_bell": bool(re.search(r'\b(FB|FULL\s*BELL)\b', line, re.IGNORECASE)),
                         })
+
+        # 2. 複数行形式（ブラウザ上でテーブルを選択コピーした場合）
+        if not scores:
+            diff_names = {"Basic", "Advanced", "Expert", "Master", "Lunatic"}
+            diff_short = {"Bas", "Exp", "Mas", "Lun", "Adv"}
+            i = 0
+            while i < len(lines):
+                line = lines[i]
+                if line in diff_names or line in diff_short:
+                    diff_full = "MASTER"
+                    for d in diff_names:
+                        if d.lower().startswith(line.lower()[:3]):
+                            diff_full = d.upper()
+                            break
+
+                    title = None
+                    for offset in range(1, 6):
+                        if i - offset >= 0:
+                            cand = lines[i - offset]
+                            if cand not in diff_names and cand not in diff_short and not re.match(r'^\d+$', cand):
+                                title = cand
+                                break
+
+                    score_val = None
+                    is_ab = False
+                    is_fb = False
+                    for offset in range(1, 20):
+                        if i + offset < len(lines):
+                            cand = lines[i + offset]
+                            if re.match(r'^\d{6,7}$', cand):
+                                val = int(cand)
+                                if 500000 <= val <= 1010000:
+                                    score_val = val
+                            if "AB" in cand:
+                                is_ab = True
+                            if "FB" in cand:
+                                is_fb = True
+                            if cand in diff_names or cand in diff_short:
+                                break
+
+                    if title and score_val:
+                        scores.append({
+                            "title": title,
+                            "difficulty": diff_full,
+                            "score": score_val,
+                            "is_all_break": is_ab,
+                            "is_full_bell": is_fb,
+                        })
+                i += 1
 
         if not scores:
             return cls.parse_user_snapshot(raw_text, user_id, last_crawled_at=last_crawled_at, force=force)
