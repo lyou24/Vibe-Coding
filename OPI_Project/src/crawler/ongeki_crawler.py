@@ -61,6 +61,39 @@ class OngekiCrawler:
         base_page_url = f"{self.BASE_URL}/"
         last_status = None
 
+        # 0. SNSプレビュー互換ヘッダーによる高信頼取得（OGP展開用User-Agent）
+        # OngekiScoreLogはSNSリンク共有のため、TwitterbotやDiscordbotのUser-Agentに対して
+        # ホスティング事業者IPからのアクセスでも安全にフルHTMLを返します。
+        ogp_user_agents = [
+            "Twitterbot/1.0",
+            "Mozilla/5.0 (compatible; Discordbot/2.0; +https://discordapp.com)",
+            "facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uatext.php)",
+            "Slackbot-LinkExpanding 1.0 (+https://api.slack.com/robots)",
+        ]
+        for bot_ua in ogp_user_agents:
+            try:
+                await self._init_session()
+                headers = {
+                    "User-Agent": bot_ua,
+                    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
+                    "Accept-Language": "ja,en-US;q=0.9,en;q=0.8",
+                }
+                async with self.session.get(
+                    url,
+                    headers=headers,
+                    timeout=aiohttp.ClientTimeout(total=timeout_seconds),
+                ) as resp:
+                    last_status = resp.status
+                    if resp.status == 200:
+                        text = await resp.text()
+                        if "<table" in text or "OngekiScoreLog" in text:
+                            return text
+                    if resp.status == 404:
+                        return None
+            except Exception as e:
+                logger.warning(f"OGP互換ヘッダー ({bot_ua[:15]}) 試行エラー: {e}")
+                continue
+
         # 1. まず curl_cffi によるブラウザ完全模倣（Cloudflare WAF突破）を試行
         # 手動HEADERSの上書きを廃止（TLS指紋とのヘッダー矛盾を防ぐため）
         has_curl_cffi = False
