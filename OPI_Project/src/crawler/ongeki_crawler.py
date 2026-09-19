@@ -61,88 +61,58 @@ class OngekiCrawler:
         base_page_url = f"{self.BASE_URL}/"
         last_status = None
 
-        # 0. SNSプレビュー互換ヘッダーによる高信頼取得（OGP展開用User-Agent）
-        # OngekiScoreLogはSNSリンク共有のため、TwitterbotやDiscordbotのUser-Agentに対して
-        # ホスティング事業者IPからのアクセスでも安全にフルHTMLを返します。
-        ogp_user_agents = [
-            "Twitterbot/1.0",
-            "Mozilla/5.0 (compatible; Discordbot/2.0; +https://discordapp.com)",
-            "facebookexternalhit/1.1 (+http://www.facebook.com/externalhit_uatext.php)",
-            "Slackbot-LinkExpanding 1.0 (+https://api.slack.com/robots)",
-        ]
-        for bot_ua in ogp_user_agents:
-            try:
-                await self._init_session()
-                headers = {
-                    "User-Agent": bot_ua,
-                    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8",
-                    "Accept-Language": "ja,en-US;q=0.9,en;q=0.8",
-                }
-                async with self.session.get(
-                    url,
-                    headers=headers,
-                    timeout=aiohttp.ClientTimeout(total=timeout_seconds),
-                ) as resp:
-                    last_status = resp.status
-                    if resp.status == 200:
-                        text = await resp.text()
-                        if "<table" in text or "OngekiScoreLog" in text:
-                            return text
-                    if resp.status == 404:
-                        return None
-            except Exception as e:
-                logger.warning(f"OGP互換ヘッダー ({bot_ua[:15]}) 試行エラー: {e}")
-                continue
-
-        # 1. まず curl_cffi によるブラウザ完全模倣（Cloudflare WAF突破）を試行
-        # 手動HEADERSの上書きを廃止（TLS指紋とのヘッダー矛盾を防ぐため）
+        # 1. curl_cffi によるブラウザ完全模倣（Cloudflare WAF突破）
         has_curl_cffi = False
         try:
             from curl_cffi.requests import AsyncSession
             has_curl_cffi = True
-            impersonate_list = ["chrome120", "chrome", "safari17_0", "safari"]
+            impersonate_list = [
+                "chrome120",
+                "chrome119",
+                "chrome110",
+                "chrome",
+                "safari17_0",
+                "safari15_5",
+                "safari",
+            ]
             for imp in impersonate_list:
                 try:
                     async with AsyncSession(impersonate=imp) as cffi_session:
+                        # まず直接目的のURLへアクセス（ダイレクトアクセスが最も成功率が高い）
                         for attempt in range(max_attempts):
                             try:
-                                # セッションウォーミング: トップページにアクセスして Cookie（ongekiscorelog_session 等）と CFクリアランスを確立
-                                if path.strip("/") != "":
-                                    warmup_resp = await cffi_session.get(
-                                        base_page_url,
-                                        headers={"Accept-Language": "ja,en-US;q=0.9,en;q=0.8"},
-                                        timeout=timeout_seconds,
-                                        allow_redirects=True,
-                                    )
-                                    if warmup_resp.status_code == 403:
-                                        logger.warning(f"curl_cffi ({imp}) トップページウォーミング 403 (試行 {attempt + 1})")
-                                        last_status = 403
-                                        await asyncio.sleep(1.0 + random.uniform(0.5, 1.5))
-                                        break  # この指紋はCFにブロックされたため次の指紋へフォールバック
-                                    await asyncio.sleep(0.3 + random.uniform(0.1, 0.3))
-
-                                # 目的のページを取得（Refererを付与）
-                                req_headers = {"Accept-Language": "ja,en-US;q=0.9,en;q=0.8"}
-                                if path.strip("/") != "":
-                                    req_headers["Referer"] = base_page_url
-
                                 resp = await cffi_session.get(
                                     url,
-                                    headers=req_headers,
                                     timeout=timeout_seconds,
                                     allow_redirects=True,
                                 )
                                 last_status = resp.status_code
                                 if resp.status_code == 200:
-                                    return resp.text
+                                    text = resp.text
+                                    if "<table" in text or "OngekiScoreLog" in text:
+                                        return text
                                 if resp.status_code == 404:
                                     return None
 
                                 if resp.status_code == 403:
-                                    logger.warning(f"curl_cffi ({imp}) 目的ページ 403 (試行 {attempt + 1})")
-                                    last_status = 403
-                                    await asyncio.sleep(1.0 + random.uniform(0.5, 1.5))
-                                    break  # 403の場合は待機して別ブラウザ指紋へフォールバック
+                                    # 直接アクセスが403の場合、セッションウォーミング（トップページ経由）を試みる
+                                    if path.strip("/") != "":
+                                        warmup_resp = await cffi_session.get(
+                                            base_page_url,
+                                            timeout=timeout_seconds,
+                                            allow_redirects=True,
+                                        )
+                                        if warmup_resp.status_code == 200:
+                                            resp2 = await cffi_session.get(
+                                                url,
+                                                headers={"Referer": base_page_url},
+                                                timeout=timeout_seconds,
+                                                allow_redirects=True,
+                                            )
+                                            last_status = resp2.status_code
+                                            if resp2.status_code == 200:
+                                                return resp2.text
+                                    break  # 次のブラウザ指紋へフォールバック
 
                                 if resp.status_code == 429 or 500 <= resp.status_code < 600:
                                     logger.warning(f"curl_cffi ({imp}) HTTP {resp.status_code} (試行 {attempt + 1})")

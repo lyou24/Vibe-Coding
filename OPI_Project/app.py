@@ -259,7 +259,7 @@ async def fetch_and_analyze_user(user_id: int, force: bool = True) -> bool:
                 return False
     except Exception as e:
         session.rollback()
-        st.sidebar.warning(f"最新データ取得中にエラーが発生しました: {e}。既存データを表示します。")
+        st.sidebar.warning(f"最新データの自動取得で制限が発生しました: {e}\n\n💡 下の「📋 スコア貼り付け手動更新」から、OngekiScoreLog の画面を全選択コピーして貼り付けることで、即座に本日の最新スコアに更新・再計算できます。")
         return False
     finally:
         session.close()
