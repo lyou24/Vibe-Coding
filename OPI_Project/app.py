@@ -622,13 +622,12 @@ if user_input.isdigit():
                     df_charts["OPI帯"] = (df_charts[opi_column] // 100 * 100).astype(int)
 
                     unique_bands = sorted(df_charts["OPI帯"].unique(), reverse=True)
-                    for idx_band, opi_band in enumerate(unique_bands):
+                    for opi_band in unique_bands:
                         band_rows = df_charts[df_charts["OPI帯"] == opi_band]
-                        is_expanded = (idx_band == 0)
-                        with st.expander(f"OPI {opi_band}〜{opi_band + 99}（{len(band_rows)}曲）", expanded=is_expanded):
-                            columns = st.columns(2)
+                        with st.expander(f"OPI {opi_band}〜{opi_band + 99}（{len(band_rows)}曲）", expanded=True):
+                            columns = st.columns(4)
                             for index, (_, row) in enumerate(band_rows.iterrows()):
-                                with columns[index % 2]:
+                                with columns[index % 4]:
                                     card_html = f"""
                                     <div style="background-color: #f8f9fa; color: #1f2937; border: 1px solid #dee2e6; border-radius: 6px; padding: 8px; margin-bottom: 8px;">
                                         <div style="font-weight: bold; font-size: 0.95em; color: #111827;">{html.escape(str(row['楽曲名']))} <span style="font-weight: normal; font-size: 0.78em; color: #475569;">[{html.escape(str(row['バージョン']))} / {html.escape(str(row['ジャンル']))}]</span></div>
@@ -671,7 +670,7 @@ if user_input.isdigit():
                 st.info("難易度表のデータがありません。")
 
         with tab4:
-            st.subheader("⭐ マイOPI難易度表（達成状況可視化）")
+            st.subheader("⭐ マイOPI難易度表")
             my_diff_target_rank = st.selectbox(
                 "目標ランク選択",
                 options=TARGET_RANK_OPTIONS,
@@ -733,14 +732,13 @@ if user_input.isdigit():
                     df_my_charts["OPI帯"] = (df_my_charts[opi_column] // 100 * 100).astype(int)
 
                     unique_bands = sorted(df_my_charts["OPI帯"].unique(), reverse=True)
-                    for idx_band, opi_band in enumerate(unique_bands):
+                    for opi_band in unique_bands:
                         band_rows = df_my_charts[df_my_charts["OPI帯"] == opi_band]
                         band_achieved = int(sum(band_rows["is_achieved"]))
-                        is_expanded = (idx_band == 0)
-                        with st.expander(f"【達成 {band_achieved}/{len(band_rows)}】 OPI {opi_band}〜{opi_band + 99}", expanded=is_expanded):
-                            columns = st.columns(2)
+                        with st.expander(f"【達成 {band_achieved}/{len(band_rows)}】 OPI {opi_band}〜{opi_band + 99}", expanded=True):
+                            columns = st.columns(4)
                             for index, (_, row) in enumerate(band_rows.iterrows()):
-                                with columns[index % 2]:
+                                with columns[index % 4]:
                                     achieved_style = ACHIEVED_RANK_CARD_STYLES.get(row["現在ランク"])
                                     target_status = "達成済" if row["is_achieved"] else "未達成"
                                     if achieved_style:
