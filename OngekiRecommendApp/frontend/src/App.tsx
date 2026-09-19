@@ -315,12 +315,14 @@ function App() {
           setSortConfig(null);
         }
       }}
-      className={`flex-1 flex flex-col items-center p-3 border-b-2 transition-colors ${
-        activeTab === id ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700'
+      className={`flex-shrink-0 sm:flex-1 flex flex-col sm:flex-row items-center justify-center py-2.5 px-3 sm:px-4 border-b-2 transition-all whitespace-nowrap gap-1 sm:gap-1.5 ${
+        activeTab === id 
+          ? 'border-blue-600 text-blue-600 font-bold bg-blue-50/50' 
+          : 'border-transparent text-gray-500 hover:text-gray-800 hover:bg-gray-50'
       }`}
     >
-      <Icon className="w-4 h-4 mb-1" />
-      <span className="text-[10px] font-semibold">{label}</span>
+      <Icon className="w-4 h-4 shrink-0" />
+      <span className="text-xs font-semibold">{label}</span>
     </button>
   );
 
@@ -381,109 +383,113 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gray-50 pb-20 font-sans">
-      <header className="bg-gradient-to-r from-blue-700 to-indigo-800 text-white p-4 shadow-md sticky top-0 z-20">
-        <div className="max-w-5xl mx-auto px-2 sm:px-4 flex flex-col md:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-4 w-full md:w-auto justify-between">
-            <div className="flex items-center gap-3">
-              <div>
-                <h1 className="text-xl font-bold tracking-tight">Ongeki Target Finder</h1>
-                {data && <div className="text-xs text-blue-200 mt-1">User ID: <span className="text-white font-mono">{data.target_user}</span></div>}
+      <header className="bg-gradient-to-r from-blue-700 to-indigo-800 text-white py-3 px-3 sm:py-4 sm:px-4 shadow-sm">
+        <div className="max-w-5xl mx-auto flex flex-col gap-2.5 sm:gap-3">
+          {/* 上段: タイトル & 検索フォーム */}
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-2.5">
+            <div className="flex items-center justify-between w-full sm:w-auto">
+              <div className="flex items-center gap-2.5">
+                <div>
+                  <h1 className="text-lg sm:text-xl font-bold tracking-tight">Ongeki Target Finder</h1>
+                  {data && <div className="text-[11px] text-blue-200">User ID: <span className="text-white font-mono font-bold">{data.target_user}</span></div>}
+                </div>
+                <button
+                  onClick={handleLogout}
+                  title="ログアウト（合言葉解除）"
+                  className="p-1 rounded-md bg-white/10 hover:bg-white/20 text-blue-200 hover:text-white transition-colors text-xs flex items-center gap-1"
+                >
+                  <LogOut size={13} />
+                </button>
               </div>
-              <button
-                onClick={handleLogout}
-                title="ログアウト（合言葉解除）"
-                className="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-blue-200 hover:text-white transition-colors text-xs flex items-center gap-1"
-              >
-                <LogOut size={14} />
-              </button>
             </div>
-          </div>
-          
-          <div className="flex flex-col md:flex-row gap-4 w-full md:w-auto items-center">
-            <form onSubmit={handleSearch} className="flex gap-2 w-full md:w-auto">
+
+            <form onSubmit={handleSearch} className="flex gap-1.5 w-full sm:w-auto">
               <input 
                 type="text" 
                 placeholder="User IDを入力 (例: 10605)" 
                 value={userIdInput}
                 onChange={(e) => setUserIdInput(e.target.value)}
-                className="bg-blue-50 border-2 border-blue-200 px-3 py-1.5 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 w-full md:w-48 placeholder-gray-400"
+                className="bg-blue-50 border border-blue-200 px-3 py-1.5 rounded-lg text-gray-900 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 flex-1 sm:w-44 placeholder-gray-400"
               />
               <button 
                 type="submit"
                 disabled={loading}
                 className="bg-blue-600 hover:bg-blue-500 text-white px-3 py-1.5 rounded-lg text-sm font-medium transition-colors flex items-center justify-center gap-1 disabled:opacity-50 whitespace-nowrap shadow-sm"
               >
-                <Search size={16} />
+                <Search size={15} />
                 {loading ? '検索中...' : '検索'}
               </button>
             </form>
-            {isUpdating ? (
-              <button 
-                onClick={handleStopUpdate}
-                className="bg-red-600 hover:bg-red-500 text-white px-3 py-1.5 rounded-lg text-xs font-medium transition-colors border border-red-400 whitespace-nowrap animate-pulse shadow-sm"
-              >
-                更新を停止
-              </button>
-            ) : (
-              <div className="flex gap-2">
-                <button 
-                  onClick={() => handleUpdateCache(19.0)}
-                  className="bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1.5 rounded-lg text-xs font-medium transition-colors border border-indigo-400 whitespace-nowrap shadow-sm"
-                >
-                  19.0以上ユーザーデータ更新
-                </button>
-                <button 
-                  onClick={() => handleUpdateCache(18.0)}
-                  className="bg-indigo-600 hover:bg-indigo-500 text-white px-3 py-1.5 rounded-lg text-xs font-medium transition-colors border border-indigo-400 whitespace-nowrap shadow-sm"
-                >
-                  18.0以上ユーザーデータ更新
-                </button>
-              </div>
-            )}
           </div>
 
+          {/* 下段: ステータス・ボーダー・操作コントロール */}
           {data && (
-            <div className="flex gap-4 text-sm bg-black/20 p-2 rounded-lg w-full md:w-auto justify-center shadow-inner">
-              <div className="flex flex-col items-center"><span className="text-blue-200 text-xs">New Border</span><strong className="font-mono">{data.borders.new.toFixed(3)}</strong></div>
-              <div className="flex flex-col items-center"><span className="text-blue-200 text-xs">Best Border</span><strong className="font-mono">{data.borders.best.toFixed(3)}</strong></div>
-              <div className="flex flex-col items-center"><span className="text-blue-200 text-xs">PS Border(★)</span><strong className="font-mono">{data.borders.ps}</strong></div>
-            </div>
-          )}
-
-          {data && (
-            <div className="flex flex-col gap-2 w-full md:w-auto">
-              <div className="flex items-center justify-center gap-2 text-sm bg-white text-gray-800 px-3 py-1.5 rounded-full shadow-sm">
-                <span className="font-medium text-xs text-gray-500">比較対象:</span>
-                <select 
-                  value={group} 
-                  onChange={e => setGroup(e.target.value as any)}
-                  className="bg-transparent font-bold outline-none cursor-pointer"
-                >
-                  <option value="pm025">±0.25</option>
-                  <option value="pm050">±0.5</option>
-                  <option value="p050">+0.5</option>
-                </select>
+            <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-white/10 text-xs">
+              <div className="flex gap-3 bg-black/20 px-2.5 py-1 rounded-lg shadow-inner">
+                <div className="flex flex-col items-center"><span className="text-blue-200 text-[10px]">New</span><strong className="font-mono">{data.borders.new.toFixed(2)}</strong></div>
+                <div className="flex flex-col items-center"><span className="text-blue-200 text-[10px]">Best</span><strong className="font-mono">{data.borders.best.toFixed(2)}</strong></div>
+                <div className="flex flex-col items-center"><span className="text-blue-200 text-[10px]">PS(★)</span><strong className="font-mono">{data.borders.ps}</strong></div>
               </div>
-              <ExportControls 
-                items={sortedItems} 
-                activeTab={activeTab} 
-                tableId="recommend-table" 
-                groupLabel={group === "pm025" ? "±0.25" : group === "pm050" ? "±0.5" : "+0.5"}
-              />
+
+              <div className="flex items-center gap-2">
+                <div className="flex items-center gap-1 bg-white text-gray-800 px-2.5 py-1 rounded-lg shadow-sm">
+                  <span className="text-[10px] text-gray-500 font-medium">比較:</span>
+                  <select 
+                    value={group} 
+                    onChange={e => setGroup(e.target.value as any)}
+                    className="bg-transparent font-bold outline-none cursor-pointer text-xs"
+                  >
+                    <option value="pm025">±0.25</option>
+                    <option value="pm050">±0.5</option>
+                    <option value="p050">+0.5</option>
+                  </select>
+                </div>
+                <ExportControls 
+                  items={sortedItems} 
+                  activeTab={activeTab} 
+                  tableId="recommend-table" 
+                  groupLabel={group === "pm025" ? "±0.25" : group === "pm050" ? "±0.5" : "+0.5"}
+                />
+              </div>
+
+              {isUpdating ? (
+                <button 
+                  onClick={handleStopUpdate}
+                  className="bg-red-600 hover:bg-red-500 text-white px-2 py-1 rounded-md text-[11px] font-medium transition-colors border border-red-400 whitespace-nowrap animate-pulse shadow-sm"
+                >
+                  更新停止
+                </button>
+              ) : (
+                <div className="flex gap-1.5 ml-auto sm:ml-0">
+                  <button 
+                    onClick={() => handleUpdateCache(19.0)}
+                    className="bg-white/10 hover:bg-white/20 text-white px-2 py-1 rounded-md text-[11px] font-medium transition-colors border border-white/20 whitespace-nowrap"
+                  >
+                    19.0+更新
+                  </button>
+                  <button 
+                    onClick={() => handleUpdateCache(18.0)}
+                    className="bg-white/10 hover:bg-white/20 text-white px-2 py-1 rounded-md text-[11px] font-medium transition-colors border border-white/20 whitespace-nowrap"
+                  >
+                    18.0+更新
+                  </button>
+                </div>
+              )}
             </div>
           )}
         </div>
       </header>
 
       {!data && !loading && (
-        <div className="flex h-[50vh] items-center justify-center text-gray-500">
+        <div className="flex h-[50vh] items-center justify-center text-gray-500 text-sm">
           User IDを入力して検索してください。
         </div>
       )}
 
+      {/* タブバー: 画面上部 (top-0) にSticky吸着 */}
       {data && (
-        <div className="max-w-5xl mx-auto px-4 sm:px-6">
-          <div className="flex bg-white shadow-sm sticky top-[76px] z-10 overflow-x-auto justify-center rounded-t-lg mt-4">
+        <div className="sticky top-0 z-30 bg-white/95 backdrop-blur-md shadow-sm border-b border-gray-200">
+          <div className="max-w-5xl mx-auto px-2 sm:px-4 flex overflow-x-auto justify-start sm:justify-center">
             <TabButton id="new" icon={Music} label="新曲枠(15曲)" />
             <TabButton id="best" icon={Target} label="ベスト枠(50曲)" />
             <TabButton id="ps" icon={Activity} label="Pスコア枠(30曲)" />
@@ -492,7 +498,11 @@ function App() {
             <TabButton id="rank" icon={Trophy} label="目標達成" />
             <TabButton id="mydata" icon={BarChart2} label="マイデータ" />
           </div>
+        </div>
+      )}
 
+      {data && (
+        <div className="max-w-5xl mx-auto px-4 sm:px-6">
           {activeTab === 'rank' && (
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mt-3 mb-1">
               <div className="flex flex-wrap justify-center gap-1.5 bg-gray-200/70 p-1 rounded-full shadow-inner">
