@@ -22,7 +22,7 @@ from src.analyzer.opi_calculator import (
 )
 from src.database.models import init_db, get_session_maker, Player, ScoreLog, Chart
 from src.database.calibrated_parameters import sync_latest_calibrated_parameters
-from src.recommender.recommender import OPIRecommender
+from src.recommender.recommender import OPIRecommender, DEACTIVATED_CHART_IDS
 from src.export.full_image_export import build_full_hd_image
 from src.visualizer.visualizer import OPIVisualizer
 
@@ -71,6 +71,28 @@ except Exception as calibration_error:
         "estimate_count": 0,
         "updated_count": 0,
     }
+
+def sync_deactivated_charts(session):
+    """配信終了曲の is_active = False をDBへ同期（自己修復機能）"""
+    try:
+        session.query(Chart).filter(
+            Chart.chart_id.in_(DEACTIVATED_CHART_IDS),
+            Chart.is_active == True
+        ).update({Chart.is_active: False}, synchronize_session=False)
+        session.query(Chart).filter(
+            Chart.chart_id == "291_lunatic",
+            Chart.is_active == False
+        ).update({Chart.is_active: True}, synchronize_session=False)
+        session.commit()
+    except Exception:
+        session.rollback()
+
+_startup_session = Session()
+try:
+    sync_deactivated_charts(_startup_session)
+finally:
+    _startup_session.close()
+
 TARGET_RANK_OPTIONS = ["S", "SS", "SSS", "SSS+", "AB+"]
 LEVEL_OPTIONS = ["14", "14+", "15", "15+"]
 ACHIEVED_RANK_CARD_STYLES = {
@@ -217,7 +239,7 @@ def apply_user_snapshot_to_db(snapshot: dict, session) -> tuple:
             c for c in session.query(Chart).filter(
                 Chart.is_active == True
             ).all()
-            if not is_solo_version(c.title)
+            if not is_solo_version(c.title) and c.chart_id not in DEACTIVATED_CHART_IDS
         ]
         user_scores = session.query(ScoreLog).filter_by(user_id=user_id).all()
         achievements = calc.build_user_achievements(
@@ -375,7 +397,7 @@ if user_input.isdigit():
                 Chart.chart_constant >= MIN_TARGET_CONSTANT,
                 Chart.is_active == True,
             ).all()
-            if not is_solo_version(c.title)
+            if not is_solo_version(c.title) and c.chart_id not in DEACTIVATED_CHART_IDS
         ]
         player_scores = session.query(ScoreLog).filter_by(user_id=uid).all()
         all_achievements = calc.build_user_achievements(
@@ -635,7 +657,7 @@ if user_input.isdigit():
                     Chart.chart_constant >= MIN_TARGET_CONSTANT,
                     Chart.is_active == True,
                 ).order_by(Chart.chart_constant.asc(), Chart.title.asc()).all()
-                if not is_solo_version(c.title)
+                if not is_solo_version(c.title) and c.chart_id not in DEACTIVATED_CHART_IDS
             ]
             if charts:
                 chart_data = []
@@ -727,7 +749,7 @@ if user_input.isdigit():
                     Chart.chart_constant >= MIN_TARGET_CONSTANT,
                     Chart.is_active == True,
                 ).order_by(Chart.chart_constant.asc(), Chart.title.asc()).all()
-                if not is_solo_version(c.title)
+                if not is_solo_version(c.title) and c.chart_id not in DEACTIVATED_CHART_IDS
             ]
 
             if charts:

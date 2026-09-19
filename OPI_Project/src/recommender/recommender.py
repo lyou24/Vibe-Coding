@@ -9,6 +9,31 @@ from src.analyzer.opi_calculator import OPICalculator, is_solo_version
 
 logger = logging.getLogger(__name__)
 
+# 配信終了楽曲ID（wikiwiki配信終了楽曲一覧に準拠）
+# 注意：「わたしたち魔法乙女です☆」のLUNATIC（291_lunatic）は残す仕様のため除外しない
+DEACTIVATED_CHART_IDS = {
+    "2_lunatic",   # シュガーソングとビターステップ (LUNATIC 13+)
+    "3_lunatic",   # 回レ！雪月花 (LUNATIC 14)
+    "26_master",   # ぼくらの16bit戦争 (MASTER 13+)
+    "32_lunatic",  # ブリキノダンス (LUNATIC 13+)
+    "89_lunatic",  # No Remorse (LUNATIC 14)
+    "201_master",  # GO! GO! MANIAC (MASTER 13+)
+    "223_lunatic", # 緋蜂 (LUNATIC 14+)
+    "305_lunatic", # どどんぱち大音頭 (LUNATIC 13+)
+    "393_lunatic", # 東亞 -O.N.G.E.K.I. MIX- (LUNATIC 13+)
+    "404_master",  # この番組はうら若き公務員たちの提供でお送りいたします (MASTER 13+)
+    "586_lunatic", # Hide & Attack (LUNATIC 13+)
+    "670_master",  # 腐れ外道とチョコレゐト (MASTER 13+)
+    "689_lunatic", # うまぴょい伝説 (LUNATIC 13+)
+    "690_master",  # HEAVEN'S RAVE (MASTER 13+)
+    "711_lunatic", # Ἀταραξία (LUNATIC 13+)
+    "735_lunatic", # 空色メモリーズ (LUNATIC 13+)
+    "749_master",  # タイガーランペイジ (MASTER 13+)
+    "887_master",  # アンチグラビティ・ガール (MASTER 13+)
+}
+
+assert "291_lunatic" not in DEACTIVATED_CHART_IDS, "291_lunatic (わたしたち魔法乙女です☆) は除外してはならない"
+
 class OPIRecommender:
     def __init__(self, db_path: str):
         self.engine = create_engine(f'sqlite:///{db_path}')
@@ -154,8 +179,8 @@ class OPIRecommender:
             recommendations = []
 
             for chart in charts:
-                # 配信終了・非アクティブ譜面は除外
-                if not getattr(chart, "is_active", True):
+                # 配信終了・非アクティブ譜面は除外（二重防壁）
+                if chart.chart_id in DEACTIVATED_CHART_IDS or not getattr(chart, "is_active", True):
                     continue
 
                 # ソロver.楽曲は対象外
