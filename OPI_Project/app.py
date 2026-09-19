@@ -257,6 +257,49 @@ async def fetch_and_analyze_user(user_id: int, force: bool = False):
 
 # --- UI構築 ---
 st.title("Ongeki Power Indicator (OPI)")
+
+
+def check_password() -> bool:
+    """合言葉（パスワード）の認証チェック"""
+    if st.session_state.get("authenticated", False):
+        return True
+
+    st.markdown("---")
+    st.markdown("### 🔒 アクセス制限")
+    st.info("このアプリケーションは友人間限定で公開されています。合言葉を入力してください。")
+
+    col1, col2 = st.columns([3, 1])
+    with col1:
+        password_input = st.text_input("合言葉", type="password", key="app_password_input", placeholder="合言葉を入力")
+    with col2:
+        st.write("")
+        st.write("")
+        submit = st.button("入場する", key="app_login_btn")
+
+    if submit or password_input:
+        input_hash = hashlib.sha256(password_input.strip().encode("utf-8")).hexdigest()
+        target_hash = "96cae35ce8a9b0244178bf28e4966c2ce1b8385723a96a6b838858cdd6ca0a1e"
+
+        secrets_password = None
+        try:
+            if hasattr(st, "secrets") and "APP_PASSWORD" in st.secrets:
+                secrets_password = st.secrets["APP_PASSWORD"]
+        except Exception:
+            pass
+
+        if (secrets_password and password_input.strip() == str(secrets_password)) or input_hash == target_hash:
+            st.session_state["authenticated"] = True
+            return True
+        else:
+            if password_input:
+                st.error("合言葉が正しくありません。")
+
+    return False
+
+
+if not check_password():
+    st.stop()
+
 if calibration_sync["status"] == "error":
     st.warning(f"校正済み譜面OPIの読み込みに失敗したため、既存値を使用します: {calibration_sync['message']}")
 elif calibration_sync["status"] not in {"applied", "current"}:
