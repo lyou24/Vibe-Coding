@@ -317,8 +317,9 @@ if user_input.isdigit():
     # 検索ボタンが押された場合、または新しくIDが指定された場合に自動同期
     should_fetch = search_button or (st.session_state.get("last_synced_uid") != uid)
     if should_fetch:
-        asyncio.run(fetch_and_analyze_user(uid, force=True))
-        st.session_state["last_synced_uid"] = uid
+        success = asyncio.run(fetch_and_analyze_user(uid, force=True))
+        if success:
+            st.session_state["last_synced_uid"] = uid
 elif user_input:
     st.sidebar.error("有効な数値のIDを入力してください。")
 

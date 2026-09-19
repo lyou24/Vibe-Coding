@@ -60,37 +60,50 @@ class OngekiCrawler:
         last_status = None
 
         # 1. まず curl_cffi によるブラウザ完全模倣（Cloudflare WAF突破）を試行
+        # 複数のTLS/JA3/JA4指紋を順次試行し、手動HEADERSの上書きを廃止（fingerprint mismatch防止）
+        has_curl_cffi = False
         try:
             from curl_cffi.requests import AsyncSession
-            async with AsyncSession(impersonate="chrome120") as cffi_session:
-                for attempt in range(max_attempts):
-                    try:
-                        resp = await cffi_session.get(
-                            url,
-                            headers=self.HEADERS,
-                            timeout=timeout_seconds,
-                        )
-                        last_status = resp.status_code
-                        if resp.status_code == 200:
-                            return resp.text
-                        if resp.status_code == 404:
-                            return None
-                        
-                        retryable = resp.status_code == 429 or 500 <= resp.status_code < 600 or resp.status_code == 403
-                        if not retryable or attempt == max_attempts - 1:
-                            break
-                        delay = min(2.0 * (2 ** attempt) + random.uniform(0.0, 1.0), 30.0)
-                        logger.warning(f"curl_cffi HTTP {resp.status_code} のため {delay:.1f} 秒後に再試行します")
-                        await asyncio.sleep(delay)
-                    except Exception as exc:
-                        logger.warning(f"curl_cffi 試行 {attempt} エラー: {exc}")
-                        if attempt == max_attempts - 1:
-                            break
-                        await asyncio.sleep(2.0)
+            has_curl_cffi = True
+            impersonate_list = ["chrome", "chrome120", "safari", "safari17_0"]
+            for imp in impersonate_list:
+                try:
+                    async with AsyncSession(impersonate=imp) as cffi_session:
+                        for attempt in range(max_attempts):
+                            try:
+                                resp = await cffi_session.get(
+                                    url,
+                                    headers={"Accept-Language": "ja,en-US;q=0.9,en;q=0.8"},
+                                    timeout=timeout_seconds,
+                                    allow_redirects=True,
+                                )
+                                last_status = resp.status_code
+                                if resp.status_code == 200:
+                                    return resp.text
+                                if resp.status_code == 404:
+                                    return None
+                                
+                                if resp.status_code == 403 or resp.status_code == 429 or 500 <= resp.status_code < 600:
+                                    logger.warning(f"curl_cffi ({imp}) HTTP {resp.status_code} (試行 {attempt + 1})")
+                                    if attempt < max_attempts - 1:
+                                        await asyncio.sleep(1.0 + random.uniform(0.5, 1.5))
+                                        continue
+                                    break
+                            except Exception as exc:
+                                logger.warning(f"curl_cffi ({imp}) 試行 {attempt} エラー: {exc}")
+                                if attempt < max_attempts - 1:
+                                    await asyncio.sleep(1.0)
+                except Exception as imp_exc:
+                    logger.warning(f"curl_cffi ({imp}) 初期化/実行エラー: {imp_exc}")
+                    continue
         except ImportError:
-            pass
+            logger.info("curl_cffi が利用できないため aiohttp を使用します")
 
-        # 2. aiohttp によるフォールバック
+        # curl_cffi が利用可能だったが取得できなかった場合は、aiohttp に頼らず待機再試行かエラー
+        if has_curl_cffi and last_status == 403:
+            raise PermissionError("公開ページへのアクセスが一時的に制限されています（Cloudflare WAF）。少し時間をおいて再度お試しください。")
+
+        # 2. aiohttp によるフォールバック（curl_cffi 未導入環境等）
         await self._init_session()
         for attempt in range(max_attempts):
             try:
@@ -117,6 +130,8 @@ class OngekiCrawler:
                         delay = min(5.0 * (2 ** attempt) + random.uniform(0.0, 1.0), 300.0)
                     logger.warning("HTTP %s のため %.1f 秒後に再試行します", resp.status, delay)
                     await asyncio.sleep(delay)
+            except PermissionError:
+                raise
             except (aiohttp.ClientError, asyncio.TimeoutError) as exc:
                 if attempt == max_attempts - 1:
                     raise RuntimeError("公開ページの取得に失敗しました") from exc
