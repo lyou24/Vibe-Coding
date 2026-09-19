@@ -1,13 +1,14 @@
-﻿# BRIEFING — 2026-09-14T00:32:00Z
+# BRIEFING — 2026-09-14T13:32:00Z
 
 ## Mission
-OPI（Ongeki Power Indicator）Webアプリケーション完成プロジェクトの監視・進行管理および勝利監査の実施。
+オンゲキOPI Webアプリケーション改修プロジェクト（新5段階ランク対応、リコメンドUI高度化、グリッド型難易度表・マイ難易度表、動的散布図等）の進行監視・監査
 
 ## 🔒 My Identity
 - Archetype: sentinel
 - Working directory: C:\Users\lyoul\マイドライブ\lyou_Obsidian\90_Git\OPI_Project\.agents\sentinel
-- Orchestrator: 99ab751a-42c5-4b11-8e77-d6dda7767adb
-- Victory Auditor: 927cf2e7-97cd-40af-acc2-56007be3acb3
+- Project Directory: C:\Users\lyoul\AI_Project\90_Git\OPI_Project
+- Orchestrator: 67e44881-5508-4261-b790-ef9301c2634d
+- Victory Auditor: [to be spawned on victory claim]
 
 ## 🔒 Key Constraints
 - No technical decisions — relay only
@@ -16,21 +17,18 @@ OPI（Ongeki Power Indicator）Webアプリケーション完成プロジェク�
 - Cron 1 (Progress Reporting: */8 * * * *) and Cron 2 (Liveness Check: */10 * * * *) monitoring required
 
 ## User Context
-- **Last user request**: OPIプロジェクトの修復・機能完備、第三者配布性の確保、要件定義書の非破壊履歴更新、Gitバージョン管理とGitHubプッシュ。
-- **Pending clarifications**: [none]
-- **Delivered results**: 全要件完遂、独立監査VICTORY CONFIRMED認証、最終報告完了
+- **Last user request**: OPI Webアプリ改修（新5段階ランクS〜AB+対応、リコメンドUIマルチセレクト＆クリア割合スライダー、グリッド型難易度表およびマイOPI難易度表、レーティングvsOPI動的散布図、残リソース管理と引き継ぎ書）
+- **Pending clarifications**: none
+- **Delivered results**: 前回プロジェクト（修復・配布対応）完了済み
 
 ## Project Status
-- **Phase**: complete
+- **Phase**: in progress
 
 ## Victory Audit Status
-- **Triggered**: yes
-- **Verdict**: VICTORY CONFIRMED
+- **Triggered**: no
+- **Verdict**: pending
 - **Retry count**: 0
 
 ## Artifact Index
-- C:\Users\lyoul\マイドライブ\lyou_Obsidian\90_Git\OPI_Project\.agents\ORIGINAL_REQUEST.md — ユーザー要望の原本記録
-- C:\Users\lyoul\マイドライブ\lyou_Obsidian\90_Git\OPI_Project\.agents\victory_auditor_1\audit_report.md — 独立勝利監査レポート（VICTORY CONFIRMED）
-- C:\Users\lyoul\マイドライブ\lyou_Obsidian\90_Git\OPI_Project\.agents\orchestrator_1\handoff.md — オーケストレーター総合成果ハンドオフ
-- C:\Users\lyoul\マイドライブ\lyou_Obsidian\00_Inbox\OPI要件定義書.md — 要件定義書（非破壊更新済み）
-- C:\Users\lyoul\マイドライブ\lyou_Obsidian\90_Git\OPI_Project\run_opi.bat — 配布・起動用バッチ
+- C:\Users\lyoul\AI_Project\90_Git\OPI_Project\.agents\ORIGINAL_REQUEST.md — ユーザー要望の原本記録
+- C:\Users\lyoul\マイドライブ\lyou_Obsidian\90_Git\OPI_Project\.agents\victory_auditor_1\audit_report.md — 前回独立勝利監査レポート（VICTORY CONFIRMED）

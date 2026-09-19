@@ -1,13 +1,29 @@
 import os
 import math
+import sqlite3
+from pathlib import Path
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
+import plotly.graph_objects as go
 from sqlalchemy import create_engine
 import logging
 
+from src.analyzer.player_recalibration import AAA_ABILITY_MODEL_VERSION
+
 logger = logging.getLogger(__name__)
+
+DEFAULT_DB_PATH = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
+    "data",
+    "opi_database.sqlite"
+)
+DEFAULT_CALIBRATION_DB_PATH = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))),
+    "data",
+    "opi_calibration.sqlite",
+)
 
 class OPIVisualizer:
     def __init__(self, db_path: str):
@@ -50,117 +66,123 @@ class OPIVisualizer:
         return f"{center:.1f}"
 
     @staticmethod
-    def get_target_distribution_table() -> pd.DataFrame:
-        """
-        要件定義書 3.2 に記載されている「レーティング別 総合OPI目標値および分布統計表」
-        （対象レート、集計帯域、サンプル人数、目標総合OPI中央値、平均総合OPI、25%点〜75%点 IQR）
-        を DataFrame として返却する。
-        """
-        data = [
-            {
-                "対象レート": "18.0",
-                "集計帯域（レート）": "17.75 〜 18.24",
-                "サンプル人数": "452人",
-                "目標総合OPI（中央値）": 1480.2,
-                "平均総合OPI": 1485.4,
-                "25%点 〜 75%点 (IQR)": "1421.5 〜 1538.7"
-            },
-            {
-                "対象レート": "18.5",
-                "集計帯域（レート）": "18.25 〜 18.74",
-                "サンプル人数": "518人",
-                "目標総合OPI（中央値）": 1632.5,
-                "平均総合OPI": 1637.1,
-                "25%点 〜 75%点 (IQR)": "1565.3 〜 1692.8"
-            },
-            {
-                "対象レート": "19.0",
-                "集計帯域（レート）": "18.75 〜 19.24",
-                "サンプル人数": "615人",
-                "目標総合OPI（中央値）": 1791.0,
-                "平均総合OPI": 1796.8,
-                "25%点 〜 75%点 (IQR)": "1725.4 〜 1848.2"
-            },
-            {
-                "対象レート": "19.5",
-                "集計帯域（レート）": "19.25 〜 19.74",
-                "サンプル人数": "437人",
-                "目標総合OPI（中央値）": 1942.3,
-                "平均総合OPI": 1945.5,
-                "25%点 〜 75%点 (IQR)": "1882.1 〜 2005.9"
-            },
-            {
-                "対象レート": "20.0",
-                "集計帯域（レート）": "19.75 〜 20.24",
-                "サンプル人数": "283人",
-                "目標総合OPI（中央値）": 2076.8,
-                "平均総合OPI": 2085.2,
-                "25%点 〜 75%点 (IQR)": "2023.7 〜 2131.4"
-            },
-            {
-                "対象レート": "20.5",
-                "集計帯域（レート）": "20.25 〜 20.74",
-                "サンプル人数": "156人",
-                "目標総合OPI（中央値）": 2235.1,
-                "平均総合OPI": 2228.4,
-                "25%点 〜 75%点 (IQR)": "2185.0 〜 2282.6"
-            },
-            {
-                "対象レート": "21.0",
-                "集計帯域（レート）": "20.75 〜 21.24",
-                "サンプル人数": "42人",
-                "目標総合OPI（中央値）": 2310.5,
-                "平均総合OPI": 2305.2,
-                "25%点 〜 75%点 (IQR)": "2268.3 〜 2345.1"
-            },
-        ]
-        return pd.DataFrame(data)
+    def get_latest_calibrated_ability_run(
+        calibration_db_path: str = DEFAULT_CALIBRATION_DB_PATH,
+    ) -> dict | None:
+        """AAA以上・最新単曲パラメータによる最新の完了runを返す。"""
+        path = Path(calibration_db_path)
+        if not path.is_file():
+            return None
+        connection = sqlite3.connect(
+            f"file:{path.resolve().as_posix()}?mode=ro",
+            uri=True,
+        )
+        connection.row_factory = sqlite3.Row
+        try:
+            run = connection.execute(
+                """
+                SELECT run_id, model_version, parent_run_id, player_count,
+                       estimated_player_count, unestimated_player_count,
+                       completed_at, config_json
+                  FROM estimation_runs
+                 WHERE status = 'completed' AND model_version = ?
+                 ORDER BY run_id DESC
+                 LIMIT 1
+                """,
+                (AAA_ABILITY_MODEL_VERSION,),
+            ).fetchone()
+            return dict(run) if run else None
+        except sqlite3.DatabaseError:
+            return None
+        finally:
+            connection.close()
+
+    @classmethod
+    def load_latest_calibrated_player_data(
+        cls,
+        calibration_db_path: str = DEFAULT_CALIBRATION_DB_PATH,
+    ) -> pd.DataFrame:
+        """最新AAA以上再推定runのレーティングと総合OPIを読み込む。"""
+        run = cls.get_latest_calibrated_ability_run(calibration_db_path)
+        if run is None:
+            return pd.DataFrame(columns=["rating", "total_opi"])
+        path = Path(calibration_db_path)
+        connection = sqlite3.connect(
+            f"file:{path.resolve().as_posix()}?mode=ro",
+            uri=True,
+        )
+        try:
+            return pd.read_sql_query(
+                """
+                SELECT player.rating AS rating, estimate.theta AS total_opi
+                  FROM player_ability_estimates AS estimate
+                  JOIN players AS player
+                    ON player.subject_key = estimate.subject_key
+                 WHERE estimate.run_id = ?
+                   AND estimate.is_estimable = 1
+                   AND player.rating IS NOT NULL
+                   AND estimate.theta IS NOT NULL
+                """,
+                connection,
+                params=(int(run["run_id"]),),
+            )
+        finally:
+            connection.close()
+
+    @classmethod
+    def get_target_distribution_table(
+        cls,
+        calibration_db_path: str = DEFAULT_CALIBRATION_DB_PATH,
+    ) -> pd.DataFrame:
+        """最新のAAA以上再推定結果からレーティング帯別統計を返す。"""
+        return cls.build_distribution_table(
+            cls.load_latest_calibrated_player_data(calibration_db_path)
+        )
+
+    @classmethod
+    def build_distribution_table(cls, df: pd.DataFrame) -> pd.DataFrame:
+        if df.empty:
+            return pd.DataFrame()
+
+        df = df.dropna(subset=["rating", "total_opi"]).copy()
+        df["rating"] = pd.to_numeric(df["rating"], errors="coerce")
+        df["total_opi"] = pd.to_numeric(df["total_opi"], errors="coerce")
+        df = df.dropna(subset=["rating", "total_opi"]).copy()
+        df = df[
+            np.isfinite(df["rating"])
+            & np.isfinite(df["total_opi"])
+            & (df["rating"] >= 17.75)
+        ].copy()
+        if df.empty:
+            return pd.DataFrame()
+
+        df["rating_band"] = df["rating"].apply(cls.get_band_label)
+        df = df.dropna(subset=["rating_band"])
+        records = []
+        for band in sorted(df["rating_band"].unique(), key=lambda value: float(value)):
+            band_float = float(band)
+            values = df[df["rating_band"] == band]["total_opi"]
+            records.append(
+                {
+                    "対象レート": f"{band_float:.1f}",
+                    "集計帯域（レート）": f"{band_float - 0.25:.2f} 〜 {band_float + 0.24:.2f}",
+                    "サンプル人数": f"{len(values)}人",
+                    "目標総合OPI（中央値）": round(float(values.median()), 1),
+                    "平均総合OPI": round(float(values.mean()), 1),
+                    "25%点 〜 75%点 (IQR)": (
+                        f"{float(values.quantile(0.25)):.1f} 〜 "
+                        f"{float(values.quantile(0.75)):.1f}"
+                    ),
+                }
+            )
+        return pd.DataFrame(records)
 
     def calculate_current_distribution_table(self) -> pd.DataFrame:
         """
         データベース内の実プレイヤーデータから、レーティング帯別の分布統計
         （サンプル人数、中央値、平均、25%点〜75%点 IQR）を集計して返却する。
         """
-        df = self.load_player_data()
-        if df.empty:
-            return pd.DataFrame()
-
-        # NaN / inf ガード: 数値化および有限値フィルタ
-        df = df.dropna(subset=['rating', 'total_opi']).copy()
-        df['rating'] = pd.to_numeric(df['rating'], errors='coerce')
-        df['total_opi'] = pd.to_numeric(df['total_opi'], errors='coerce')
-        df = df.dropna(subset=['rating', 'total_opi']).copy()
-        df = df[np.isfinite(df['rating']) & np.isfinite(df['total_opi']) & (df['rating'] >= 17.75)].copy()
-        if df.empty:
-            return pd.DataFrame()
-
-        df['rating_band'] = df['rating'].apply(self.get_band_label)
-        df = df.dropna(subset=['rating_band'])
-        if df.empty:
-            return pd.DataFrame()
-
-        records = []
-        for band in sorted(df['rating_band'].unique(), key=lambda b: float(b)):
-            band_float = float(band)
-            sub = df[df['rating_band'] == band]['total_opi']
-            cnt = len(sub)
-            if cnt == 0:
-                continue
-            median_val = float(sub.median())
-            mean_val = float(sub.mean())
-            q25 = float(sub.quantile(0.25))
-            q75 = float(sub.quantile(0.75))
-            low_r = band_float - 0.25
-            high_r = band_float + 0.24
-            records.append({
-                "対象レート": f"{band_float:.1f}",
-                "集計帯域（レート）": f"{low_r:.2f} 〜 {high_r:.2f}",
-                "サンプル人数": f"{cnt}人",
-                "目標総合OPI（中央値）": round(median_val, 1),
-                "平均総合OPI": round(mean_val, 1),
-                "25%点 〜 75%点 (IQR)": f"{q25:.1f} 〜 {q75:.1f}"
-            })
-        return pd.DataFrame(records)
+        return self.build_distribution_table(self.load_player_data())
 
     def create_distribution_plot(self, output_path: str = "distribution.png"):
         """
@@ -207,6 +229,90 @@ class OPIVisualizer:
 
     # メソッド名のエイリアス
     plot_distribution = create_distribution_plot
+
+    def create_distribution_figure(
+        self,
+        player_rating: float | None = None,
+        player_opi: float | None = None,
+        player_name: str = "あなた",
+        player_data: pd.DataFrame | None = None,
+    ) -> go.Figure:
+        """
+        要件 R4: 横軸をレーティング生値、縦軸を総合OPIとした動的散布図 (Plotly) を生成する。
+        選択中のユーザーが存在する場合、赤色の星型マーカーで現在位置をハイライト表示する。
+        """
+        df = player_data.copy() if player_data is not None else self.load_player_data()
+        fig = go.Figure()
+
+        if not df.empty:
+            df = df.dropna(subset=['rating', 'total_opi']).copy()
+            df['rating'] = pd.to_numeric(df['rating'], errors='coerce')
+            df['total_opi'] = pd.to_numeric(df['total_opi'], errors='coerce')
+            df = df.dropna(subset=['rating', 'total_opi']).copy()
+            df = df[np.isfinite(df['rating']) & np.isfinite(df['total_opi']) & (df['rating'] >= 17.75)].copy()
+
+            if not df.empty:
+                plot_df = (
+                    df.sample(n=2500, random_state=42).sort_index()
+                    if len(df) > 2500
+                    else df
+                )
+                # 全プレイヤー散布図
+                fig.add_trace(go.Scatter(
+                    x=plot_df['rating'],
+                    y=plot_df['total_opi'],
+                    mode='markers',
+                    marker=dict(
+                        size=6,
+                        color='rgba(31, 119, 180, 0.45)',
+                    ),
+                    name='実プレイヤー（表示サンプル）' if len(plot_df) < len(df) else '実プレイヤー',
+                    hovertemplate='Rating: %{x:.2f}<br>総合OPI: %{y:.1f}<extra></extra>'
+                ))
+
+        # 選択ユーザーのハイライト（星型マーカー）
+        if player_rating is not None and player_opi is not None:
+            fig.add_trace(go.Scatter(
+                x=[float(player_rating)],
+                y=[float(player_opi)],
+                mode='markers+text',
+                marker=dict(
+                    size=14,
+                    color='crimson',
+                    symbol='star',
+                    line=dict(width=2, color='white')
+                ),
+                name=f"{player_name} (現在地)",
+                text=[f"★ {player_name}"],
+                textposition="top center",
+                hovertemplate=f"<b>{player_name}</b><br>レーティング: %{{x:.2f}}<br>総合OPI: %{{y:.1f}}<extra></extra>"
+            ))
+
+        fig.update_layout(
+            title="レーティング vs 総合OPI 動的分布図",
+            xaxis_title="レーティング",
+            yaxis_title="総合OPI",
+            template="plotly_white",
+            hovermode="closest",
+            margin=dict(l=40, r=40, t=50, b=40),
+        )
+        return fig
+
+
+def create_distribution_figure(
+    player_rating: float | None = None,
+    player_opi: float | None = None,
+    player_name: str = "あなた",
+    db_path: str = DEFAULT_DB_PATH,
+) -> go.Figure:
+    """モジュールレベル関数としての create_distribution_figure ラッパー"""
+    vis = OPIVisualizer(db_path)
+    return vis.create_distribution_figure(
+        player_rating=player_rating,
+        player_opi=player_opi,
+        player_name=player_name,
+    )
+
 
 if __name__ == "__main__":
     db_file = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "data", "opi_database.sqlite")

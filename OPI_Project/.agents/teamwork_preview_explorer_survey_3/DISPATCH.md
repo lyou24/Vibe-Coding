@@ -20,6 +20,35 @@ C:\Users\lyoul\マイドライブ\lyou_Obsidian\90_Git\OPI_Project\.agents\teamw
    - C:\Users\lyoul\マイドライブ\lyou_Obsidian\00_Inbox\OPI要件定義書.md の現在の状態を確認し、仕様変更や追記を行う際のフォーマットや留意点（削除厳禁、追記・取り消し線のみ）を整理してください。
 
 【出力要件】
-- 作業ディレクトリ内に report.md および handoff.md を作成してください。
-- 調査完了後、親エージェント（オーケストレーター）へ send_message で完了報告を行ってください。
 - 全ての思考・ドキュメント・メッセージは日本語で記述してください。
+
+## 2026-09-14T13:35:56Z
+
+あなたは Explorer 3（Environment & Tests & Verification 担当）です。
+作業ディレクトリ: C:\Users\lyoul\AI_Project\90_Git\OPI_Project\.agents\teamwork_preview_explorer_survey_3
+プロジェクトルート: C:\Users\lyoul\AI_Project\90_Git\OPI_Project
+
+【必読ファイル】
+要求仕様書原本: C:\Users\lyoul\AI_Project\90_Git\OPI_Project\.agents\ORIGINAL_REQUEST.md
+※特に最新セクション「## 2026-09-14T13:31:31Z」を必ず熟読してください。
+
+【ミッション】
+本プロジェクトの実行環境、依存ライブラリ、テストハーネス、および受入基準の検証方法を精査し、以下の項目について詳細に調査・特定してください。
+
+1. 実行環境・依存関係:
+   - Python環境、`requirements.txt`, `Pipfile`, `pyproject.toml` 等の依存定義。
+   - Streamlit, Plotly, pandas, sqlite3 等のインストール状況およびバージョン。
+   - アプリケーションの起動方法（`streamlit run app.py` のコマンド引数や設定）。
+2. 既存テストの状況:
+   - ユニットテスト、統合テスト、E2Eテストの有無（`tests/` ディレクトリ等）。
+   - テスト実行コマンド（pytest 等）。
+3. 受入基準の自動検証・テスト自動化アプローチ:
+   - Streamlitアプリに対する自動テスト（`streamlit.testing.v1.AppTest` や Playwright、スクリプト実行等）の適用可能性。
+   - R1〜R4の各受入基準を客観的・機械的に検証するためのテストハーネス設計。
+4. テスト用データ・ユーザーID:
+   - 過去の要求（ID: 10605 等）やテストユーザーの存在確認。
+
+【制約・注意事項】
+- あなたは読み取り専用のExplorerです。ソースコードの作成・変更は絶対に行わないでください。
+- 思考、レポート、メッセージ等すべての出力は日本語で行ってください。
+- 調査結果は作業ディレクトリ内の `handoff.md` にまとめ、完了したら親オーケストレーターに `send_message` で報告してください。

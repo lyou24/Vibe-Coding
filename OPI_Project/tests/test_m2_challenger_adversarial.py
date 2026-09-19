@@ -219,7 +219,7 @@ class TestM2ChallengerAdversarial:
                 level='15+',
                 chart_constant_min=15.7,
                 chart_constant_max=15.8,
-                current_rank='ABFB止まり'
+                current_rank='SSS+止まり'
             )
 
             rec_ids = [r['chart_id'] for r in recs]
@@ -231,7 +231,7 @@ class TestM2ChallengerAdversarial:
                 level='15+',
                 chart_constant_min=15.7,
                 chart_constant_max=15.8,
-                current_rank='未SS'
+                current_rank='未S'
             )
             assert [r['chart_id'] for r in recs_unplay] == ['target_1']
 
@@ -257,36 +257,36 @@ class TestM2ChallengerAdversarial:
 
             charts = [
                 Chart(chart_id=f'chart_r_{r}', title=f'Rank_{r}', difficulty=DifficultyEnum.MASTER, level='15', chart_constant=15.0,
-                      opi_ss_x=1400.0, opi_sss_x=1650.0, opi_sssp_x=1800.0, opi_s_x=1900.0, opi_abp_x=2020.0, opi_sss_y=40.0)
-                for r in ['ss', 'sss', 'sssp', 's', 'abp']
+                      opi_s_x=1200.0, opi_ss_x=1400.0, opi_sss_x=1650.0, opi_sssp_x=1800.0, opi_abp_x=2020.0, opi_sss_y=40.0)
+                for r in ['s', 'ss', 'sss', 'sssp', 'abp']
             ]
             session.add_all(charts)
 
             player = Player(user_id=333, player_name='RankUser', rating=19.5, total_opi=2000.0)
             session.add(player)
 
-            session.add(ScoreLog(user_id=333, chart_id='chart_r_ss', score=995000, achieve_ss=True))
-            session.add(ScoreLog(user_id=333, chart_id='chart_r_sss', score=1002000, achieve_ss=True, achieve_sss=True))
-            session.add(ScoreLog(user_id=333, chart_id='chart_r_sssp', score=1008000, is_all_break=False, achieve_ss=True, achieve_sss=True, achieve_sssp=True))
-            session.add(ScoreLog(user_id=333, chart_id='chart_r_abfb', score=1008500, is_all_break=True, is_full_bell=True, achieve_ss=True, achieve_sss=True, achieve_sssp=True, achieve_s=True))
-            session.add(ScoreLog(user_id=333, chart_id='chart_r_ap', score=1010000, is_all_break=True, is_full_bell=True, achieve_ss=True, achieve_sss=True, achieve_sssp=True, achieve_s=True, achieve_abp=True))
+            session.add(ScoreLog(user_id=333, chart_id='chart_r_s', score=980000, achieve_s=True))
+            session.add(ScoreLog(user_id=333, chart_id='chart_r_ss', score=995000, achieve_s=True, achieve_ss=True))
+            session.add(ScoreLog(user_id=333, chart_id='chart_r_sss', score=1002000, achieve_s=True, achieve_ss=True, achieve_sss=True))
+            session.add(ScoreLog(user_id=333, chart_id='chart_r_sssp', score=1008000, is_all_break=False, achieve_s=True, achieve_ss=True, achieve_sss=True, achieve_sssp=True))
+            session.add(ScoreLog(user_id=333, chart_id='chart_r_abp', score=1010000, is_all_break=True, is_full_bell=True, achieve_s=True, achieve_ss=True, achieve_sss=True, achieve_sssp=True, achieve_abp=True))
             session.commit()
 
             recommender = OPIRecommender(db_path)
 
-            assert recommender.get_recommendations(user_id=333, target_rank='SS', win_rate_min=0.0, win_rate_max=1.0) == []
+            assert recommender.get_recommendations(user_id=333, target_rank='S', win_rate_min=0.0, win_rate_max=1.0) == []
+
+            recs_ss = recommender.get_recommendations(user_id=333, target_rank='SS', win_rate_min=0.0, win_rate_max=1.0)
+            assert [r['chart_id'] for r in recs_ss] == ['chart_r_s']
 
             recs_sss = recommender.get_recommendations(user_id=333, target_rank='SSS', win_rate_min=0.0, win_rate_max=1.0)
-            assert [r['chart_id'] for r in recs_sss] == ['chart_r_ss']
+            assert set(r['chart_id'] for r in recs_sss) == {'chart_r_s', 'chart_r_ss'}
 
             recs_sssp = recommender.get_recommendations(user_id=333, target_rank='SSS+', win_rate_min=0.0, win_rate_max=1.0)
-            assert set(r['chart_id'] for r in recs_sssp) == {'chart_r_ss', 'chart_r_sss'}
+            assert set(r['chart_id'] for r in recs_sssp) == {'chart_r_s', 'chart_r_ss', 'chart_r_sss'}
 
-            recs_abfb = recommender.get_recommendations(user_id=333, target_rank='S', win_rate_min=0.0, win_rate_max=1.0)
-            assert set(r['chart_id'] for r in recs_abfb) == {'chart_r_ss', 'chart_r_sss', 'chart_r_sssp'}
-
-            recs_ap = recommender.get_recommendations(user_id=333, target_rank='AB+', win_rate_min=0.0, win_rate_max=1.0)
-            assert set(r['chart_id'] for r in recs_ap) == {'chart_r_ss', 'chart_r_sss', 'chart_r_sssp', 'chart_r_abfb'}
+            recs_abp = recommender.get_recommendations(user_id=333, target_rank='AB+', win_rate_min=0.0, win_rate_max=1.0)
+            assert set(r['chart_id'] for r in recs_abp) == {'chart_r_s', 'chart_r_ss', 'chart_r_sss', 'chart_r_sssp'}
 
             session.close()
             engine.dispose()

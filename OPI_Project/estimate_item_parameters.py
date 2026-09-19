@@ -10,19 +10,19 @@ from src.analyzer.item_parameter_estimator import (
     ItemObservation,
     estimate_item_parameters,
 )
-from src.analyzer.opi_calculator import TARGET_RANKS
-from src.database.models import Player, ScoreLog, get_engine, get_session_maker
+from src.analyzer.opi_calculator import TARGET_RANKS, is_solo_version
+from src.database.models import Chart, Player, ScoreLog, get_engine, get_session_maker
 
 
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
 DEFAULT_DB_FILE = os.path.join(PROJECT_ROOT, "data", "opi_database.sqlite")
 
 RANK_ACHIEVEMENT_FIELDS = {
+    "S": "achieve_s",
     "SS": "achieve_ss",
     "SSS": "achieve_sss",
     "SSS+": "achieve_sssp",
-    "SSS+ABFB": "achieve_abfb",
-    "AP": "achieve_ap",
+    "AB+": "achieve_abp",
 }
 
 
@@ -38,14 +38,21 @@ def build_estimation_report(
     session = Session()
 
     try:
-        rows = session.query(ScoreLog, Player.total_opi).join(
+        rows = session.query(ScoreLog, Player.total_opi, Chart.title).join(
             Player,
             ScoreLog.user_id == Player.user_id,
+        ).join(
+            Chart,
+            ScoreLog.chart_id == Chart.chart_id,
         ).filter(Player.total_opi.isnot(None)).all()
 
         grouped_observations: dict[tuple[str, str], list[ItemObservation]] = defaultdict(list)
         user_ids = set()
-        for score_log, total_opi in rows:
+        included_score_count = 0
+        for score_log, total_opi, chart_title in rows:
+            if is_solo_version(chart_title):
+                continue
+            included_score_count += 1
             user_ids.add(score_log.user_id)
             for target_rank in TARGET_RANKS:
                 field_name = RANK_ACHIEVEMENT_FIELDS[target_rank]
@@ -81,7 +88,7 @@ def build_estimation_report(
             "mode": "dry_run",
             "database_written": False,
             "player_count": len(user_ids),
-            "score_count": len(rows),
+            "score_count": included_score_count,
             "item_count": len(estimates),
             "estimable_count": estimable_count,
             "unestimable_count": len(estimates) - estimable_count,

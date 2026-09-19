@@ -1,6 +1,6 @@
 """
 Milestone 3 Verification Test Suite: WebUI & Recommender Integration
-app.py の M3 要件（デフォルトID 10605, 5段階全目標ランク統合最尤推定, 厳密照合, 多次元フィルター, 難易度表目標ランク切替, 安全アトミック更新）の実装検証
+app.py の M3 要件（ユーザーID初期値なし, 5段階全目標ランク統合最尤推定, 厳密照合, 多次元フィルター, 難易度表目標ランク切替, 安全アトミック更新）の実装検証
 """
 
 import ast
@@ -17,6 +17,21 @@ APP_PATH = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "app.py
 class TestM3WebUIIntegration:
     """M3 WebUI & アルゴリズム統合の自動検証"""
 
+    def test_app_initial_blank_and_existing_player_views_load(self):
+        """初回はID空欄で、入力後はメタデータ・画像出力を含む一覧が例外なく開くこと"""
+        from streamlit.testing.v1 import AppTest
+
+        at = AppTest.from_file(APP_PATH, default_timeout=30).run()
+        assert len(at.exception) == 0
+        assert at.sidebar.text_input[0].value == ""
+        assert at.title[0].value == "Ongeki Power Indicator"
+
+        at.sidebar.text_input[0].set_value("10605").run()
+        assert len(at.exception) == 0
+        assert all(metric.label != "参考OPI（全プレイ）" for metric in at.metric)
+        assert any(button.label == "🖼️ フルHD画像を作成" for button in at.button)
+        assert all("スマホ用" not in button.label for button in at.button)
+
     def test_app_ast_m3_features_presence(self):
         """app.py のソースコード内に M3 の必須要素が確実に組み込まれていることを AST および静的解析で検証"""
         with open(APP_PATH, "r", encoding="utf-8") as f:
@@ -25,8 +40,9 @@ class TestM3WebUIIntegration:
         parsed_ast = ast.parse(code)
         assert parsed_ast is not None, "app.py が有効な Python コードとしてパース可能であること"
 
-        # 1. デフォルトID "10605" の検証
-        assert '"10605"' in code or "'10605'" in code, "デフォルトユーザーIDに '10605' が設定されていること"
+        # 1. 初回表示ではユーザーIDが空欄であること
+        assert 'text_input("OngekiScoreLog ユーザーID", "")' in code
+        assert 'text_input("OngekiScoreLog ユーザーID", "10605")' not in code
 
         # 2. 強制更新フラグの存在
         assert "force_update" in code, "強制更新チェックボックス変数が存在すること"
@@ -49,9 +65,46 @@ class TestM3WebUIIntegration:
         assert "get_chart_rank_params" in code, "各目標ランクのパラメータ取得関数が呼び出されていること"
 
         # 7. UI選択順・複数レベル・難易度表の降順表示
-        assert 'TARGET_RANK_OPTIONS = ["SS", "SSS", "SSS+", "S", "AB+"]' in code
+        assert 'TARGET_RANK_OPTIONS = ["S", "SS", "SSS", "SSS+", "AB+"]' in code
         assert "level_filters = st.multiselect" in code, "レベル絞り込みが複数選択であること"
         assert 'sort_values(by=f"{diff_target_rank} 適正OPI", ascending=False)' in code
+
+        # 8. 楽曲メタデータと3一覧のフルHD画像出力
+        assert '"バージョン"' in code and '"ジャンル"' in code
+        assert code.count("render_image_export(") >= 4  # 定義 + 3一覧
+        assert "build_full_hd_image" in code
+        assert "build_pdf" not in code
+        assert 'st.title("Ongeki Power Indicator")' in code
+
+    def test_difficulty_cards_keep_readable_text_on_light_backgrounds(self):
+        """ダークテーマでも難易度カードの文字色が背景に埋もれないことを検証"""
+        with open(APP_PATH, "r", encoding="utf-8") as f:
+            code = f.read()
+
+        assert code.count('background-color: #f8f9fa; color: #1f2937;') >= 1
+        assert 'background-color: {bg_color}; color: {text_color};' in code
+        assert 'font-size: 0.95em; color: {title_color};' in code
+        assert 'font-size: 0.8em; color: {detail_color};' in code
+
+    def test_achieved_card_colors_follow_current_highest_rank(self):
+        """各目標表でカード背景が譜面ごとの現在最高ランクに対応することを検証"""
+        with open(APP_PATH, "r", encoding="utf-8") as f:
+            code = f.read()
+
+        expected_colors = {
+            '"S": {"background": "#2e7d32"',
+            '"SS": {"background": "#1565c0"',
+            '"SSS": {"background": "#c62828"',
+            '"SSS+": {"background": "#f9a825"',
+            '"AB+": {"background": "#c2410c"',
+        }
+        for color_definition in expected_colors:
+            assert color_definition in code
+
+        assert 'ACHIEVED_RANK_CARD_STYLES.get(row["現在ランク"])' in code
+        assert 'CURRENT_RANK_TO_ACHIEVED_RANK.get(current_rank_category)' in code
+        assert '_determine_current_rank(score_log)' in code
+        assert '_is_target_achieved(score_log, my_diff_target_rank)' in code
 
     def test_strict_title_and_difficulty_matching(self, test_session):
         """(title, difficulty) による同名曲（MASTER / LUNATIC）の混同防止の振る舞い検証"""
@@ -173,7 +226,7 @@ class TestM3WebUIIntegration:
     def test_difficulty_table_generation_all_ranks(self, test_session, seed_charts):
         """難易度表生成が5つの全目標ランク（SS, SSS, SSS+, S, AP）で正常動作することを検証"""
         calc = OPICalculator()
-        target_ranks = ["SS", "SSS", "SSS+", "S", "AB+"]
+        target_ranks = ["S", "SS", "SSS", "SSS+", "AB+"]
 
         for rank in target_ranks:
             rank_rows = []

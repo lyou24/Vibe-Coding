@@ -1,27 +1,35 @@
-﻿## 2026-09-13T14:41:36Z
+## 2026-09-14T13:35:56Z
 
-あなたはOPIプロジェクトのコードベース・アーキテクチャ調査担当エージェント（teamwork_preview_explorer）です。
+<USER_REQUEST>
+あなたは Explorer 1（UI & Streamlit App 担当）です。
+作業ディレクトリ: C:\Users\lyoul\AI_Project\90_Git\OPI_Project\.agents\teamwork_preview_explorer_survey_1
+プロジェクトルート: C:\Users\lyoul\AI_Project\90_Git\OPI_Project
 
-【作業ディレクトリ】
-C:\Users\lyoul\マイドライブ\lyou_Obsidian\90_Git\OPI_Project\.agents\teamwork_preview_explorer_survey_1
+【必読ファイル】
+要求仕様書原本: C:\Users\lyoul\AI_Project\90_Git\OPI_Project\.agents\ORIGINAL_REQUEST.md
+※特に最新セクション「## 2026-09-14T13:31:31Z」を必ず熟読してください。
 
-【必読ファイル（作業前に必ず精読すること）】
-- C:\Users\lyoul\マイドライブ\lyou_Obsidian\90_Git\OPI_Project\.agents\ORIGINAL_REQUEST.md
-- C:\Users\lyoul\マイドライブ\lyou_Obsidian\00_Inbox\OPI要件定義書.md
-- C:\Users\lyoul\マイドライブ\lyou_Obsidian\90_Git\OPI_Project\PROJECT.md
+【ミッション】
+本プロジェクトのUI構成およびStreamlitアプリケーション（app.py等）の現状を精査し、以下の要件に関する既存実装状況と改修箇所を詳細に調査・特定してください。
 
-【調査対象・任務】
-1. 既存コード（app.py, src/*, seed.py, main.py など）の実装状況を網羅的に調査してください。
-2. 要件定義書（特に 1.1〜2.4）に記載された機能要件・詳細仕様と、現在の実装との整合性を検証してください：
-   - 2PL IRT による5目標ランク（SS, SSS, SSS+, SSS+ABFB, AP）統合最尤推定（L2正則化）
-   - 総合OPI算出およびプレイヤーデータへの保持
-   - リコメンドエンジンの多次元フィルター（level, constant_min/max, current_rank, target_rank）と勝率30〜70%フィルタ
-   - レーティング相関・分布分析（±0.25帯域ごとの統計・プロット）
-   - OPI難易度表生成
-   - クローラーの差分更新・更新日フィルタ
-3. 未実装の機能、バグ、ロジックの不整合、ハードコード等の問題点を具体的に洗い出し、修正戦略を提案してください。
+1. R1関連（新5段階ランク対応）:
+   - UI上のセレクトボックス、表示ラベル等に残る旧ランク（SSS+ABFB, AP等）の出現箇所。
+   - 新ランク（S, SS, SSS, SSS+, AB+）へ置き換えるべき箇所の特定（ファイルパス・行番号・コード抜粋）。
+2. R2関連（リコメンド機能UI高度化）:
+   - 現在のリコメンドUI（レベル選択、ランク選択、勝率絞り込み等）の実装箇所。
+   - 「複数選択（マルチセレクト）」への変更箇所（未選択時は全対象）。
+   - 「0〜100%の範囲スライダー」および「クリア割合」への文言変更箇所。
+3. R3関連（難易度表グリッド化・マイ難易度表）:
+   - 現在のOPI難易度表の表示形式・実装箇所。
+   - 100 OPIごとの帯域グリッド化、降順ソートの実装アプローチ。
+   - 「マイOPI難易度表」の追加（タブまたはビュー切り替え）、達成済み楽曲セルのハイライト表示のアプローチ。
+4. R4関連（動的散布図）:
+   - レーティング vs 総合OPIの散布図の現状実装（静的画像？matplotlib？）。
+   - Plotly等による動的散布図化とユーザー位置ハイライトの実現方法。
 
-【出力要件】
-- 作業ディレクトリ内に report.md および handoff.md を作成してください。
-- 調査完了後、親エージェント（オーケストレーター）へ send_message で完了報告を行ってください。
-- 全ての思考・ドキュメント・メッセージは日本語で記述してください。
+【制約・注意事項】
+- あなたは読み取り専用のExplorerです。ソースコードの作成・変更は絶対に行わないでください。
+- 思考、レポート、メッセージ等すべての出力は日本語で行ってください。
+- 調査結果は作業ディレクトリ内の `handoff.md` にまとめ、完了したら親オーケストレーターに `send_message` で報告してください。
+
+</USER_REQUEST>

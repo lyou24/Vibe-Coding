@@ -372,7 +372,7 @@ class TestSeedIdempotencyAndStress:
             assert logs["1001_master"] == (1, 1, 1, 1, 1), f"1001_master flags mismatch: {logs['1001_master']}"
 
             # SSS+ (ABのみ, FB=False)
-            assert logs["1002_lunatic"] == (1, 1, 1, 0, 0), f"1002_lunatic flags mismatch: {logs['1002_lunatic']}"
+            assert logs["1002_lunatic"] == (1, 1, 1, 1, 0), f"1002_lunatic flags mismatch: {logs['1002_lunatic']}"
 
             # 0点 (すべてFalse)
             assert logs["1003_expert"] == (0, 0, 0, 0, 0), f"1003_expert flags mismatch: {logs['1003_expert']}"
@@ -673,8 +673,7 @@ class TestRealDatabaseIntegrity:
         # 2. 曲名に依存しない初期パラメータ生成のチェック
         low_params = calculate_initial_chart_params("任意の曲A", 14.0)
         high_params = calculate_initial_chart_params("任意の曲B", 15.7)
-        assert low_params["opi_ss_x"] < low_params["opi_sss_x"] < low_params["opi_sssp_x"]
-        assert low_params["opi_sssp_x"] < low_params["opi_s_x"] < low_params["opi_abp_x"]
+        assert low_params["opi_s_x"] < low_params["opi_ss_x"] < low_params["opi_sss_x"] < low_params["opi_sssp_x"] < low_params["opi_abp_x"]
         assert high_params["opi_abp_x"] > low_params["opi_abp_x"]
 
 

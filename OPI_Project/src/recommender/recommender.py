@@ -5,7 +5,7 @@ from sqlalchemy.orm import sessionmaker
 import pandas as pd
 import logging
 from src.database.models import Chart, Player, ScoreLog
-from src.analyzer.opi_calculator import OPICalculator
+from src.analyzer.opi_calculator import OPICalculator, is_solo_version
 
 logger = logging.getLogger(__name__)
 
@@ -19,27 +19,25 @@ class OPIRecommender:
         """
         スコアログから現在の達成状況カテゴリと表示用文字列を判定する。
         戻り値: (カテゴリ, 表示文字列)
-        カテゴリ例: "未SS", "SS止まり", "SSS止まり", "SSS+止まり", "ABFB止まり", "AP"
+        カテゴリ例: "未S", "S止まり", "SS止まり", "SSS止まり", "SSS+止まり", "AB+"
         """
         if not score_log:
-            return "未SS", "未プレイ"
+            return "未S", "未プレイ"
 
         score = score_log.score or 0
-        is_ab = getattr(score_log, "is_all_break", False)
-        is_fb = getattr(score_log, "is_full_bell", False)
 
-        if score >= 1010000 or getattr(score_log, "achieve_ap", False):
-            return "AP", f"AP ({score:,})"
-        if (score >= 1007500 and is_ab and is_fb) or getattr(score_log, "achieve_abfb", False):
-            return "ABFB止まり", f"SSS+ABFB ({score:,})"
+        if score >= 1010000 or getattr(score_log, "achieve_abp", False):
+            return "AB+", f"AB+ ({score:,})"
         if score >= 1007500 or getattr(score_log, "achieve_sssp", False):
             return "SSS+止まり", f"SSS+ ({score:,})"
         if score >= 1000000 or getattr(score_log, "achieve_sss", False):
             return "SSS止まり", f"SSS ({score:,})"
         if score >= 990000 or getattr(score_log, "achieve_ss", False):
             return "SS止まり", f"SS ({score:,})"
+        if score >= 975000 or getattr(score_log, "achieve_s", False):
+            return "S止まり", f"S ({score:,})"
         
-        return "未SS", f"未SS ({score:,})"
+        return "未S", f"未S ({score:,})"
 
     def _is_target_achieved(self, score_log: Optional[ScoreLog], norm_target_rank: str) -> bool:
         """指定した目標ランクを既に達成しているかどうか判定する"""
@@ -47,19 +45,17 @@ class OPIRecommender:
             return False
 
         score = score_log.score or 0
-        is_ab = getattr(score_log, "is_all_break", False)
-        is_fb = getattr(score_log, "is_full_bell", False)
 
-        if norm_target_rank == "SS":
+        if norm_target_rank == "S":
+            return bool(getattr(score_log, "achieve_s", False) or score >= 975000)
+        elif norm_target_rank == "SS":
             return bool(getattr(score_log, "achieve_ss", False) or score >= 990000)
         elif norm_target_rank == "SSS":
             return bool(getattr(score_log, "achieve_sss", False) or score >= 1000000)
         elif norm_target_rank == "SSS+":
             return bool(getattr(score_log, "achieve_sssp", False) or score >= 1007500)
-        elif norm_target_rank == "SSS+ABFB":
-            return bool(getattr(score_log, "achieve_abfb", False) or (score >= 1007500 and is_ab and is_fb))
-        elif norm_target_rank == "AP":
-            return bool(getattr(score_log, "achieve_ap", False) or score >= 1010000)
+        elif norm_target_rank == "AB+":
+            return bool(getattr(score_log, "achieve_abp", False) or score >= 1010000)
 
         return False
 
@@ -80,18 +76,18 @@ class OPIRecommender:
 
         f = filter_rank.strip()
         # 表記ゆれの吸収
-        if f in ("未SS", "未達成", "未プレイ", "None"):
-            return current_cat == "未SS"
+        if f in ("未S", "未SS", "未達成", "未プレイ", "None"):
+            return current_cat == "未S"
+        if f in ("S止まり", "S"):
+            return current_cat == "S止まり"
         if f in ("SS止まり", "SS"):
             return current_cat == "SS止まり"
         if f in ("SSS止まり", "SSS"):
             return current_cat == "SSS止まり"
         if f in ("SSS+止まり", "SSS+", "SSSP", "SSSP止まり"):
             return current_cat == "SSS+止まり"
-        if f in ("ABFB止まり", "SSS+ABFB", "ABFB", "SSSP_ABFB"):
-            return current_cat == "ABFB止まり"
-        if f in ("AP", "理論値"):
-            return current_cat == "AP"
+        if f in ("AB+", "AB+止まり", "ABP", "AP", "理論値", "ABFB止まり"):
+            return current_cat == "AB+"
 
         return f.lower() in current_cat.lower()
 
@@ -115,7 +111,7 @@ class OPIRecommender:
     ) -> List[Dict[str, Any]]:
         """
         指定したユーザーに対する適正挑戦枠（勝率30〜70%）の楽曲をリコメンドする。
-        - target_rank: "SS", "SSS", "SSS+", "SSS+ABFB", "AP" に対応
+        - target_rank: "S", "SS", "SSS", "SSS+", "AB+" に対応
         - level: "13+", "14", "14+", "15", "15+" 等
         - chart_constant_min / chart_constant_max: 譜面定数範囲
         - current_rank: 現在の達成状況（"未SS", "SS止まり", "SSS止まり", "SSS+止まり" 等）
@@ -158,6 +154,10 @@ class OPIRecommender:
             recommendations = []
 
             for chart in charts:
+                # ソロver.楽曲は対象外
+                if is_solo_version(chart.title):
+                    continue
+
                 score_log = scores_map.get(chart.chart_id)
 
                 # 1. 達成済み判定（目標ランクを既に達成している場合は除外）
@@ -200,6 +200,8 @@ class OPIRecommender:
                     recommendations.append({
                         "chart_id": chart.chart_id,
                         "title": chart.title,
+                        "version": getattr(chart, "version", None) or "不明",
+                        "genre": getattr(chart, "genre", None) or "不明",
                         "difficulty": diff_str,
                         "level": chart.level,
                         "constant": chart.chart_constant,

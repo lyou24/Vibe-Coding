@@ -1,22 +1,32 @@
-﻿## 2026-09-13T14:41:36Z
-あなたはOPIプロジェクトのテストスイートおよびID 10605検証担当エージェント（teamwork_preview_explorer）です。
+## 2026-09-14T13:35:56Z
 
-【作業ディレクトリ】
-C:\Users\lyoul\マイドライブ\lyou_Obsidian\90_Git\OPI_Project\.agents\teamwork_preview_explorer_survey_2
+あなたは Explorer 2（DB & Logic & Ranks 担当）です。
+作業ディレクトリ: C:\Users\lyoul\AI_Project\90_Git\OPI_Project\.agents\teamwork_preview_explorer_survey_2
+プロジェクトルート: C:\Users\lyoul\AI_Project\90_Git\OPI_Project
 
-【必読ファイル（作業前に必ず精読すること）】
-- C:\Users\lyoul\マイドライブ\lyou_Obsidian\90_Git\OPI_Project\.agents\ORIGINAL_REQUEST.md
-- C:\Users\lyoul\マイドライブ\lyou_Obsidian\00_Inbox\OPI要件定義書.md
-- C:\Users\lyoul\マイドライブ\lyou_Obsidian\90_Git\OPI_Project\TEST_INFRA.md
-- C:\Users\lyoul\マイドライブ\lyou_Obsidian\90_Git\OPI_Project\PROJECT.md
+【必読ファイル】
+要求仕様書原本: C:\Users\lyoul\AI_Project\90_Git\OPI_Project\.agents\ORIGINAL_REQUEST.md
+※特に最新セクション「## 2026-09-14T13:31:31Z」を必ず熟読してください。
 
-【調査対象・任務】
-1. tests/ 配下の全テストファイル（test_tier1〜4）、challenger_test_m2.py などのテスト構造・実装内容を調査してください。
-2. 実際に pytest コマンド（.venv\Scripts\python.exe -m pytest tests -v 等）を実行し、現在のテスト合否状況、失敗しているテスト、エラー内容を詳細に特定してください。
-3. 受入基準であるテスト用ID「10605」のスコアログ、総合OPI算出（期待範囲: 2000.0〜2100.0）、リコメンド出力が正しく動作するか、実際のデータやテストケースから検証してください。
-4. テストスイートの改善点や、テストが落ちている原因、修復に向けた具体的な戦略を提案してください。
+【ミッション】
+本プロジェクトのデータベース構造、データ取得クエリ、OPI計算ロジック、ランク体系の現状を精査し、以下の要件に関する既存実装状況と改修箇所を詳細に調査・特定してください。
 
-【出力要件】
-- 作業ディレクトリ内に report.md および handoff.md を作成してください。
-- 調査完了後、親エージェント（オーケストレーター）へ send_message で完了報告を行ってください。
-- 全ての思考・ドキュメント・メッセージは日本語で記述してください。
+1. R1関連（DB・内部クエリの新5段階ランク対応）:
+   - データベース（SQLiteファイル等の場所・スキーマ）。
+   - DB内のランクカラム（S, SS, SSS, SSS+, AB+）のデータ格納状況（マイグレーション済みか？）。
+   - アプリケーションコード側（データ取得関数、SQLクエリ、pandas集計等）に残る旧ランク（SSS+ABFB, AP）の参照箇所と修正方針。
+2. R2関連（リコメンド内部クエリ・フィルタリングロジック）:
+   - リコメンドデータの抽出クエリ・フィルタロジック。
+   - レベル・ランクが複数指定された場合のクエリ/フィルタ対応方針。
+   - 「クリア割合」の範囲フィルタ（min〜max）のロジック。
+3. R3関連（マイ難易度表のデータ取得・判定ロジック）:
+   - ユーザーの楽曲別達成状況（スコア・ランク等）を取得・判定するクエリやロジック。
+   - ユーザーが特定楽曲で目標ランクを達成済みかどうかを判定するためのデータフロー。
+4. R4関連（散布図用データ集計）:
+   - ユーザー全体のレーティング生値および総合OPIデータの取得元・データフレーム構造。
+   - 選択されたユーザーのレーティング・総合OPIの特定方法。
+
+【制約・注意事項】
+- あなたは読み取り専用のExplorerです。ソースコードの作成・変更は絶対に行わないでください。
+- 思考、レポート、メッセージ等すべての出力は日本語で行ってください。
+- 調査結果は作業ディレクトリ内の `handoff.md` にまとめ、完了したら親オーケストレーターに `send_message` で報告してください。

@@ -1,76 +1,74 @@
-﻿# Project: OPI (Ongeki Power Indicator) Web Application
+# Project: OPI Web Application Enhancement (Streamlit)
 
 ## Architecture
-- **Web UI & Presentation**: Streamlit (`app.py`)
-- **Core Algorithms**:
-  - Item Response Theory (2PL IRT) MLE Estimation (`src/analyzer/opi_calculator.py`)
-  - Recommendation Engine with Multi-dimensional Filters (`src/recommender/recommender.py`)
-  - Visualization Engine with Interactive Matplotlib / Streamlit (`src/visualizer/plotter.py`)
-- **Data & Crawling**:
-  - SQLite Database (`data/opi_database.sqlite`, `src/models/schema.py`)
-  - Web Scraping & Diff Crawling (`src/crawler/ongeki_crawler.py`)
-  - Data Seeding & Offline Fixtures (`seed.py`, `data/seed_data.json`)
-- **Distribution & Portability**:
-  - Windows Batch Launcher with Auto-Bootstrap (`run_opi.bat`)
-
----
+- **Web UI**: Streamlit (`app.py`) を中心としたフロントエンド。タブ構成:
+  - Tab 1: 🎯 リコメンド楽曲
+  - Tab 2: 📊 統計・分布図
+  - Tab 3: 📜 OPI難易度表
+  - Tab 4: ⭐ マイOPI難易度表（新規追加）
+- **Core Analytics**:
+  - `src/analyzer/opi_calculator.py`: OPI算出、正規化、プレイヤー統計、MLE推定
+  - `src/analyzer/opi_policy.py`: 新5段階ランク（S, SS, SSS, SSS+, AB+）の基準値・アンカー定義
+  - `src/recommender/recommender.py`: リコメンド抽出、フィルタリング、現在ランク判定、既達成判定
+  - `src/visualizer/visualizer.py`: Plotlyを用いたインタラクティブ動的散布図生成（Rating vs OPI）
+- **Database & Storage**:
+  - SQLite (`data/opi_database.sqlite`)
+  - `charts` テーブル: 新5段階ランク対応（`opi_s_x`, `opi_s_y`, `opi_ss_x`, `opi_sss_x`, `opi_sssp_x`, `opi_abp_x`）
+  - `score_logs` テーブル: 新5段階ランク対応（`achieve_s`, `achieve_ss`, `achieve_sss`, `achieve_sssp`, `achieve_abp`）
+  - `players` テーブル: 全2,505名（テストユーザーID: `10605`）
 
 ## Feature Inventory
 | # | Feature | Description | Milestone | Source |
 |---|---------|-------------|-----------|--------|
-| F-01 | データベース・ORMモデル | charts, players, score_logs のテーブル定義および2PLパラメータ保持 | M2 | 要件定義書 2.1 |
-| F-02 | データ収集・差分クローラー | OngekiScoreLogからのプロフィール・スコア取得と差分更新・強制更新 | M2 | 要件定義書 1.2 |
-| F-03 | OPI算出アルゴリズム | 2PL IRTモデルに基づく全5目標ランク（SS〜AP）統合最尤推定（L2正則化） | M3 | 要件定義書 2.2 |
-| F-04 | 総合OPI算出・初期化 | プレイヤーの全スコアログから総合OPIを算出しDB保持（初期表示保証） | M2 | 要件定義書 2.2 |
-| F-05 | リコメンドエンジン | 総合OPIに対する勝率30%〜70%の未達成楽曲抽出と多次元フィルター | M3 | 要件定義書 2.3 |
-| F-06 | 分布図・可視化 | レーティング帯別OPI分布・回帰直線およびプレイヤープロット | M3 | 要件定義書 3.2 |
-| F-07 | 難易度表表示 | 定数帯・目標ランク別の適正OPI難易度一覧表示 | M3 | 要件定義書 3.4 |
-| F-08 | 配布ブートストラップ | Windows環境で未セットアップ時にvenv生成とpip installを自動実行 | M1 | 要件定義書 AC2 |
-| F-09 | ID 10605 統合テスト | テスト用ID 10605 でのOPI算出（2000〜2100）およびリコメンド出力確認 | M4 | 要件定義書 AC1 |
-| F-10 | ドキュメント履歴更新 | OPI要件定義書.md の非破壊的更新（追記・取り消し線のみ） | M4 | 要件定義書 AC3 |
-
----
+| 1 | 依存パッケージのPlotly追加 | requirements.txt に plotly を追加し環境インストール | M1 | Survey (Explorer 3) |
+| 2 | 新5段階ランク完全対応 (R1) | UI表示・内部クエリ・シード・集計における旧ランク（SSS+ABFB, AP）の全廃と新5段階（S, SS, SSS, SSS+, AB+）への完全置換 | M1 | ORIGINAL_REQUEST §R1 |
+| 3 | リコメンドUI高度化 (R2) | レベル・ランクのマルチセレクト（未選択時全対象表示）、0〜100%「クリア割合」範囲スライダーの実装と文言改称 | M2 | ORIGINAL_REQUEST §R2 |
+| 4 | OPI難易度表グリッド化 (R3) | 100 OPIごとの帯域グリッド表示および難易度降順ソートの徹底 | M3 | ORIGINAL_REQUEST §R3 |
+| 5 | マイOPI難易度表の実装 (R3) | 選択ユーザーの達成済み楽曲セルを色付きハイライト（背景色・バッジ）する新ビュー/タブの実装 | M3 | ORIGINAL_REQUEST §R3 |
+| 6 | レーティング vs OPI 動的散布図 (R4) | Plotlyによるインタラクティブ動的散布図の実装と、選択ユーザーの現在位置ハイライト（星型マーカー） | M4 | ORIGINAL_REQUEST §R4 |
+| 7 | E2Eテスト自動検証ハーネス構築 | Streamlit AppTest を活用した受入基準（AC-1〜AC-6）の自動検証テストスイート構築 | E2E Track | ORIGINAL_REQUEST §Acceptance Criteria |
+| 8 | トークン・リソース管理と引き継ぎ書作成 (R5) | フェーズごとのリソース確認と安全な完了報告・引き継ぎ書作成 | Final Milestone | ORIGINAL_REQUEST §R5 |
 
 ## Milestones
 | # | Name | Scope | Dependencies | Status |
 |---|------|-------|-------------|--------|
-| M1 | 配布ブートストラップ & パス動的化 | `run_opi.bat` の自動venv作成・pipインストール実装、ハードコードパス解消 | none | DONE |
-| M2 | データ層・クローラー・初期化修復 | `seed.py` での初期OPI算出、`ongeki_crawler.py` の差分閉塞解消、`(title, diff)` 厳密照合 | M1 | DONE |
-| M3 | WebUI・OPI/リコメンド完全統合 | `app.py` の5ランク統合OPI算出、多次元フィルターUI、境界値分類修正、NaN/infガード | M2 | DONE |
-| M4 | 総合E2E検証 & ドキュメント非破壊更新 | 全テスト100%パス、ID 10605 実動作検証、`OPI要件定義書.md` 履歴更新、Gitプッシュ | M3 | DONE |
-| M5 | フォレンジック監査 & 最終判定 | `teamwork_preview_auditor` による完全性検証、Sentinel完了報告 | M4 | DONE |
-
----
+| E2E | E2E Testing Track | AppTestを用いた新受入基準テストスイート（AC-1〜AC-6）の構築と TEST_READY.md 公開 | none | DONE |
+| 1 | M1: 依存環境更新 & 新5段階ランク完全対応 (R1) | requirements.txt, app.py, opi_calculator.py, recommender.py, seed.py, main.py の旧ランク排除と新ランク対応 | none | DONE |
+| 2 | M2: リコメンドUI高度化 (R2) | app.py のリコメンドUI（未選択時全対象マルチセレクト、0〜100%クリア割合スライダー） | M1 | IN_PROGRESS |
+| 3 | M3: 難易度表グリッド化 & マイ難易度表 (R3) | 100 OPI帯降順グリッド化、マイOPI難易度表タブ実装と達成セルハイライト | M1 | PLANNED |
+| 4 | M4: レーティング vs OPI 動的散布図 (R4) | visualizer.py の Plotly 散布図生成、app.py の動的表示とユーザー位置ハイライト | M1 | PLANNED |
+| Final | Final Milestone: 100% E2E Pass & Coverage Hardening | E2Eテスト全件通過の確認、アドバーサリアル検証、引き継ぎ書作成 (R5) | E2E, M1, M2, M3, M4 | PLANNED |
 
 ## Interface Contracts
-### `src/crawler/ongeki_crawler.py` ↔ `app.py`
-- `fetch_user_profile(user_id: int, last_crawled_at: Optional[datetime] = None, force: bool = False) -> Optional[Dict]`
-- `fetch_user_scores(user_id: int) -> List[Dict]`
+### `src/analyzer/opi_calculator.py`
+- `normalize_rank(rank_str: str) -> str`:
+  - `"S" -> "S"`, `"SS" -> "SS"`, `"SSS" -> "SSS"`, `"SSS+" -> "SSS+"`, `"AB+" -> "AB+"`
+  - 入力エイリアス: `"ABP", "AP" -> "AB+"`
+- `get_chart_rank_params(chart, rank_str: str) -> tuple[float, float]`:
+  - `"S" -> (chart.opi_s_x, chart.opi_s_y)`
+  - `"AB+" -> (chart.opi_abp_x, chart.opi_abp_y)`
+- `build_user_achievements(score_logs) -> list[tuple[str, bool]]`:
+  - 順序: `[("S", ach_s), ("SS", ach_ss), ("SSS", ach_sss), ("SSS+", ach_sssp), ("AB+", ach_abp)]`
 
-### `src/analyzer/opi_calculator.py` ↔ `app.py`
-- `build_user_achievements(charts: List[Chart], scores: List[ScoreLog]) -> List[Dict[str, Any]]`
-  - Returns `[{'x': float, 'y': float, 'achieved': int}, ...]` across all 5 target ranks.
-- `estimate_user_opi(achievements: List[Dict[str, Any]], initial_theta: float = 1500.0) -> float`
+### `src/recommender/recommender.py`
+- `_determine_current_rank(score_log) -> tuple[str, str]`:
+  - 判定順: `AB+` (>=1010000 or achieve_abp) → `SSS+止まり` (>=1007500 or achieve_sssp) → `SSS止まり` (>=1000000 or achieve_sss) → `SS止まり` (>=990000 or achieve_ss) → `S止まり` (>=975000 or achieve_s) → `未S`
+- `_is_target_achieved(score_log, target_rank: str) -> bool`:
+  - `"S"`: score >= 975000 or achieve_s
+  - `"AB+"`: score >= 1010000 or achieve_abp
 
-### `src/recommender/recommender.py` ↔ `app.py`
-- `get_recommendations(user_id: int, target_rank: str = "SSS", level: Optional[str] = None, chart_constant_min: Optional[float] = None, chart_constant_max: Optional[float] = None, current_rank: Optional[str] = None, limit: int = 15) -> List[Dict[str, Any]]`
-
----
+### `src/visualizer/visualizer.py`
+- `create_distribution_figure(player_rating: Optional[float] = None, player_opi: Optional[float] = None, player_name: str = "あなた") -> plotly.graph_objects.Figure`:
+  - 全プレイヤー散布図（rating >= 17.75, total_opi）
+  - 選択ユーザー位置ハイライト（赤い星型マーカー）
 
 ## Code Layout
-- `90_Git/OPI_Project/` (または `OPI_Project/`)
-  - `app.py`: Streamlit Webアプリケーション
-  - `main.py`: CLI実行スクリプト
-  - `seed.py`: 初期データ投入スクリプト
-  - `run_opi.bat`: Windows用ブートストラップ起動バッチ
-  - `requirements.txt`: 依存ライブラリ一覧
-  - `data/`: SQLiteデータベース、シードJSON
-  - `src/`:
-    - `models/schema.py`: SQLAlchemy ORM
-    - `analyzer/opi_calculator.py`: 2PL IRT MLE 算出
-    - `recommender/recommender.py`: リコメンドロジック
-    - `visualizer/plotter.py`: グラフ描画
-    - `crawler/ongeki_crawler.py`: クローラー
-  - `tests/`: pytest テストスイート（Tiers 1〜4）
-
-
+- `app.py`: Streamlit フロントエンド（UI表示、フィルタ、タブ、グリッド）
+- `requirements.txt`: 依存パッケージ一覧
+- `src/analyzer/opi_calculator.py`: OPI算出ロジック
+- `src/analyzer/opi_policy.py`: ランク体系基準定義
+- `src/recommender/recommender.py`: リコメンドロジック
+- `src/visualizer/visualizer.py`: Plotly可視化
+- `seed.py`: シードデータ投入スクリプト
+- `main.py`: CLI実行エントリーポイント
+- `tests/test_tier4_m4_new_acceptance.py`: 新受入基準E2Eテスト

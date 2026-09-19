@@ -15,6 +15,7 @@ if PROJECT_ROOT not in sys.path:
 from src.database.models import init_db, get_session_maker, Chart, Player, ScoreLog, DifficultyEnum
 from src.crawler.ongeki_crawler import OngekiCrawler
 from src.analyzer.opi_calculator import OPICalculator
+from src.analyzer.opi_overrides import get_fixed_rank_opi
 from src.analyzer.opi_policy import calculate_initial_chart_params as calculate_policy_params
 
 DB_FILE = os.path.join(PROJECT_ROOT, "data", "opi_database.sqlite")
@@ -150,16 +151,17 @@ def seed_database(seed_data: Dict[str, Any], db_path: str = DB_FILE, include_pop
             chart_obj.chart_constant = constant
             chart_obj.is_active = True
             
+            chart_obj.opi_s_x = opi_params["opi_s_x"]
+            chart_obj.opi_s_y = opi_params["opi_s_y"]
             chart_obj.opi_ss_x = opi_params["opi_ss_x"]
             chart_obj.opi_ss_y = opi_params["opi_ss_y"]
             chart_obj.opi_sss_x = opi_params["opi_sss_x"]
             chart_obj.opi_sss_y = opi_params["opi_sss_y"]
             chart_obj.opi_sssp_x = opi_params["opi_sssp_x"]
             chart_obj.opi_sssp_y = opi_params["opi_sssp_y"]
-            chart_obj.opi_abfb_x = opi_params["opi_abfb_x"]
-            chart_obj.opi_abfb_y = opi_params["opi_abfb_y"]
-            chart_obj.opi_ap_x = opi_params["opi_ap_x"]
-            chart_obj.opi_ap_y = opi_params["opi_ap_y"]
+            fixed_abp_x = get_fixed_rank_opi(cid, "AB+")
+            chart_obj.opi_abp_x = fixed_abp_x if fixed_abp_x is not None else opi_params["opi_abp_x"]
+            chart_obj.opi_abp_y = opi_params["opi_abp_y"]
 
         session.commit()
         total_charts = session.query(Chart).count()
@@ -220,11 +222,11 @@ def seed_database(seed_data: Dict[str, Any], db_path: str = DB_FILE, include_pop
             log_obj.score = score_val
             log_obj.is_all_break = is_ab
             log_obj.is_full_bell = is_fb
+            log_obj.achieve_s = score_val >= 975000
             log_obj.achieve_ss = score_val >= 990000
             log_obj.achieve_sss = score_val >= 1000000
             log_obj.achieve_sssp = score_val >= 1007500
-            log_obj.achieve_abfb = (score_val >= 1007500 and is_ab and is_fb)
-            log_obj.achieve_ap = score_val == 1010000
+            log_obj.achieve_abp = score_val >= 1010000
 
         if matched_chart_ids:
             session.query(ScoreLog).filter(

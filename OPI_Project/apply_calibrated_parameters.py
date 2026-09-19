@@ -4,6 +4,9 @@ import sqlite3
 from pathlib import Path
 from collections import defaultdict
 
+from src.analyzer.opi_calculator import is_solo_version
+from src.analyzer.opi_overrides import ABP_FIXED_CHART_IDS, ABP_FIXED_OPI
+
 
 PROJECT_ROOT = Path(__file__).resolve().parent
 CALIBRATION_DB = PROJECT_ROOT / "data" / "opi_calibration.sqlite"
@@ -54,13 +57,23 @@ def main():
     
     # 本番DBを更新
     master_conn = sqlite3.connect(MASTER_DB)
+    master_conn.row_factory = sqlite3.Row
     master_cursor = master_conn.cursor()
+    chart_meta = {
+        row["chart_id"]: dict(row)
+        for row in master_conn.execute(
+            "SELECT chart_id, title, difficulty, level, chart_constant FROM charts"
+        )
+    }
     
     update_counts = 0
     chart_params = defaultdict(dict)
     
     for row in estimates:
         chart_id = row["chart_id"]
+        meta = chart_meta.get(chart_id)
+        if not meta or is_solo_version(meta["title"]):
+            continue
         target_rank = row["target_rank"]
         x = row["x"]
         y = row["y"]
@@ -79,16 +92,27 @@ def main():
         chart_params[chart_id][target_rank] = x
         chart_params[chart_id]["chart_id"] = chart_id
 
+    # AB+の達成観測が不足する指定譜面は、明示定義した適正OPIを優先する。
+    for chart_id in ABP_FIXED_CHART_IDS:
+        meta = chart_meta.get(chart_id)
+        if not meta or is_solo_version(meta["title"]):
+            continue
+        master_cursor.execute(
+            """
+            UPDATE charts
+               SET opi_abp_x = ?
+             WHERE chart_id = ?
+               AND (opi_abp_x IS NULL OR ABS(opi_abp_x - ?) > 0.000000001)
+            """,
+            (ABP_FIXED_OPI, chart_id, ABP_FIXED_OPI),
+        )
+        update_counts += master_cursor.rowcount
+        chart_params[chart_id]["AB+"] = ABP_FIXED_OPI
+        chart_params[chart_id]["chart_id"] = chart_id
+
     master_conn.commit()
     
     # 譜面のメタデータを取得してマークダウン出力用データを作成
-    master_conn.row_factory = sqlite3.Row
-    charts = master_conn.execute(
-        "SELECT chart_id, title, difficulty, level, chart_constant FROM charts"
-    ).fetchall()
-    
-    chart_meta = {c["chart_id"]: dict(c) for c in charts}
-    
     table_data = []
     for chart_id, params in chart_params.items():
         meta = chart_meta.get(chart_id)

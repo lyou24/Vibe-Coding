@@ -1,21 +1,8 @@
-# Progress — teamwork_preview_explorer_survey_3
+# Progress — Explorer 3 (Survey: Environment & Tests & Verification)
+Last visited: 2026-09-14T13:40:00Z
+Status: In Progress - All core investigations completed, compiling handoff report.
+- 項目1 (実行環境・依存): Python 3.14.7, requirements.txt, Plotly未導入検出
+- 項目2 (既存テスト状況): 174テスト中151パス/23失敗、旧ランク依存不整合検出
+- 項目3 (受入基準自動検証): Streamlit AppTest適用可能確認、R1〜R4ハーネス設計完了
+- 項目4 (テストデータ): ID 10605 (397 scores, sample HTML) および 2,505名DB確認済み
 
-Last visited: 2026-09-13T23:45:20+09:00
-
-## Status
-- [x] 初期設定（DISPATCH.md, BRIEFING.md, progress.md）
-- [x] 必読ファイル精読（ORIGINAL_REQUEST.md, OPI要件定義書.md, PROJECT.md）
-- [x] 配布・ポータビリティ（R2）の調査（run_opi.bat, requirements.txt, Python仮想環境）
-  - run_opi.batの自動ブートストラップ機構、UTF-8対応、パス非依存性の確認完了
-  - test_challenger1_m1_harness によるブートストラップ自動テストパス確認
-- [x] GitリポジトリとGitHub連携（R4）の調査（status, log, remote, push可否検証）
-  - Gitリポジトリルートが `90_Git` であることの特定
-  - `origin https://github.com/lyou24/Vibe-Coding.git` との接続・プッシュ（dry-run）検証成功
-  - .gitignore不在に伴う `__pycache__` のGit追跡状況の特定
-- [x] 要件定義書の履歴更新（R3）の調査（現在の状態、履歴更新ルール・フォーマット整理）
-  - 削除厳禁・追記/取り消し線のみのルール確認
-  - `test_tier4_realworld_acceptance.py` 内のAC3非破壊更新テストハーネスの確認
-- [x] テストスイート完了確認（全100件合格 / 100 passed in 33.87s）
-- [x] report.md 作成完了
-- [x] handoff.md 作成完了
-- [x] 親エージェントへの send_message 完了報告

@@ -41,6 +41,16 @@ def test_seed_params_and_calculator_fallback_are_identical():
         assert y == generated[f"opi_{column_name}_y"]
 
 
+def test_fixed_abp_opi_overrides_db_and_fallback_values():
+    calc = OPICalculator()
+    chart = make_chart("808_master", 15.9)
+    chart.opi_abp_x = 2080.0
+    chart.opi_abp_y = 52.0
+
+    assert calc.get_chart_rank_params(chart, "AB+") == (2500.0, 52.0)
+    assert calc.get_chart_rank_params(chart, "SSS")[0] != 2500.0
+
+
 def test_achievement_filters_are_explicit_at_score_and_constant_boundaries():
     calc = OPICalculator()
     charts = [make_chart("below_constant", 13.9), make_chart("target", 14.0)]

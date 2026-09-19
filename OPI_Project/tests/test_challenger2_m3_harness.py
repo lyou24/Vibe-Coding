@@ -1,4 +1,4 @@
-﻿import os
+import os
 import sys
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 """
@@ -103,32 +103,32 @@ class TestChallenger2M3DifficultyTable:
             opi_abp_x=None
         )
 
-        target_ranks = ["SS", "SSS", "SSS+", "S", "AB+"]
+        target_ranks = ["S", "SS", "SSS", "SSS+", "AB+"]
         params = {}
         for rank in target_ranks:
             x, y = calc.get_chart_rank_params(chart_mock, rank)
             assert x is not None, f"補完値が存在すること: {rank}"
             params[rank] = x
 
-        # 基準アンカー補完における厳密な単調増加: SS < SSS < SSS+ < S < AP
+        # 基準アンカー補完における厳密な単調増加: S < SS < SSS < SSS+ < AB+
+        assert params["S"] < params["SS"], f"S({params['S']}) < SS({params['SS']})"
         assert params["SS"] < params["SSS"], f"SS({params['SS']}) < SSS({params['SSS']})"
         assert params["SSS"] < params["SSS+"], f"SSS({params['SSS']}) < SSS+({params['SSS+']})"
-        assert params["SSS+"] < params["S"], f"SSS+({params['SSS+']}) < S({params['S']})"
-        assert params["S"] < params["AB+"], f"S({params['S']}) < AP({params['AB+']})"
+        assert params["SSS+"] < params["AB+"], f"SSS+({params['SSS+']}) < AB+({params['AB+']})"
 
         # 仕様オフセットの厳密一致確認
         sss_val = params["SSS"]
+        assert params["S"] == pytest.approx(sss_val - 240.0)
         assert params["SS"] == pytest.approx(sss_val - 120.0)
         assert params["SSS+"] == pytest.approx(sss_val + 120.0)
-        assert params["S"] == pytest.approx(sss_val + 240.0)
-        assert params["AB+"] == pytest.approx(sss_val + 360.0)
+        assert params["AB+"] == pytest.approx(sss_val + 240.0)
 
     def test_difficulty_table_real_db_macro_rank_consistency(self):
-        """実DB全譜面におけるマクロ的ランク難易度順序（平均値の序列: SS < SSS < SSS+ < S < AP）を検証"""
+        """実DB全譜面におけるマクロ的ランク難易度順序（平均値の序列: S < SS < SSS < SSS+ < AB+）を検証"""
         charts = self.session.query(Chart).all()
         assert len(charts) > 0
 
-        target_ranks = ["SS", "SSS", "SSS+", "S", "AB+"]
+        target_ranks = ["S", "SS", "SSS", "SSS+", "AB+"]
         rank_means = {}
 
         for rank in target_ranks:
@@ -141,7 +141,7 @@ class TestChallenger2M3DifficultyTable:
             rank_means[rank] = np.mean(values)
 
         # マクロ的な平均適正OPIの序列が正しく反映されていること
-        assert rank_means["SS"] < rank_means["SSS"] < rank_means["SSS+"] < rank_means["S"] < rank_means["AB+"], \
+        assert rank_means["S"] < rank_means["SS"] < rank_means["SSS"] < rank_means["SSS+"] < rank_means["AB+"], \
             f"マクロ平均難易度の序列が不正です: {rank_means}"
 
     def test_difficulty_table_anomalous_corrupted_charts_resilience(self):

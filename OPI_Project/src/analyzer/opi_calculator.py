@@ -2,7 +2,9 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 import numpy as np
 from scipy.optimize import minimize, minimize_scalar
 import logging
+import unicodedata
 
+from src.analyzer.opi_overrides import get_fixed_rank_opi
 from src.analyzer.opi_policy import calculate_fallback_rank_params
 
 logger = logging.getLogger(__name__)
@@ -11,21 +13,27 @@ TARGET_RANKS = ["S", "SS", "SSS", "SSS+", "AB+"]
 MIN_TARGET_CONSTANT = 14.0
 MIN_ELIGIBLE_SCORE = 970000
 
+
+def is_solo_version(title: str) -> bool:
+    """表記幅や大文字小文字にかかわらずソロ版を判定する。"""
+    normalized = unicodedata.normalize("NFKC", title or "").casefold()
+    return "ソロver" in normalized
+
 def normalize_rank(rank: str) -> str:
     """目標ランク文字列を正規化する"""
     if not rank:
         return "SSS"
     r = rank.strip().upper()
+    if r in ("S",):
+        return "S"
     if r in ("SS",):
         return "SS"
     if r in ("SSS",):
         return "SSS"
     if r in ("SSS+", "SSSP", "SSS_PLUS"):
         return "SSS+"
-    if r in ("AB+", "ABP"):
+    if r in ("AB+", "ABP", "AP", "ALL PERFECT", "ALLPERFECT"):
         return "AB+"
-    if r in ("AP", "ALL PERFECT", "ALLPERFECT"):
-        return "S"
     return r
 
 class OPICalculator:
@@ -44,11 +52,15 @@ class OPICalculator:
         初期パラメータと同じ共通ポリシーから補完する。
         """
         norm_rank = normalize_rank(target_rank)
+        fixed_x = get_fixed_rank_opi(getattr(chart, "chart_id", None), norm_rank)
         
         # 1. カラムから直接取得
         x = None
         y = None
-        if norm_rank == "SS":
+        if norm_rank == "S":
+            x = getattr(chart, "opi_s_x", None)
+            y = getattr(chart, "opi_s_y", None)
+        elif norm_rank == "SS":
             x = getattr(chart, "opi_ss_x", None)
             y = getattr(chart, "opi_ss_y", None)
         elif norm_rank == "SSS":
@@ -57,12 +69,13 @@ class OPICalculator:
         elif norm_rank == "SSS+":
             x = getattr(chart, "opi_sssp_x", None)
             y = getattr(chart, "opi_sssp_y", None)
-        elif norm_rank == "SSS+ABFB":
-            x = getattr(chart, "opi_s_x", None)
-            y = getattr(chart, "opi_s_y", None)
-        elif norm_rank == "AP":
+        elif norm_rank == "AB+":
             x = getattr(chart, "opi_abp_x", None)
             y = getattr(chart, "opi_abp_y", None)
+
+        # 実データでは安定推定できない指定譜面のAB+は明示値を優先する。
+        if fixed_x is not None:
+            x = fixed_x
 
         # 2. 個人差度 y のフォールバック
         if y is None or y <= 0:
@@ -206,6 +219,11 @@ class OPICalculator:
             if not chart:
                 continue
 
+            # ソロver.楽曲はOPI算出対象外
+            chart_title = getattr(chart, "title", "")
+            if is_solo_version(chart_title):
+                continue
+
             score_val = getattr(s, "score", 0) or 0
             chart_constant = getattr(chart, "chart_constant", None)
             if min_score is not None and score_val < min_score:
@@ -218,18 +236,18 @@ class OPICalculator:
             is_ab = getattr(s, "is_all_break", False)
             is_fb = getattr(s, "is_full_bell", False)
 
+            ach_s = getattr(s, "achieve_s", False) or (score_val >= 975000)
             ach_ss = getattr(s, "achieve_ss", False) or (score_val >= 990000)
             ach_sss = getattr(s, "achieve_sss", False) or (score_val >= 1000000)
             ach_sssp = getattr(s, "achieve_sssp", False) or (score_val >= 1007500)
-            ach_abfb = getattr(s, "achieve_s", False) or (score_val >= 1007500 and is_ab and is_fb)
-            ach_ap = getattr(s, "achieve_abp", False) or (score_val >= 1010000)
+            ach_abp = getattr(s, "achieve_abp", False) or (score_val >= 1010000)
 
             rank_status = [
+                ("S", ach_s),
                 ("SS", ach_ss),
                 ("SSS", ach_sss),
                 ("SSS+", ach_sssp),
-                ("SSS+ABFB", ach_abfb),
-                ("AP", ach_ap),
+                ("AB+", ach_abp),
             ]
 
             for rank_name, ach in rank_status:

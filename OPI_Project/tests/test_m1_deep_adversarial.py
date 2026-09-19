@@ -205,7 +205,7 @@ class TestProductionDataAndSpecParamsAudit:
         assert params == same_constant_params
         assert params["opi_sss_x"] == 1840.0
         assert params["opi_sss_y"] == 40.0
-        assert params["opi_abp_x"] == 2200.0
+        assert params["opi_abp_x"] == 2080.0
         assert params["opi_abp_y"] == 40.0
 
     def test_production_db_recollect_lines_record(self):
@@ -225,7 +225,7 @@ class TestProductionDataAndSpecParamsAudit:
         assert recollect_master is not None, "Recollect Lines (MASTER) chart not found in production DB"
         assert recollect_master.chart_constant == 15.7
         assert recollect_master.opi_sss_x == 1840.0
-        assert recollect_master.opi_abp_x == 2200.0
+        assert recollect_master.opi_abp_x == 2080.0
         session.close()
         engine.dispose()
 
@@ -269,18 +269,18 @@ class TestScoreAchievementFlagsBoundaries:
         db_path, engine = temp_db
 
         test_cases = [
-            # (score, is_ab, is_fb, exp_ss, exp_sss, exp_sssp, exp_abfb, exp_ap)
-            (989999, False, False, False, False, False, False, False),
-            (990000, False, False, True,  False, False, False, False),
-            (999999, False, False, True,  False, False, False, False),
-            (1000000, False, False, True,  True,  False, False, False),
-            (1007499, True,  True,  True,  True,  False, False, False), # 1007500未満はABFB不成立
-            (1007500, False, False, True,  True,  True,  False, False),
-            (1007500, True,  False, True,  True,  True,  False, False), # FBなし
-            (1007500, False, True,  True,  True,  True,  False, False), # ABなし
-            (1007500, True,  True,  True,  True,  True,  True,  False), # ABFB成立
+            # (score, is_ab, is_fb, exp_s, exp_ss, exp_sss, exp_sssp, exp_abp)
+            (974999, False, False, False, False, False, False, False),
+            (975000, False, False, True,  False, False, False, False),
+            (989999, False, False, True,  False, False, False, False),
+            (990000, False, False, True,  True,  False, False, False),
+            (999999, False, False, True,  True,  False, False, False),
+            (1000000, False, False, True,  True,  True,  False, False),
+            (1007499, True,  True,  True,  True,  True,  False, False),
+            (1007500, False, False, True,  True,  True,  True,  False),
+            (1007500, True,  True,  True,  True,  True,  True,  False),
             (1009999, True,  True,  True,  True,  True,  True,  False),
-            (1010000, True,  True,  True,  True,  True,  True,  True),  # AP成立
+            (1010000, True,  True,  True,  True,  True,  True,  True),
         ]
 
         music_master = [
@@ -316,11 +316,11 @@ class TestScoreAchievementFlagsBoundaries:
             cid = f"c_{i}"
             log = session.query(ScoreLog).filter_by(user_id=555, chart_id=cid).first()
             assert log is not None
-            assert log.achieve_ss == tc[3], f"Case {i} SS mismatch"
-            assert log.achieve_sss == tc[4], f"Case {i} SSS mismatch"
-            assert log.achieve_sssp == tc[5], f"Case {i} SSSP mismatch"
-            assert log.achieve_s == tc[6], f"Case {i} ABFB mismatch"
-            assert log.achieve_abp == tc[7], f"Case {i} AP mismatch"
+            assert log.achieve_s == tc[3], f"Case {i} S mismatch"
+            assert log.achieve_ss == tc[4], f"Case {i} SS mismatch"
+            assert log.achieve_sss == tc[5], f"Case {i} SSS mismatch"
+            assert log.achieve_sssp == tc[6], f"Case {i} SSSP mismatch"
+            assert log.achieve_abp == tc[7], f"Case {i} ABP mismatch"
 
         session.close()
 

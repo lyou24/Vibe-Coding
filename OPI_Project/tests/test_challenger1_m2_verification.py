@@ -44,8 +44,8 @@ def test_seed_execution_and_user_10605_opi():
     assert isinstance(total_opi, float), f"total_opi が float 型ではありません: {type(total_opi)}"
     assert not math.isnan(total_opi), "total_opi が NaN です"
     assert not math.isinf(total_opi), "total_opi が Inf です"
-    assert 1460.0 <= total_opi <= 1475.0, f"total_opi ({total_opi}) が14.0以上対象の期待値（約1468.1）から乖離しています"
-    assert abs(total_opi - 1468.11) < 0.5, f"total_opi ({total_opi}) が 1468.11 から外れています"
+    assert 1410.0 <= total_opi <= 1440.0, f"total_opi ({total_opi}) が新5段階ランク対象の期待値（約1423.6）から乖離しています"
+    assert abs(total_opi - 1423.6) < 1.0, f"total_opi ({total_opi}) が 1423.6 から外れています"
     assert rating == 19.95, f"rating ({rating}) が期待値 19.95 と一致しません"
 
 
@@ -114,13 +114,12 @@ def test_score_log_flags_integrity():
     conn.close()
 
     assert len(rows) > 0, "スコアログが存在しません"
-    for s, is_ab, is_fb, ss, sss, sssp, abfb, ap in rows:
+    for s, is_ab, is_fb, ss, sss, sssp, s_flag, abp in rows:
+        assert bool(s_flag) == (s >= 975000), f"achieve_s 不整合: score={s}, flag={s_flag}"
         assert bool(ss) == (s >= 990000), f"achieve_ss 不整合: score={s}, flag={ss}"
         assert bool(sss) == (s >= 1000000), f"achieve_sss 不整合: score={s}, flag={sss}"
         assert bool(sssp) == (s >= 1007500), f"achieve_sssp 不整合: score={s}, flag={sssp}"
-        expected_abfb = (s >= 1007500 and bool(is_ab) and bool(is_fb))
-        assert bool(abfb) == expected_abfb, f"achieve_s 不整合: score={s}, ab={is_ab}, fb={is_fb}, flag={abfb}"
-        assert bool(ap) == (s == 1010000), f"achieve_abp 不整合: score={s}, flag={ap}"
+        assert bool(abp) == (s >= 1010000), f"achieve_abp 不整合: score={s}, flag={abp}"
 
 
 def test_crawler_force_flag_adversarial():

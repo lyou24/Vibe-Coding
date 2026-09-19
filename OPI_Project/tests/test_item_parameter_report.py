@@ -51,10 +51,10 @@ def test_dry_run_report_estimates_each_rank_without_writing(
     assert report["item_count"] == 5
     assert report["estimable_count"] == 5
     assert [item["target_rank"] for item in report["estimates"]] == [
+        "S",
         "SS",
         "SSS",
         "SSS+",
-        "S",
         "AB+",
     ]
     assert test_session.query(ScoreLog).count() == before_score_count

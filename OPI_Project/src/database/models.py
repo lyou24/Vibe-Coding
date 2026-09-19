@@ -1,6 +1,6 @@
 import os
 from datetime import datetime
-from sqlalchemy import create_engine, Column, Integer, String, Float, Boolean, DateTime, ForeignKey, Enum, UniqueConstraint
+from sqlalchemy import create_engine, Column, Integer, String, Float, Boolean, DateTime, ForeignKey, Enum, UniqueConstraint, inspect, text
 from sqlalchemy.orm import declarative_base, relationship, sessionmaker
 import enum
 
@@ -19,6 +19,8 @@ class Chart(Base):
 
     chart_id = Column(String(64), primary_key=True, index=True)
     title = Column(String(255), nullable=False)
+    version = Column(String(64), nullable=True)
+    genre = Column(String(64), nullable=True)
     difficulty = Column(Enum(DifficultyEnum), nullable=False, default=DifficultyEnum.MASTER)
     level = Column(String(8), nullable=False)  # 例: '13+', '14'
     chart_constant = Column(Float, nullable=False) # 譜面定数
@@ -86,9 +88,17 @@ def get_engine(db_path: str):
     return engine
 
 def init_db(db_path: str):
-    """データベースを初期化し、テーブルを作成する"""
+    """データベースを初期化し、既存DBへ後方互換な列追加を行う"""
     engine = get_engine(db_path)
     Base.metadata.create_all(engine)
+
+    # create_all は既存テーブルへ列を追加しないため、非破壊の軽量移行を行う。
+    chart_columns = {column["name"] for column in inspect(engine).get_columns("charts")}
+    with engine.begin() as connection:
+        if "version" not in chart_columns:
+            connection.execute(text("ALTER TABLE charts ADD COLUMN version VARCHAR(64)"))
+        if "genre" not in chart_columns:
+            connection.execute(text("ALTER TABLE charts ADD COLUMN genre VARCHAR(64)"))
     return engine
 
 def get_session_maker(engine):

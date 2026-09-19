@@ -74,11 +74,11 @@ async def run_crawling_task():
                     score_log.score = score_val
                     score_log.is_all_break = s['is_all_break']
                     score_log.is_full_bell = s['is_full_bell']
+                    score_log.achieve_s = score_val >= 975000
                     score_log.achieve_ss = score_val >= 990000
                     score_log.achieve_sss = score_val >= 1000000
                     score_log.achieve_sssp = score_val >= 1007500
-                    score_log.achieve_abfb = (score_val >= 1007500 and score_log.is_all_break and score_log.is_full_bell)
-                    score_log.achieve_ap = score_val == 1010000
+                    score_log.achieve_abp = score_val >= 1010000
 
             session.commit()
             

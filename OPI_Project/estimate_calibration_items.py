@@ -12,7 +12,7 @@ from src.analyzer.item_parameter_estimator import (
     ItemObservation,
     estimate_item_parameters,
 )
-from src.analyzer.opi_calculator import TARGET_RANKS
+from src.analyzer.opi_calculator import TARGET_RANKS, is_solo_version
 from src.database.calibration_store import CalibrationStore
 
 
@@ -65,8 +65,8 @@ def resolve_ability_run(store: CalibrationStore, ability_run_id: int | None):
 def load_item_observations(store: CalibrationStore, ability_run_id: int, master_version_id: str):
     rows = store.connection.execute(
         """
-        SELECT s.chart_id, s.achieve_s, s.achieve_ss, s.achieve_sss, s.achieve_sssp,
-               s.achieve_abp, a.theta, a.subject_key
+        SELECT s.chart_id, m.title, s.achieve_s, s.achieve_ss, s.achieve_sss,
+               s.achieve_sssp, s.achieve_abp, a.theta, a.subject_key
           FROM player_ability_estimates AS a
           JOIN scores AS s ON s.subject_key = a.subject_key
           JOIN chart_master_items AS m
@@ -80,6 +80,8 @@ def load_item_observations(store: CalibrationStore, ability_run_id: int, master_
     grouped = defaultdict(list)
     digest = hashlib.sha256()
     for row in rows:
+        if is_solo_version(row["title"]):
+            continue
         for rank in TARGET_RANKS:
             achieved = bool(row[RANK_FIELDS[rank]])
             grouped[(row["chart_id"], rank)].append(
@@ -121,12 +123,13 @@ def build_item_report(
         master_version_id = ability_run["master_version_id"]
         charts = store.connection.execute(
             """
-            SELECT chart_id FROM chart_master_items
+            SELECT chart_id, title FROM chart_master_items
              WHERE version_id = ? AND is_active = 1
              ORDER BY chart_id
             """,
             (master_version_id,),
         ).fetchall()
+        charts = [chart for chart in charts if not is_solo_version(chart["title"])]
         observations, observation_hash = load_item_observations(
             store,
             ability_run_id,
