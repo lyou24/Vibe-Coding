@@ -302,7 +302,7 @@ if not check_password():
 
 if calibration_sync["status"] == "error":
     st.warning(f"校正済み譜面OPIの読み込みに失敗したため、既存値を使用します: {calibration_sync['message']}")
-elif calibration_sync["status"] not in {"applied", "current"}:
+elif calibration_sync["status"] not in {"applied", "current", "calibration_db_missing"}:
     st.warning("完了済みの校正データが見つからないため、既存の譜面OPIを使用します。")
 
 st.sidebar.header("プレイヤー検索")
