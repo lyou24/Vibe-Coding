@@ -622,22 +622,23 @@ if user_input.isdigit():
                     df_charts["OPI帯"] = (df_charts[opi_column] // 100 * 100).astype(int)
 
                     unique_bands = sorted(df_charts["OPI帯"].unique(), reverse=True)
-                    for opi_band in unique_bands:
+                    for idx_band, opi_band in enumerate(unique_bands):
                         band_rows = df_charts[df_charts["OPI帯"] == opi_band]
-                        st.markdown(f"### OPI {opi_band}〜{opi_band + 99}")
-                        columns = st.columns(4)
-                        for index, (_, row) in enumerate(band_rows.iterrows()):
-                            with columns[index % 4]:
-                                card_html = f"""
-                                <div style="background-color: #f8f9fa; color: #1f2937; border: 1px solid #dee2e6; border-radius: 6px; padding: 8px; margin-bottom: 8px;">
-                                    <div style="font-weight: bold; font-size: 0.95em; color: #111827;">{html.escape(str(row['楽曲名']))} <span style="font-weight: normal; font-size: 0.78em; color: #475569;">[{html.escape(str(row['バージョン']))} / {html.escape(str(row['ジャンル']))}]</span></div>
-                                    <div style="font-size: 0.8em; color: #374151;">
-                                        {row['難易度']} Lv.{row['レベル']} (定数 {row['定数']:.1f})<br/>
-                                        適正OPI: <b>{row[opi_column]:.1f}</b> (個人差度 {row['個人差度']:.1f})
+                        is_expanded = (idx_band == 0)
+                        with st.expander(f"OPI {opi_band}〜{opi_band + 99}（{len(band_rows)}曲）", expanded=is_expanded):
+                            columns = st.columns(2)
+                            for index, (_, row) in enumerate(band_rows.iterrows()):
+                                with columns[index % 2]:
+                                    card_html = f"""
+                                    <div style="background-color: #f8f9fa; color: #1f2937; border: 1px solid #dee2e6; border-radius: 6px; padding: 8px; margin-bottom: 8px;">
+                                        <div style="font-weight: bold; font-size: 0.95em; color: #111827;">{html.escape(str(row['楽曲名']))} <span style="font-weight: normal; font-size: 0.78em; color: #475569;">[{html.escape(str(row['バージョン']))} / {html.escape(str(row['ジャンル']))}]</span></div>
+                                        <div style="font-size: 0.8em; color: #374151;">
+                                            {row['難易度']} Lv.{row['レベル']} (定数 {row['定数']:.1f})<br/>
+                                            適正OPI: <b>{row[opi_column]:.1f}</b> (個人差度 {row['個人差度']:.1f})
+                                        </div>
                                     </div>
-                                </div>
-                                """
-                                st.markdown(card_html, unsafe_allow_html=True)
+                                    """
+                                    st.markdown(card_html, unsafe_allow_html=True)
 
                     difficulty_cards = [
                         {
@@ -732,43 +733,44 @@ if user_input.isdigit():
                     df_my_charts["OPI帯"] = (df_my_charts[opi_column] // 100 * 100).astype(int)
 
                     unique_bands = sorted(df_my_charts["OPI帯"].unique(), reverse=True)
-                    for opi_band in unique_bands:
+                    for idx_band, opi_band in enumerate(unique_bands):
                         band_rows = df_my_charts[df_my_charts["OPI帯"] == opi_band]
                         band_achieved = int(sum(band_rows["is_achieved"]))
-                        st.markdown(f"### 【達成状況 {band_achieved}/{len(band_rows)}】 適正帯域 {opi_band}〜{opi_band + 99}")
-                        columns = st.columns(4)
-                        for index, (_, row) in enumerate(band_rows.iterrows()):
-                            with columns[index % 4]:
-                                achieved_style = ACHIEVED_RANK_CARD_STYLES.get(row["現在ランク"])
-                                target_status = "達成済" if row["is_achieved"] else "未達成"
-                                if achieved_style:
-                                    bg_color = achieved_style["background"]
-                                    border_color = achieved_style["border"]
-                                    text_color = achieved_style["text"]
-                                    title_color = text_color
-                                    detail_color = text_color
-                                    badge = (
-                                        f"<span style='color:{text_color}; font-weight:800;'>"
-                                        f"[現在 {row['現在ランク']}] [{target_status}]</span>"
-                                    )
-                                else:
-                                    bg_color = "#f8f9fa"
-                                    border_color = "#dee2e6"
-                                    text_color = "#1f2937"
-                                    title_color = "#111827"
-                                    detail_color = "#374151"
-                                    badge = "<span style='color:#757575;'>[現在 未S] [未達成]</span>"
+                        is_expanded = (idx_band == 0)
+                        with st.expander(f"【達成 {band_achieved}/{len(band_rows)}】 OPI {opi_band}〜{opi_band + 99}", expanded=is_expanded):
+                            columns = st.columns(2)
+                            for index, (_, row) in enumerate(band_rows.iterrows()):
+                                with columns[index % 2]:
+                                    achieved_style = ACHIEVED_RANK_CARD_STYLES.get(row["現在ランク"])
+                                    target_status = "達成済" if row["is_achieved"] else "未達成"
+                                    if achieved_style:
+                                        bg_color = achieved_style["background"]
+                                        border_color = achieved_style["border"]
+                                        text_color = achieved_style["text"]
+                                        title_color = text_color
+                                        detail_color = text_color
+                                        badge = (
+                                            f"<span style='color:{text_color}; font-weight:800;'>"
+                                            f"[現在 {row['現在ランク']}] [{target_status}]</span>"
+                                        )
+                                    else:
+                                        bg_color = "#f8f9fa"
+                                        border_color = "#dee2e6"
+                                        text_color = "#1f2937"
+                                        title_color = "#111827"
+                                        detail_color = "#374151"
+                                        badge = "<span style='color:#757575;'>[現在 未S] [未達成]</span>"
 
-                                card_html = f"""
-                                <div style="background-color: {bg_color}; color: {text_color}; border: 2px solid {border_color}; border-radius: 6px; padding: 8px; margin-bottom: 8px;">
-                                    <div style="font-weight: bold; font-size: 0.95em; color: {title_color};">{html.escape(str(row['楽曲名']))} <span style="font-weight: normal; font-size: 0.78em; color: {title_color};">[{html.escape(str(row['バージョン']))} / {html.escape(str(row['ジャンル']))}]</span></div>
-                                    <div style="font-size: 0.8em; color: {detail_color};">
-                                        {row['難易度']} Lv.{row['レベル']} (定数 {row['定数']:.1f})<br/>
-                                        適正OPI: <b>{row[opi_column]:.1f}</b> {badge}
+                                    card_html = f"""
+                                    <div style="background-color: {bg_color}; color: {text_color}; border: 2px solid {border_color}; border-radius: 6px; padding: 8px; margin-bottom: 8px;">
+                                        <div style="font-weight: bold; font-size: 0.95em; color: {title_color};">{html.escape(str(row['楽曲名']))} <span style="font-weight: normal; font-size: 0.78em; color: {title_color};">[{html.escape(str(row['バージョン']))} / {html.escape(str(row['ジャンル']))}]</span></div>
+                                        <div style="font-size: 0.8em; color: {detail_color};">
+                                            {row['難易度']} Lv.{row['レベル']} (定数 {row['定数']:.1f})<br/>
+                                            適正OPI: <b>{row[opi_column]:.1f}</b> {badge}
+                                        </div>
                                     </div>
-                                </div>
-                                """
-                                st.markdown(card_html, unsafe_allow_html=True)
+                                    """
+                                    st.markdown(card_html, unsafe_allow_html=True)
 
                     my_difficulty_cards = []
                     for _, row in df_my_charts.iterrows():
