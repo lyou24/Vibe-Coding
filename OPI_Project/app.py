@@ -1,9 +1,15 @@
+import sys
+import os
+
+_APP_DIR = os.path.dirname(os.path.abspath(__file__))
+if _APP_DIR not in sys.path:
+    sys.path.insert(0, _APP_DIR)
+
 import streamlit as st
 import asyncio
 import hashlib
 import html
 import json
-import os
 import sqlite3
 from datetime import date
 import pandas as pd
