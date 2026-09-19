@@ -149,108 +149,110 @@ def render_image_export(title, settings, cards, filename_prefix, key):
         )
 
 # --- バックエンド処理ラッパー ---
-async def fetch_and_analyze_user(user_id: int, force: bool = False):
-    """ユーザーデータを収集し、OPIを算出する（安全アトミック更新・5目標ランク統合最尤推定）"""
+async def fetch_and_analyze_user(user_id: int, force: bool = True) -> bool:
+    """ユーザーデータを収集し、OPIを算出する（最新スナップショット方式・安全アトミック更新）"""
     session = Session()
     crawler = OngekiCrawler()
     calc = OPICalculator()
-    
+
     try:
-        player_db = session.query(Player).filter_by(user_id=user_id).first()
-        last_crawled_at = player_db.log_updated_at if player_db else None
-        
-        with st.spinner(f"OngekiScoreLog からユーザー {user_id} のデータを取得中..."):
-            profile = await crawler.fetch_user_profile(user_id, last_crawled_at=last_crawled_at, force=force)
-            
-            if profile:
-                scores = await crawler.fetch_user_scores(user_id)
-                # 安全アトミック更新: プロフィールとスコアの両方が取得できた場合のみDBにコミット
-                if scores is not None and len(scores) > 0:
-                    if not player_db:
-                        player_db = Player(user_id=user_id)
-                        session.add(player_db)
-                    player_db.player_name = profile['player_name']
-                    player_db.rating = profile['rating']
-                    player_db.log_updated_at = profile['updated_at']
+        with st.spinner(f"OngekiScoreLog からユーザー {user_id} の最新データを取得中..."):
+            snapshot = await crawler.fetch_user_snapshot(user_id, force=force)
 
-                    charts = session.query(Chart).all()
-                    chart_by_id = {c.chart_id: c for c in charts}
-                    chart_by_title_diff = {
-                        (c.title, c.difficulty.name if hasattr(c.difficulty, 'name') else str(c.difficulty)): c 
-                        for c in charts
-                    }
-                    matched_chart_ids = set()
+            if not snapshot:
+                st.sidebar.warning(f"ユーザー {user_id} の最新データ取得に失敗したか、データが存在しませんでした。既存データを使用します。")
+                return False
 
-                    for s in scores:
-                        chart = None
-                        # 1. chart_id による照合
-                        if s.get('chart_id'):
-                            chart = chart_by_id.get(s['chart_id'])
-                        # 2. (title, difficulty) による照合
-                        if not chart and 'title' in s and 'difficulty' in s:
-                            chart = chart_by_title_diff.get((s['title'], s['difficulty']))
+            profile = snapshot.get("profile")
+            scores = snapshot.get("scores", [])
 
-                        if not chart:
-                            continue
+            if not profile or not scores:
+                st.sidebar.warning(f"ユーザー {user_id} のプロフィールまたはスコアを解析できませんでした。")
+                return False
 
-                        matched_chart_ids.add(chart.chart_id)
-                        score_log = session.query(ScoreLog).filter_by(user_id=user_id, chart_id=chart.chart_id).first()
-                        if not score_log:
-                            score_log = ScoreLog(user_id=user_id, chart_id=chart.chart_id)
-                            session.add(score_log)
-                        
-                        score_val = s['score']
-                        score_log.score = score_val
-                        score_log.is_all_break = s.get('is_all_break', False)
-                        score_log.is_full_bell = s.get('is_full_bell', False)
-                        score_log.achieve_s = score_val >= 975000
-                        score_log.achieve_ss = score_val >= 990000
-                        score_log.achieve_sss = score_val >= 1000000
-                        score_log.achieve_sssp = score_val >= 1007500
-                        score_log.achieve_abp = score_val >= 1010000
-
-                    if matched_chart_ids:
-                        session.query(ScoreLog).filter(
-                            ScoreLog.user_id == user_id,
-                            ~ScoreLog.chart_id.in_(matched_chart_ids),
-                        ).delete(synchronize_session=False)
-                        session.commit()
-                        st.sidebar.success(
-                            f"ユーザー {user_id} のデータを更新しました"
-                            f"（対象譜面 {len(matched_chart_ids)} 件）。"
-                        )
-                    else:
-                        session.rollback()
-                        st.sidebar.warning(
-                            "取得スコアを譜面マスタへ1件も照合できなかったため、更新を中断しました。"
-                        )
-                else:
-                    session.rollback()
-                    st.sidebar.warning(f"ユーザー {user_id} のスコア取得に失敗したか、スコアデータが存在しませんでした。差分閉塞防止のため更新を中断しました。")
-            else:
-                st.sidebar.info(f"ユーザー {user_id} の新規更新はありませんでした（スキップ）。強制更新する場合は「強制更新」にチェックを入れてください。")
-                
-        with st.spinner("OPIを算出中..."):
-            # 5段階全目標ランク統合最尤推定
             player_db = session.query(Player).filter_by(user_id=user_id).first()
-            if player_db:
-                charts = [
+            if not player_db:
+                player_db = Player(user_id=user_id)
+                session.add(player_db)
+            player_db.player_name = profile['player_name']
+            player_db.rating = profile['rating']
+            player_db.log_updated_at = profile['updated_at']
+
+            charts = session.query(Chart).all()
+            chart_by_id = {c.chart_id: c for c in charts}
+            chart_by_title_diff = {
+                (c.title, c.difficulty.name if hasattr(c.difficulty, 'name') else str(c.difficulty)): c 
+                for c in charts
+            }
+            matched_chart_ids = set()
+
+            for s in scores:
+                chart = None
+                # 1. chart_id による照合
+                if s.get('chart_id'):
+                    chart = chart_by_id.get(s['chart_id'])
+                # 2. (title, difficulty) による照合
+                if not chart and 'title' in s and 'difficulty' in s:
+                    chart = chart_by_title_diff.get((s['title'], s['difficulty']))
+
+                if not chart:
+                    continue
+
+                matched_chart_ids.add(chart.chart_id)
+                score_log = session.query(ScoreLog).filter_by(user_id=user_id, chart_id=chart.chart_id).first()
+                if not score_log:
+                    score_log = ScoreLog(user_id=user_id, chart_id=chart.chart_id)
+                    session.add(score_log)
+
+                score_val = s['score']
+                score_log.score = score_val
+                score_log.is_all_break = s.get('is_all_break', False)
+                score_log.is_full_bell = s.get('is_full_bell', False)
+                score_log.achieve_s = score_val >= 975000
+                score_log.achieve_ss = score_val >= 990000
+                score_log.achieve_sss = score_val >= 1000000
+                score_log.achieve_sssp = score_val >= 1007500
+                score_log.achieve_abp = score_val >= 1010000
+
+            if matched_chart_ids:
+                # 対象譜面から除外された古いスコアを削除
+                session.query(ScoreLog).filter(
+                    ScoreLog.user_id == user_id,
+                    ~ScoreLog.chart_id.in_(matched_chart_ids),
+                ).delete(synchronize_session=False)
+
+                # OPIの再算出
+                active_charts = [
                     c for c in session.query(Chart).filter(
                         Chart.is_active == True
                     ).all()
                     if not is_solo_version(c.title)
                 ]
-                scores = session.query(ScoreLog).filter_by(user_id=user_id).all()
+                user_scores = session.query(ScoreLog).filter_by(user_id=user_id).all()
                 achievements = calc.build_user_achievements(
-                    charts,
-                    scores,
+                    active_charts,
+                    user_scores,
                     min_score=None,
                     min_chart_constant=MIN_TARGET_CONSTANT,
                 )
                 if achievements:
                     est_opi = calc.estimate_user_opi(achievements, initial_theta=player_db.total_opi or 1500.0)
                     player_db.total_opi = est_opi
-                    session.commit()
+
+                session.commit()
+                st.sidebar.success(
+                    f"ユーザー {user_id} の最新スコアを更新しました"
+                    f"（対象譜面 {len(matched_chart_ids)} 件）。"
+                )
+                return True
+            else:
+                session.rollback()
+                st.sidebar.warning("取得スコアを譜面マスタへ1件も照合できなかったため、更新を中断しました。")
+                return False
+    except Exception as e:
+        session.rollback()
+        st.sidebar.warning(f"最新データ取得中にエラーが発生しました: {e}。既存データを表示します。")
+        return False
     finally:
         session.close()
         await crawler.close()
@@ -306,17 +308,19 @@ elif calibration_sync["status"] not in {"applied", "current", "calibration_db_mi
     st.warning("完了済みの校正データが見つからないため、既存の譜面OPIを使用します。")
 
 st.sidebar.header("プレイヤー検索")
-user_input = st.sidebar.text_input("OngekiScoreLog ユーザーID", "")
-force_update = st.sidebar.checkbox("強制更新（キャッシュバイパス）", value=False)
-search_button = st.sidebar.button("検索 / 更新")
+user_input = st.sidebar.text_input("OngekiScoreLog ユーザーID", key="user_id_input")
+search_button = st.sidebar.button("🔍 検索 / 最新データに更新", key="search_btn")
 
-if search_button:
-    if user_input.isdigit():
-        uid = int(user_input)
-        # クローリングとOPI計算を同期的に実行
-        asyncio.run(fetch_and_analyze_user(uid, force=force_update))
-    else:
-        st.sidebar.error("有効な数値のIDを入力してください。")
+# --- 検索時の自動最新データ同期 ---
+if user_input.isdigit():
+    uid = int(user_input)
+    # 検索ボタンが押された場合、または新しくIDが指定された場合に自動同期
+    should_fetch = search_button or (st.session_state.get("last_synced_uid") != uid)
+    if should_fetch:
+        asyncio.run(fetch_and_analyze_user(uid, force=True))
+        st.session_state["last_synced_uid"] = uid
+elif user_input:
+    st.sidebar.error("有効な数値のIDを入力してください。")
 
 # --- メインコンテンツの表示 ---
 if user_input.isdigit():
@@ -364,7 +368,19 @@ if user_input.isdigit():
         recommendation_opi = qualified_opi
 
         # プロフィールセクション
-        st.header(f"👤 {player.player_name} さんのデータ")
+        col_prof, col_btn = st.columns([3, 1])
+        with col_prof:
+            st.header(f"👤 {player.player_name} さんのデータ")
+            if player.log_updated_at:
+                date_str = player.log_updated_at.strftime('%Y-%m-%d') if hasattr(player.log_updated_at, 'strftime') else str(player.log_updated_at)[:10]
+                st.caption(f"スコア最終更新日: {date_str}")
+        with col_btn:
+            st.write("")
+            if st.button("🔄 最新スコアに更新", key="main_refresh_score_btn", help="OngekiScoreLog から最新スコアを再取得して反映します"):
+                asyncio.run(fetch_and_analyze_user(uid, force=True))
+                st.session_state["last_synced_uid"] = uid
+                st.rerun()
+
         col1, col2, col3 = st.columns(3)
         col1.metric("レーティング", f"{player.rating:.3f}" if player.rating else "N/A")
         col2.metric("リコメンドOPI（AAA以上）", f"{qualified_opi:.1f}" if qualified_opi else "N/A")
