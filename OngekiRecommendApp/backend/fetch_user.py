@@ -6,12 +6,23 @@ from bs4 import BeautifulSoup
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), "data")
 
+HEADERS = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+    "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8",
+    "Accept-Language": "ja,en-US;q=0.9,en;q=0.8",
+    "Referer": "https://ongeki-score.net/",
+}
+
 def fetch_user_details(user_id):
     url = f"https://ongeki-score.net/user/{user_id}/details"
     print(f"Fetching {url}...")
-    response = requests.get(url)
-    if response.status_code != 200:
-        print(f"Failed to fetch user details {user_id}.")
+    try:
+        response = requests.get(url, headers=HEADERS, timeout=15)
+        if response.status_code != 200:
+            print(f"Failed to fetch user details {user_id}: HTTP {response.status_code}")
+            return None
+    except Exception as e:
+        print(f"Exception fetching user details {user_id}: {e}")
         return None
         
     soup = BeautifulSoup(response.text, "html.parser")
@@ -55,8 +66,13 @@ def fetch_user_details(user_id):
 def fetch_user_rating_profile(user_id):
     url = f"https://ongeki-score.net/user/{user_id}/rating"
     print(f"Fetching {url}...")
-    response = requests.get(url)
-    if response.status_code != 200:
+    try:
+        response = requests.get(url, headers=HEADERS, timeout=15)
+        if response.status_code != 200:
+            print(f"Failed to fetch user rating profile {user_id}: HTTP {response.status_code}")
+            return None
+    except Exception as e:
+        print(f"Exception fetching user rating profile {user_id}: {e}")
         return None
         
     soup = BeautifulSoup(response.text, "html.parser")

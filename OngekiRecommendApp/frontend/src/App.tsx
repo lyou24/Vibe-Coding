@@ -181,14 +181,16 @@ function App() {
     fetch(`/api/recommend/${userId}`, {
       headers: { 'X-Passcode': passcode }
     })
-      .then(res => {
+      .then(async res => {
         if (res.status === 401) {
           localStorage.removeItem('ongeki_passcode');
           setIsAuthenticated(false);
           throw new Error('合言葉が無効です。もう一度合言葉を入力してください。');
         }
         if (!res.ok) {
-          throw new Error(`エラー (${res.status}): データの取得に失敗しました`);
+          const errData = await res.json().catch(() => ({}));
+          const msg = errData.detail || `エラー (${res.status}): データの取得に失敗しました`;
+          throw new Error(msg);
         }
         return res.json();
       })

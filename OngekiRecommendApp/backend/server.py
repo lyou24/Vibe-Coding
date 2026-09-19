@@ -41,13 +41,20 @@ def get_recommendation(user_id: str):
     details = fetch_user_details(user_id)
     rating_prof = fetch_user_rating_profile(user_id)
     
-    if not details or not rating_prof:
-        raise HTTPException(status_code=404, detail="Failed to fetch user data")
-        
-    save_user_data(user_id, {
-        "scores": details,
-        "rating_profile": rating_prof
-    })
+    if details and rating_prof:
+        save_user_data(user_id, {
+            "scores": details,
+            "rating_profile": rating_prof
+        })
+    else:
+        # キャッシュが存在するか確認してフォールバック
+        cache_path = os.path.join(os.path.dirname(__file__), "data", f"user_{user_id}.json")
+        if not os.path.exists(cache_path):
+            raise HTTPException(
+                status_code=404, 
+                detail=f"ユーザーID '{user_id}' のデータをongeki-score.netから取得できませんでした（IDが存在しない、非公開、または外部サーバーアクセス制限の可能性があります）"
+            )
+        print(f"Using cached data for user {user_id} as external fetch failed")
     
     # Run recommendation engine
     try:
@@ -55,6 +62,8 @@ def get_recommendation(user_id: str):
         result = engine.analyze()
         return result
     except Exception as e:
+        import traceback
+        traceback.print_exc()
         raise HTTPException(status_code=500, detail=f"Recommendation engine failed: {str(e)}")
 
 @app.post("/api/update_music", dependencies=[Depends(verify_passcode)])
