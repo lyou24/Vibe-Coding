@@ -13,7 +13,17 @@ logger = logging.getLogger(__name__)
 class OngekiCrawler:
     BASE_URL = "https://ongeki-score.net"
     HEADERS = {
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36",
+        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
+        "Accept-Language": "ja,en-US;q=0.9,en;q=0.8",
+        "Sec-Ch-Ua": '"Chromium";v="128", "Not;A=Brand";v="24", "Google Chrome";v="128"',
+        "Sec-Ch-Ua-Mobile": "?0",
+        "Sec-Ch-Ua-Platform": '"Windows"',
+        "Sec-Fetch-Dest": "document",
+        "Sec-Fetch-Mode": "navigate",
+        "Sec-Fetch-Site": "none",
+        "Sec-Fetch-User": "?1",
+        "Upgrade-Insecure-Requests": "1",
     }
     # 最終更新日の足切り設定（要件定義書 1.2: 2025年3月27日以降）
     TARGET_MIN_DATE = datetime(2025, 3, 27)
@@ -43,11 +53,45 @@ class OngekiCrawler:
         timeout_seconds: int = 30,
         max_attempts: int = 3,
     ) -> Optional[str]:
-        """公開ページを限定回数だけ取得し、過負荷時は待機して再試行する。"""
-        await self._init_session()
+        """公開ページを限定回数だけ取得し、過負荷時は待機して再試行する。
+        Cloudflare WAF（403 Forbidden）対策として curl_cffi の TLS/JA3 フィンガープリント模倣を優先。
+        """
         url = f"{self.BASE_URL}{path}"
         last_status = None
 
+        # 1. まず curl_cffi によるブラウザ完全模倣（Cloudflare WAF突破）を試行
+        try:
+            from curl_cffi.requests import AsyncSession
+            async with AsyncSession(impersonate="chrome120") as cffi_session:
+                for attempt in range(max_attempts):
+                    try:
+                        resp = await cffi_session.get(
+                            url,
+                            headers=self.HEADERS,
+                            timeout=timeout_seconds,
+                        )
+                        last_status = resp.status_code
+                        if resp.status_code == 200:
+                            return resp.text
+                        if resp.status_code == 404:
+                            return None
+                        
+                        retryable = resp.status_code == 429 or 500 <= resp.status_code < 600 or resp.status_code == 403
+                        if not retryable or attempt == max_attempts - 1:
+                            break
+                        delay = min(2.0 * (2 ** attempt) + random.uniform(0.0, 1.0), 30.0)
+                        logger.warning(f"curl_cffi HTTP {resp.status_code} のため {delay:.1f} 秒後に再試行します")
+                        await asyncio.sleep(delay)
+                    except Exception as exc:
+                        logger.warning(f"curl_cffi 試行 {attempt} エラー: {exc}")
+                        if attempt == max_attempts - 1:
+                            break
+                        await asyncio.sleep(2.0)
+        except ImportError:
+            pass
+
+        # 2. aiohttp によるフォールバック
+        await self._init_session()
         for attempt in range(max_attempts):
             try:
                 async with self.session.get(
@@ -60,7 +104,7 @@ class OngekiCrawler:
                     if resp.status == 404:
                         return None
                     if resp.status == 403:
-                        raise PermissionError("公開ページへのアクセスが拒否されました")
+                        raise PermissionError("公開ページへのアクセスが拒否されました（Cloudflare WAFによる保護）")
 
                     retryable = resp.status == 429 or 500 <= resp.status < 600
                     if not retryable or attempt == max_attempts - 1:
