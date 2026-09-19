@@ -1,10 +1,15 @@
+import os
+import sys
+
+# backendディレクトリをsys.pathに追加（Renderなどのルート実行時のModuleNotFoundErrorを防止）
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+
 from fastapi import FastAPI, HTTPException, BackgroundTasks, Header, Depends
 from fastapi.staticfiles import StaticFiles
 import uvicorn
 from fetch_user import fetch_user_details, fetch_user_rating_profile, save_user_data
 from recommend_engine import RecommendEngine
 from fetch_music import update_music_master
-import os
 import time
 from collect_high_rate_users import run_collection
 from pydantic import BaseModel
