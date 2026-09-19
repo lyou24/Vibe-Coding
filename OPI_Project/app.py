@@ -20,7 +20,36 @@ from src.recommender.recommender import OPIRecommender
 from src.export.full_image_export import build_full_hd_image
 from src.visualizer.visualizer import OPIVisualizer
 
-st.set_page_config(page_title="Ongeki Power Indicator", layout="wide")
+st.set_page_config(page_title="Ongeki Power Indicator", layout="wide", initial_sidebar_state="auto")
+
+# モバイル（iPhone等）向けのレスポンシブCSS調整
+st.markdown("""
+<style>
+    /* モバイル表示時の余白最適化 */
+    @media (max-width: 768px) {
+        .block-container {
+            padding-top: 1.5rem !important;
+            padding-bottom: 2rem !important;
+            padding-left: 0.75rem !important;
+            padding-right: 0.75rem !important;
+        }
+        /* 入力フォームのフォントサイズ調整（iOSズーム防止） */
+        input, select, textarea {
+            font-size: 16px !important;
+        }
+        /* テーブルの横スクロール対応 */
+        .stDataFrame, div[data-testid="stTable"] {
+            overflow-x: auto !important;
+            -webkit-overflow-scrolling: touch !important;
+        }
+        /* タブの視認性向上 */
+        button[data-baseweb="tab"] {
+            padding: 8px 12px !important;
+            font-size: 14px !important;
+        }
+    }
+</style>
+""", unsafe_allow_html=True)
 
 DB_FILE = os.path.join(os.path.dirname(__file__), "data", "opi_database.sqlite")
 CALIBRATION_DB_FILE = os.path.join(os.path.dirname(__file__), "data", "opi_calibration.sqlite")
@@ -199,7 +228,12 @@ async def fetch_and_analyze_user(user_id: int, force: bool = False):
             # 5段階全目標ランク統合最尤推定
             player_db = session.query(Player).filter_by(user_id=user_id).first()
             if player_db:
-                charts = session.query(Chart).all()
+                charts = [
+                    c for c in session.query(Chart).filter(
+                        Chart.is_active == True
+                    ).all()
+                    if not is_solo_version(c.title)
+                ]
                 scores = session.query(ScoreLog).filter_by(user_id=user_id).all()
                 achievements = calc.build_user_achievements(
                     charts,
@@ -216,7 +250,7 @@ async def fetch_and_analyze_user(user_id: int, force: bool = False):
         await crawler.close()
 
 # --- UI構築 ---
-st.title("Ongeki Power Indicator")
+st.title("Ongeki Power Indicator (OPI)")
 if calibration_sync["status"] == "error":
     st.warning(f"校正済み譜面OPIの読み込みに失敗したため、既存値を使用します: {calibration_sync['message']}")
 elif calibration_sync["status"] not in {"applied", "current"}:
@@ -245,7 +279,8 @@ if user_input.isdigit():
         calc = OPICalculator()
         eligible_charts = [
             c for c in session.query(Chart).filter(
-                Chart.chart_constant >= MIN_TARGET_CONSTANT
+                Chart.chart_constant >= MIN_TARGET_CONSTANT,
+                Chart.is_active == True,
             ).all()
             if not is_solo_version(c.title)
         ]
@@ -492,7 +527,8 @@ if user_input.isdigit():
             calc = OPICalculator()
             charts = [
                 c for c in session.query(Chart).filter(
-                    Chart.chart_constant >= MIN_TARGET_CONSTANT
+                    Chart.chart_constant >= MIN_TARGET_CONSTANT,
+                    Chart.is_active == True,
                 ).order_by(Chart.chart_constant.asc(), Chart.title.asc()).all()
                 if not is_solo_version(c.title)
             ]
@@ -583,7 +619,8 @@ if user_input.isdigit():
 
             charts = [
                 c for c in session.query(Chart).filter(
-                    Chart.chart_constant >= MIN_TARGET_CONSTANT
+                    Chart.chart_constant >= MIN_TARGET_CONSTANT,
+                    Chart.is_active == True,
                 ).order_by(Chart.chart_constant.asc(), Chart.title.asc()).all()
                 if not is_solo_version(c.title)
             ]

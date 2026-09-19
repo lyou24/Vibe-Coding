@@ -154,6 +154,10 @@ class OPIRecommender:
             recommendations = []
 
             for chart in charts:
+                # 配信終了・非アクティブ譜面は除外
+                if not getattr(chart, "is_active", True):
+                    continue
+
                 # ソロver.楽曲は対象外
                 if is_solo_version(chart.title):
                     continue
