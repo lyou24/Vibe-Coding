@@ -208,7 +208,7 @@ async def fetch_and_analyze_user(user_id: int, force: bool = True) -> bool:
                 score_log.score = score_val
                 score_log.is_all_break = s.get('is_all_break', False)
                 score_log.is_full_bell = s.get('is_full_bell', False)
-                score_log.achieve_s = score_val >= 975000
+                score_log.achieve_s = score_val >= 970000
                 score_log.achieve_ss = score_val >= 990000
                 score_log.achieve_sss = score_val >= 1000000
                 score_log.achieve_sssp = score_val >= 1007500

@@ -222,7 +222,7 @@ def seed_database(seed_data: Dict[str, Any], db_path: str = DB_FILE, include_pop
             log_obj.score = score_val
             log_obj.is_all_break = is_ab
             log_obj.is_full_bell = is_fb
-            log_obj.achieve_s = score_val >= 975000
+            log_obj.achieve_s = score_val >= 970000
             log_obj.achieve_ss = score_val >= 990000
             log_obj.achieve_sss = score_val >= 1000000
             log_obj.achieve_sssp = score_val >= 1007500

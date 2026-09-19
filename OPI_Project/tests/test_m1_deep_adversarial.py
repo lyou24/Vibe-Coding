@@ -270,8 +270,8 @@ class TestScoreAchievementFlagsBoundaries:
 
         test_cases = [
             # (score, is_ab, is_fb, exp_s, exp_ss, exp_sss, exp_sssp, exp_abp)
-            (974999, False, False, False, False, False, False, False),
-            (975000, False, False, True,  False, False, False, False),
+            (969999, False, False, False, False, False, False, False),
+            (970000, False, False, True,  False, False, False, False),
             (989999, False, False, True,  False, False, False, False),
             (990000, False, False, True,  True,  False, False, False),
             (999999, False, False, True,  True,  False, False, False),

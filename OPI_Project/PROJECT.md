@@ -52,9 +52,9 @@
 
 ### `src/recommender/recommender.py`
 - `_determine_current_rank(score_log) -> tuple[str, str]`:
-  - 判定順: `AB+` (>=1010000 or achieve_abp) → `SSS+止まり` (>=1007500 or achieve_sssp) → `SSS止まり` (>=1000000 or achieve_sss) → `SS止まり` (>=990000 or achieve_ss) → `S止まり` (>=975000 or achieve_s) → `未S`
+  - 判定順: `AB+` (>=1010000 or achieve_abp) → `SSS+止まり` (>=1007500 or achieve_sssp) → `SSS止まり` (>=1000000 or achieve_sss) → `SS止まり` (>=990000 or achieve_ss) → `S止まり` (>=970000 or achieve_s) → `未S`
 - `_is_target_achieved(score_log, target_rank: str) -> bool`:
-  - `"S"`: score >= 975000 or achieve_s
+  - `"S"`: score >= 970000 or achieve_s
   - `"AB+"`: score >= 1010000 or achieve_abp
 
 ### `src/visualizer/visualizer.py`

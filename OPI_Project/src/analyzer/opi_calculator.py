@@ -236,7 +236,7 @@ class OPICalculator:
             is_ab = getattr(s, "is_all_break", False)
             is_fb = getattr(s, "is_full_bell", False)
 
-            ach_s = getattr(s, "achieve_s", False) or (score_val >= 975000)
+            ach_s = getattr(s, "achieve_s", False) or (score_val >= 970000)
             ach_ss = getattr(s, "achieve_ss", False) or (score_val >= 990000)
             ach_sss = getattr(s, "achieve_sss", False) or (score_val >= 1000000)
             ach_sssp = getattr(s, "achieve_sssp", False) or (score_val >= 1007500)

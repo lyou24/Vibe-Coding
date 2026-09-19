@@ -34,7 +34,7 @@ class OPIRecommender:
             return "SSS止まり", f"SSS ({score:,})"
         if score >= 990000 or getattr(score_log, "achieve_ss", False):
             return "SS止まり", f"SS ({score:,})"
-        if score >= 975000 or getattr(score_log, "achieve_s", False):
+        if score >= 970000 or getattr(score_log, "achieve_s", False):
             return "S止まり", f"S ({score:,})"
         
         return "未S", f"未S ({score:,})"
@@ -47,7 +47,7 @@ class OPIRecommender:
         score = score_log.score or 0
 
         if norm_target_rank == "S":
-            return bool(getattr(score_log, "achieve_s", False) or score >= 975000)
+            return bool(getattr(score_log, "achieve_s", False) or score >= 970000)
         elif norm_target_rank == "SS":
             return bool(getattr(score_log, "achieve_ss", False) or score >= 990000)
         elif norm_target_rank == "SSS":

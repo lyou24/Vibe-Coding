@@ -115,7 +115,7 @@ def test_score_log_flags_integrity():
 
     assert len(rows) > 0, "スコアログが存在しません"
     for s, is_ab, is_fb, ss, sss, sssp, s_flag, abp in rows:
-        assert bool(s_flag) == (s >= 975000), f"achieve_s 不整合: score={s}, flag={s_flag}"
+        assert bool(s_flag) == (s >= 970000), f"achieve_s 不整合: score={s}, flag={s_flag}"
         assert bool(ss) == (s >= 990000), f"achieve_ss 不整合: score={s}, flag={ss}"
         assert bool(sss) == (s >= 1000000), f"achieve_sss 不整合: score={s}, flag={sss}"
         assert bool(sssp) == (s >= 1007500), f"achieve_sssp 不整合: score={s}, flag={sssp}"

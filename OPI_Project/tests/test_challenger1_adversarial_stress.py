@@ -289,9 +289,9 @@ class TestScoreAndAchievementBoundaries:
         matrix = [
             # (score, expected_category)
             (0, "未S"),
-            (974999, "未S"),
-            (975000, "S止まり"),
-            (975001, "S止まり"),
+            (969999, "未S"),
+            (970000, "S止まり"),
+            (970001, "S止まり"),
             (989999, "S止まり"),
             (990000, "SS止まり"),
             (990001, "SS止まり"),
@@ -315,9 +315,9 @@ class TestScoreAndAchievementBoundaries:
         """スコア境界値における目標ランク達成判定 (_is_target_achieved) の網羅検証"""
         cases = [
             # (score, target_rank, expected_is_achieved)
-            (974999, "S", False),
-            (975000, "S", True),
-            (975000, "SS", False),
+            (969999, "S", False),
+            (970000, "S", True),
+            (970000, "SS", False),
             (989999, "SS", False),
             (990000, "SS", True),
             (990000, "SSS", False),

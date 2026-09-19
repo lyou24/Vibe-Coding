@@ -32,8 +32,8 @@ def update_db_schema():
                 conn.execute("ALTER TABLE score_logs RENAME COLUMN achieve_ap TO achieve_abp")
             
             # Update score_logs logic
-            conn.execute("UPDATE score_logs SET achieve_s = 1 WHERE score >= 975000")
-            conn.execute("UPDATE score_logs SET achieve_s = 0 WHERE score < 975000")
+            conn.execute("UPDATE score_logs SET achieve_s = 1 WHERE score >= 970000")
+            conn.execute("UPDATE score_logs SET achieve_s = 0 WHERE score < 970000")
             conn.execute("UPDATE score_logs SET achieve_abp = 1 WHERE score >= 1010000")
             conn.execute("UPDATE score_logs SET achieve_abp = 0 WHERE score < 1010000")
             print("Main DB migrated.")
@@ -49,8 +49,8 @@ def update_db_schema():
             if 'achieve_ap' in cols:
                 conn.execute("ALTER TABLE scores RENAME COLUMN achieve_ap TO achieve_abp")
                 
-            conn.execute("UPDATE scores SET achieve_s = 1 WHERE score >= 975000")
-            conn.execute("UPDATE scores SET achieve_s = 0 WHERE score < 975000")
+            conn.execute("UPDATE scores SET achieve_s = 1 WHERE score >= 970000")
+            conn.execute("UPDATE scores SET achieve_s = 0 WHERE score < 970000")
             conn.execute("UPDATE scores SET achieve_abp = 1 WHERE score >= 1010000")
             conn.execute("UPDATE scores SET achieve_abp = 0 WHERE score < 1010000")
             
