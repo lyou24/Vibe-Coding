@@ -190,20 +190,35 @@ def get_scrapingbee_api_key():
 def fetch_html_via_scrapingbee(user_id: int, api_key: str) -> str:
     url = f"https://ongeki-score.net/user/{user_id}"
     scrapingbee_endpoint = "https://app.scrapingbee.com/api/v1/"
-    params = {
+    
+    # 試行1: 標準JSレンダリング + 全リソース読み込み(Cloudflareチャレンジ用)
+    params_std = {
         'api_key': api_key,
         'url': url,
-        # CloudflareのJSチャレンジ（Just a moment...）を突破するためJSレンダリングを有効化
         'render_js': 'true',
-        # ページとスコアの描画完了を待機
-        'wait': '3000',
+        'block_resources': 'false',
+        'wait': '5000',
     }
-    # UAを偽装せずScrapingBeeの標準ブラウザ指紋を使用
-    resp = requests.get(scrapingbee_endpoint, params=params, timeout=90)
-    if resp.status_code == 200:
+    resp = requests.get(scrapingbee_endpoint, params=params_std, timeout=90)
+    if resp.status_code == 200 and "Just a moment..." not in resp.text:
         return resp.text
+
+    # 試行2: 厳格なWAF対策用 プレミアム住宅用プロキシ (日本IP)
+    params_premium = {
+        'api_key': api_key,
+        'url': url,
+        'render_js': 'true',
+        'block_resources': 'false',
+        'premium_proxy': 'true',
+        'country_code': 'jp',
+        'wait': '5000',
+    }
+    resp_premium = requests.get(scrapingbee_endpoint, params=params_premium, timeout=120)
+    if resp_premium.status_code == 200 and "Just a moment..." not in resp_premium.text:
+        return resp_premium.text
     else:
-        raise RuntimeError(f"ScrapingBee HTTP {resp.status_code}: {resp.text}")
+        err_msg = resp_premium.text if resp_premium.status_code != 200 else "Cloudflareの認証を突破できませんでした。"
+        raise RuntimeError(f"ScrapingBee HTTP {resp_premium.status_code}: {err_msg}")
 
 # --- バックエンド処理ラッパー ---
 def apply_user_snapshot_to_db(snapshot: dict, session) -> tuple:

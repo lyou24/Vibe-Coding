@@ -35,24 +35,39 @@ def fetch_via_scrapingbee(user_id: int) -> str:
     url = f"https://ongeki-score.net/user/{user_id}"
     scrapingbee_endpoint = "https://app.scrapingbee.com/api/v1/"
     
-    # ScrapingBeeのパラメータ
-    # CloudflareのJSチャレンジを突破するため、render_js=True を有効化
-    params = {
+    # 試行1: 標準JSレンダリング + 全リソース読み込み(Cloudflareチャレンジ用)
+    params_std = {
         'api_key': SCRAPINGBEE_API_KEY,
         'url': url,
         'render_js': 'true', 
-        'wait': '3000',
+        'block_resources': 'false',
+        'wait': '5000',
     }
 
-    logger.info(f"Fetching user {user_id} via ScrapingBee (render_js=True)...")
-    response = requests.get(scrapingbee_endpoint, params=params, timeout=90)
-    
-    if response.status_code == 200:
-        logger.info(f"Successfully fetched user {user_id}")
+    logger.info(f"Fetching user {user_id} via ScrapingBee (Standard JS)...")
+    response = requests.get(scrapingbee_endpoint, params=params_std, timeout=90)
+    if response.status_code == 200 and "Just a moment..." not in response.text:
+        logger.info(f"Successfully fetched user {user_id} via standard proxy")
         return response.text
+
+    # 試行2: 厳格なWAF対策用 プレミアム住宅用プロキシ (日本IP)
+    logger.info(f"Retrying user {user_id} via ScrapingBee (Premium Residential Proxy)...")
+    params_premium = {
+        'api_key': SCRAPINGBEE_API_KEY,
+        'url': url,
+        'render_js': 'true', 
+        'block_resources': 'false',
+        'premium_proxy': 'true',
+        'country_code': 'jp',
+        'wait': '5000',
+    }
+    response_premium = requests.get(scrapingbee_endpoint, params=params_premium, timeout=120)
+    if response_premium.status_code == 200 and "Just a moment..." not in response_premium.text:
+        logger.info(f"Successfully fetched user {user_id} via premium residential proxy")
+        return response_premium.text
     else:
-        logger.error(f"Failed to fetch user {user_id}. Status: {response.status_code}, Body: {response.text}")
-        response.raise_for_status()
+        logger.error(f"Failed to fetch user {user_id}. Status: {response_premium.status_code}, Body: {response_premium.text}")
+        response_premium.raise_for_status()
 
 def main():
     # 引数または環境変数からターゲットユーザーIDのリストを取得
