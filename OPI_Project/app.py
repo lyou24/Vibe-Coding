@@ -341,6 +341,23 @@ st.sidebar.header("プレイヤー検索")
 user_input = st.sidebar.text_input("OngekiScoreLog ユーザーID", key="user_id_input")
 search_button = st.sidebar.button("🔍 検索 / 最新データに更新", key="search_btn")
 
+# --- 🔖 ブックマークレットで更新（おすすめ） ---
+with st.sidebar.expander("🔖 ブックマークレットで更新（おすすめ）", expanded=True):
+    st.markdown("""
+Cloudflareの制限を回避するため、**ブックマークレット**を利用した半自動更新が最も簡単です。
+
+**【準備（初回のみ）】**
+以下のコードをコピーし、ブラウザの新しいブックマークを作成してURL欄に貼り付けてください（名前は「OPI更新」などがおすすめ）。
+""")
+    bookmarklet_code = """javascript:(function(){var m=document.documentElement.outerHTML;if(!m.includes("ongeki-score.net")){alert("OngekiScoreLogの自分のページで実行してください。");return;}var t=document.createElement("textarea");t.value=m;document.body.appendChild(t);t.select();document.execCommand("copy");document.body.removeChild(t);alert("スコアデータをコピーしました！\\nOPI Projectの『📋 スコア貼り付け手動更新』欄にペーストしてください。");})();"""
+    st.code(bookmarklet_code, language="javascript")
+    st.markdown("""
+**【毎回の更新手順】**
+1. 自分の [OngekiScoreLog](https://ongeki-score.net/) を開く
+2. 登録したブックマークレットをクリック（全データが自動コピーされます）
+3. この画面下の「📋 スコア貼り付け手動更新」欄にペーストして「手動反映」を押す
+""")
+
 # --- 📋 スコア貼り付け手動更新（HTML/テキスト） ---
 with st.sidebar.expander("📋 スコア貼り付け手動更新（HTML/テキスト）", expanded=False):
     st.caption("Cloudflare等の制限で自動取得できない場合、OngekiScoreLog（https://ongeki-score.net/user/{ID}）のHTMLソースまたは画面テキストを貼り付けて手動反映できます。")
