@@ -3,7 +3,7 @@ title: 個人用食事記録アプリ 開発仕様書
 category: 設定
 tags: [AI作成, 開発仕様]
 created_at: "2026-09-22 12:59"
-updated_at: "2026-09-22 22:30"
+updated_at: "2026-09-22 23:30"
 summary: 食事入力から保存・集計・外部出力までの動作、データ構造、受入基準と開発判断を管理する。
 related_notes:
   - "REQUIREMENTS.md"
@@ -264,9 +264,10 @@ MealItemは記録時点のスナップショットとして保存し、Favorite�
 
 ### 追記：2026-09-22 22:30 外部設定完了と公開準備
 
-- 状態：Supabaseプロジェクト、SQL、private画像バケット、Gemini APIキー、Vercel環境変数、Supabase URL設定、メールログインをユーザーが完了した。
+- 状態：Supabaseプロジェクト、SQL、private画像バケット、Gemini APIキー、Vercel環境変数、Supabase URL設定、メールログインをユーザーが完了した。Vercel Authenticationを解除し、本番URLのiPhone・ブラウザ表示と、Supabaseへの実クラウド保存を確認した。
 - 実施：内側のGit管理情報を外し、`90_Git`親リポジトリへアプリ本体を通常ファイルとしてコミットした（`810999f`）。
-- 未実施：GitHubのmainへのプッシュとVercel本番公開、実クラウド保存、実Gemini解析。公開操作は明示承認後に実行する。
+- 実施：明示承認後、GitHub mainへ `57dc78e` までプッシュ済み。
+- Gemini解析は `gemini-2.5-flash` が新規利用者に提供されないエラーを確認した。サーバー側の指定を `gemini-3.6-flash` へ更新し、再デプロイ後に料理名・写真の実解析を確認する。
 
 ## 参考文献・エビデンス（Sources）
 
