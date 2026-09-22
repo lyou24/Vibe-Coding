@@ -193,13 +193,13 @@ def fetch_html_via_scrapingbee(user_id: int, api_key: str) -> str:
     params = {
         'api_key': api_key,
         'url': url,
-        'render_js': 'false',
-        'forward_headers': 'true'
+        # CloudflareのJSチャレンジ（Just a moment...）を突破するためJSレンダリングを有効化
+        'render_js': 'true',
+        # ページとスコアの描画完了を待機
+        'wait': '3000',
     }
-    headers = {
-        "User-Agent": "Twitterbot/1.0"
-    }
-    resp = requests.get(scrapingbee_endpoint, params=params, headers=headers, timeout=60)
+    # UAを偽装せずScrapingBeeの標準ブラウザ指紋を使用
+    resp = requests.get(scrapingbee_endpoint, params=params, timeout=90)
     if resp.status_code == 200:
         return resp.text
     else:

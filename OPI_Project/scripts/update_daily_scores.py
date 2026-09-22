@@ -36,22 +36,16 @@ def fetch_via_scrapingbee(user_id: int) -> str:
     scrapingbee_endpoint = "https://app.scrapingbee.com/api/v1/"
     
     # ScrapingBeeのパラメータ
-    # Cloudflareをより確実に突破するために、render_js=True を有効化することも検討可
-    # 今回はまずは最小消費設定（render_js=False, premium_proxy=False）で試行
+    # CloudflareのJSチャレンジを突破するため、render_js=True を有効化
     params = {
         'api_key': SCRAPINGBEE_API_KEY,
         'url': url,
-        'render_js': 'false', 
-        # CloudflareのJSチャレンジを突破するためのUA設定(Twitterbot偽装)
-        'forward_headers': 'true'
-    }
-    
-    headers = {
-        "User-Agent": "Twitterbot/1.0"
+        'render_js': 'true', 
+        'wait': '3000',
     }
 
-    logger.info(f"Fetching user {user_id} via ScrapingBee...")
-    response = requests.get(scrapingbee_endpoint, params=params, headers=headers, timeout=60)
+    logger.info(f"Fetching user {user_id} via ScrapingBee (render_js=True)...")
+    response = requests.get(scrapingbee_endpoint, params=params, timeout=90)
     
     if response.status_code == 200:
         logger.info(f"Successfully fetched user {user_id}")
