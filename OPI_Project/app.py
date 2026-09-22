@@ -402,10 +402,15 @@ elif calibration_sync["status"] not in {"applied", "current", "calibration_db_mi
 
 st.sidebar.header("プレイヤー検索")
 user_input = st.sidebar.text_input("OngekiScoreLog ユーザーID", key="user_id_input")
-search_button = st.sidebar.button("🔍 検索 / 最新データに更新", key="search_btn")
 
-# --- 🔖 ブックマークレットで更新（おすすめ） ---
-with st.sidebar.expander("🔖 ブックマークレットで更新（おすすめ）", expanded=True):
+col_sb1, col_sb2 = st.sidebar.columns(2)
+with col_sb1:
+    search_button = st.button("🔍 検索", key="search_btn", use_container_width=True)
+with col_sb2:
+    update_button = st.button("🔄 最新更新", key="update_btn", use_container_width=True, help="ScrapingBee経由で最新スコアを取得・更新します")
+
+# --- 🔖 ブックマークレットで更新 ---
+with st.sidebar.expander("🔖 ブックマークレットで更新", expanded=False):
     st.markdown("""
 Cloudflareの制限を回避するため、**ブックマークレット**を利用した半自動更新が最も簡単です。
 
@@ -452,15 +457,23 @@ with st.sidebar.expander("📋 スコア貼り付け手動更新（HTML/テキ�
             except Exception as e:
                 st.sidebar.error(f"解析エラー: {e}")
 
-# --- 検索時の自動最新データ同期 ---
+# --- 検索および最新データ同期ロジック ---
 if user_input.isdigit():
     uid = int(user_input)
-    # 検索ボタンが押された場合、または新しくIDが指定された場合に自動同期
-    should_fetch = search_button or (st.session_state.get("last_synced_uid") != uid)
-    if should_fetch:
+    # 「🔄 最新更新」ボタンが押された場合のみ外部通信(ScrapingBee)を実行
+    if update_button:
         success = asyncio.run(fetch_and_analyze_user(uid, force=True))
         if success:
             st.session_state["last_synced_uid"] = uid
+            st.rerun()
+    elif search_button:
+        s_session = Session()
+        try:
+            p = s_session.query(Player).filter_by(user_id=uid).first()
+            if not p:
+                st.sidebar.info(f"ユーザー {uid} のデータがDBにありません。横の「🔄 最新更新」を押して取得してください。")
+        finally:
+            s_session.close()
 elif user_input:
     st.sidebar.error("有効な数値のIDを入力してください。")
 
