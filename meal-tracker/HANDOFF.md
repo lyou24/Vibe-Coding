@@ -3,7 +3,7 @@ title: 食事ログ 実装引き継ぎ書
 category: 設定
 tags: [AI作成, 開発引き継ぎ]
 created_at: "2026-09-22 13:31"
-updated_at: "2026-09-22 15:30"
+updated_at: "2026-09-22 22:30"
 summary: 実装済み機能、未接続の外部機能、検証結果、次の担当者への作業順を記録する。
 related_notes:
   - "REQUIREMENTS.md"
@@ -16,6 +16,8 @@ related_notes:
 ## 現在の状態
 
 作業ルートは `C:/Users/lyoul/AI_Project/90_Git/meal-tracker/`。Next.js 16 / React 19 / TypeScriptによるスマートフォン向けの初期実装が動作する。
+
+親リポジトリ `90_Git` の `main` にはローカルコミット `810999f feat: 個人用食事ログを追加` がある。GitHubへのプッシュとVercel公開は未実施で、明示承認を待つ。
 
 ローカル開発起動は `pnpm dev`。この環境では通常の `npm` が壊れた参照先を持つため使わない。`pnpm` 実行時に依存関係を再生成しようとする場合は、まず `CI=true pnpm install` を実行する。直接検証コマンドは以下。
 

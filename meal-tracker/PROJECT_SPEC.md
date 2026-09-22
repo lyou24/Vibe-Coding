@@ -3,7 +3,7 @@ title: 個人用食事記録アプリ 開発仕様書
 category: 設定
 tags: [AI作成, 開発仕様]
 created_at: "2026-09-22 12:59"
-updated_at: "2026-09-22 15:30"
+updated_at: "2026-09-22 22:30"
 summary: 食事入力から保存・集計・外部出力までの動作、データ構造、受入基準と開発判断を管理する。
 related_notes:
   - "REQUIREMENTS.md"
@@ -261,6 +261,12 @@ MealItemは記録時点のスナップショットとして保存し、Favorite�
 
 - 実装：Python依存を避けるため、同じ未配信イベント同期をNode.js標準機能で実行する`sync-to-obsidian.mjs`を追加し、`pnpm sync:obsidian`から起動できるようにした。
 - 検証：Node.js構文確認、ESLint、TypeScript、本番ビルドに合格。環境変数未設定時に接続情報を要求して停止することを確認。実Supabase通信は外部設定後に確認する。
+
+### 追記：2026-09-22 22:30 外部設定完了と公開準備
+
+- 状態：Supabaseプロジェクト、SQL、private画像バケット、Gemini APIキー、Vercel環境変数、Supabase URL設定、メールログインをユーザーが完了した。
+- 実施：内側のGit管理情報を外し、`90_Git`親リポジトリへアプリ本体を通常ファイルとしてコミットした（`810999f`）。
+- 未実施：GitHubのmainへのプッシュとVercel本番公開、実クラウド保存、実Gemini解析。公開操作は明示承認後に実行する。
 
 ## 参考文献・エビデンス（Sources）
 
