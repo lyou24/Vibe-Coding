@@ -220,6 +220,66 @@ def fetch_html_via_scrapingbee(user_id: int, api_key: str) -> str:
         err_msg = resp_premium.text if resp_premium.status_code != 200 else "Cloudflareの認証を突破できませんでした。"
         raise RuntimeError(f"ScrapingBee HTTP {resp_premium.status_code}: {err_msg}")
 
+import base64
+
+def sync_db_to_github():
+    """更新されたSQLiteデータベースをGitHubリポジトリへ自動コミット＆プッシュ（永続化）"""
+    token = None
+    try:
+        if hasattr(st, "secrets") and "GITHUB_TOKEN" in st.secrets:
+            token = st.secrets["GITHUB_TOKEN"]
+    except Exception:
+        pass
+    if not token:
+        token = os.environ.get("GITHUB_TOKEN")
+
+    if not token:
+        return False, "GITHUB_TOKEN 未設定（ローカル保存のみ）"
+
+    owner = "lyou24"
+    repo = "Vibe-Coding"
+    path = "OPI_Project/data/opi_database.sqlite"
+    branch = "main"
+
+    headers = {
+        "Authorization": f"Bearer {token}",
+        "Accept": "application/vnd.github+json",
+        "X-GitHub-Api-Version": "2022-11-28",
+    }
+
+    try:
+        # 1. 既存ファイルのSHAを取得
+        get_url = f"https://api.github.com/repos/{owner}/{repo}/contents/{path}?ref={branch}"
+        resp = requests.get(get_url, headers=headers, timeout=30)
+        sha = None
+        if resp.status_code == 200:
+            sha = resp.json().get("sha")
+
+        # 2. ローカルのDBファイルをBase64エンコード
+        if not os.path.exists(DB_FILE):
+            return False, "DBファイルが存在しません。"
+
+        with open(DB_FILE, "rb") as f:
+            content_b64 = base64.b64encode(f.read()).decode("utf-8")
+
+        # 3. GitHub APIで上書きコミット
+        put_url = f"https://api.github.com/repos/{owner}/{repo}/contents/{path}"
+        payload = {
+            "message": f"Auto-save database update from web UI ({datetime.now(JST).strftime('%Y-%m-%d %H:%M')})",
+            "content": content_b64,
+            "branch": branch,
+        }
+        if sha:
+            payload["sha"] = sha
+
+        put_resp = requests.put(put_url, headers=headers, json=payload, timeout=60)
+        if put_resp.status_code in (200, 201):
+            return True, "GitHubへ永続保存完了"
+        else:
+            return False, f"GitHub保存失敗 ({put_resp.status_code})"
+    except Exception as e:
+        return False, f"GitHub同期エラー: {e}"
+
 # --- バックエンド処理ラッパー ---
 def apply_user_snapshot_to_db(snapshot: dict, session) -> tuple:
     """スナップショットデータからDBを安全に更新し、OPIを再算出する共通処理"""
@@ -337,7 +397,11 @@ async def fetch_and_analyze_user(user_id: int, force: bool = True) -> bool:
 
         success, msg = apply_user_snapshot_to_db(snapshot, session)
         if success:
-            st.sidebar.success(msg)
+            ok_gh, msg_gh = sync_db_to_github()
+            if ok_gh:
+                st.sidebar.success(f"{msg}\n\n💾 {msg_gh}")
+            else:
+                st.sidebar.success(msg)
             return True
         else:
             st.sidebar.warning(msg)
@@ -446,7 +510,11 @@ with st.sidebar.expander("📋 スコア貼り付け手動更新（HTML/テキ�
                     try:
                         ok, m_msg = apply_user_snapshot_to_db(snapshot, m_session)
                         if ok:
-                            st.sidebar.success(f"手動反映完了: {m_msg}")
+                            ok_gh, msg_gh = sync_db_to_github()
+                            if ok_gh:
+                                st.sidebar.success(f"手動反映完了: {m_msg}\n\n💾 {msg_gh}")
+                            else:
+                                st.sidebar.success(f"手動反映完了: {m_msg}")
                             st.session_state["user_id_input"] = str(target_uid)
                             st.session_state["last_synced_uid"] = target_uid
                             st.rerun()
