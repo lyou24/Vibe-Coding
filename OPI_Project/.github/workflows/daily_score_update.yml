@@ -1,0 +1,53 @@
+name: Daily OPI Score Update
+
+on:
+  schedule:
+    # 毎日 日本時間 05:00 (UTC 20:00) に自動実行
+    - cron: '0 20 * * *'
+  workflow_dispatch:
+    # GitHub Actions画面から手動実行できるようにする
+
+jobs:
+  update-scores:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          # 実行用に追加で必要な可能性のあるライブラリ
+          pip install requests aiohttp
+
+      - name: Run ScrapingBee Update Script
+        env:
+          # ScrapingBee APIキー (GitHub Secrets から注入)
+          SCRAPINGBEE_API_KEY: ${{ secrets.SCRAPINGBEE_API_KEY }}
+          # 対象となる3人のユーザーIDを環境変数として渡す
+          TARGET_USER_IDS: "10605,7381,10870"
+        run: |
+          python scripts/update_daily_scores.py
+
+      - name: Commit and Push changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          
+          # DBファイルに変更があるか確認
+          if git diff --quiet data/opi_database.sqlite; then
+            echo "No changes in database. Skip commit."
+          else
+            git add data/opi_database.sqlite
+            git commit -m "Auto-update scores via ScrapingBee"
+            git push
+            echo "Successfully pushed updated database."
+          fi

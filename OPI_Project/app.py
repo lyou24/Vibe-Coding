@@ -187,8 +187,9 @@ def apply_user_snapshot_to_db(snapshot: dict, session) -> tuple:
     player_db.player_name = profile.get('player_name', f"User_{user_id}")
     if profile.get('rating') is not None:
         player_db.rating = profile['rating']
-    if profile.get('updated_at') is not None:
-        player_db.log_updated_at = profile['updated_at']
+    
+    from datetime import datetime
+    player_db.log_updated_at = datetime.now()
 
     charts = session.query(Chart).all()
     chart_by_id = {c.chart_id: c for c in charts}
@@ -451,8 +452,8 @@ if user_input.isdigit():
         with col_prof:
             st.header(f"👤 {player.player_name} さんのデータ")
             if player.log_updated_at:
-                date_str = player.log_updated_at.strftime('%Y-%m-%d') if hasattr(player.log_updated_at, 'strftime') else str(player.log_updated_at)[:10]
-                st.caption(f"スコア最終更新日: {date_str}")
+                date_str = player.log_updated_at.strftime('%Y-%m-%d %H:%M') if hasattr(player.log_updated_at, 'strftime') else str(player.log_updated_at)[:16]
+                st.caption(f"スコア最終更新日時: {date_str}")
         with col_btn:
             st.write("")
             if st.button("🔄 最新スコアに更新", key="main_refresh_score_btn", help="OngekiScoreLog から最新スコアを再取得して反映します"):
@@ -470,7 +471,7 @@ if user_input.isdigit():
         )
         st.caption(
             "最終データ更新: "
-            + (player.log_updated_at.strftime("%Y-%m-%d") if player.log_updated_at else "N/A")
+            + (player.log_updated_at.strftime("%Y-%m-%d %H:%M") if hasattr(player.log_updated_at, 'strftime') else str(player.log_updated_at)[:16])
         )
         
         st.divider()
