@@ -170,6 +170,41 @@ def render_image_export(title, settings, cards, filename_prefix, key):
             key=f"{key}_download_full_hd",
         )
 
+from datetime import date, datetime, timezone, timedelta
+import requests
+
+JST = timezone(timedelta(hours=9))
+
+def get_scrapingbee_api_key():
+    """Streamlit Secrets または環境変数から ScrapingBee の API キーを取得"""
+    api_key = None
+    try:
+        if hasattr(st, "secrets") and "SCRAPINGBEE_API_KEY" in st.secrets:
+            api_key = st.secrets["SCRAPINGBEE_API_KEY"]
+    except Exception:
+        pass
+    if not api_key:
+        api_key = os.environ.get("SCRAPINGBEE_API_KEY")
+    return api_key
+
+def fetch_html_via_scrapingbee(user_id: int, api_key: str) -> str:
+    url = f"https://ongeki-score.net/user/{user_id}"
+    scrapingbee_endpoint = "https://app.scrapingbee.com/api/v1/"
+    params = {
+        'api_key': api_key,
+        'url': url,
+        'render_js': 'false',
+        'forward_headers': 'true'
+    }
+    headers = {
+        "User-Agent": "Twitterbot/1.0"
+    }
+    resp = requests.get(scrapingbee_endpoint, params=params, headers=headers, timeout=60)
+    if resp.status_code == 200:
+        return resp.text
+    else:
+        raise RuntimeError(f"ScrapingBee HTTP {resp.status_code}: {resp.text}")
+
 # --- バックエンド処理ラッパー ---
 def apply_user_snapshot_to_db(snapshot: dict, session) -> tuple:
     """スナップショットデータからDBを安全に更新し、OPIを再算出する共通処理"""
@@ -188,8 +223,7 @@ def apply_user_snapshot_to_db(snapshot: dict, session) -> tuple:
     if profile.get('rating') is not None:
         player_db.rating = profile['rating']
     
-    from datetime import datetime
-    player_db.log_updated_at = datetime.now()
+    player_db.log_updated_at = datetime.now(JST)
 
     charts = session.query(Chart).all()
     chart_by_id = {c.chart_id: c for c in charts}
@@ -264,22 +298,35 @@ async def fetch_and_analyze_user(user_id: int, force: bool = True) -> bool:
     """ユーザーデータを収集し、OPIを算出する（最新スナップショット方式・安全アトミック更新）"""
     session = Session()
     crawler = OngekiCrawler()
+    api_key = get_scrapingbee_api_key()
 
     try:
-        with st.spinner(f"OngekiScoreLog からユーザー {user_id} の最新データを取得中..."):
-            snapshot = await crawler.fetch_user_snapshot(user_id, force=force)
+        snapshot = None
+        # 1. ScrapingBee APIキーがあれば、Cloudflareを回避して直接HTMLを取得
+        if api_key:
+            with st.spinner(f"ScrapingBee 経由でユーザー {user_id} の最新スコアを取得中..."):
+                try:
+                    html_text = fetch_html_via_scrapingbee(user_id, api_key)
+                    snapshot = OngekiCrawler.parse_user_text_or_html(html_text, user_id, force=force)
+                except Exception as sb_err:
+                    st.sidebar.warning(f"ScrapingBee経由の取得でエラーが発生しました: {sb_err}")
 
-            if not snapshot:
-                st.sidebar.warning(f"ユーザー {user_id} の最新データ取得に失敗したか、データが存在しませんでした。既存データを使用します。")
-                return False
+        # 2. キーがない場合や失敗した場合は既存のクローラーへフォールバック
+        if not snapshot:
+            with st.spinner(f"OngekiScoreLog からユーザー {user_id} の最新データを取得中..."):
+                snapshot = await crawler.fetch_user_snapshot(user_id, force=force)
 
-            success, msg = apply_user_snapshot_to_db(snapshot, session)
-            if success:
-                st.sidebar.success(msg)
-                return True
-            else:
-                st.sidebar.warning(msg)
-                return False
+        if not snapshot:
+            st.sidebar.warning(f"ユーザー {user_id} の最新データ取得に失敗したか、データが存在しませんでした。既存データを使用します。")
+            return False
+
+        success, msg = apply_user_snapshot_to_db(snapshot, session)
+        if success:
+            st.sidebar.success(msg)
+            return True
+        else:
+            st.sidebar.warning(msg)
+            return False
     except Exception as e:
         session.rollback()
         st.sidebar.warning(f"最新データの自動取得で制限が発生しました: {e}\n\n💡 下の「📋 スコア貼り付け手動更新」から、OngekiScoreLog の画面を全選択コピーして貼り付けることで、即座に本日の最新スコアに更新・再計算できます。")
