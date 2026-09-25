@@ -293,13 +293,7 @@ st.markdown("""
         color: #212529;
     }
 
-    /* ページネーション（iPhone画面幅375pxに確実に収まる超スリム設計） */
-    div:has(#pnav-anchor) + div div[data-testid="stHorizontalBlock"],
-    div:has(#pnav-anchor) ~ div div[data-testid="stHorizontalBlock"],
-    div:has(#pnav-anchor) + div[data-testid="stHorizontalBlock"],
-    div:has(#pnav-anchor) ~ div[data-testid="stHorizontalBlock"],
-    div[data-testid="stHorizontalBlock"]:has(> div:nth-child(4)),
-    div[data-testid="stHorizontalBlock"]:has(> div:nth-child(5)),
+    /* ページネーション（iPhone画面幅375pxに確実に収まる超スリム設計・他要素への影響ゼロ） */
     div[data-testid="stHorizontalBlock"]:has(button[key^="pnav_"]) {
         display: flex !important;
         flex-direction: row !important;
@@ -312,18 +306,8 @@ st.markdown("""
         margin: 6px auto !important;
         overflow: visible !important;
     }
-    div:has(#pnav-anchor) + div div[data-testid="column"],
-    div:has(#pnav-anchor) ~ div div[data-testid="column"],
-    div:has(#pnav-anchor) + div div[data-testid="stColumn"],
-    div:has(#pnav-anchor) ~ div div[data-testid="stColumn"],
-    div[data-testid="stHorizontalBlock"]:has(> div:nth-child(4)) > div[data-testid="column"],
-    div[data-testid="stHorizontalBlock"]:has(> div:nth-child(4)) > div[data-testid="stColumn"],
-    div[data-testid="stHorizontalBlock"]:has(> div:nth-child(4)) div[data-testid="column"],
-    div[data-testid="stHorizontalBlock"]:has(> div:nth-child(4)) div[data-testid="stColumn"],
-    div[data-testid="stHorizontalBlock"]:has(> div:nth-child(5)) > div[data-testid="column"],
-    div[data-testid="stHorizontalBlock"]:has(> div:nth-child(5)) > div[data-testid="stColumn"],
-    div[data-testid="stHorizontalBlock"]:has(> div:nth-child(5)) div[data-testid="column"],
-    div[data-testid="stHorizontalBlock"]:has(> div:nth-child(5)) div[data-testid="stColumn"],
+    div[data-testid="stHorizontalBlock"]:has(button[key^="pnav_"]) > div[data-testid="stColumn"],
+    div[data-testid="stHorizontalBlock"]:has(button[key^="pnav_"]) > div[data-testid="column"],
     div[data-testid="stHorizontalBlock"]:has(button[key^="pnav_"]) div[data-testid="stColumn"],
     div[data-testid="stHorizontalBlock"]:has(button[key^="pnav_"]) div[data-testid="column"] {
         width: 30px !important;
@@ -333,10 +317,6 @@ st.markdown("""
         padding: 0 !important;
         margin: 0 !important;
     }
-    div:has(#pnav-anchor) + div button,
-    div:has(#pnav-anchor) ~ div button,
-    div[data-testid="stHorizontalBlock"]:has(> div:nth-child(4)) button,
-    div[data-testid="stHorizontalBlock"]:has(> div:nth-child(5)) button,
     button[key^="pnav_"] {
         min-width: 26px !important;
         max-width: 30px !important;
@@ -354,7 +334,6 @@ st.markdown("""
         align-items: center !important;
         margin: 0 !important;
     }
-    div:has(#pnav-anchor) ~ div button p,
     button[key^="pnav_"] p {
         margin: 0 !important;
         line-height: 1 !important;
@@ -684,9 +663,18 @@ async def fetch_and_analyze_user(user_id: int, force: bool = True) -> bool:
 st.title("Ongeki Power Indicator (OPI)")
 
 
+TARGET_AUTH_HASH = "96cae35ce8a9b0244178bf28e4966c2ce1b8385723a96a6b838858cdd6ca0a1e"
+
+
 def check_password() -> bool:
-    """合言葉（パスワード）の認証チェック"""
+    """合言葉（パスワード）の認証チェック（URLクエリパラメータ永続化対応）"""
+    # 1. セッション内で既に認証済み
     if st.session_state.get("authenticated", False):
+        return True
+
+    # 2. クエリパラメータに認証トークンがある場合は自動パス（ページリロードやリンク遷移時のセッション維持）
+    if st.query_params.get("auth") == TARGET_AUTH_HASH:
+        st.session_state["authenticated"] = True
         return True
 
     st.markdown("---")
@@ -703,7 +691,6 @@ def check_password() -> bool:
 
     if submit or password_input:
         input_hash = hashlib.sha256(password_input.strip().encode("utf-8")).hexdigest()
-        target_hash = "96cae35ce8a9b0244178bf28e4966c2ce1b8385723a96a6b838858cdd6ca0a1e"
 
         secrets_password = None
         try:
@@ -712,8 +699,9 @@ def check_password() -> bool:
         except Exception:
             pass
 
-        if (secrets_password and password_input.strip() == str(secrets_password)) or input_hash == target_hash:
+        if (secrets_password and password_input.strip() == str(secrets_password)) or input_hash == TARGET_AUTH_HASH:
             st.session_state["authenticated"] = True
+            st.query_params["auth"] = TARGET_AUTH_HASH
             return True
         else:
             if password_input:
@@ -724,6 +712,12 @@ def check_password() -> bool:
 
 if not check_password():
     st.stop()
+
+# クエリパラメータに user_id がある場合、検索フォームの初期値として引き継ぐ
+if "user_id_input" not in st.session_state:
+    qp_uid = st.query_params.get("user_id", "")
+    if qp_uid:
+        st.session_state["user_id_input"] = qp_uid
 
 if calibration_sync["status"] == "error":
     st.warning(f"校正済み譜面OPIの読み込みに失敗したため、既存値を使用します: {calibration_sync['message']}")
@@ -1177,108 +1171,115 @@ if user_input.isdigit():
 
                 selected_detail_id = st.session_state.get("detail_chart_id")
 
-                # CPI風 楽曲詳細カードのレンダリング
+                # CPI風 楽曲詳細ポップアップ（モーダルダイアログ）
+                def render_chart_detail_content(detail_chart):
+                    d_score_log = scores_map.get(detail_chart.chart_id)
+                    d_cur_cat, d_cur_disp = recommender._determine_current_rank(d_score_log)
+                    d_cur_badge = get_rank_badge(format_current_rank({"current_rank": d_cur_cat, "current_status": d_cur_disp}))
+
+                    if d_score_log and d_score_log.score:
+                        d_score_text = f"{d_score_log.score:,}"
+                    else:
+                        d_score_text = "未プレイ"
+
+                    d_title_esc = html.escape(detail_chart.title)
+                    d_diff_raw = detail_chart.difficulty.value if hasattr(detail_chart.difficulty, 'value') else str(detail_chart.difficulty)
+                    d_diff_cls = f"diff-{d_diff_raw.lower()}"
+                    d_version, d_genre = CHART_METADATA.get(detail_chart.chart_id, ("不明", "不明"))
+                    if not d_genre or d_genre == "不明":
+                        d_genre = getattr(detail_chart, "genre", "オンゲキ")
+
+                    # 各ランクの適正OPIとクリア割合
+                    rate_cells_opi = []
+                    rate_cells_prob = []
+                    for r_name in ["S", "SS", "SSS", "SSS+", "AB+"]:
+                        x_val, y_val = calc.get_chart_rank_params(detail_chart, r_name)
+                        if x_val is not None:
+                            rank_info = rank_orders_map.get((detail_chart.chart_id, r_name))
+                            order_str = f"({rank_info[1]}位)" if rank_info else ""
+                            prob_val = calc.irt_probability(recommendation_opi or 1500.0, x_val, y_val)
+                            rate_cells_opi.append(f"<td>{x_val:.1f} <span class='rank-pos'>{order_str}</span></td>")
+                            rate_cells_prob.append(f"<td>{prob_val * 100:.2f}%</td>")
+                        else:
+                            rate_cells_opi.append("<td>-</td>")
+                            rate_cells_prob.append("<td>-</td>")
+
+                    detail_card_html = f"""
+                    <div class="cpi-detail-card" style="margin: 0; box-shadow: none; border: none; padding: 0;">
+                        <div class="cpi-detail-header">
+                            <div class="cpi-detail-title-row">
+                                <span class="cpi-detail-title" style="font-size: 15px;">{d_title_esc}</span>
+                                <span class="cpi-detail-diff {d_diff_cls}">{d_diff_raw}</span>
+                            </div>
+                            <div class="cpi-detail-meta" style="font-size: 11px; margin-top: 3px;">
+                                <span>{html.escape(str(d_genre))}</span> / <span>{html.escape(str(d_version))}</span> / <span>Lv.{detail_chart.level}（定数 {detail_chart.chart_constant:.1f}）</span>
+                            </div>
+                        </div>
+                        <table class="cpi-detail-player-table">
+                            <thead>
+                                <tr>
+                                    <th>プレイヤー</th>
+                                    <th>リコメンドOPI</th>
+                                    <th>ランプ</th>
+                                    <th>スコア</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="player-name">{html.escape(player.player_name)}</td>
+                                    <td class="player-opi">{recommendation_opi:.1f}</td>
+                                    <td class="player-rank">{d_cur_badge}</td>
+                                    <td class="player-score">{d_score_text}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="cpi-section-title">適正OPI・クリア割合</div>
+                        <table class="cpi-detail-rate-table">
+                            <thead>
+                                <tr>
+                                    <th class="th-s">S</th>
+                                    <th class="th-ss">SS</th>
+                                    <th class="th-sss">SSS</th>
+                                    <th class="th-sssp">SSS+</th>
+                                    <th class="th-abp">AB+</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="row-opi">
+                                    {''.join(rate_cells_opi)}
+                                </tr>
+                                <tr class="row-rate">
+                                    {''.join(rate_cells_prob)}
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    """
+                    st.markdown(detail_card_html, unsafe_allow_html=True)
+                    if st.button("✕ 閉じる", key="btn_close_detail_modal", use_container_width=True):
+                        st.session_state.detail_chart_id = None
+                        if "chart_id" in st.query_params:
+                            del st.query_params["chart_id"]
+                        st.rerun()
+
+                if hasattr(st, "dialog"):
+                    @st.dialog("🎵 楽曲詳細情報", width="small")
+                    def show_chart_detail_dialog(c_obj):
+                        render_chart_detail_content(c_obj)
+                else:
+                    def show_chart_detail_dialog(c_obj):
+                        render_chart_detail_content(c_obj)
+
+                # ポップアップの表示発火
                 if selected_detail_id:
                     detail_chart = next((c for c in eligible_charts if c.chart_id == selected_detail_id), None)
                     if not detail_chart:
                         detail_chart = session.query(Chart).filter_by(chart_id=selected_detail_id).first()
 
                     if detail_chart:
-                        d_score_log = scores_map.get(detail_chart.chart_id)
-                        d_cur_cat, d_cur_disp = recommender._determine_current_rank(d_score_log)
-                        d_cur_badge = get_rank_badge(format_current_rank({"current_rank": d_cur_cat, "current_status": d_cur_disp}))
+                        show_chart_detail_dialog(detail_chart)
 
-                        if d_score_log and d_score_log.score:
-                            d_score_text = f"{d_score_log.score:,}"
-                        else:
-                            d_score_text = "未プレイ"
-
-                        d_title_esc = html.escape(detail_chart.title)
-                        d_diff_raw = detail_chart.difficulty.value if hasattr(detail_chart.difficulty, 'value') else str(detail_chart.difficulty)
-                        d_diff_cls = f"diff-{d_diff_raw.lower()}"
-                        d_version, d_genre = CHART_METADATA.get(detail_chart.chart_id, ("不明", "不明"))
-                        if not d_genre or d_genre == "不明":
-                            d_genre = getattr(detail_chart, "genre", "オンゲキ")
-
-                        # 各ランクの適正OPIとクリア割合
-                        rate_cells_opi = []
-                        rate_cells_prob = []
-                        for r_name in ["S", "SS", "SSS", "SSS+", "AB+"]:
-                            x_val, y_val = calc.get_chart_rank_params(detail_chart, r_name)
-                            if x_val is not None:
-                                rank_info = rank_orders_map.get((detail_chart.chart_id, r_name))
-                                order_str = f"({rank_info[1]}位)" if rank_info else ""
-                                prob_val = calc.irt_probability(recommendation_opi or 1500.0, x_val, y_val)
-                                rate_cells_opi.append(f"<td>{x_val:.1f} <span class='rank-pos'>{order_str}</span></td>")
-                                rate_cells_prob.append(f"<td>{prob_val * 100:.2f}%</td>")
-                            else:
-                                rate_cells_opi.append("<td>-</td>")
-                                rate_cells_prob.append("<td>-</td>")
-
-                        close_col1, close_col2 = st.columns([5, 1.2])
-                        with close_col1:
-                            st.caption("🎵 選択中の楽曲詳細（CPIスタイル）")
-                        with close_col2:
-                            if st.button("✕ 閉じる", key="btn_close_detail_card", use_container_width=True):
-                                st.session_state.detail_chart_id = None
-                                if "chart_id" in st.query_params:
-                                    del st.query_params["chart_id"]
-                                st.rerun()
-
-                        detail_card_html = f"""
-                        <div class="cpi-detail-card">
-                            <div class="cpi-detail-header">
-                                <div class="cpi-detail-title-row">
-                                    <span class="cpi-detail-title">{d_title_esc}</span>
-                                    <span class="cpi-detail-diff {d_diff_cls}">{d_diff_raw}</span>
-                                </div>
-                                <div class="cpi-detail-meta">
-                                    <span>{html.escape(str(d_genre))}</span> / <span>{html.escape(str(d_version))}</span> / <span>Lv.{detail_chart.level}（定数 {detail_chart.chart_constant:.1f}）</span>
-                                </div>
-                            </div>
-                            <table class="cpi-detail-player-table">
-                                <thead>
-                                    <tr>
-                                        <th>プレイヤー</th>
-                                        <th>リコメンドOPI</th>
-                                        <th>ランプ</th>
-                                        <th>スコア</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td class="player-name">{html.escape(player.player_name)}</td>
-                                        <td class="player-opi">{recommendation_opi:.1f}</td>
-                                        <td class="player-rank">{d_cur_badge}</td>
-                                        <td class="player-score">{d_score_text}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                            <div class="cpi-section-title">適正OPI・クリア割合</div>
-                            <table class="cpi-detail-rate-table">
-                                <thead>
-                                    <tr>
-                                        <th class="th-s">S</th>
-                                        <th class="th-ss">SS</th>
-                                        <th class="th-sss">SSS</th>
-                                        <th class="th-sssp">SSS+</th>
-                                        <th class="th-abp">AB+</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr class="row-opi">
-                                        {''.join(rate_cells_opi)}
-                                    </tr>
-                                    <tr class="row-rate">
-                                        {''.join(rate_cells_prob)}
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        """
-                        st.markdown(detail_card_html, unsafe_allow_html=True)
-                else:
-                    st.caption("💡 楽曲名をタップすると、その楽曲のOPI・スコア値および各ランクの適正OPI・クリア割合が表示されます。")
+                st.caption("💡 楽曲名をタップすると、その楽曲のOPI・スコア値および各ランクの適正OPI・クリア割合がポップアップ表示されます。")
 
                 rows_html = []
                 for item in page_data:
@@ -1290,10 +1291,10 @@ if user_input.isdigit():
                     target_badge = get_rank_badge(item.get("target_rank", ""))
                     win_rate = f"{item.get('probability', 0.0) * 100:.2f}%"
 
-                    # 曲名タップで詳細を開くリンク＆選択中ハイライト
+                    # 曲名タップで詳細を開くリンク＆選択中ハイライト（auth付きでアクセス制限回避）
                     is_selected = (item.get("chart_id") == selected_detail_id)
                     row_cls = " class='cpi-row-selected'" if is_selected else ""
-                    title_link = f'<a href="?user_id={uid}&chart_id={item["chart_id"]}" target="_self" class="cpi-title-link" title="タップして詳細を表示">{title_esc}</a>'
+                    title_link = f'<a href="?user_id={uid}&chart_id={item["chart_id"]}&auth={TARGET_AUTH_HASH}" target="_self" class="cpi-title-link" title="タップして詳細を表示">{title_esc}</a>'
 
                     rows_html.append(f"""<tr{row_cls}>
                         <td class="cpi-col-title"><div class="cpi-title-text">{title_link}</div></td>
@@ -1400,30 +1401,21 @@ if user_input.isdigit():
                 
         with tab2:
             st.subheader("レーティング別 総合OPI目標値および分布統計表")
-            ability_run = OPIVisualizer.get_latest_calibrated_ability_run(CALIBRATION_DB_FILE)
-            calibrated_player_data = OPIVisualizer.load_latest_calibrated_player_data(
-                CALIBRATION_DB_FILE
-            )
-            df_target_stats = OPIVisualizer.build_distribution_table(calibrated_player_data)
-            if ability_run is not None and not df_target_stats.empty:
-                st.caption(
-                    f"実プレイヤー再推定 run #{ability_run['run_id']}（親単曲run "
-                    f"#{ability_run['parent_run_id']}）。譜面定数14.0以上・ソロver.除外・"
-                    f"AAA以上のスコアのみ。推定可能 "
-                    f"{ability_run['estimated_player_count']:,}/{ability_run['player_count']:,}人。"
-                )
+            vis = OPIVisualizer(DB_FILE)
+            df_target_stats = vis.calculate_current_distribution_table()
+            if not df_target_stats.empty:
+                st.caption("全スコア対象のプレイヤーデータから算出したレーティング帯別の分布統計です。")
                 st.dataframe(df_target_stats, use_container_width=True)
             else:
-                st.warning("AAA以上条件のプレイヤーOPI再推定結果がありません。")
+                st.info("分布統計データを読み込めませんでした。")
 
             st.divider()
             st.subheader("レーティング別 総合OPI動的分布図")
-            vis = OPIVisualizer(DB_FILE)
+            # アプリが重くならないよう自身の位置は表示せず、全プレイヤーの分布図のみ表示
             fig = vis.create_distribution_figure(
-                player_rating=player.rating,
-                player_opi=recommendation_opi,
-                player_name=player.player_name,
-                player_data=calibrated_player_data,
+                player_rating=None,
+                player_opi=None,
+                player_data=None,
             )
             st.plotly_chart(fig, use_container_width=True)
                 
