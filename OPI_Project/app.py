@@ -1688,6 +1688,14 @@ if user_input.isdigit():
                     opi_column = f"{my_diff_simple_target_rank} 適正OPI"
                     df_my_charts["OPI帯"] = (df_my_charts[opi_column] // 100 * 100).astype(int)
 
+                    DIFF_EMOJI_MAP = {
+                        "MASTER": "🟪",
+                        "EXPERT": "🟨",
+                        "LUNATIC": "⬜",
+                        "ADVANCED": "🟧",
+                        "BASIC": "🟩",
+                    }
+
                     unique_bands = sorted(df_my_charts["OPI帯"].unique(), reverse=True)
                     for opi_band in unique_bands:
                         band_rows = df_my_charts[df_my_charts["OPI帯"] == opi_band]
@@ -1705,10 +1713,14 @@ if user_input.isdigit():
                                     border_color = "#dee2e6"
                                     text_color = "#1f2937"
 
+                                diff_key = str(row.get("難易度", "")).upper()
+                                d_emoji = DIFF_EMOJI_MAP.get(diff_key, "")
                                 title_esc = html.escape(str(row['楽曲名']))
+                                disp_title = f"{d_emoji} {title_esc}" if d_emoji else title_esc
+
                                 cards_html.append(
                                     f'<div class="mobile-opi-card" style="background-color: {bg_color}; border-color: {border_color}; color: {text_color};">'
-                                    f'<span class="mobile-opi-title" style="color: {text_color};">{title_esc}</span>'
+                                    f'<span class="mobile-opi-title" style="color: {text_color};">{disp_title}</span>'
                                     f'</div>'
                                 )
 
@@ -1718,13 +1730,16 @@ if user_input.isdigit():
                     my_difficulty_simple_cards = []
                     for _, row in df_my_charts.iterrows():
                         style = ACHIEVED_RANK_CARD_STYLES.get(row["現在ランク"], {})
+                        diff_key = str(row.get("難易度", "")).upper()
+                        d_emoji = DIFF_EMOJI_MAP.get(diff_key, "")
+                        card_title = f"{d_emoji} {row['楽曲名']}" if d_emoji else row["楽曲名"]
                         my_difficulty_simple_cards.append({
-                            "title": row["楽曲名"],
-                            "metadata": "",
+                            "title": card_title,
+                            "metadata": f"{row['難易度']}",
                             "details": [
                                 f"現在: {row['現在ランク']} ({row['達成状況']})",
                             ],
-                            "summary": row["楽曲名"],
+                            "summary": card_title,
                             **style,
                         })
                     render_image_export(
