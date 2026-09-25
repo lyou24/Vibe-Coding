@@ -50,12 +50,52 @@ async def update_user_local(user_id: int = 10605):
     finally:
         await crawler.close()
 
+async def update_users(user_ids: list):
+    crawler = OngekiCrawler()
+    db_path = os.path.join(_PROJECT_DIR, "data", "opi_database.sqlite")
+    engine = init_db(db_path)
+    Session = get_session_maker(engine)
+
+    try:
+        for idx, user_id in enumerate(user_ids):
+            print(f"\n=== [{idx + 1}/{len(user_ids)}] ユーザー {user_id} のスコア直接更新開始（API不使用） ===")
+            snapshot = await crawler.fetch_user_snapshot(user_id, force=True)
+            if not snapshot:
+                print(f"❌ ユーザー {user_id} のデータ取得に失敗しました。")
+                continue
+
+            profile = snapshot.get("profile", {})
+            scores = snapshot.get("scores", [])
+            print(f"✅ 取得成功: プレイヤー名={profile.get('player_name')}, レーティング={profile.get('rating')}, 総譜面数={len(scores)}件")
+
+            session = Session()
+            try:
+                success, message = apply_user_snapshot_to_db(snapshot, session)
+                print(f"📊 DB反映結果: {message}")
+                if success:
+                    p = session.query(Player).filter_by(user_id=user_id).first()
+                    count = session.query(ScoreLog).filter_by(user_id=user_id).count()
+                    print(f"✨ 反映完了: プレイヤー={p.player_name}, OPI={p.total_opi:.2f}, 更新日時={p.log_updated_at}, 対象スコア件数={count}件")
+            finally:
+                session.close()
+
+            if idx + 1 < len(user_ids):
+                await asyncio.sleep(1.0)
+    finally:
+        await crawler.close()
+
 if __name__ == "__main__":
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8")
     
-    target_uid = 10605
-    if len(sys.argv) > 1 and sys.argv[1].isdigit():
-        target_uid = int(sys.argv[1])
+    target_uids = []
+    if len(sys.argv) > 1:
+        for arg in sys.argv[1:]:
+            if arg.isdigit():
+                target_uids.append(int(arg))
+    
+    if not target_uids:
+        target_uids = [10605]
         
-    asyncio.run(update_user_local(target_uid))
+    asyncio.run(update_users(target_uids))
+
