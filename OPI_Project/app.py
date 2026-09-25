@@ -58,6 +58,12 @@ st.markdown("""
             padding: 8px 12px !important;
             font-size: 14px !important;
         }
+        /* ページネーションボタンの最適化 */
+        div[data-testid="column"] button {
+            padding: 4px 4px !important;
+            font-size: 13px !important;
+            min-height: 36px !important;
+        }
     }
 </style>
 """, unsafe_allow_html=True)
@@ -703,17 +709,49 @@ if user_input.isdigit():
                     height=table_height,
                 )
                 
-                col_prev, col_page, col_next = st.columns([1, 2, 1])
-                with col_prev:
-                    if st.button("◀ 前のページ", disabled=(st.session_state.recs_page == 0), key="btn_prev"):
-                        st.session_state.recs_page -= 1
-                        st.rerun()
-                with col_page:
-                    st.markdown(f"<div style='text-align: center;'>{st.session_state.recs_page + 1} / {total_pages} ページ (全 {len(df_display)} 件)</div>", unsafe_allow_html=True)
-                with col_next:
-                    if st.button("次のページ ▶", disabled=(st.session_state.recs_page >= total_pages - 1), key="btn_next"):
-                        st.session_state.recs_page += 1
-                        st.rerun()
+                cur_page = st.session_state.recs_page + 1
+                
+                # ページ番号リストの生成（1, 2, 3, ..., total_pages）
+                if total_pages <= 7:
+                    page_items = list(range(1, total_pages + 1))
+                else:
+                    if cur_page <= 3:
+                        page_items = [1, 2, 3, 4, "...", total_pages]
+                    elif cur_page >= total_pages - 2:
+                        page_items = [1, "...", total_pages - 3, total_pages - 2, total_pages - 1, total_pages]
+                    else:
+                        page_items = [1, "...", cur_page - 1, cur_page, cur_page + 1, "...", total_pages]
+
+                nav_items = ["◀"] + page_items + ["▶"]
+                cols = st.columns(len(nav_items))
+                
+                for idx, item in enumerate(nav_items):
+                    with cols[idx]:
+                        if item == "◀":
+                            if st.button("◀", disabled=(cur_page == 1), key="nav_prev", use_container_width=True):
+                                st.session_state.recs_page -= 1
+                                st.rerun()
+                        elif item == "▶":
+                            if st.button("▶", disabled=(cur_page == total_pages), key="nav_next", use_container_width=True):
+                                st.session_state.recs_page += 1
+                                st.rerun()
+                        elif item == "...":
+                            st.button("…", disabled=True, key=f"nav_ellipsis_{idx}", use_container_width=True)
+                        else:
+                            page_num = int(item)
+                            is_current = (page_num == cur_page)
+                            btn_type = "primary" if is_current else "secondary"
+                            if st.button(str(page_num), key=f"nav_page_{page_num}", type=btn_type, use_container_width=True):
+                                if not is_current:
+                                    st.session_state.recs_page = page_num - 1
+                                    st.rerun()
+                
+                st.caption(
+                    f"<div style='text-align: center; margin-top: 4px;'>"
+                    f"全 {total_pages} ページ中 {cur_page} ページ目（{start_idx + 1}〜{min(end_idx, len(df_display))} / 全 {len(df_display)} 件）"
+                    f"</div>",
+                    unsafe_allow_html=True
+                )
 
                 recommendation_settings = [
                     f"プレイヤー: {player.player_name} / リコメンドOPI: {recommendation_opi:.1f}",
