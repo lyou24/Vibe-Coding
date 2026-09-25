@@ -135,7 +135,7 @@ st.markdown("""
     .genre-pops { background: #1e88e5; }
     .genre-other { background: #546e7a; }
 
-    /* ページネーション（スマホ表示でも確実に横並び・中央揃え・iPhone幅ぴったり） */
+    /* ページネーション（iPhone画面幅375pxに確実に収まる超スリム設計: 210px幅） */
     div:has(#pnav-anchor) + div div[data-testid="stHorizontalBlock"],
     div:has(#pnav-anchor) ~ div div[data-testid="stHorizontalBlock"],
     div:has(#pnav-anchor) + div[data-testid="stHorizontalBlock"],
@@ -147,10 +147,11 @@ st.markdown("""
         flex-wrap: nowrap !important;
         justify-content: center !important;
         align-items: center !important;
-        gap: 3px !important;
-        max-width: 320px !important;
-        width: 100% !important;
+        gap: 2px !important;
+        max-width: 230px !important;
+        width: auto !important;
         margin: 6px auto !important;
+        overflow: visible !important;
     }
     div:has(#pnav-anchor) + div div[data-testid="column"],
     div:has(#pnav-anchor) ~ div div[data-testid="column"],
@@ -158,10 +159,10 @@ st.markdown("""
     div[data-testid="stHorizontalBlock"]:has(> div:nth-child(4)) div[data-testid="column"],
     div[data-testid="stHorizontalBlock"]:has(> div:nth-child(5)) > div[data-testid="column"],
     div[data-testid="stHorizontalBlock"]:has(> div:nth-child(5)) div[data-testid="column"] {
-        width: auto !important;
-        min-width: 0 !important;
-        max-width: none !important;
-        flex: 0 0 auto !important;
+        width: 28px !important;
+        min-width: 24px !important;
+        max-width: 32px !important;
+        flex: 0 0 28px !important;
         padding: 0 !important;
         margin: 0 !important;
     }
@@ -169,16 +170,43 @@ st.markdown("""
     div:has(#pnav-anchor) ~ div button,
     div[data-testid="stHorizontalBlock"]:has(> div:nth-child(4)) button,
     div[data-testid="stHorizontalBlock"]:has(> div:nth-child(5)) button {
-        min-width: 28px !important;
-        width: auto !important;
-        height: 30px !important;
-        padding: 0 4px !important;
-        font-size: 11.5px !important;
+        min-width: 26px !important;
+        max-width: 30px !important;
+        width: 28px !important;
+        height: 28px !important;
+        min-height: 28px !important;
+        padding: 0 !important;
+        font-size: 11px !important;
         border-radius: 4px !important;
-        line-height: 1 !important;
+        line-height: 28px !important;
         display: inline-flex !important;
         justify-content: center !important;
         align-items: center !important;
+        margin: 0 !important;
+    }
+
+    /* CPI風フィルターUIのスタイル調整 */
+    .filter-header-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 8px 0 4px 0;
+    }
+    button[key^="btn_all_"], button[key^="btn_none_"] {
+        font-size: 11px !important;
+        padding: 1px 6px !important;
+        min-height: 26px !important;
+        height: 26px !important;
+        line-height: 1 !important;
+        border-radius: 4px !important;
+    }
+    div[data-testid="stCheckbox"] {
+        margin-bottom: 2px !important;
+    }
+    div[data-testid="stCheckbox"] label {
+        font-size: 12px !important;
+        padding-top: 1px !important;
+        padding-bottom: 1px !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -683,23 +711,125 @@ if user_input.isdigit():
         with tab1:
             st.subheader("おすすめの目標楽曲")
             
-            # 多次元フィルターUIを折りたたみ
-            with st.expander("フィルター設定", expanded=False):
-                col_f1, col_f2 = st.columns(2)
-                with col_f1:
-                    target_ranks = st.multiselect(
-                        "目標ランク（複数選択可、未選択時は全対象）",
-                        options=TARGET_RANK_OPTIONS,
-                        default=[],
-                        key="filter_target_rank"
-                    )
-                    level_filters = st.multiselect(
-                        "レベル絞り込み（複数選択可、未選択時は全対象）",
-                        options=LEVEL_OPTIONS,
-                        default=[],
-                        key="filter_level"
-                    )
-                with col_f2:
+            # CPI風絞り込みフィルターの定義
+            CPI_GENRE_OPTIONS = ["オンゲキ", "チュウマイ", "VARIETY", "東方Project", "POPS & ANIME", "niconico"]
+            CPI_CURRENT_OPTIONS = [
+                ("NP", "未プレイ"),
+                ("未S", "未S"),
+                ("S", "S止まり"),
+                ("SS", "SS止まり"),
+                ("SSS", "SSS止まり"),
+                ("SSS+", "SSS+止まり"),
+                ("AB+", "AB+")
+            ]
+            CPI_TARGET_OPTIONS = ["S", "SS", "SSS", "SSS+", "AB+"]
+            CPI_LEVEL_OPTIONS = ["14", "14+", "15"]
+
+            # 初期化（初回アクセス時）
+            if "cpi_filter_init" not in st.session_state:
+                for g in CPI_GENRE_OPTIONS:
+                    st.session_state[f"chk_genre_{g}"] = True
+                for label, val in CPI_CURRENT_OPTIONS:
+                    st.session_state[f"chk_cur_{val}"] = True
+                for tr in CPI_TARGET_OPTIONS:
+                    st.session_state[f"chk_tar_{tr}"] = True
+                for lv in CPI_LEVEL_OPTIONS:
+                    st.session_state[f"chk_lv_{lv}"] = True
+                st.session_state.cpi_filter_init = True
+
+            # 多次元フィルターUI（CPI風絞り込み）
+            with st.expander("🔽 絞り込み", expanded=False):
+                # 1. ジャンル
+                h_col, b_col1, b_col2 = st.columns([3.5, 1.25, 1.25])
+                with h_col:
+                    st.markdown("**ジャンル**")
+                with b_col1:
+                    if st.button("全てチェック", key="btn_all_genre"):
+                        for g in CPI_GENRE_OPTIONS:
+                            st.session_state[f"chk_genre_{g}"] = True
+                        st.rerun()
+                with b_col2:
+                    if st.button("全て非チェック", key="btn_none_genre"):
+                        for g in CPI_GENRE_OPTIONS:
+                            st.session_state[f"chk_genre_{g}"] = False
+                        st.rerun()
+
+                g_cols = st.columns(3)
+                for idx, g in enumerate(CPI_GENRE_OPTIONS):
+                    with g_cols[idx % 3]:
+                        st.checkbox(g, key=f"chk_genre_{g}")
+
+                st.markdown("<hr style='margin: 6px 0; border: none; border-top: 1px solid #eee;'>", unsafe_allow_html=True)
+
+                # 2. 現ランプ
+                h_col, b_col1, b_col2 = st.columns([3.5, 1.25, 1.25])
+                with h_col:
+                    st.markdown("**現ランプ**")
+                with b_col1:
+                    if st.button("全てチェック", key="btn_all_cur"):
+                        for label, val in CPI_CURRENT_OPTIONS:
+                            st.session_state[f"chk_cur_{val}"] = True
+                        st.rerun()
+                with b_col2:
+                    if st.button("全て非チェック", key="btn_none_cur"):
+                        for label, val in CPI_CURRENT_OPTIONS:
+                            st.session_state[f"chk_cur_{val}"] = False
+                        st.rerun()
+
+                c_cols = st.columns(4)
+                for idx, (label, val) in enumerate(CPI_CURRENT_OPTIONS):
+                    with c_cols[idx % 4]:
+                        st.checkbox(label, key=f"chk_cur_{val}")
+
+                st.markdown("<hr style='margin: 6px 0; border: none; border-top: 1px solid #eee;'>", unsafe_allow_html=True)
+
+                # 3. 目標ランプ
+                h_col, b_col1, b_col2 = st.columns([3.5, 1.25, 1.25])
+                with h_col:
+                    st.markdown("**目標ランプ**")
+                with b_col1:
+                    if st.button("全てチェック", key="btn_all_tar"):
+                        for tr in CPI_TARGET_OPTIONS:
+                            st.session_state[f"chk_tar_{tr}"] = True
+                        st.rerun()
+                with b_col2:
+                    if st.button("全て非チェック", key="btn_none_tar"):
+                        for tr in CPI_TARGET_OPTIONS:
+                            st.session_state[f"chk_tar_{tr}"] = False
+                        st.rerun()
+
+                t_cols = st.columns(5)
+                for idx, tr in enumerate(CPI_TARGET_OPTIONS):
+                    with t_cols[idx % 5]:
+                        st.checkbox(tr, key=f"chk_tar_{tr}")
+
+                st.markdown("<hr style='margin: 6px 0; border: none; border-top: 1px solid #eee;'>", unsafe_allow_html=True)
+
+                # 4. レベル
+                h_col, b_col1, b_col2 = st.columns([3.5, 1.25, 1.25])
+                with h_col:
+                    st.markdown("**レベル**")
+                with b_col1:
+                    if st.button("全てチェック", key="btn_all_lv"):
+                        for lv in CPI_LEVEL_OPTIONS:
+                            st.session_state[f"chk_lv_{lv}"] = True
+                        st.rerun()
+                with b_col2:
+                    if st.button("全て非チェック", key="btn_none_lv"):
+                        for lv in CPI_LEVEL_OPTIONS:
+                            st.session_state[f"chk_lv_{lv}"] = False
+                        st.rerun()
+
+                l_cols = st.columns(3)
+                for idx, lv in enumerate(CPI_LEVEL_OPTIONS):
+                    with l_cols[idx % 3]:
+                        st.checkbox(f"Lv {lv}", key=f"chk_lv_{lv}")
+
+                st.markdown("<hr style='margin: 6px 0; border: none; border-top: 1px solid #eee;'>", unsafe_allow_html=True)
+
+                # 5. 詳細条件
+                col_w1, col_w2 = st.columns(2)
+                with col_w1:
                     constant_range = st.slider(
                         "譜面定数範囲",
                         min_value=MIN_TARGET_CONSTANT,
@@ -708,15 +838,7 @@ if user_input.isdigit():
                         step=0.1,
                         key="filter_constant_range"
                     )
-                    current_rank_filters = st.multiselect(
-                        "現在の達成ランク（複数選択可、未選択時は全対象）",
-                        options=["未プレイ", "未S", "S止まり", "SS止まり", "SSS止まり", "SSS+止まり", "AB+"],
-                        default=[],
-                        key="filter_current_rank"
-                    )
-
-                col_w1, col_sort = st.columns([2, 1])
-                with col_w1:
+                with col_w2:
                     clear_rate_range = st.slider(
                         "クリア割合範囲（%）",
                         min_value=0.0,
@@ -725,19 +847,24 @@ if user_input.isdigit():
                         step=1.0,
                         key="filter_clear_rate_range"
                     )
-                with col_sort:
-                    sort_key = st.selectbox(
-                        "並び順",
-                        options=["適正順", "クリア割合が高い順", "現在ランク順", "目標ランク順"],
-                    )
 
-            param_level = level_filters or None
-            param_current_rank = current_rank_filters or None
+                sort_key = st.selectbox(
+                    "並び順",
+                    options=["適正順", "クリア割合が高い順", "現在ランク順", "目標ランク順"],
+                    key="filter_sort_key"
+                )
+
+            # チェックボックス選択状態の抽出
+            selected_genres = [g for g in CPI_GENRE_OPTIONS if st.session_state.get(f"chk_genre_{g}", True)]
+            selected_cur_ranks = [val for label, val in CPI_CURRENT_OPTIONS if st.session_state.get(f"chk_cur_{val}", True)]
+            selected_target_ranks = [tr for tr in CPI_TARGET_OPTIONS if st.session_state.get(f"chk_tar_{tr}", True)]
+            selected_levels = [lv for lv in CPI_LEVEL_OPTIONS if st.session_state.get(f"chk_lv_{lv}", True)]
+
+            param_level = selected_levels if selected_levels else ["__NONE__"]
+            param_current_rank = selected_cur_ranks if selected_cur_ranks else ["__NONE__"]
             const_min, const_max = constant_range
             clear_rate_min, clear_rate_max = clear_rate_range
-
-            # 未選択時は全対象とするフォールバック
-            effective_target_ranks = target_ranks or TARGET_RANK_OPTIONS
+            effective_target_ranks = selected_target_ranks
 
             recommender = OPIRecommender(DB_FILE)
             recs = []
@@ -783,6 +910,11 @@ if user_input.isdigit():
                     item["version"] = fallback_version
                 if not item.get("genre") or item["genre"] == "不明":
                     item["genre"] = fallback_genre
+            
+            if selected_genres:
+                recs = [item for item in recs if item.get("genre") in selected_genres or (not item.get("genre") and "不明" in selected_genres)]
+            else:
+                recs = []
             
             if recs:
                 if 'recs_page' not in st.session_state:
@@ -903,18 +1035,18 @@ if user_input.isdigit():
                 else:
                     page_items = [1, "...", cur_page, "...", total_pages]
 
-                nav_items = ["前へ"] + page_items + ["次へ"]
+                nav_items = ["◀"] + page_items + ["▶"]
                 st.markdown('<div id="pnav-anchor"></div>', unsafe_allow_html=True)
                 cols = st.columns(len(nav_items), gap="small")
 
                 for idx, item in enumerate(nav_items):
                     with cols[idx]:
-                        if item == "前へ":
-                            if st.button("前へ", disabled=(cur_page == 1), key="pnav_prev"):
+                        if item == "◀":
+                            if st.button("◀", disabled=(cur_page == 1), key="pnav_prev"):
                                 st.session_state.recs_page -= 1
                                 st.rerun()
-                        elif item == "次へ":
-                            if st.button("次へ", disabled=(cur_page == total_pages), key="pnav_next"):
+                        elif item == "▶":
+                            if st.button("▶", disabled=(cur_page == total_pages), key="pnav_next"):
                                 st.session_state.recs_page += 1
                                 st.rerun()
                         elif item == "...":
