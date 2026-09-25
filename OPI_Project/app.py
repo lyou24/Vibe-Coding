@@ -293,53 +293,6 @@ st.markdown("""
         color: #212529;
     }
 
-    /* ページネーション（iPhone画面幅375pxに確実に収まる超スリム設計・他要素への影響ゼロ） */
-    div[data-testid="stHorizontalBlock"]:has(button[key^="pnav_"]) {
-        display: flex !important;
-        flex-direction: row !important;
-        flex-wrap: nowrap !important;
-        justify-content: center !important;
-        align-items: center !important;
-        gap: 3px !important;
-        width: 100% !important;
-        max-width: 100% !important;
-        margin: 6px auto !important;
-        overflow: visible !important;
-    }
-    div[data-testid="stHorizontalBlock"]:has(button[key^="pnav_"]) > div[data-testid="stColumn"],
-    div[data-testid="stHorizontalBlock"]:has(button[key^="pnav_"]) > div[data-testid="column"],
-    div[data-testid="stHorizontalBlock"]:has(button[key^="pnav_"]) div[data-testid="stColumn"],
-    div[data-testid="stHorizontalBlock"]:has(button[key^="pnav_"]) div[data-testid="column"] {
-        width: 30px !important;
-        min-width: 0 !important;
-        max-width: 32px !important;
-        flex: 0 0 30px !important;
-        padding: 0 !important;
-        margin: 0 !important;
-    }
-    button[key^="pnav_"] {
-        min-width: 26px !important;
-        max-width: 30px !important;
-        width: 28px !important;
-        height: 28px !important;
-        min-height: 28px !important;
-        max-height: 28px !important;
-        padding: 0 !important;
-        font-size: 11px !important;
-        font-weight: 600 !important;
-        border-radius: 4px !important;
-        line-height: 1 !important;
-        display: inline-flex !important;
-        justify-content: center !important;
-        align-items: center !important;
-        margin: 0 !important;
-    }
-    button[key^="pnav_"] p {
-        margin: 0 !important;
-        line-height: 1 !important;
-        font-size: 11px !important;
-    }
-
     /* CPI風フィルターUIのスタイル調整 */
     .filter-header-row {
         display: flex;
@@ -1279,7 +1232,28 @@ if user_input.isdigit():
                     if detail_chart:
                         show_chart_detail_dialog(detail_chart)
 
-                st.caption("💡 楽曲名をタップすると、その楽曲のOPI・スコア値および各ランクの適正OPI・クリア割合がポップアップ表示されます。")
+                # 楽曲詳細の即時ポップアップ（リフレッシュなしのダイレクト表示）
+                song_choices = ["-- 楽曲を選択して詳細を表示（即時表示） --"] + [
+                    f"{it.get('title', '')} (Lv.{it.get('level', '')})" for it in page_data
+                ]
+                def on_song_select():
+                    val = st.session_state.get("select_detail_song")
+                    if val and val != song_choices[0]:
+                        c_idx = song_choices.index(val) - 1
+                        if 0 <= c_idx < len(page_data):
+                            st.session_state.detail_chart_id = page_data[c_idx]["chart_id"]
+                        st.session_state.select_detail_song = song_choices[0]
+
+                st.selectbox(
+                    "🎵 楽曲詳細ポップアップ（選択で即時表示）",
+                    options=song_choices,
+                    index=0,
+                    key="select_detail_song",
+                    on_change=on_song_select,
+                    help="画面全体のリフレッシュなしで、選択した楽曲の適正OPI・クリア割合をポップアップ表示します。"
+                )
+
+                st.caption("💡 上のセレクターまたは表内の楽曲名をタップすると、その楽曲のOPI・スコア値および各ランクの適正OPI・クリア割合がポップアップ表示されます。")
 
                 rows_html = []
                 for item in page_data:
@@ -1291,10 +1265,10 @@ if user_input.isdigit():
                     target_badge = get_rank_badge(item.get("target_rank", ""))
                     win_rate = f"{item.get('probability', 0.0) * 100:.2f}%"
 
-                    # 曲名タップで詳細を開くリンク＆選択中ハイライト（auth付きでアクセス制限回避）
+                    # 曲名タップで詳細を開くリンク＆選択中ハイライト（auth付きでアクセス制限回避、アンカー付き）
                     is_selected = (item.get("chart_id") == selected_detail_id)
                     row_cls = " class='cpi-row-selected'" if is_selected else ""
-                    title_link = f'<a href="?user_id={uid}&chart_id={item["chart_id"]}&auth={TARGET_AUTH_HASH}" target="_self" class="cpi-title-link" title="タップして詳細を表示">{title_esc}</a>'
+                    title_link = f'<a href="?user_id={uid}&chart_id={item["chart_id"]}&auth={TARGET_AUTH_HASH}#cpi-table-view" target="_self" class="cpi-title-link" title="タップして詳細を表示">{title_esc}</a>'
 
                     rows_html.append(f"""<tr{row_cls}>
                         <td class="cpi-col-title"><div class="cpi-title-text">{title_link}</div></td>
@@ -1305,7 +1279,7 @@ if user_input.isdigit():
                         <td class="cpi-col-rate">{win_rate}</td>
                     </tr>""")
 
-                table_html = f"""<div class="cpi-table-container">
+                table_html = f"""<div id="cpi-table-view" class="cpi-table-container">
                     <table class="cpi-table">
                         <thead>
                             <tr>
@@ -1332,40 +1306,36 @@ if user_input.isdigit():
                     unsafe_allow_html=True
                 )
 
-                # ページネーション（iPhone横幅に確実に収まる最大7要素）
-                if total_pages <= 5:
-                    page_items = list(range(1, total_pages + 1))
-                elif cur_page <= 3:
-                    page_items = [1, 2, 3, "...", total_pages]
-                elif cur_page >= total_pages - 2:
-                    page_items = [1, "...", total_pages - 2, total_pages - 1, total_pages]
-                else:
-                    page_items = [1, "...", cur_page, "...", total_pages]
+                # ページネーション（スライダー & 前後ボタン：スマホ完全対応）
+                if total_pages > 1:
+                    st.markdown(
+                        f"<div style='text-align: center; font-size: 13px; font-weight: 600; color: #1f77b4; margin-top: 10px; margin-bottom: 2px;'>"
+                        f"📄 ページ {cur_page} / {total_pages}"
+                        f"</div>",
+                        unsafe_allow_html=True
+                    )
+                    new_page = st.slider(
+                        "ページ選択スライダー",
+                        min_value=1,
+                        max_value=total_pages,
+                        value=cur_page,
+                        step=1,
+                        key="rec_page_slider",
+                        label_visibility="collapsed"
+                    )
+                    if new_page != cur_page:
+                        st.session_state.recs_page = new_page - 1
+                        st.rerun()
 
-                nav_items = ["◀"] + page_items + ["▶"]
-                st.markdown('<div id="pnav-anchor"></div>', unsafe_allow_html=True)
-                cols = st.columns(len(nav_items), gap="small")
-
-                for idx, item in enumerate(nav_items):
-                    with cols[idx]:
-                        if item == "◀":
-                            if st.button("◀", disabled=(cur_page == 1), key="pnav_prev"):
-                                st.session_state.recs_page -= 1
-                                st.rerun()
-                        elif item == "▶":
-                            if st.button("▶", disabled=(cur_page == total_pages), key="pnav_next"):
-                                st.session_state.recs_page += 1
-                                st.rerun()
-                        elif item == "...":
-                            st.button("…", disabled=True, key=f"pnav_ellipsis_{idx}")
-                        else:
-                            p_num = int(item)
-                            is_cur = (p_num == cur_page)
-                            b_type = "primary" if is_cur else "secondary"
-                            if st.button(str(p_num), key=f"pnav_page_{p_num}", type=b_type):
-                                if not is_cur:
-                                    st.session_state.recs_page = p_num - 1
-                                    st.rerun()
+                    c_prev, c_next = st.columns(2)
+                    with c_prev:
+                        if st.button("◀ 前のページ", disabled=(cur_page == 1), key="btn_pnav_prev", use_container_width=True):
+                            st.session_state.recs_page -= 1
+                            st.rerun()
+                    with c_next:
+                        if st.button("次のページ ▶", disabled=(cur_page == total_pages), key="btn_pnav_next", use_container_width=True):
+                            st.session_state.recs_page += 1
+                            st.rerun()
 
                 recommendation_settings = [
                     f"プレイヤー: {player.player_name} / リコメンドOPI: {recommendation_opi:.1f}",
