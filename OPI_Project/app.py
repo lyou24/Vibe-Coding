@@ -36,13 +36,13 @@ st.set_page_config(page_title="OPI", page_icon=opi_icon, layout="wide", initial_
 # モバイル（iPhone等）向けのレスポンシブCSS調整
 st.markdown("""
 <style>
-    /* モバイル表示時の余白最適化 */
+    /* モバイル表示時の余白最適化（画面幅を最大限活用） */
     @media (max-width: 768px) {
         .block-container {
-            padding-top: 1.5rem !important;
+            padding-top: 1rem !important;
             padding-bottom: 2rem !important;
-            padding-left: 0.75rem !important;
-            padding-right: 0.75rem !important;
+            padding-left: 0.25rem !important;
+            padding-right: 0.25rem !important;
         }
         /* 入力フォームのフォントサイズ調整（iOSズーム防止） */
         input, select, textarea {
@@ -55,14 +55,36 @@ st.markdown("""
         }
         /* タブの視認性向上 */
         button[data-baseweb="tab"] {
-            padding: 8px 12px !important;
-            font-size: 14px !important;
-        }
-        /* ページネーションボタンの最適化 */
-        div[data-testid="column"] button {
-            padding: 4px 4px !important;
+            padding: 8px 10px !important;
             font-size: 13px !important;
-            min-height: 36px !important;
+        }
+        /* ページネーションをスマホでも確実に1行横並びに固定（カラムの100%幅スタックを完全無効化） */
+        div[data-testid="stHorizontalBlock"]:has(> div:nth-child(4)) {
+            display: flex !important;
+            flex-direction: row !important;
+            flex-wrap: nowrap !important;
+            align-items: center !important;
+            justify-content: space-between !important;
+            gap: 2px !important;
+            width: 100% !important;
+        }
+        div[data-testid="stHorizontalBlock"]:has(> div:nth-child(4)) > div[data-testid="column"],
+        div[data-testid="stHorizontalBlock"]:has(> div:nth-child(4)) div[data-testid="column"] {
+            width: auto !important;
+            min-width: 0 !important;
+            max-width: 100% !important;
+            flex: 1 1 0 !important;
+            padding: 0 1px !important;
+            margin: 0 !important;
+        }
+        div[data-testid="stHorizontalBlock"]:has(> div:nth-child(4)) button {
+            width: 100% !important;
+            padding: 2px 0px !important;
+            font-size: 11px !important;
+            min-height: 32px !important;
+            height: 32px !important;
+            line-height: 1 !important;
+            border-radius: 4px !important;
         }
     }
 </style>
@@ -681,7 +703,8 @@ if user_input.isdigit():
                     "current_status": "現在",
                     "target_rank": "目標",
                 })
-                display_cols = ["楽曲名", "ジャンル", "Lv", "定数", "現在", "目標", "OPI", "クリア割合"]
+                # スマホ表示で重要情報が最初に見えるように列順を最適化
+                display_cols = ["楽曲名", "Lv", "定数", "目標", "OPI", "クリア割合", "現在", "ジャンル"]
                 valid_cols = [c for c in display_cols if c in df_recs.columns]
                 
                 df_display = df_recs[valid_cols].copy()
@@ -702,11 +725,24 @@ if user_input.isdigit():
                 # 20行がスクロールなしでそのまま表示されるように縦幅を動的計算 (1行約35.5px + ヘッダー)
                 table_height = int((len(page_data) + 1) * 35.5 + 5)
                 
+                col_config = {
+                    "楽曲名": st.column_config.TextColumn("楽曲名", width="medium"),
+                    "Lv": st.column_config.TextColumn("Lv", width="small"),
+                    "定数": st.column_config.NumberColumn("定数", format="%.1f", width="small"),
+                    "目標": st.column_config.TextColumn("目標", width="small"),
+                    "OPI": st.column_config.NumberColumn("OPI", format="%.1f", width="small"),
+                    "クリア割合": st.column_config.TextColumn("クリア割合", width="small"),
+                    "現在": st.column_config.TextColumn("現在", width="small"),
+                    "ジャンル": st.column_config.TextColumn("ジャンル", width="small"),
+                }
+                
+                st.caption("↔ 表は左右にスワイプして全列を確認できます")
                 st.dataframe(
                     page_data,
                     use_container_width=True,
                     hide_index=True,
                     height=table_height,
+                    column_config=col_config,
                 )
                 
                 cur_page = st.session_state.recs_page + 1
@@ -723,6 +759,7 @@ if user_input.isdigit():
                         page_items = [1, "...", cur_page - 1, cur_page, cur_page + 1, "...", total_pages]
 
                 nav_items = ["◀"] + page_items + ["▶"]
+                
                 cols = st.columns(len(nav_items))
                 
                 for idx, item in enumerate(nav_items):
