@@ -26,7 +26,12 @@ from src.recommender.recommender import OPIRecommender, DEACTIVATED_CHART_IDS
 from src.export.full_image_export import build_full_hd_image
 from src.visualizer.visualizer import OPIVisualizer
 
-st.set_page_config(page_title="Ongeki Power Indicator", layout="wide", initial_sidebar_state="auto")
+from PIL import Image
+try:
+    opi_icon = Image.open("assets/opi_icon.jpg")
+except Exception:
+    opi_icon = "🎵"
+st.set_page_config(page_title="OPI", page_icon=opi_icon, layout="wide", initial_sidebar_state="auto")
 
 # モバイル（iPhone等）向けのレスポンシブCSS調整
 st.markdown("""
@@ -557,52 +562,53 @@ if user_input.isdigit():
         with tab1:
             st.subheader("おすすめの目標楽曲")
             
-            # 多次元フィルターUI
-            col_f1, col_f2 = st.columns(2)
-            with col_f1:
-                target_ranks = st.multiselect(
-                    "目標ランク（複数選択可、未選択時は全対象）",
-                    options=TARGET_RANK_OPTIONS,
-                    default=[],
-                    key="filter_target_rank"
-                )
-                level_filters = st.multiselect(
-                    "レベル絞り込み（複数選択可、未選択時は全対象）",
-                    options=LEVEL_OPTIONS,
-                    default=[],
-                    key="filter_level"
-                )
-            with col_f2:
-                constant_range = st.slider(
-                    "譜面定数範囲",
-                    min_value=MIN_TARGET_CONSTANT,
-                    max_value=15.7,
-                    value=(MIN_TARGET_CONSTANT, 15.7),
-                    step=0.1,
-                    key="filter_constant_range"
-                )
-                current_rank_filters = st.multiselect(
-                    "現在の達成ランク（複数選択可、未選択時は全対象）",
-                    options=["未S", "S止まり", "SS止まり", "SSS止まり", "SSS+止まり", "AB+"],
-                    default=[],
-                    key="filter_current_rank"
-                )
+            # 多次元フィルターUIを折りたたみ
+            with st.expander("フィルター設定", expanded=False):
+                col_f1, col_f2 = st.columns(2)
+                with col_f1:
+                    target_ranks = st.multiselect(
+                        "目標ランク（複数選択可、未選択時は全対象）",
+                        options=TARGET_RANK_OPTIONS,
+                        default=[],
+                        key="filter_target_rank"
+                    )
+                    level_filters = st.multiselect(
+                        "レベル絞り込み（複数選択可、未選択時は全対象）",
+                        options=LEVEL_OPTIONS,
+                        default=[],
+                        key="filter_level"
+                    )
+                with col_f2:
+                    constant_range = st.slider(
+                        "譜面定数範囲",
+                        min_value=MIN_TARGET_CONSTANT,
+                        max_value=15.7,
+                        value=(MIN_TARGET_CONSTANT, 15.7),
+                        step=0.1,
+                        key="filter_constant_range"
+                    )
+                    current_rank_filters = st.multiselect(
+                        "現在の達成ランク（複数選択可、未選択時は全対象）",
+                        options=["未プレイ", "未S", "S止まり", "SS止まり", "SSS止まり", "SSS+止まり", "AB+"],
+                        default=[],
+                        key="filter_current_rank"
+                    )
 
-            col_w1, col_sort = st.columns([2, 1])
-            with col_w1:
-                clear_rate_range = st.slider(
-                    "クリア割合範囲（%）",
-                    min_value=0.0,
-                    max_value=100.0,
-                    value=(30.0, 70.0),
-                    step=1.0,
-                    key="filter_clear_rate_range"
-                )
-            with col_sort:
-                sort_key = st.selectbox(
-                    "並び順",
-                    options=["適正順", "クリア割合が高い順", "現在ランク順", "目標ランク順"],
-                )
+                col_w1, col_sort = st.columns([2, 1])
+                with col_w1:
+                    clear_rate_range = st.slider(
+                        "クリア割合範囲（%）",
+                        min_value=0.0,
+                        max_value=100.0,
+                        value=(30.0, 70.0),
+                        step=1.0,
+                        key="filter_clear_rate_range"
+                    )
+                with col_sort:
+                    sort_key = st.selectbox(
+                        "並び順",
+                        options=["適正順", "クリア割合が高い順", "現在ランク順", "目標ランク順"],
+                    )
 
             param_level = level_filters or None
             param_current_rank = current_rank_filters or None
@@ -630,6 +636,7 @@ if user_input.isdigit():
                     ))
 
             current_rank_order = {
+                "未プレイ": -1,
                 "未S": 0,
                 "S止まり": 1,
                 "SS止まり": 2,
@@ -662,17 +669,43 @@ if user_input.isdigit():
                 df_recs['目標OPI'] = df_recs['target_opi'].round(1)
                 df_recs = df_recs.rename(columns={
                     "title": "楽曲名",
-                    "version": "バージョン",
                     "genre": "ジャンル",
-                    "difficulty": "難易度",
-                    "level": "レベル", 
+                    "level": "Lv", 
                     "constant": "定数", 
                     "current_status": "現在の達成状況",
                     "target_rank": "目標ランク",
                 })
-                display_cols = ["楽曲名", "バージョン", "ジャンル", "難易度", "レベル", "定数", "現在の達成状況", "目標ランク", "目標OPI", "クリア割合"]
+                display_cols = ["楽曲名", "ジャンル", "Lv", "定数", "現在の達成状況", "目標ランク", "目標OPI", "クリア割合"]
                 valid_cols = [c for c in display_cols if c in df_recs.columns]
-                st.dataframe(df_recs[valid_cols], use_container_width=True)
+                
+                df_display = df_recs[valid_cols].copy()
+                df_display.index = range(1, len(df_display) + 1)
+                
+                if 'recs_page' not in st.session_state:
+                    st.session_state.recs_page = 0
+                
+                PAGE_SIZE = 20
+                total_pages = max(1, (len(df_display) - 1) // PAGE_SIZE + 1)
+                
+                if st.session_state.recs_page >= total_pages:
+                    st.session_state.recs_page = total_pages - 1
+                
+                start_idx = st.session_state.recs_page * PAGE_SIZE
+                end_idx = start_idx + PAGE_SIZE
+                
+                st.dataframe(df_display.iloc[start_idx:end_idx], use_container_width=True)
+                
+                col_prev, col_page, col_next = st.columns([1, 2, 1])
+                with col_prev:
+                    if st.button("◀ 前のページ", disabled=(st.session_state.recs_page == 0), key="btn_prev"):
+                        st.session_state.recs_page -= 1
+                        st.rerun()
+                with col_page:
+                    st.markdown(f"<div style='text-align: center;'>{st.session_state.recs_page + 1} / {total_pages} ページ (全 {len(df_display)} 件)</div>", unsafe_allow_html=True)
+                with col_next:
+                    if st.button("次のページ ▶", disabled=(st.session_state.recs_page >= total_pages - 1), key="btn_next"):
+                        st.session_state.recs_page += 1
+                        st.rerun()
 
                 recommendation_settings = [
                     f"プレイヤー: {player.player_name} / リコメンドOPI: {recommendation_opi:.1f}",

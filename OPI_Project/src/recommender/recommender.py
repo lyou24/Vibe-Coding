@@ -47,7 +47,7 @@ class OPIRecommender:
         カテゴリ例: "未S", "S止まり", "SS止まり", "SSS止まり", "SSS+止まり", "AB+"
         """
         if not score_log:
-            return "未S", "未プレイ"
+            return "未プレイ", "未プレイ"
 
         score = score_log.score or 0
 
