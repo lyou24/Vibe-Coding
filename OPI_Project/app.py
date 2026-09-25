@@ -830,7 +830,7 @@ if user_input.isdigit():
 
         col1, col2, col3 = st.columns(3)
         col1.metric("レーティング", f"{player.rating:.3f}" if player.rating else "N/A")
-        col2.metric("リコメンドOPI（AAA以上）", f"{qualified_opi:.1f}" if qualified_opi else "N/A")
+        col2.metric("リコメンドOPI", f"{qualified_opi:.1f}" if qualified_opi else "N/A")
         col3.metric("AAA以上の対象率", f"{coverage:.1f}%")
         st.caption(
             f"対象は譜面定数{MIN_TARGET_CONSTANT:.1f}以上。リコメンドはAAA以上の "
@@ -844,7 +844,7 @@ if user_input.isdigit():
         st.divider()
 
         # タブで情報を切り替え
-        tab1, tab2, tab3, tab4 = st.tabs(["🎯 リコメンド楽曲", "📊 統計・分布図", "📜 OPI難易度表", "⭐ マイOPI難易度表"])
+        tab1, tab2, tab3, tab4, tab5 = st.tabs(["🎯 リコメンド楽曲", "📊 統計・分布図", "📜 OPI難易度表", "⭐ マイOPI難易度表", "⭐ マイOPI難易度表（簡易版）"])
 
         with tab1:
             st.subheader("おすすめの目標楽曲")
@@ -1232,29 +1232,6 @@ if user_input.isdigit():
                     if detail_chart:
                         show_chart_detail_dialog(detail_chart)
 
-                # 楽曲詳細の即時ポップアップ（リフレッシュなしのダイレクト表示）
-                song_choices = ["-- 楽曲を選択して詳細を表示（即時表示） --"] + [
-                    f"{it.get('title', '')} (Lv.{it.get('level', '')})" for it in page_data
-                ]
-                def on_song_select():
-                    val = st.session_state.get("select_detail_song")
-                    if val and val != song_choices[0]:
-                        c_idx = song_choices.index(val) - 1
-                        if 0 <= c_idx < len(page_data):
-                            st.session_state.detail_chart_id = page_data[c_idx]["chart_id"]
-                        st.session_state.select_detail_song = song_choices[0]
-
-                st.selectbox(
-                    "🎵 楽曲詳細ポップアップ（選択で即時表示）",
-                    options=song_choices,
-                    index=0,
-                    key="select_detail_song",
-                    on_change=on_song_select,
-                    help="画面全体のリフレッシュなしで、選択した楽曲の適正OPI・クリア割合をポップアップ表示します。"
-                )
-
-                st.caption("💡 上のセレクターまたは表内の楽曲名をタップすると、その楽曲のOPI・スコア値および各ランクの適正OPI・クリア割合がポップアップ表示されます。")
-
                 rows_html = []
                 for item in page_data:
                     title_esc = html.escape(item.get("title", ""))
@@ -1608,6 +1585,127 @@ if user_input.isdigit():
                         st.dataframe(df_my_charts.drop(columns=["chart_id", "OPI帯", "is_achieved"]), use_container_width=True)
                 else:
                     st.info(f"{my_diff_target_rank} の難易度データがありません。")
+            else:
+                st.info("難易度表のデータがありません。")
+
+        with tab5:
+            st.subheader("⭐ マイOPI難易度表（簡易版）")
+            my_diff_simple_target_rank = st.selectbox(
+                "目標ランク選択",
+                options=TARGET_RANK_OPTIONS,
+                index=2,
+                key="my_diff_simple_target_rank_select"
+            )
+
+            calc = OPICalculator()
+            recommender = OPIRecommender(DB_FILE)
+            user_scores_map = {s.chart_id: s for s in player_scores}
+
+            charts = [
+                c for c in session.query(Chart).filter(
+                    Chart.chart_constant >= MIN_TARGET_CONSTANT,
+                    Chart.is_active == True,
+                ).order_by(Chart.chart_constant.asc(), Chart.title.asc()).all()
+                if not is_solo_version(c.title) and c.chart_id not in DEACTIVATED_CHART_IDS
+            ]
+
+            if charts:
+                chart_data = []
+                achieved_count = 0
+                for c in charts:
+                    x, y = calc.get_chart_rank_params(c, my_diff_simple_target_rank)
+                    if x is not None:
+                        diff_name = c.difficulty.name if hasattr(c.difficulty, 'name') else str(c.difficulty)
+                        version, genre = get_chart_metadata(c)
+                        score_log = user_scores_map.get(c.chart_id)
+                        is_achieved = recommender._is_target_achieved(score_log, my_diff_simple_target_rank)
+                        current_rank_category, _ = recommender._determine_current_rank(score_log)
+                        current_achieved_rank = CURRENT_RANK_TO_ACHIEVED_RANK.get(current_rank_category)
+                        if is_achieved:
+                            achieved_count += 1
+                        chart_data.append({
+                            "chart_id": c.chart_id,
+                            "楽曲名": c.title,
+                            "バージョン": version,
+                            "ジャンル": genre,
+                            "難易度": diff_name,
+                            "レベル": c.level,
+                            "定数": c.chart_constant,
+                            f"{my_diff_simple_target_rank} 適正OPI": round(x, 1),
+                            "個人差度": round(y, 1),
+                            "達成状況": "達成済" if is_achieved else "未達成",
+                            "現在ランク": current_achieved_rank or "未S",
+                            "is_achieved": is_achieved,
+                        })
+
+                if chart_data:
+                    total_charts = len(chart_data)
+                    achieve_rate = (achieved_count / total_charts * 100) if total_charts > 0 else 0.0
+                    col_m1, col_m2 = st.columns(2)
+                    col_m1.metric(f"{my_diff_simple_target_rank} 達成曲数", f"{achieved_count} / {total_charts} 譜面")
+                    col_m2.metric(f"{my_diff_simple_target_rank} 達成率", f"{achieve_rate:.1f}%")
+
+                    df_my_charts = pd.DataFrame(chart_data)
+                    df_my_charts = df_my_charts.sort_values(by=f"{my_diff_simple_target_rank} 適正OPI", ascending=False)
+                    opi_column = f"{my_diff_simple_target_rank} 適正OPI"
+                    df_my_charts["OPI帯"] = (df_my_charts[opi_column] // 100 * 100).astype(int)
+
+                    unique_bands = sorted(df_my_charts["OPI帯"].unique(), reverse=True)
+                    for opi_band in unique_bands:
+                        band_rows = df_my_charts[df_my_charts["OPI帯"] == opi_band]
+                        band_achieved = int(sum(band_rows["is_achieved"]))
+                        with st.expander(f"【達成 {band_achieved}/{len(band_rows)}】 OPI {opi_band}〜{opi_band + 99}", expanded=True):
+                            columns = st.columns(4)
+                            for index, (_, row) in enumerate(band_rows.iterrows()):
+                                with columns[index % 4]:
+                                    achieved_style = ACHIEVED_RANK_CARD_STYLES.get(row["現在ランク"])
+                                    if achieved_style:
+                                        bg_color = achieved_style["background"]
+                                        border_color = achieved_style["border"]
+                                        text_color = achieved_style["text"]
+                                        title_color = text_color
+                                    else:
+                                        bg_color = "#f8f9fa"
+                                        border_color = "#dee2e6"
+                                        text_color = "#1f2937"
+                                        title_color = "#111827"
+
+                                    # 簡易版：曲の情報は曲名のみ
+                                    card_html = f"""
+                                    <div style="background-color: {bg_color}; color: {text_color}; border: 2px solid {border_color}; border-radius: 6px; padding: 8px 6px; margin-bottom: 6px; min-height: 44px; display: flex; align-items: center; justify-content: center; text-align: center;">
+                                        <div style="font-weight: bold; font-size: 0.88em; color: {title_color}; line-height: 1.25; word-break: break-word;">{html.escape(str(row['楽曲名']))}</div>
+                                    </div>
+                                    """
+                                    st.markdown(card_html, unsafe_allow_html=True)
+
+                    my_difficulty_simple_cards = []
+                    for _, row in df_my_charts.iterrows():
+                        style = ACHIEVED_RANK_CARD_STYLES.get(row["現在ランク"], {})
+                        my_difficulty_simple_cards.append({
+                            "title": row["楽曲名"],
+                            "metadata": "",
+                            "details": [
+                                f"現在: {row['現在ランク']} ({row['達成状況']})",
+                            ],
+                            "summary": row["楽曲名"],
+                            **style,
+                        })
+                    render_image_export(
+                        "マイOPI難易度表（簡易版）",
+                        [
+                            f"プレイヤー: {player.player_name} / 目標ランク: {my_diff_simple_target_rank}",
+                            f"達成状況: {achieved_count}/{total_charts}譜面（{achieve_rate:.1f}%）",
+                            "背景色: S=緑 / SS=青 / SSS=赤 / SSS+=黄 / AB+=橙",
+                        ],
+                        my_difficulty_simple_cards,
+                        f"my_opi_difficulty_simple_{my_diff_simple_target_rank.lower().replace('+', 'p')}",
+                        "my_difficulty_simple_table",
+                    )
+
+                    with st.expander("表形式で表示"):
+                        st.dataframe(df_my_charts[["楽曲名", "現在ランク", "達成状況", f"{my_diff_simple_target_rank} 適正OPI"]], use_container_width=True)
+                else:
+                    st.info(f"{my_diff_simple_target_rank} の難易度データがありません。")
             else:
                 st.info("難易度表のデータがありません。")
 
