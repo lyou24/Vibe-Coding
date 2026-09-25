@@ -48,44 +48,118 @@ st.markdown("""
         input, select, textarea {
             font-size: 16px !important;
         }
-        /* テーブルの横スクロール対応 */
-        .stDataFrame, div[data-testid="stTable"] {
-            overflow-x: auto !important;
-            -webkit-overflow-scrolling: touch !important;
-        }
         /* タブの視認性向上 */
         button[data-baseweb="tab"] {
             padding: 8px 10px !important;
             font-size: 13px !important;
         }
-        /* ページネーションをスマホでも確実に1行横並びに固定（カラムの100%幅スタックを完全無効化） */
-        div[data-testid="stHorizontalBlock"]:has(> div:nth-child(4)) {
-            display: flex !important;
-            flex-direction: row !important;
-            flex-wrap: nowrap !important;
-            align-items: center !important;
-            justify-content: space-between !important;
-            gap: 2px !important;
-            width: 100% !important;
-        }
-        div[data-testid="stHorizontalBlock"]:has(> div:nth-child(4)) > div[data-testid="column"],
-        div[data-testid="stHorizontalBlock"]:has(> div:nth-child(4)) div[data-testid="column"] {
-            width: auto !important;
-            min-width: 0 !important;
-            max-width: 100% !important;
-            flex: 1 1 0 !important;
-            padding: 0 1px !important;
-            margin: 0 !important;
-        }
-        div[data-testid="stHorizontalBlock"]:has(> div:nth-child(4)) button {
-            width: 100% !important;
-            padding: 2px 0px !important;
-            font-size: 11px !important;
-            min-height: 32px !important;
-            height: 32px !important;
-            line-height: 1 !important;
-            border-radius: 4px !important;
-        }
+    }
+
+    /* CPI風テーブルのスタイル（iPhone1画面に綺麗に収まる設計） */
+    .cpi-table-container {
+        width: 100%;
+        margin: 6px 0 12px 0;
+        overflow-x: hidden;
+    }
+    .cpi-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 11.5px;
+        line-height: 1.25;
+        table-layout: fixed;
+        background-color: #fff;
+        border: 1px solid #dee2e6;
+        border-radius: 4px;
+    }
+    .cpi-table th {
+        background-color: #f8f9fa;
+        color: #495057;
+        font-weight: 600;
+        padding: 6px 2px;
+        border-bottom: 2px solid #dee2e6;
+        border-right: 1px solid #edf2f7;
+        text-align: center;
+        font-size: 11px;
+    }
+    .cpi-table td {
+        padding: 5px 3px;
+        border-bottom: 1px solid #eee;
+        border-right: 1px solid #f8f9fa;
+        vertical-align: middle;
+        text-align: center;
+    }
+    .cpi-table tr:hover {
+        background-color: #f8fafc;
+    }
+    .cpi-col-title { width: 34%; text-align: left !important; padding-left: 4px !important; }
+    .cpi-col-genre { width: 17%; }
+    .cpi-col-lv { width: 17%; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; font-size: 10.5px; font-weight: 500; }
+    .cpi-col-cur { width: 10%; }
+    .cpi-col-target { width: 10%; }
+    .cpi-col-rate { width: 12%; text-align: right !important; padding-right: 4px !important; font-family: monospace, sans-serif; font-size: 10.5px; }
+
+    .cpi-title-text {
+        font-weight: 500;
+        color: #1a73e8;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        line-height: 1.25;
+        word-break: break-all;
+    }
+
+    .badge-np { background: #e0e0e0; color: #757575; border-radius: 3px; padding: 2px 0; font-size: 9.5px; font-weight: 700; display: block; }
+    .badge-mis { background: #9e9e9e; color: #fff; border-radius: 3px; padding: 2px 0; font-size: 9.5px; font-weight: 700; display: block; }
+    .badge-s { background: #66bb6a; color: #fff; border-radius: 3px; padding: 2px 0; font-size: 9.5px; font-weight: 700; display: block; }
+    .badge-ss { background: #42a5f5; color: #fff; border-radius: 3px; padding: 2px 0; font-size: 9.5px; font-weight: 700; display: block; }
+    .badge-sss { background: #ffa726; color: #fff; border-radius: 3px; padding: 2px 0; font-size: 9.5px; font-weight: 700; display: block; }
+    .badge-sssp { background: #ef5350; color: #fff; border-radius: 3px; padding: 2px 0; font-size: 9.5px; font-weight: 700; display: block; }
+    .badge-abp { background: #ab47bc; color: #fff; border-radius: 3px; padding: 2px 0; font-size: 9.5px; font-weight: 700; display: block; }
+
+    .badge-genre {
+        color: #fff;
+        border-radius: 3px;
+        padding: 2px 1px;
+        font-size: 9px;
+        font-weight: 600;
+        display: block;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+    .genre-variety { background: #00897b; }
+    .genre-ongeki { background: #f4511e; }
+    .genre-chumai { background: #8e24aa; }
+    .genre-toho { background: #d81b60; }
+    .genre-pops { background: #1e88e5; }
+    .genre-other { background: #546e7a; }
+
+    /* ページネーション（中央揃え・iPhone幅ぴったり） */
+    div[data-testid="stHorizontalBlock"]:has(button[key*="pnav_"]) {
+        display: flex !important;
+        flex-direction: row !important;
+        flex-wrap: nowrap !important;
+        justify-content: center !important;
+        align-items: center !important;
+        gap: 3px !important;
+        max-width: 320px !important;
+        margin: 6px auto !important;
+    }
+    div[data-testid="stHorizontalBlock"]:has(button[key*="pnav_"]) > div[data-testid="column"] {
+        width: auto !important;
+        min-width: 0 !important;
+        flex: 0 0 auto !important;
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    div[data-testid="stHorizontalBlock"]:has(button[key*="pnav_"]) button {
+        min-width: 28px !important;
+        height: 30px !important;
+        padding: 0 4px !important;
+        font-size: 11.5px !important;
+        border-radius: 4px !important;
+        line-height: 1 !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -692,103 +766,147 @@ if user_input.isdigit():
                     item["genre"] = fallback_genre
             
             if recs:
-                df_recs = pd.DataFrame(recs)
-                df_recs['クリア割合'] = (df_recs['probability'] * 100).round(1).astype(str) + '%'
-                df_recs['OPI'] = df_recs['target_opi'].round(1)
-                df_recs = df_recs.rename(columns={
-                    "title": "楽曲名",
-                    "genre": "ジャンル",
-                    "level": "Lv", 
-                    "constant": "定数", 
-                    "current_status": "現在",
-                    "target_rank": "目標",
-                })
-                # スマホ表示で重要情報が最初に見えるように列順を最適化
-                display_cols = ["楽曲名", "Lv", "定数", "目標", "OPI", "クリア割合", "現在", "ジャンル"]
-                valid_cols = [c for c in display_cols if c in df_recs.columns]
-                
-                df_display = df_recs[valid_cols].copy()
-                
                 if 'recs_page' not in st.session_state:
                     st.session_state.recs_page = 0
                 
                 PAGE_SIZE = 20
-                total_pages = max(1, (len(df_display) - 1) // PAGE_SIZE + 1)
+                total_pages = max(1, (len(recs) - 1) // PAGE_SIZE + 1)
                 
                 if st.session_state.recs_page >= total_pages:
                     st.session_state.recs_page = total_pages - 1
                 
+                cur_page = st.session_state.recs_page + 1
                 start_idx = st.session_state.recs_page * PAGE_SIZE
                 end_idx = start_idx + PAGE_SIZE
-                page_data = df_display.iloc[start_idx:end_idx]
-                
-                # 20行がスクロールなしでそのまま表示されるように縦幅を動的計算 (1行約35.5px + ヘッダー)
-                table_height = int((len(page_data) + 1) * 35.5 + 5)
-                
-                col_config = {
-                    "楽曲名": st.column_config.TextColumn("楽曲名", width="medium"),
-                    "Lv": st.column_config.TextColumn("Lv", width="small"),
-                    "定数": st.column_config.NumberColumn("定数", format="%.1f", width="small"),
-                    "目標": st.column_config.TextColumn("目標", width="small"),
-                    "OPI": st.column_config.NumberColumn("OPI", format="%.1f", width="small"),
-                    "クリア割合": st.column_config.TextColumn("クリア割合", width="small"),
-                    "現在": st.column_config.TextColumn("現在", width="small"),
-                    "ジャンル": st.column_config.TextColumn("ジャンル", width="small"),
-                }
-                
-                st.caption("↔ 表は左右にスワイプして全列を確認できます")
-                st.dataframe(
-                    page_data,
-                    use_container_width=True,
-                    hide_index=True,
-                    height=table_height,
-                    column_config=col_config,
-                )
-                
-                cur_page = st.session_state.recs_page + 1
-                
-                # ページ番号リストの生成（1, 2, 3, ..., total_pages）
-                if total_pages <= 7:
-                    page_items = list(range(1, total_pages + 1))
-                else:
-                    if cur_page <= 3:
-                        page_items = [1, 2, 3, 4, "...", total_pages]
-                    elif cur_page >= total_pages - 2:
-                        page_items = [1, "...", total_pages - 3, total_pages - 2, total_pages - 1, total_pages]
-                    else:
-                        page_items = [1, "...", cur_page - 1, cur_page, cur_page + 1, "...", total_pages]
+                page_data = recs[start_idx:end_idx]
 
-                nav_items = ["◀"] + page_items + ["▶"]
-                
-                cols = st.columns(len(nav_items))
-                
-                for idx, item in enumerate(nav_items):
-                    with cols[idx]:
-                        if item == "◀":
-                            if st.button("◀", disabled=(cur_page == 1), key="nav_prev", use_container_width=True):
-                                st.session_state.recs_page -= 1
-                                st.rerun()
-                        elif item == "▶":
-                            if st.button("▶", disabled=(cur_page == total_pages), key="nav_next", use_container_width=True):
-                                st.session_state.recs_page += 1
-                                st.rerun()
-                        elif item == "...":
-                            st.button("…", disabled=True, key=f"nav_ellipsis_{idx}", use_container_width=True)
-                        else:
-                            page_num = int(item)
-                            is_current = (page_num == cur_page)
-                            btn_type = "primary" if is_current else "secondary"
-                            if st.button(str(page_num), key=f"nav_page_{page_num}", type=btn_type, use_container_width=True):
-                                if not is_current:
-                                    st.session_state.recs_page = page_num - 1
-                                    st.rerun()
-                
-                st.caption(
-                    f"<div style='text-align: center; margin-top: 4px;'>"
-                    f"全 {total_pages} ページ中 {cur_page} ページ目（{start_idx + 1}〜{min(end_idx, len(df_display))} / 全 {len(df_display)} 件）"
+                # CPI風HTMLテーブルの生成（iPhone1画面に綺麗に収まる設計）
+                def get_genre_badge(genre):
+                    g = str(genre or "不明")
+                    short_g = g
+                    cls = "genre-other"
+                    if "POPS" in g or "ANIME" in g:
+                        short_g = "P&A"
+                        cls = "genre-pops"
+                    elif "東方" in g:
+                        short_g = "東方"
+                        cls = "genre-toho"
+                    elif "オンゲキ" in g:
+                        cls = "genre-ongeki"
+                    elif "チュウマイ" in g or "CHUNITHM" in g or "maimai" in g:
+                        cls = "genre-chumai"
+                    elif "VARIETY" in g:
+                        cls = "genre-variety"
+                    return f'<span class="badge-genre {cls}">{html.escape(short_g)}</span>'
+
+                def get_rank_badge(rank_str):
+                    r = str(rank_str)
+                    if r == "NP":
+                        return '<span class="badge-np">NP</span>'
+                    elif r == "未S":
+                        return '<span class="badge-mis">未S</span>'
+                    elif r == "S":
+                        return '<span class="badge-s">S</span>'
+                    elif r == "SS":
+                        return '<span class="badge-ss">SS</span>'
+                    elif r == "SSS":
+                        return '<span class="badge-sss">SSS</span>'
+                    elif r == "SSS+":
+                        return '<span class="badge-sssp">SSS+</span>'
+                    elif r == "AB+":
+                        return '<span class="badge-abp">AB+</span>'
+                    return f'<span>{html.escape(r)}</span>'
+
+                def format_current_rank(item):
+                    cr = item.get("current_rank", "")
+                    cs = str(item.get("current_status", ""))
+                    if cr in ["未プレイ", "NP"] or not cs or cs == "未プレイ":
+                        return "NP"
+                    if cr == "未S":
+                        return "未S"
+                    if cr.endswith("止まり"):
+                        return cr.replace("止まり", "")
+                    return cr or "NP"
+
+                rows_html = []
+                for item in page_data:
+                    title_esc = html.escape(item.get("title", ""))
+                    genre_badge = get_genre_badge(item.get("genre", "不明"))
+                    lv_text = f"{item.get('level', '')} ({item.get('constant', 0.0):.1f})"
+                    cur_rank = format_current_rank(item)
+                    cur_badge = get_rank_badge(cur_rank)
+                    target_badge = get_rank_badge(item.get("target_rank", ""))
+                    win_rate = f"{item.get('probability', 0.0) * 100:.2f}%"
+
+                    rows_html.append(f"""<tr>
+                        <td class="cpi-col-title"><div class="cpi-title-text" title="{title_esc}">{title_esc}</div></td>
+                        <td class="cpi-col-genre">{genre_badge}</td>
+                        <td class="cpi-col-lv">{lv_text}</td>
+                        <td class="cpi-col-cur">{cur_badge}</td>
+                        <td class="cpi-col-target">{target_badge}</td>
+                        <td class="cpi-col-rate">{win_rate}</td>
+                    </tr>""")
+
+                table_html = f"""<div class="cpi-table-container">
+                    <table class="cpi-table">
+                        <thead>
+                            <tr>
+                                <th class="cpi-col-title">楽曲名</th>
+                                <th class="cpi-col-genre">ジャンル</th>
+                                <th class="cpi-col-lv">Lv</th>
+                                <th class="cpi-col-cur">現在</th>
+                                <th class="cpi-col-target">目標</th>
+                                <th class="cpi-col-rate">クリア割合</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {''.join(rows_html)}
+                        </tbody>
+                    </table>
+                </div>"""
+                st.markdown(table_html, unsafe_allow_html=True)
+
+                # 件数表示（CPI風）
+                st.markdown(
+                    f"<div style='text-align: center; font-size: 13px; color: #495057; margin-bottom: 6px;'>"
+                    f"表示中 : ({start_idx + 1} 〜 {min(end_idx, len(recs))}) / 全 {len(recs)} 件"
                     f"</div>",
                     unsafe_allow_html=True
                 )
+
+                # ページネーション（iPhone横幅に確実に収まる最大7要素）
+                if total_pages <= 5:
+                    page_items = list(range(1, total_pages + 1))
+                elif cur_page <= 3:
+                    page_items = [1, 2, 3, "...", total_pages]
+                elif cur_page >= total_pages - 2:
+                    page_items = [1, "...", total_pages - 2, total_pages - 1, total_pages]
+                else:
+                    page_items = [1, "...", cur_page, "...", total_pages]
+
+                nav_items = ["前へ"] + page_items + ["次へ"]
+                cols = st.columns(len(nav_items))
+
+                for idx, item in enumerate(nav_items):
+                    with cols[idx]:
+                        if item == "前へ":
+                            if st.button("前へ", disabled=(cur_page == 1), key="pnav_prev"):
+                                st.session_state.recs_page -= 1
+                                st.rerun()
+                        elif item == "次へ":
+                            if st.button("次へ", disabled=(cur_page == total_pages), key="pnav_next"):
+                                st.session_state.recs_page += 1
+                                st.rerun()
+                        elif item == "...":
+                            st.button("…", disabled=True, key=f"pnav_ellipsis_{idx}")
+                        else:
+                            p_num = int(item)
+                            is_cur = (p_num == cur_page)
+                            b_type = "primary" if is_cur else "secondary"
+                            if st.button(str(p_num), key=f"pnav_page_{p_num}", type=b_type):
+                                if not is_cur:
+                                    st.session_state.recs_page = p_num - 1
+                                    st.rerun()
 
                 recommendation_settings = [
                     f"プレイヤー: {player.player_name} / リコメンドOPI: {recommendation_opi:.1f}",
