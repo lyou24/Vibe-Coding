@@ -316,6 +316,44 @@ st.markdown("""
         padding-top: 1px !important;
         padding-bottom: 1px !important;
     }
+
+    /* マイOPI難易度表（スマホ版）3列〜4列タイルグリッド（iPhone対応） */
+    .mobile-opi-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 5px;
+        margin: 4px 0 8px 0;
+        width: 100%;
+        box-sizing: border-box;
+    }
+    @media (min-width: 600px) {
+        .mobile-opi-grid {
+            grid-template-columns: repeat(4, 1fr);
+            gap: 7px;
+        }
+    }
+    .mobile-opi-card {
+        border-radius: 6px;
+        border: 2px solid;
+        padding: 6px 3px;
+        min-height: 42px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        box-sizing: border-box;
+        box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+    }
+    .mobile-opi-title {
+        font-size: 11px;
+        font-weight: 700;
+        line-height: 1.2;
+        word-break: break-all;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -844,7 +882,7 @@ if user_input.isdigit():
         st.divider()
 
         # タブで情報を切り替え
-        tab1, tab2, tab3, tab4, tab5 = st.tabs(["🎯 リコメンド楽曲", "📊 統計・分布図", "📜 OPI難易度表", "⭐ マイOPI難易度表", "⭐ マイOPI難易度表（簡易版）"])
+        tab1, tab2, tab3, tab4, tab5 = st.tabs(["🎯 リコメンド楽曲", "📊 統計・分布図", "📜 OPI難易度表", "⭐ マイOPI難易度表", "⭐ マイOPI難易度表（スマホ版）"])
 
         with tab1:
             st.subheader("おすすめの目標楽曲")
@@ -1589,7 +1627,7 @@ if user_input.isdigit():
                 st.info("難易度表のデータがありません。")
 
         with tab5:
-            st.subheader("⭐ マイOPI難易度表（簡易版）")
+            st.subheader("⭐ マイOPI難易度表（スマホ版）")
             my_diff_simple_target_rank = st.selectbox(
                 "目標ランク選択",
                 options=TARGET_RANK_OPTIONS,
@@ -1655,28 +1693,27 @@ if user_input.isdigit():
                         band_rows = df_my_charts[df_my_charts["OPI帯"] == opi_band]
                         band_achieved = int(sum(band_rows["is_achieved"]))
                         with st.expander(f"【達成 {band_achieved}/{len(band_rows)}】 OPI {opi_band}〜{opi_band + 99}", expanded=True):
-                            columns = st.columns(4)
-                            for index, (_, row) in enumerate(band_rows.iterrows()):
-                                with columns[index % 4]:
-                                    achieved_style = ACHIEVED_RANK_CARD_STYLES.get(row["現在ランク"])
-                                    if achieved_style:
-                                        bg_color = achieved_style["background"]
-                                        border_color = achieved_style["border"]
-                                        text_color = achieved_style["text"]
-                                        title_color = text_color
-                                    else:
-                                        bg_color = "#f8f9fa"
-                                        border_color = "#dee2e6"
-                                        text_color = "#1f2937"
-                                        title_color = "#111827"
+                            cards_html = []
+                            for _, row in band_rows.iterrows():
+                                achieved_style = ACHIEVED_RANK_CARD_STYLES.get(row["現在ランク"])
+                                if achieved_style:
+                                    bg_color = achieved_style["background"]
+                                    border_color = achieved_style["border"]
+                                    text_color = achieved_style["text"]
+                                else:
+                                    bg_color = "#f8f9fa"
+                                    border_color = "#dee2e6"
+                                    text_color = "#1f2937"
 
-                                    # 簡易版：曲の情報は曲名のみ
-                                    card_html = f"""
-                                    <div style="background-color: {bg_color}; color: {text_color}; border: 2px solid {border_color}; border-radius: 6px; padding: 8px 6px; margin-bottom: 6px; min-height: 44px; display: flex; align-items: center; justify-content: center; text-align: center;">
-                                        <div style="font-weight: bold; font-size: 0.88em; color: {title_color}; line-height: 1.25; word-break: break-word;">{html.escape(str(row['楽曲名']))}</div>
-                                    </div>
-                                    """
-                                    st.markdown(card_html, unsafe_allow_html=True)
+                                title_esc = html.escape(str(row['楽曲名']))
+                                cards_html.append(
+                                    f'<div class="mobile-opi-card" style="background-color: {bg_color}; border-color: {border_color}; color: {text_color};">'
+                                    f'<span class="mobile-opi-title" style="color: {text_color};">{title_esc}</span>'
+                                    f'</div>'
+                                )
+
+                            grid_html = f'<div class="mobile-opi-grid">{"".join(cards_html)}</div>'
+                            st.markdown(grid_html, unsafe_allow_html=True)
 
                     my_difficulty_simple_cards = []
                     for _, row in df_my_charts.iterrows():
@@ -1691,15 +1728,15 @@ if user_input.isdigit():
                             **style,
                         })
                     render_image_export(
-                        "マイOPI難易度表（簡易版）",
+                        "マイOPI難易度表（スマホ版）",
                         [
                             f"プレイヤー: {player.player_name} / 目標ランク: {my_diff_simple_target_rank}",
                             f"達成状況: {achieved_count}/{total_charts}譜面（{achieve_rate:.1f}%）",
                             "背景色: S=緑 / SS=青 / SSS=赤 / SSS+=黄 / AB+=橙",
                         ],
                         my_difficulty_simple_cards,
-                        f"my_opi_difficulty_simple_{my_diff_simple_target_rank.lower().replace('+', 'p')}",
-                        "my_difficulty_simple_table",
+                        f"my_opi_difficulty_mobile_{my_diff_simple_target_rank.lower().replace('+', 'p')}",
+                        "my_difficulty_mobile_table",
                     )
 
                     with st.expander("表形式で表示"):
