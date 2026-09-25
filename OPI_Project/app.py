@@ -135,54 +135,230 @@ st.markdown("""
     .genre-pops { background: #1e88e5; }
     .genre-other { background: #546e7a; }
 
-    /* ページネーション（iPhone画面幅375pxに確実に収まる超スリム設計: 210px幅） */
+    /* 楽曲名リンクのスタイル（タップ可能・CPI風） */
+    .cpi-title-link {
+        color: #212529 !important;
+        text-decoration: underline dotted #adb5bd !important;
+        font-weight: 500;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        line-height: 1.25;
+        word-break: break-all;
+        cursor: pointer;
+    }
+    .cpi-title-link:hover, .cpi-title-link:active {
+        color: #007bff !important;
+        text-decoration: underline solid #007bff !important;
+    }
+
+    .cpi-row-selected td {
+        background-color: #e8f4fd !important;
+    }
+
+    /* CPI風 楽曲詳細カードのスタイル */
+    .cpi-detail-card {
+        background-color: #ffffff;
+        border: 1px solid #ced4da;
+        border-radius: 6px;
+        padding: 10px 12px;
+        margin: 6px 0 14px 0;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    }
+    .cpi-detail-header {
+        border-bottom: 2px solid #e9ecef;
+        padding-bottom: 6px;
+        margin-bottom: 8px;
+    }
+    .cpi-detail-title-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+    .cpi-detail-title {
+        font-size: 15px;
+        font-weight: 700;
+        color: #212529;
+    }
+    .cpi-detail-diff {
+        font-size: 10.5px;
+        font-weight: 700;
+        padding: 1px 6px;
+        border-radius: 3px;
+        color: #fff;
+    }
+    .diff-master { background-color: #9c27b0; }
+    .diff-lunatic { background-color: #d32f2f; }
+    .diff-expert { background-color: #f57c00; }
+    .diff-advanced { background-color: #388e3c; }
+    .diff-basic { background-color: #1976d2; }
+
+    .cpi-detail-meta {
+        font-size: 11px;
+        color: #6c757d;
+        margin-top: 3px;
+    }
+
+    /* プレイヤー情報テーブル */
+    .cpi-detail-player-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 10px;
+        font-size: 11.5px;
+        border: 1px solid #dee2e6;
+        table-layout: fixed;
+    }
+    .cpi-detail-player-table th {
+        background-color: #f8f9fa;
+        color: #495057;
+        font-weight: 600;
+        padding: 5px 4px;
+        border: 1px solid #dee2e6;
+        text-align: center;
+        font-size: 11px;
+    }
+    .cpi-detail-player-table td {
+        padding: 6px 4px;
+        border: 1px solid #dee2e6;
+        text-align: center;
+        vertical-align: middle;
+    }
+    .cpi-detail-player-table .player-name {
+        color: #007bff;
+        font-weight: 700;
+    }
+    .cpi-detail-player-table .player-opi {
+        font-family: monospace, sans-serif;
+        font-weight: 600;
+    }
+    .cpi-detail-player-table .player-score {
+        font-family: monospace, sans-serif;
+        font-weight: 600;
+        color: #212529;
+    }
+
+    .cpi-section-title {
+        font-size: 12.5px;
+        font-weight: 700;
+        color: #343a40;
+        margin: 8px 0 4px 0;
+    }
+
+    /* 適正OPI・クリア割合テーブル */
+    .cpi-detail-rate-table {
+        width: 100%;
+        border-collapse: collapse;
+        font-size: 11px;
+        border: 1px solid #dee2e6;
+        table-layout: fixed;
+    }
+    .cpi-detail-rate-table th {
+        color: #ffffff;
+        font-weight: 700;
+        padding: 6px 2px;
+        text-align: center;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .cpi-detail-rate-table .th-s { background-color: #5cb85c; }
+    .cpi-detail-rate-table .th-ss { background-color: #5bc0de; }
+    .cpi-detail-rate-table .th-sss { background-color: #f0ad4e; }
+    .cpi-detail-rate-table .th-sssp { background-color: #d9534f; }
+    .cpi-detail-rate-table .th-abp { background-color: #ab47bc; }
+
+    .cpi-detail-rate-table td {
+        padding: 6px 2px;
+        text-align: center;
+        border: 1px solid #dee2e6;
+        vertical-align: middle;
+    }
+    .cpi-detail-rate-table .row-opi {
+        background-color: #fdfdfe;
+        font-weight: 700;
+        font-size: 10.5px;
+    }
+    .cpi-detail-rate-table .rank-pos {
+        font-size: 9px;
+        font-weight: normal;
+        color: #6c757d;
+        display: block;
+    }
+    .cpi-detail-rate-table .row-rate {
+        background-color: #ffffff;
+        font-family: monospace, sans-serif;
+        font-size: 11.5px;
+        font-weight: 700;
+        color: #212529;
+    }
+
+    /* ページネーション（iPhone画面幅375pxに確実に収まる超スリム設計） */
     div:has(#pnav-anchor) + div div[data-testid="stHorizontalBlock"],
     div:has(#pnav-anchor) ~ div div[data-testid="stHorizontalBlock"],
     div:has(#pnav-anchor) + div[data-testid="stHorizontalBlock"],
     div:has(#pnav-anchor) ~ div[data-testid="stHorizontalBlock"],
     div[data-testid="stHorizontalBlock"]:has(> div:nth-child(4)),
-    div[data-testid="stHorizontalBlock"]:has(> div:nth-child(5)) {
+    div[data-testid="stHorizontalBlock"]:has(> div:nth-child(5)),
+    div[data-testid="stHorizontalBlock"]:has(button[key^="pnav_"]) {
         display: flex !important;
         flex-direction: row !important;
         flex-wrap: nowrap !important;
         justify-content: center !important;
         align-items: center !important;
-        gap: 2px !important;
-        max-width: 230px !important;
-        width: auto !important;
+        gap: 3px !important;
+        width: 100% !important;
+        max-width: 100% !important;
         margin: 6px auto !important;
         overflow: visible !important;
     }
     div:has(#pnav-anchor) + div div[data-testid="column"],
     div:has(#pnav-anchor) ~ div div[data-testid="column"],
+    div:has(#pnav-anchor) + div div[data-testid="stColumn"],
+    div:has(#pnav-anchor) ~ div div[data-testid="stColumn"],
     div[data-testid="stHorizontalBlock"]:has(> div:nth-child(4)) > div[data-testid="column"],
+    div[data-testid="stHorizontalBlock"]:has(> div:nth-child(4)) > div[data-testid="stColumn"],
     div[data-testid="stHorizontalBlock"]:has(> div:nth-child(4)) div[data-testid="column"],
+    div[data-testid="stHorizontalBlock"]:has(> div:nth-child(4)) div[data-testid="stColumn"],
     div[data-testid="stHorizontalBlock"]:has(> div:nth-child(5)) > div[data-testid="column"],
-    div[data-testid="stHorizontalBlock"]:has(> div:nth-child(5)) div[data-testid="column"] {
-        width: 28px !important;
-        min-width: 24px !important;
+    div[data-testid="stHorizontalBlock"]:has(> div:nth-child(5)) > div[data-testid="stColumn"],
+    div[data-testid="stHorizontalBlock"]:has(> div:nth-child(5)) div[data-testid="column"],
+    div[data-testid="stHorizontalBlock"]:has(> div:nth-child(5)) div[data-testid="stColumn"],
+    div[data-testid="stHorizontalBlock"]:has(button[key^="pnav_"]) div[data-testid="stColumn"],
+    div[data-testid="stHorizontalBlock"]:has(button[key^="pnav_"]) div[data-testid="column"] {
+        width: 30px !important;
+        min-width: 0 !important;
         max-width: 32px !important;
-        flex: 0 0 28px !important;
+        flex: 0 0 30px !important;
         padding: 0 !important;
         margin: 0 !important;
     }
     div:has(#pnav-anchor) + div button,
     div:has(#pnav-anchor) ~ div button,
     div[data-testid="stHorizontalBlock"]:has(> div:nth-child(4)) button,
-    div[data-testid="stHorizontalBlock"]:has(> div:nth-child(5)) button {
+    div[data-testid="stHorizontalBlock"]:has(> div:nth-child(5)) button,
+    button[key^="pnav_"] {
         min-width: 26px !important;
         max-width: 30px !important;
         width: 28px !important;
         height: 28px !important;
         min-height: 28px !important;
+        max-height: 28px !important;
         padding: 0 !important;
         font-size: 11px !important;
+        font-weight: 600 !important;
         border-radius: 4px !important;
-        line-height: 28px !important;
+        line-height: 1 !important;
         display: inline-flex !important;
         justify-content: center !important;
         align-items: center !important;
         margin: 0 !important;
+    }
+    div:has(#pnav-anchor) ~ div button p,
+    button[key^="pnav_"] p {
+        margin: 0 !important;
+        line-height: 1 !important;
+        font-size: 11px !important;
     }
 
     /* CPI風フィルターUIのスタイル調整 */
@@ -676,7 +852,22 @@ if user_input.isdigit():
         )
         recommendation_opi = qualified_opi
 
-        # プロフィールセクション
+        # ユーザースコア辞書
+        scores_map = {s.chart_id: s for s in player_scores}
+
+        # 各ランクごとの全譜面難易度順位（ランキング）の算出
+        rank_orders_map = {}
+        target_eval_ranks = ["S", "SS", "SSS", "SSS+", "AB+"]
+        for r_name in target_eval_ranks:
+            c_list = []
+            for c in eligible_charts:
+                x_val, _ = calc.get_chart_rank_params(c, r_name)
+                if x_val is not None:
+                    c_list.append((c.chart_id, x_val))
+            c_list.sort(key=lambda t: t[1], reverse=True)
+            for pos, (cid, x_val) in enumerate(c_list, 1):
+                rank_orders_map[(cid, r_name)] = (x_val, pos, len(c_list))
+
         col_prof, col_btn = st.columns([3, 1])
         with col_prof:
             st.header(f"👤 {player.player_name} さんのデータ")
@@ -979,6 +1170,116 @@ if user_input.isdigit():
                         return cr.replace("止まり", "")
                     return cr or "NP"
 
+                # 楽曲詳細の選択状態の同期（クエリパラメータ または session_state）
+                query_chart_id = st.query_params.get("chart_id")
+                if query_chart_id and query_chart_id != st.session_state.get("detail_chart_id"):
+                    st.session_state.detail_chart_id = query_chart_id
+
+                selected_detail_id = st.session_state.get("detail_chart_id")
+
+                # CPI風 楽曲詳細カードのレンダリング
+                if selected_detail_id:
+                    detail_chart = next((c for c in eligible_charts if c.chart_id == selected_detail_id), None)
+                    if not detail_chart:
+                        detail_chart = session.query(Chart).filter_by(chart_id=selected_detail_id).first()
+
+                    if detail_chart:
+                        d_score_log = scores_map.get(detail_chart.chart_id)
+                        d_cur_cat, d_cur_disp = recommender._determine_current_rank(d_score_log)
+                        d_cur_badge = get_rank_badge(format_current_rank({"current_rank": d_cur_cat, "current_status": d_cur_disp}))
+
+                        if d_score_log and d_score_log.score:
+                            d_score_text = f"{d_score_log.score:,}"
+                        else:
+                            d_score_text = "未プレイ"
+
+                        d_title_esc = html.escape(detail_chart.title)
+                        d_diff_raw = detail_chart.difficulty.value if hasattr(detail_chart.difficulty, 'value') else str(detail_chart.difficulty)
+                        d_diff_cls = f"diff-{d_diff_raw.lower()}"
+                        d_version, d_genre = CHART_METADATA.get(detail_chart.chart_id, ("不明", "不明"))
+                        if not d_genre or d_genre == "不明":
+                            d_genre = getattr(detail_chart, "genre", "オンゲキ")
+
+                        # 各ランクの適正OPIとクリア割合
+                        rate_cells_opi = []
+                        rate_cells_prob = []
+                        for r_name in ["S", "SS", "SSS", "SSS+", "AB+"]:
+                            x_val, y_val = calc.get_chart_rank_params(detail_chart, r_name)
+                            if x_val is not None:
+                                rank_info = rank_orders_map.get((detail_chart.chart_id, r_name))
+                                order_str = f"({rank_info[1]}位)" if rank_info else ""
+                                prob_val = calc.irt_probability(recommendation_opi or 1500.0, x_val, y_val)
+                                rate_cells_opi.append(f"<td>{x_val:.1f} <span class='rank-pos'>{order_str}</span></td>")
+                                rate_cells_prob.append(f"<td>{prob_val * 100:.2f}%</td>")
+                            else:
+                                rate_cells_opi.append("<td>-</td>")
+                                rate_cells_prob.append("<td>-</td>")
+
+                        close_col1, close_col2 = st.columns([5, 1.2])
+                        with close_col1:
+                            st.caption("🎵 選択中の楽曲詳細（CPIスタイル）")
+                        with close_col2:
+                            if st.button("✕ 閉じる", key="btn_close_detail_card", use_container_width=True):
+                                st.session_state.detail_chart_id = None
+                                if "chart_id" in st.query_params:
+                                    del st.query_params["chart_id"]
+                                st.rerun()
+
+                        detail_card_html = f"""
+                        <div class="cpi-detail-card">
+                            <div class="cpi-detail-header">
+                                <div class="cpi-detail-title-row">
+                                    <span class="cpi-detail-title">{d_title_esc}</span>
+                                    <span class="cpi-detail-diff {d_diff_cls}">{d_diff_raw}</span>
+                                </div>
+                                <div class="cpi-detail-meta">
+                                    <span>{html.escape(str(d_genre))}</span> / <span>{html.escape(str(d_version))}</span> / <span>Lv.{detail_chart.level}（定数 {detail_chart.chart_constant:.1f}）</span>
+                                </div>
+                            </div>
+                            <table class="cpi-detail-player-table">
+                                <thead>
+                                    <tr>
+                                        <th>プレイヤー</th>
+                                        <th>リコメンドOPI</th>
+                                        <th>ランプ</th>
+                                        <th>スコア</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="player-name">{html.escape(player.player_name)}</td>
+                                        <td class="player-opi">{recommendation_opi:.1f}</td>
+                                        <td class="player-rank">{d_cur_badge}</td>
+                                        <td class="player-score">{d_score_text}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="cpi-section-title">適正OPI・クリア割合</div>
+                            <table class="cpi-detail-rate-table">
+                                <thead>
+                                    <tr>
+                                        <th class="th-s">S</th>
+                                        <th class="th-ss">SS</th>
+                                        <th class="th-sss">SSS</th>
+                                        <th class="th-sssp">SSS+</th>
+                                        <th class="th-abp">AB+</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="row-opi">
+                                        {''.join(rate_cells_opi)}
+                                    </tr>
+                                    <tr class="row-rate">
+                                        {''.join(rate_cells_prob)}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        """
+                        st.markdown(detail_card_html, unsafe_allow_html=True)
+                else:
+                    st.caption("💡 楽曲名をタップすると、その楽曲のOPI・スコア値および各ランクの適正OPI・クリア割合が表示されます。")
+
                 rows_html = []
                 for item in page_data:
                     title_esc = html.escape(item.get("title", ""))
@@ -989,8 +1290,13 @@ if user_input.isdigit():
                     target_badge = get_rank_badge(item.get("target_rank", ""))
                     win_rate = f"{item.get('probability', 0.0) * 100:.2f}%"
 
-                    rows_html.append(f"""<tr>
-                        <td class="cpi-col-title"><div class="cpi-title-text" title="{title_esc}">{title_esc}</div></td>
+                    # 曲名タップで詳細を開くリンク＆選択中ハイライト
+                    is_selected = (item.get("chart_id") == selected_detail_id)
+                    row_cls = " class='cpi-row-selected'" if is_selected else ""
+                    title_link = f'<a href="?user_id={uid}&chart_id={item["chart_id"]}" target="_self" class="cpi-title-link" title="タップして詳細を表示">{title_esc}</a>'
+
+                    rows_html.append(f"""<tr{row_cls}>
+                        <td class="cpi-col-title"><div class="cpi-title-text">{title_link}</div></td>
                         <td class="cpi-col-genre">{genre_badge}</td>
                         <td class="cpi-col-lv">{lv_text}</td>
                         <td class="cpi-col-cur">{cur_badge}</td>
@@ -1063,9 +1369,9 @@ if user_input.isdigit():
                 recommendation_settings = [
                     f"プレイヤー: {player.player_name} / リコメンドOPI: {recommendation_opi:.1f}",
                     f"目標ランク: {', '.join(effective_target_ranks)}",
-                    f"レベル: {', '.join(level_filters) if level_filters else '全対象'}",
+                    f"レベル: {', '.join(selected_levels) if selected_levels else '全対象'}",
                     f"譜面定数: {const_min:.1f}〜{const_max:.1f}",
-                    f"現在ランク: {', '.join(current_rank_filters) if current_rank_filters else '全対象'}",
+                    f"現在ランク: {', '.join(selected_cur_ranks) if selected_cur_ranks else '全対象'}",
                     f"クリア割合: {clear_rate_min:.0f}%〜{clear_rate_max:.0f}% / 並び順: {sort_key}",
                 ]
                 recommendation_cards = [
