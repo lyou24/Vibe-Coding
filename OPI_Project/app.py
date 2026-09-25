@@ -25,6 +25,7 @@ from src.database.calibrated_parameters import sync_latest_calibrated_parameters
 from src.recommender.recommender import OPIRecommender, DEACTIVATED_CHART_IDS
 from src.export.full_image_export import build_full_hd_image
 from src.visualizer.visualizer import OPIVisualizer
+from src.components.cpi_table import render_cpi_table
 
 from PIL import Image
 try:
@@ -1261,15 +1262,6 @@ if user_input.isdigit():
                     def show_chart_detail_dialog(c_obj):
                         render_chart_detail_content(c_obj)
 
-                # ポップアップの表示発火
-                if selected_detail_id:
-                    detail_chart = next((c for c in eligible_charts if c.chart_id == selected_detail_id), None)
-                    if not detail_chart:
-                        detail_chart = session.query(Chart).filter_by(chart_id=selected_detail_id).first()
-
-                    if detail_chart:
-                        show_chart_detail_dialog(detail_chart)
-
                 rows_html = []
                 for item in page_data:
                     title_esc = html.escape(item.get("title", ""))
@@ -1280,10 +1272,10 @@ if user_input.isdigit():
                     target_badge = get_rank_badge(item.get("target_rank", ""))
                     win_rate = f"{item.get('probability', 0.0) * 100:.2f}%"
 
-                    # 曲名タップで詳細を開くリンク＆選択中ハイライト（auth付きでアクセス制限回避、アンカー付き）
+                    # 曲名タップでノンリロード詳細を開くリンク（data-chart-id属性＆選択中ハイライト）
                     is_selected = (item.get("chart_id") == selected_detail_id)
                     row_cls = " class='cpi-row-selected'" if is_selected else ""
-                    title_link = f'<a href="?user_id={uid}&chart_id={item["chart_id"]}&auth={TARGET_AUTH_HASH}#cpi-table-view" target="_self" class="cpi-title-link" title="タップして詳細を表示">{title_esc}</a>'
+                    title_link = f'<a href="#" data-chart-id="{item["chart_id"]}" class="cpi-title-link" title="タップして詳細を表示">{title_esc}</a>'
 
                     rows_html.append(f"""<tr{row_cls}>
                         <td class="cpi-col-title"><div class="cpi-title-text">{title_link}</div></td>
@@ -1311,7 +1303,28 @@ if user_input.isdigit():
                         </tbody>
                     </table>
                 </div>"""
-                st.markdown(table_html, unsafe_allow_html=True)
+
+                # 案②: カスタムコンポーネントによるノンリロード表示
+                comp_result = render_cpi_table(
+                    html_content=table_html,
+                    key=f"cpi_table_comp_{cur_page}"
+                )
+                if comp_result and isinstance(comp_result, dict):
+                    clicked_id = comp_result.get("chart_id")
+                    clicked_ts = comp_result.get("timestamp")
+                    if clicked_ts != st.session_state.get("last_cpi_click_ts"):
+                        st.session_state.last_cpi_click_ts = clicked_ts
+                        st.session_state.detail_chart_id = clicked_id
+
+                # ポップアップの表示発火（タップ検知時は同一ターン内で即時展開）
+                active_detail_id = st.session_state.get("detail_chart_id")
+                if active_detail_id:
+                    detail_chart = next((c for c in eligible_charts if c.chart_id == active_detail_id), None)
+                    if not detail_chart:
+                        detail_chart = session.query(Chart).filter_by(chart_id=active_detail_id).first()
+
+                    if detail_chart:
+                        show_chart_detail_dialog(detail_chart)
 
                 # 件数表示（CPI風）
                 st.markdown(
