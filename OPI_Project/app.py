@@ -100,7 +100,7 @@ st.markdown("""
 
     .cpi-title-text {
         font-weight: 500;
-        color: #1a73e8;
+        color: #212529;
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
@@ -135,8 +135,13 @@ st.markdown("""
     .genre-pops { background: #1e88e5; }
     .genre-other { background: #546e7a; }
 
-    /* ページネーション（中央揃え・iPhone幅ぴったり） */
-    div[data-testid="stHorizontalBlock"]:has(button[key*="pnav_"]) {
+    /* ページネーション（スマホ表示でも確実に横並び・中央揃え・iPhone幅ぴったり） */
+    div:has(#pnav-anchor) + div div[data-testid="stHorizontalBlock"],
+    div:has(#pnav-anchor) ~ div div[data-testid="stHorizontalBlock"],
+    div:has(#pnav-anchor) + div[data-testid="stHorizontalBlock"],
+    div:has(#pnav-anchor) ~ div[data-testid="stHorizontalBlock"],
+    div[data-testid="stHorizontalBlock"]:has(> div:nth-child(4)),
+    div[data-testid="stHorizontalBlock"]:has(> div:nth-child(5)) {
         display: flex !important;
         flex-direction: row !important;
         flex-wrap: nowrap !important;
@@ -144,22 +149,36 @@ st.markdown("""
         align-items: center !important;
         gap: 3px !important;
         max-width: 320px !important;
+        width: 100% !important;
         margin: 6px auto !important;
     }
-    div[data-testid="stHorizontalBlock"]:has(button[key*="pnav_"]) > div[data-testid="column"] {
+    div:has(#pnav-anchor) + div div[data-testid="column"],
+    div:has(#pnav-anchor) ~ div div[data-testid="column"],
+    div[data-testid="stHorizontalBlock"]:has(> div:nth-child(4)) > div[data-testid="column"],
+    div[data-testid="stHorizontalBlock"]:has(> div:nth-child(4)) div[data-testid="column"],
+    div[data-testid="stHorizontalBlock"]:has(> div:nth-child(5)) > div[data-testid="column"],
+    div[data-testid="stHorizontalBlock"]:has(> div:nth-child(5)) div[data-testid="column"] {
         width: auto !important;
         min-width: 0 !important;
+        max-width: none !important;
         flex: 0 0 auto !important;
         padding: 0 !important;
         margin: 0 !important;
     }
-    div[data-testid="stHorizontalBlock"]:has(button[key*="pnav_"]) button {
+    div:has(#pnav-anchor) + div button,
+    div:has(#pnav-anchor) ~ div button,
+    div[data-testid="stHorizontalBlock"]:has(> div:nth-child(4)) button,
+    div[data-testid="stHorizontalBlock"]:has(> div:nth-child(5)) button {
         min-width: 28px !important;
+        width: auto !important;
         height: 30px !important;
         padding: 0 4px !important;
         font-size: 11.5px !important;
         border-radius: 4px !important;
         line-height: 1 !important;
+        display: inline-flex !important;
+        justify-content: center !important;
+        align-items: center !important;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -885,7 +904,8 @@ if user_input.isdigit():
                     page_items = [1, "...", cur_page, "...", total_pages]
 
                 nav_items = ["前へ"] + page_items + ["次へ"]
-                cols = st.columns(len(nav_items))
+                st.markdown('<div id="pnav-anchor"></div>', unsafe_allow_html=True)
+                cols = st.columns(len(nav_items), gap="small")
 
                 for idx, item in enumerate(nav_items):
                     with cols[idx]:
