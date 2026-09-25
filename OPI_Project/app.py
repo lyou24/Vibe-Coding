@@ -666,20 +666,19 @@ if user_input.isdigit():
             if recs:
                 df_recs = pd.DataFrame(recs)
                 df_recs['クリア割合'] = (df_recs['probability'] * 100).round(1).astype(str) + '%'
-                df_recs['目標OPI'] = df_recs['target_opi'].round(1)
+                df_recs['OPI'] = df_recs['target_opi'].round(1)
                 df_recs = df_recs.rename(columns={
                     "title": "楽曲名",
                     "genre": "ジャンル",
                     "level": "Lv", 
                     "constant": "定数", 
-                    "current_status": "現在の達成状況",
-                    "target_rank": "目標ランク",
+                    "current_status": "現在",
+                    "target_rank": "目標",
                 })
-                display_cols = ["楽曲名", "ジャンル", "Lv", "定数", "現在の達成状況", "目標ランク", "目標OPI", "クリア割合"]
+                display_cols = ["楽曲名", "ジャンル", "Lv", "定数", "現在", "目標", "OPI", "クリア割合"]
                 valid_cols = [c for c in display_cols if c in df_recs.columns]
                 
                 df_display = df_recs[valid_cols].copy()
-                df_display.index = range(1, len(df_display) + 1)
                 
                 if 'recs_page' not in st.session_state:
                     st.session_state.recs_page = 0
@@ -692,8 +691,17 @@ if user_input.isdigit():
                 
                 start_idx = st.session_state.recs_page * PAGE_SIZE
                 end_idx = start_idx + PAGE_SIZE
+                page_data = df_display.iloc[start_idx:end_idx]
                 
-                st.dataframe(df_display.iloc[start_idx:end_idx], use_container_width=True)
+                # 20行がスクロールなしでそのまま表示されるように縦幅を動的計算 (1行約35.5px + ヘッダー)
+                table_height = int((len(page_data) + 1) * 35.5 + 5)
+                
+                st.dataframe(
+                    page_data,
+                    use_container_width=True,
+                    hide_index=True,
+                    height=table_height,
+                )
                 
                 col_prev, col_page, col_next = st.columns([1, 2, 1])
                 with col_prev:
