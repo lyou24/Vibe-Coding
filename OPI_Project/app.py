@@ -889,7 +889,7 @@ if user_input.isdigit():
             st.subheader("おすすめの目標楽曲")
             
             # CPI風絞り込みフィルターの定義
-            CPI_GENRE_OPTIONS = ["オンゲキ", "チュウマイ", "VARIETY", "東方Project", "POPS & ANIME", "niconico"]
+            CPI_GENRE_OPTIONS = ["オンゲキ", "チュウマイ", "niconico", "東方Project", "VARIETY", "POPS & ANIME"]
             CPI_CURRENT_OPTIONS = [
                 ("NP", "未プレイ"),
                 ("未S", "未S"),
@@ -900,7 +900,7 @@ if user_input.isdigit():
                 ("AB+", "AB+")
             ]
             CPI_TARGET_OPTIONS = ["S", "SS", "SSS", "SSS+", "AB+"]
-            CPI_LEVEL_OPTIONS = ["14", "14+", "15"]
+            CPI_LEVEL_OPTIONS = ["14", "14+", "15", "15+"]
 
             # 初期化（初回アクセス時）
             if "cpi_filter_init" not in st.session_state:
@@ -931,10 +931,12 @@ if user_input.isdigit():
                             st.session_state[f"chk_genre_{g}"] = False
                         st.rerun()
 
-                g_cols = st.columns(3)
-                for idx, g in enumerate(CPI_GENRE_OPTIONS):
-                    with g_cols[idx % 3]:
-                        st.checkbox(g, key=f"chk_genre_{g}")
+                for row_idx in range(0, len(CPI_GENRE_OPTIONS), 3):
+                    g_chunk = CPI_GENRE_OPTIONS[row_idx:row_idx + 3]
+                    g_cols = st.columns(3)
+                    for c_idx, g in enumerate(g_chunk):
+                        with g_cols[c_idx]:
+                            st.checkbox(g, key=f"chk_genre_{g}")
 
                 st.markdown("<hr style='margin: 6px 0; border: none; border-top: 1px solid #eee;'>", unsafe_allow_html=True)
 
@@ -953,10 +955,12 @@ if user_input.isdigit():
                             st.session_state[f"chk_cur_{val}"] = False
                         st.rerun()
 
-                c_cols = st.columns(4)
-                for idx, (label, val) in enumerate(CPI_CURRENT_OPTIONS):
-                    with c_cols[idx % 4]:
-                        st.checkbox(label, key=f"chk_cur_{val}")
+                for row_idx in range(0, len(CPI_CURRENT_OPTIONS), 4):
+                    c_chunk = CPI_CURRENT_OPTIONS[row_idx:row_idx + 4]
+                    c_cols = st.columns(4)
+                    for c_idx, (label, val) in enumerate(c_chunk):
+                        with c_cols[c_idx]:
+                            st.checkbox(label, key=f"chk_cur_{val}")
 
                 st.markdown("<hr style='margin: 6px 0; border: none; border-top: 1px solid #eee;'>", unsafe_allow_html=True)
 
@@ -997,9 +1001,9 @@ if user_input.isdigit():
                             st.session_state[f"chk_lv_{lv}"] = False
                         st.rerun()
 
-                l_cols = st.columns(3)
+                l_cols = st.columns(4)
                 for idx, lv in enumerate(CPI_LEVEL_OPTIONS):
-                    with l_cols[idx % 3]:
+                    with l_cols[idx]:
                         st.checkbox(f"Lv {lv}", key=f"chk_lv_{lv}")
 
                 st.markdown("<hr style='margin: 6px 0; border: none; border-top: 1px solid #eee;'>", unsafe_allow_html=True)
@@ -1088,8 +1092,20 @@ if user_input.isdigit():
                 if not item.get("genre") or item["genre"] == "不明":
                     item["genre"] = fallback_genre
             
+            def is_genre_selected(chart_genre, selected):
+                g = str(chart_genre or "不明").strip()
+                if not g or g == "不明":
+                    return "不明" in selected
+                if g in selected:
+                    return True
+                if ("POPS" in g or "ANIME" in g) and any("POPS" in s or "ANIME" in s for s in selected):
+                    return True
+                if "東方" in g and any("東方" in s for s in selected):
+                    return True
+                return False
+
             if selected_genres:
-                recs = [item for item in recs if item.get("genre") in selected_genres or (not item.get("genre") and "不明" in selected_genres)]
+                recs = [item for item in recs if is_genre_selected(item.get("genre"), selected_genres)]
             else:
                 recs = []
             
