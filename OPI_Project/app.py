@@ -1031,7 +1031,8 @@ if user_input.isdigit():
 
                 sort_key = st.selectbox(
                     "並び順",
-                    options=["適正順", "クリア割合が高い順", "現在ランク順", "目標ランク順"],
+                    options=["クリア割合が高い順", "適正順", "現在ランク順", "目標ランク順"],
+                    index=0,
                     key="filter_sort_key"
                 )
 
@@ -1074,14 +1075,15 @@ if user_input.isdigit():
                 "AB+": 5,
             }
             target_rank_order = {rank: index for index, rank in enumerate(TARGET_RANK_OPTIONS)}
-            if sort_key == "クリア割合が高い順":
-                recs.sort(key=lambda item: item["probability"], reverse=True)
+            if sort_key == "適正順":
+                recs.sort(key=lambda item: item["opi_diff"])
             elif sort_key == "現在ランク順":
                 recs.sort(key=lambda item: current_rank_order.get(item["current_rank"], 99))
             elif sort_key == "目標ランク順":
                 recs.sort(key=lambda item: target_rank_order.get(item["target_rank"], 99))
             else:
-                recs.sort(key=lambda item: item["opi_diff"])
+                # デフォルト: クリア割合が高い順（降順）
+                recs.sort(key=lambda item: (-item["probability"], item.get("opi_diff", 0)))
 
             for item in recs:
                 fallback_version, fallback_genre = CHART_METADATA.get(
