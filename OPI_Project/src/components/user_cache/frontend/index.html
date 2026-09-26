@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <style>
+    body { margin: 0; padding: 0; height: 0; overflow: hidden; background: transparent; }
+  </style>
+</head>
+<body>
+  <script>
+    const STORAGE_KEY = "ongeki_opi_last_user_id";
+
+    function sendMessageToStreamlit(data) {
+      window.parent.postMessage({
+        isStreamlitMessage: true,
+        type: "streamlit:setComponentValue",
+        value: data
+      }, "*");
+    }
+
+    function setFrameHeight(height) {
+      window.parent.postMessage({
+        isStreamlitMessage: true,
+        type: "streamlit:setFrameHeight",
+        height: height
+      }, "*");
+    }
+
+    let lastSentUid = undefined;
+
+    window.addEventListener("message", function(event) {
+      if (event.data && event.data.type === "streamlit:render") {
+        setFrameHeight(0);
+        const args = event.data.args || {};
+        const saveUid = args.save_user_id;
+
+        try {
+          // 1. 保存要求がある場合は端末の localStorage に保存
+          if (saveUid !== undefined && saveUid !== null && String(saveUid).trim() !== "") {
+            const cleanUid = String(saveUid).trim();
+            localStorage.setItem(STORAGE_KEY, cleanUid);
+          }
+
+          // 2. localStorage から直近のユーザーIDを取得
+          const cachedUid = localStorage.getItem(STORAGE_KEY);
+
+          // 3. 値に変化があった場合、または初回のみ Streamlit へ通知
+          if (cachedUid !== lastSentUid) {
+            lastSentUid = cachedUid;
+            sendMessageToStreamlit({ user_id: cachedUid });
+          }
+        } catch (e) {
+          console.warn("localStorage access warning:", e);
+          if (lastSentUid === undefined) {
+            lastSentUid = null;
+            sendMessageToStreamlit({ user_id: null });
+          }
+        }
+      }
+    });
+
+    // コンポーネント準備完了の通知
+    window.parent.postMessage({
+      isStreamlitMessage: true,
+      type: "streamlit:componentReady",
+      apiVersion: 1
+    }, "*");
+  </script>
+</body>
+</html>

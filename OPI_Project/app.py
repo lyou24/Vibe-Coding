@@ -26,6 +26,7 @@ from src.recommender.recommender import OPIRecommender, DEACTIVATED_CHART_IDS
 from src.export.full_image_export import build_full_hd_image
 from src.visualizer.visualizer import OPIVisualizer
 from src.components.cpi_table import render_cpi_table
+from src.components.user_cache import render_user_cache
 
 from PIL import Image
 try:
@@ -705,11 +706,24 @@ def check_password() -> bool:
 if not check_password():
     st.stop()
 
-# クエリパラメータに user_id がある場合、検索フォームの初期値として引き継ぐ
+# 端末キャッシュ（localStorage）との同期コンポーネント（非表示）
+cached_user_payload = render_user_cache(
+    save_user_id=str(st.session_state.get("user_id_input", "")).strip() or None
+)
+
+# 1. URLクエリパラメータに user_id がある場合、検索フォームの初期値として引き継ぐ
 if "user_id_input" not in st.session_state:
     qp_uid = st.query_params.get("user_id", "")
     if qp_uid:
-        st.session_state["user_id_input"] = qp_uid
+        st.session_state["user_id_input"] = str(qp_uid)
+
+# 2. セッションに user_id がなく、端末キャッシュ（localStorage）に保存値がある場合は自動復元
+if not st.session_state.get("user_id_input") and cached_user_payload and cached_user_payload.get("user_id"):
+    cached_uid = str(cached_user_payload["user_id"]).strip()
+    if cached_uid.isdigit():
+        st.session_state["user_id_input"] = cached_uid
+        st.query_params["user_id"] = cached_uid
+        st.rerun()
 
 if calibration_sync["status"] == "error":
     st.warning(f"校正済み譜面OPIの読み込みに失敗したため、既存値を使用します: {calibration_sync['message']}")
@@ -718,6 +732,10 @@ elif calibration_sync["status"] not in {"applied", "current", "calibration_db_mi
 
 st.sidebar.header("プレイヤー検索")
 user_input = st.sidebar.text_input("OngekiScoreLog ユーザーID", key="user_id_input")
+
+# 有効なユーザーIDが入力・表示されている場合、URLクエリパラメータにも同期
+if user_input.isdigit() and st.query_params.get("user_id") != user_input:
+    st.query_params["user_id"] = user_input
 
 col_sb1, col_sb2 = st.sidebar.columns(2)
 with col_sb1:
@@ -1797,3 +1815,5 @@ if user_input.isdigit():
         st.warning("ユーザーデータが見つかりません。サイドバーから「検索 / 更新」を実行してください。")
         
     session.close()
+else:
+    st.info("👈 左上のサイドバーに OngekiScoreLog のユーザーID（数値）を入力して「🔍 検索」してください。（一度表示すると次回以降はこの端末に自動で記憶・復元されます）")
