@@ -8,7 +8,8 @@
 </head>
 <body>
   <script>
-    const STORAGE_KEY = "ongeki_opi_last_user_id";
+    const USER_ID_KEY = "ongeki_opi_last_user_id";
+    const FILTER_SETTINGS_KEY = "ongeki_opi_filter_settings";
 
     function sendMessageToStreamlit(data) {
       window.parent.postMessage({
@@ -27,33 +28,58 @@
     }
 
     let lastSentUid = undefined;
+    let lastSentFiltersRaw = undefined;
 
     window.addEventListener("message", function(event) {
       if (event.data && event.data.type === "streamlit:render") {
         setFrameHeight(0);
         const args = event.data.args || {};
         const saveUid = args.save_user_id;
+        const saveFilters = args.save_filters;
 
         try {
-          // 1. 保存要求がある場合は端末の localStorage に保存
+          // 1. ユーザーIDの保存要求がある場合は localStorage に書き込み
           if (saveUid !== undefined && saveUid !== null && String(saveUid).trim() !== "") {
             const cleanUid = String(saveUid).trim();
-            localStorage.setItem(STORAGE_KEY, cleanUid);
+            localStorage.setItem(USER_ID_KEY, cleanUid);
           }
 
-          // 2. localStorage から直近のユーザーIDを取得
-          const cachedUid = localStorage.getItem(STORAGE_KEY);
+          // 2. フィルター設定の保存要求がある場合は localStorage に書き込み
+          if (saveFilters !== undefined && saveFilters !== null && typeof saveFilters === "object") {
+            try {
+              localStorage.setItem(FILTER_SETTINGS_KEY, JSON.stringify(saveFilters));
+            } catch (e) {
+              console.warn("Failed to serialize filter settings:", e);
+            }
+          }
 
-          // 3. 値に変化があった場合、または初回のみ Streamlit へ通知
-          if (cachedUid !== lastSentUid) {
+          // 3. localStorage から現在保存されている値を取得
+          const cachedUid = localStorage.getItem(USER_ID_KEY);
+          const cachedFiltersRaw = localStorage.getItem(FILTER_SETTINGS_KEY);
+          let cachedFilters = null;
+          if (cachedFiltersRaw) {
+            try {
+              cachedFilters = JSON.parse(cachedFiltersRaw);
+            } catch (e) {
+              console.warn("Failed to parse filter settings:", e);
+            }
+          }
+
+          // 4. 値に変化があった場合、または初回のみ Streamlit へ通知
+          if (cachedUid !== lastSentUid || cachedFiltersRaw !== lastSentFiltersRaw) {
             lastSentUid = cachedUid;
-            sendMessageToStreamlit({ user_id: cachedUid });
+            lastSentFiltersRaw = cachedFiltersRaw;
+            sendMessageToStreamlit({
+              user_id: cachedUid,
+              filters: cachedFilters
+            });
           }
         } catch (e) {
           console.warn("localStorage access warning:", e);
           if (lastSentUid === undefined) {
             lastSentUid = null;
-            sendMessageToStreamlit({ user_id: null });
+            lastSentFiltersRaw = null;
+            sendMessageToStreamlit({ user_id: null, filters: null });
           }
         }
       }

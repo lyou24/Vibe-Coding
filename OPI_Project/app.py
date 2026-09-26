@@ -703,12 +703,43 @@ def check_password() -> bool:
     return False
 
 
+# CPI風絞り込みフィルターの定義
+CPI_GENRE_OPTIONS = ["オンゲキ", "チュウマイ", "niconico", "東方Project", "VARIETY", "POPS & ANIME"]
+CPI_CURRENT_OPTIONS = [
+    ("NP", "未プレイ"),
+    ("未S", "未S"),
+    ("S", "S止まり"),
+    ("SS", "SS止まり"),
+    ("SSS", "SSS止まり"),
+    ("SSS+", "SSS+止まり"),
+    ("AB+", "AB+")
+]
+CPI_TARGET_OPTIONS = ["S", "SS", "SSS", "SSS+", "AB+"]
+CPI_LEVEL_OPTIONS = ["14", "14+", "15", "15+"]
+
+def get_current_filters_snapshot():
+    if not st.session_state.get("cpi_filter_init"):
+        return None
+    return {
+        "genres": {g: bool(st.session_state.get(f"chk_genre_{g}", True)) for g in CPI_GENRE_OPTIONS},
+        "current_ranks": {val: bool(st.session_state.get(f"chk_cur_{val}", True)) for label, val in CPI_CURRENT_OPTIONS},
+        "target_ranks": {tr: bool(st.session_state.get(f"chk_tar_{tr}", True)) for tr in CPI_TARGET_OPTIONS},
+        "levels": {lv: bool(st.session_state.get(f"chk_lv_{lv}", True)) for lv in CPI_LEVEL_OPTIONS},
+        "constant_range": [float(st.session_state.get("filter_constant_range", (MIN_TARGET_CONSTANT, 15.7))[0]),
+                           float(st.session_state.get("filter_constant_range", (MIN_TARGET_CONSTANT, 15.7))[1])],
+        "clear_rate_range": [float(st.session_state.get("filter_clear_rate_range", (30.0, 70.0))[0]),
+                             float(st.session_state.get("filter_clear_rate_range", (30.0, 70.0))[1])],
+        "sort_key": str(st.session_state.get("filter_sort_key", "クリア割合が高い順")),
+    }
+
+
 if not check_password():
     st.stop()
 
 # 端末キャッシュ（localStorage）との同期コンポーネント（非表示）
 cached_user_payload = render_user_cache(
-    save_user_id=str(st.session_state.get("user_id_input", "")).strip() or None
+    save_user_id=str(st.session_state.get("user_id_input", "")).strip() or None,
+    save_filters=get_current_filters_snapshot()
 )
 
 # 1. URLクエリパラメータに user_id がある場合、検索フォームの初期値として引き継ぐ
@@ -718,12 +749,44 @@ if "user_id_input" not in st.session_state:
         st.session_state["user_id_input"] = str(qp_uid)
 
 # 2. セッションに user_id がなく、端末キャッシュ（localStorage）に保存値がある場合は自動復元
+needs_rerun = False
 if not st.session_state.get("user_id_input") and cached_user_payload and cached_user_payload.get("user_id"):
     cached_uid = str(cached_user_payload["user_id"]).strip()
     if cached_uid.isdigit():
         st.session_state["user_id_input"] = cached_uid
         st.query_params["user_id"] = cached_uid
-        st.rerun()
+        needs_rerun = True
+
+# 3. 端末キャッシュ（localStorage）から絞り込みフィルター設定を自動復元
+if not st.session_state.get("cpi_filter_restored") and cached_user_payload and cached_user_payload.get("filters"):
+    saved_f = cached_user_payload["filters"]
+    if isinstance(saved_f, dict):
+        if "genres" in saved_f and isinstance(saved_f["genres"], dict):
+            for g, v in saved_f["genres"].items():
+                st.session_state[f"chk_genre_{g}"] = bool(v)
+        if "current_ranks" in saved_f and isinstance(saved_f["current_ranks"], dict):
+            for val, v in saved_f["current_ranks"].items():
+                st.session_state[f"chk_cur_{val}"] = bool(v)
+        if "target_ranks" in saved_f and isinstance(saved_f["target_ranks"], dict):
+            for tr, v in saved_f["target_ranks"].items():
+                st.session_state[f"chk_tar_{tr}"] = bool(v)
+        if "levels" in saved_f and isinstance(saved_f["levels"], dict):
+            for lv, v in saved_f["levels"].items():
+                st.session_state[f"chk_lv_{lv}"] = bool(v)
+        if "constant_range" in saved_f and isinstance(saved_f["constant_range"], (list, tuple)) and len(saved_f["constant_range"]) == 2:
+            st.session_state["filter_constant_range"] = (float(saved_f["constant_range"][0]), float(saved_f["constant_range"][1]))
+        if "clear_rate_range" in saved_f and isinstance(saved_f["clear_rate_range"], (list, tuple)) and len(saved_f["clear_rate_range"]) == 2:
+            st.session_state["filter_clear_rate_range"] = (float(saved_f["clear_rate_range"][0]), float(saved_f["clear_rate_range"][1]))
+        if "sort_key" in saved_f and saved_f["sort_key"] in ["クリア割合が高い順", "適正順", "現在ランク順", "目標ランク順"]:
+            st.session_state["filter_sort_key"] = saved_f["sort_key"]
+
+        st.session_state["cpi_filter_init"] = True
+        st.session_state["cpi_filter_restored"] = True
+        st.session_state["cpi_filter_save_payload"] = saved_f
+        needs_rerun = True
+
+if needs_rerun:
+    st.rerun()
 
 if calibration_sync["status"] == "error":
     st.warning(f"校正済み譜面OPIの読み込みに失敗したため、既存値を使用します: {calibration_sync['message']}")
@@ -906,20 +969,6 @@ if user_input.isdigit():
         with tab1:
             st.subheader("おすすめの目標楽曲")
             
-            # CPI風絞り込みフィルターの定義
-            CPI_GENRE_OPTIONS = ["オンゲキ", "チュウマイ", "niconico", "東方Project", "VARIETY", "POPS & ANIME"]
-            CPI_CURRENT_OPTIONS = [
-                ("NP", "未プレイ"),
-                ("未S", "未S"),
-                ("S", "S止まり"),
-                ("SS", "SS止まり"),
-                ("SSS", "SSS止まり"),
-                ("SSS+", "SSS+止まり"),
-                ("AB+", "AB+")
-            ]
-            CPI_TARGET_OPTIONS = ["S", "SS", "SSS", "SSS+", "AB+"]
-            CPI_LEVEL_OPTIONS = ["14", "14+", "15", "15+"]
-
             # 初期化（初回アクセス時）
             if "cpi_filter_init" not in st.session_state:
                 for g in CPI_GENRE_OPTIONS:
@@ -930,6 +979,9 @@ if user_input.isdigit():
                     st.session_state[f"chk_tar_{tr}"] = True
                 for lv in CPI_LEVEL_OPTIONS:
                     st.session_state[f"chk_lv_{lv}"] = True
+                st.session_state["filter_constant_range"] = (MIN_TARGET_CONSTANT, 15.7)
+                st.session_state["filter_clear_rate_range"] = (30.0, 70.0)
+                st.session_state["filter_sort_key"] = "クリア割合が高い順"
                 st.session_state.cpi_filter_init = True
 
             # 多次元フィルターUI（CPI風絞り込み）
@@ -1033,7 +1085,6 @@ if user_input.isdigit():
                         "譜面定数範囲",
                         min_value=MIN_TARGET_CONSTANT,
                         max_value=15.7,
-                        value=(MIN_TARGET_CONSTANT, 15.7),
                         step=0.1,
                         key="filter_constant_range"
                     )
@@ -1042,7 +1093,6 @@ if user_input.isdigit():
                         "クリア割合範囲（%）",
                         min_value=0.0,
                         max_value=100.0,
-                        value=(30.0, 70.0),
                         step=1.0,
                         key="filter_clear_rate_range"
                     )
@@ -1050,7 +1100,6 @@ if user_input.isdigit():
                 sort_key = st.selectbox(
                     "並び順",
                     options=["クリア割合が高い順", "適正順", "現在ランク順", "目標ランク順"],
-                    index=0,
                     key="filter_sort_key"
                 )
 
