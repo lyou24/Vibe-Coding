@@ -1456,12 +1456,12 @@ if user_input.isdigit():
                     df_charts = pd.DataFrame(chart_data)
                     df_charts = df_charts.sort_values(by=f"{diff_target_rank} 適正OPI", ascending=False)
                     opi_column = f"{diff_target_rank} 適正OPI"
-                    df_charts["OPI帯"] = (df_charts[opi_column] // 100 * 100).astype(int)
+                    df_charts["OPI帯"] = (df_charts[opi_column] // 50 * 50).astype(int)
 
                     unique_bands = sorted(df_charts["OPI帯"].unique(), reverse=True)
                     for opi_band in unique_bands:
                         band_rows = df_charts[df_charts["OPI帯"] == opi_band]
-                        with st.expander(f"OPI {opi_band}〜{opi_band + 99}（{len(band_rows)}曲）", expanded=True):
+                        with st.expander(f"OPI {opi_band}〜{opi_band + 49}（{len(band_rows)}曲）", expanded=True):
                             columns = st.columns(4)
                             for index, (_, row) in enumerate(band_rows.iterrows()):
                                 with columns[index % 4]:
@@ -1566,13 +1566,13 @@ if user_input.isdigit():
                     df_my_charts = pd.DataFrame(chart_data)
                     df_my_charts = df_my_charts.sort_values(by=f"{my_diff_target_rank} 適正OPI", ascending=False)
                     opi_column = f"{my_diff_target_rank} 適正OPI"
-                    df_my_charts["OPI帯"] = (df_my_charts[opi_column] // 100 * 100).astype(int)
+                    df_my_charts["OPI帯"] = (df_my_charts[opi_column] // 50 * 50).astype(int)
 
                     unique_bands = sorted(df_my_charts["OPI帯"].unique(), reverse=True)
                     for opi_band in unique_bands:
                         band_rows = df_my_charts[df_my_charts["OPI帯"] == opi_band]
                         band_achieved = int(sum(band_rows["is_achieved"]))
-                        with st.expander(f"【達成 {band_achieved}/{len(band_rows)}】 OPI {opi_band}〜{opi_band + 99}", expanded=True):
+                        with st.expander(f"【達成 {band_achieved}/{len(band_rows)}】 OPI {opi_band}〜{opi_band + 49}", expanded=True):
                             columns = st.columns(4)
                             for index, (_, row) in enumerate(band_rows.iterrows()):
                                 with columns[index % 4]:
@@ -1699,7 +1699,7 @@ if user_input.isdigit():
                     df_my_charts = pd.DataFrame(chart_data)
                     df_my_charts = df_my_charts.sort_values(by=f"{my_diff_simple_target_rank} 適正OPI", ascending=False)
                     opi_column = f"{my_diff_simple_target_rank} 適正OPI"
-                    df_my_charts["OPI帯"] = (df_my_charts[opi_column] // 100 * 100).astype(int)
+                    df_my_charts["OPI帯"] = (df_my_charts[opi_column] // 50 * 50).astype(int)
 
                     DIFF_EMOJI_MAP = {
                         "MASTER": "🟪",
@@ -1713,7 +1713,7 @@ if user_input.isdigit():
                     for opi_band in unique_bands:
                         band_rows = df_my_charts[df_my_charts["OPI帯"] == opi_band]
                         band_achieved = int(sum(band_rows["is_achieved"]))
-                        with st.expander(f"【達成 {band_achieved}/{len(band_rows)}】 OPI {opi_band}〜{opi_band + 99}", expanded=True):
+                        with st.expander(f"【達成 {band_achieved}/{len(band_rows)}】 OPI {opi_band}〜{opi_band + 49}", expanded=True):
                             cards_html = []
                             for _, row in band_rows.iterrows():
                                 achieved_style = ACHIEVED_RANK_CARD_STYLES.get(row["現在ランク"])

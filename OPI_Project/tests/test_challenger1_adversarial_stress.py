@@ -414,30 +414,30 @@ class TestDifficultyGridBandsAndSorting:
 
     def test_opi_band_floor_division_boundary(self):
         """
-        帯域計算式: (opi // 100 * 100).astype(int)
-        1999.9 は 1900帯、2000.0 は 2000帯に正しく分類されること。
+        帯域計算式: (opi // 50 * 50).astype(int)
+        1999.9 は 1950帯、2000.0 は 2000帯に正しく分類されること。
         """
         values = [
             # (opi_val, expected_band)
-            (1999.9, 1900),
-            (1999.999999, 1900),
+            (1999.9, 1950),
+            (1999.999999, 1950),
             (2000.0, 2000),
             (2000.000001, 2000),
-            (2099.9, 2000),
-            (2100.0, 2100),
-            (1450.5, 1400),
+            (2049.9, 2000),
+            (2050.0, 2050),
+            (1450.5, 1450),
             (1500.0, 1500),
             (0.0, 0),
-            (99.9, 0),
-            (100.0, 100),
+            (49.9, 0),
+            (50.0, 50),
         ]
 
         for opi_val, expected_band in values:
-            calc_band = int(math.floor(opi_val / 100.0) * 100)
+            calc_band = int(math.floor(opi_val / 50.0) * 50)
             assert calc_band == expected_band, f"OPI {opi_val}: expected band {expected_band}, got {calc_band}"
 
         s = pd.Series([v[0] for v in values])
-        bands = (s // 100 * 100).astype(int).tolist()
+        bands = (s // 50 * 50).astype(int).tolist()
         expected = [v[1] for v in values]
         assert bands == expected, f"Pandas band division failed: {bands} != {expected}"
 
