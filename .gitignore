@@ -18,3 +18,9 @@ htmlcov/
 *.tmp
 .DS_Store
 Thumbs.db
+
+# Other standalone repositories & local archives
+OPI_Project/
+meal-tracker/
+daily-briefing-web/
+*.zip
