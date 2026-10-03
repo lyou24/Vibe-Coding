@@ -1427,28 +1427,37 @@ if user_input.isdigit():
                         f"</div>",
                         unsafe_allow_html=True
                     )
-                    new_page = st.slider(
+                    if "rec_page_slider" not in st.session_state:
+                        st.session_state.rec_page_slider = cur_page
+                    elif st.session_state.rec_page_slider != cur_page:
+                        st.session_state.rec_page_slider = cur_page
+
+                    def on_slider_change():
+                        st.session_state.recs_page = st.session_state.rec_page_slider - 1
+
+                    def on_prev():
+                        st.session_state.recs_page -= 1
+                        st.session_state.rec_page_slider = st.session_state.recs_page + 1
+
+                    def on_next():
+                        st.session_state.recs_page += 1
+                        st.session_state.rec_page_slider = st.session_state.recs_page + 1
+
+                    st.slider(
                         "ページ選択スライダー",
                         min_value=1,
                         max_value=total_pages,
-                        value=cur_page,
                         step=1,
                         key="rec_page_slider",
-                        label_visibility="collapsed"
+                        label_visibility="collapsed",
+                        on_change=on_slider_change
                     )
-                    if new_page != cur_page:
-                        st.session_state.recs_page = new_page - 1
-                        st.rerun()
 
                     c_prev, c_next = st.columns(2)
                     with c_prev:
-                        if st.button("◀ 前のページ", disabled=(cur_page == 1), key="btn_pnav_prev", use_container_width=True):
-                            st.session_state.recs_page -= 1
-                            st.rerun()
+                        st.button("◀ 前のページ", disabled=(cur_page == 1), key="btn_pnav_prev", use_container_width=True, on_click=on_prev)
                     with c_next:
-                        if st.button("次のページ ▶", disabled=(cur_page == total_pages), key="btn_pnav_next", use_container_width=True):
-                            st.session_state.recs_page += 1
-                            st.rerun()
+                        st.button("次のページ ▶", disabled=(cur_page == total_pages), key="btn_pnav_next", use_container_width=True, on_click=on_next)
 
                 recommendation_settings = [
                     f"プレイヤー: {player.player_name} / リコメンドOPI: {recommendation_opi:.1f}",

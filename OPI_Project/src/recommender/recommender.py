@@ -101,7 +101,9 @@ class OPIRecommender:
 
         f = filter_rank.strip()
         # 表記ゆれの吸収
-        if f in ("未S", "未SS", "未達成", "未プレイ", "None"):
+        if f in ("未プレイ", "NP", "None"):
+            return current_cat in ("未プレイ", "NP")
+        if f in ("未S", "未SS", "未達成"):
             return current_cat == "未S"
         if f in ("S止まり", "S"):
             return current_cat == "S止まり"
