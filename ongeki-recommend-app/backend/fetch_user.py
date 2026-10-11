@@ -169,12 +169,18 @@ def save_user_data(user_id, data):
         json.dump(data, f, ensure_ascii=False, indent=2)
 
 if __name__ == "__main__":
-    uid = "10605"
-    details = fetch_user_details(uid)
-    rating_prof = fetch_user_rating_profile(uid)
-    if details and rating_prof:
-        save_user_data(uid, {
-            "scores": details,
-            "rating_profile": rating_prof
-        })
-        print("Saved.")
+    import sys
+    uids = sys.argv[1:] if len(sys.argv) > 1 else ["10605", "7381", "10870"]
+    for uid in uids:
+        print(f"\n--- Fetching user {uid} ---")
+        details = fetch_user_details(uid)
+        rating_prof = fetch_user_rating_profile(uid)
+        if details and rating_prof:
+            save_user_data(uid, {
+                "scores": details,
+                "rating_profile": rating_prof
+            })
+            print(f"Saved user_{uid}.json successfully.")
+        else:
+            print(f"[ERROR] Failed to fetch user {uid}.")
+
