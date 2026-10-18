@@ -1,16 +1,76 @@
 {
   "scores": {
+    "601_Lunatic": {
+      "music_id": 601,
+      "difficulty": "Lunatic",
+      "ts": 1001677,
+      "lamp": "-"
+    },
+    "1235_Master": {
+      "music_id": 1235,
+      "difficulty": "Master",
+      "ts": 997452,
+      "lamp": "FB"
+    },
+    "1158_Master": {
+      "music_id": 1158,
+      "difficulty": "Master",
+      "ts": 998437,
+      "lamp": "FB"
+    },
+    "1236_Master": {
+      "music_id": 1236,
+      "difficulty": "Master",
+      "ts": 987618,
+      "lamp": "FB"
+    },
+    "1237_Master": {
+      "music_id": 1237,
+      "difficulty": "Master",
+      "ts": 1000848,
+      "lamp": "FB"
+    },
+    "474_Master": {
+      "music_id": 474,
+      "difficulty": "Master",
+      "ts": 1003746,
+      "lamp": "FB"
+    },
+    "560_Master": {
+      "music_id": 560,
+      "difficulty": "Master",
+      "ts": 979136,
+      "lamp": "-"
+    },
+    "895_Master": {
+      "music_id": 895,
+      "difficulty": "Master",
+      "ts": 1001343,
+      "lamp": "FB"
+    },
+    "167_Master": {
+      "music_id": 167,
+      "difficulty": "Master",
+      "ts": 1000870,
+      "lamp": "FB"
+    },
+    "1080_Master": {
+      "music_id": 1080,
+      "difficulty": "Master",
+      "ts": 1000909,
+      "lamp": "FB"
+    },
+    "277_Master": {
+      "music_id": 277,
+      "difficulty": "Master",
+      "ts": 1003161,
+      "lamp": "-"
+    },
     "42_Lunatic": {
       "music_id": 42,
       "difficulty": "Lunatic",
       "ts": 1000716,
       "lamp": "FB"
-    },
-    "601_Lunatic": {
-      "music_id": 601,
-      "difficulty": "Lunatic",
-      "ts": 992216,
-      "lamp": "-"
     },
     "266_Master": {
       "music_id": 266,
@@ -432,12 +492,6 @@
       "ts": 959526,
       "lamp": "-"
     },
-    "277_Master": {
-      "music_id": 277,
-      "difficulty": "Master",
-      "ts": 992073,
-      "lamp": "-"
-    },
     "433_Master": {
       "music_id": 433,
       "difficulty": "Master",
@@ -510,12 +564,6 @@
       "ts": 976219,
       "lamp": "-"
     },
-    "474_Master": {
-      "music_id": 474,
-      "difficulty": "Master",
-      "ts": 994882,
-      "lamp": "FB"
-    },
     "473_Master": {
       "music_id": 473,
       "difficulty": "Master",
@@ -580,12 +628,6 @@
       "music_id": 1089,
       "difficulty": "Master",
       "ts": 972720,
-      "lamp": "-"
-    },
-    "895_Master": {
-      "music_id": 895,
-      "difficulty": "Master",
-      "ts": 994715,
       "lamp": "-"
     },
     "748_Master": {
@@ -1043,12 +1085,6 @@
       "difficulty": "Master",
       "ts": 1009420,
       "lamp": "FB+FC+AB"
-    },
-    "1158_Master": {
-      "music_id": 1158,
-      "difficulty": "Master",
-      "ts": 991354,
-      "lamp": "-"
     },
     "1214_Master": {
       "music_id": 1214,
@@ -1974,12 +2010,6 @@
       "ts": 973335,
       "lamp": "FB"
     },
-    "560_Master": {
-      "music_id": 560,
-      "difficulty": "Master",
-      "ts": 977384,
-      "lamp": "-"
-    },
     "1133_Master": {
       "music_id": 1133,
       "difficulty": "Master",
@@ -2460,12 +2490,6 @@
       "ts": 1000537,
       "lamp": "FB"
     },
-    "1080_Master": {
-      "music_id": 1080,
-      "difficulty": "Master",
-      "ts": 995028,
-      "lamp": "FB"
-    },
     "1081_Master": {
       "music_id": 1081,
       "difficulty": "Master",
@@ -2801,12 +2825,6 @@
       "difficulty": "Master",
       "ts": 970616,
       "lamp": "FB"
-    },
-    "167_Master": {
-      "music_id": 167,
-      "difficulty": "Master",
-      "ts": 994637,
-      "lamp": "-"
     },
     "606_Master": {
       "music_id": 606,
@@ -4990,6 +5008,18 @@
         "stars": 0
       },
       {
+        "key": "277_Master",
+        "stars": 0
+      },
+      {
+        "key": "1080_Master",
+        "stars": 0
+      },
+      {
+        "key": "167_Master",
+        "stars": 0
+      },
+      {
         "key": "1092_Master",
         "stars": 0
       },
@@ -5019,18 +5049,6 @@
       },
       {
         "key": "248_Master",
-        "stars": 0
-      },
-      {
-        "key": "493_Master",
-        "stars": 0
-      },
-      {
-        "key": "1091_Master",
-        "stars": 0
-      },
-      {
-        "key": "271_Master",
         "stars": 0
       }
     ],
@@ -5238,10 +5256,10 @@
     ],
     "borders": {
       "new": 15.572,
-      "best": 16.099,
+      "best": 16.112,
       "ps": 0.458,
       "new_avg": 16.037,
-      "best_avg": 16.284,
+      "best_avg": 16.287,
       "ps_avg": 0.555
     }
   }
